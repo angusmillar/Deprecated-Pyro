@@ -50,6 +50,7 @@ namespace Pyro.WebApi.App_Start
   using Pyro.Engine.Services.ServiceBaseUrl;
   using Pyro.Engine.Services.ServiceConfiguration;
   using Pyro.Engine.Services.ServiceSearchParameter;
+  using Pyro.Engine.Services.ResourceSeed;
   using SimpleInjector;
   using SimpleInjector.Integration.WebApi;
   using System.Web.Http;
@@ -125,9 +126,6 @@ namespace Pyro.WebApi.App_Start
       //========================================================================================================
 
       container.RegisterConditional(typeof(ILog), context => typeof(Log<>).MakeGenericType(context.Consumer.ImplementationType), Lifestyle.Singleton, context => true);
-      container.Register<IServiceConfigurationService, ServiceConfigurationService>(Lifestyle.Scoped);
-      container.Register<IServiceConfigurationRepository, ServiceConfigurationRepository>(Lifestyle.Scoped);
-
       container.Register<Pyro.Common.CompositionRoot.ICommonFactory, CommonFactory>(Lifestyle.Singleton);
       container.Register<Pyro.Common.CompositionRoot.IDtoRootUrlStoreFactory, DtoRootUrlStoreFactory>(Lifestyle.Singleton);
       container.Register<Pyro.Common.CompositionRoot.IDatabaseOperationOutcomeFactory, DatabaseOperationOutcomeFactory>(Lifestyle.Singleton);
@@ -191,6 +189,11 @@ namespace Pyro.WebApi.App_Start
       //========================================================================================================
       //=================== Scoped =============================================================================            
       //========================================================================================================
+
+      container.Register<IServiceConfigurationService, ServiceConfigurationService>(Lifestyle.Scoped);
+      container.Register<IServiceConfigurationRepository, ServiceConfigurationRepository>(Lifestyle.Scoped);
+      container.Register<IResourceSeedingService, ResourceSeedingService>(Lifestyle.Scoped);
+
       container.RegisterConditional(typeof(IIndexSetterFactory<,,,,,,>), typeof(Pyro.WebApi.CompositionRoot.IndexSetterFactory<,,,,,,>), Lifestyle.Scoped, c => !c.Handled);
       container.RegisterConditional(typeof(IReferenceSetter<,,,,,,>), typeof(ReferenceSetter<,,,,,,>), c => !c.Handled);
       container.RegisterConditional(typeof(INumberSetter<,,,,,,>), typeof(NumberSetter<,,,,,,>), c => !c.Handled);

@@ -93,6 +93,7 @@
     <Compile Include="Operation\FhirResourceInstanceOperationService.cs" />
     <Compile Include="Operation\FhirResourceOperationService.cs" />
     <Compile Include="Services\PyroServiceApi\IPyroService.cs" />
+    <Compile Include="Services\ResourceSeed\IResourceSeedingService.cs" />
     <Compile Include="Services\ResourceSeed\ResourceSeedingService.cs" />
     <Compile Include="Services\Resources\ResourceServices.cs" />
     <Compile Include="Services\Metadata\MetadataService.cs" />

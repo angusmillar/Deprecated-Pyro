@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace Pyro.Engine.Services.ResourceSeed
 {
-  public class ResourceSeedingService
+  public class ResourceSeedingService : IResourceSeedingService
   {
     private readonly IUnitOfWork IUnitOfWork;
     private readonly IResourceServices IResourceServices;
@@ -92,27 +92,29 @@ namespace Pyro.Engine.Services.ResourceSeed
     }
 
     private void CommitResourceList(List<Resource> CommitList)
-    {
-      //IResourceServices.TriggersActive = false;
+    {      
       this.IResourceTriggerService.TriggersActive = false;
       using (DbContextTransaction Transaction = IUnitOfWork.BeginTransaction())
       {
         try
         {
+          bool ErrorDetected = false;
           foreach(var NewResource in CommitList)
           {
             string ResourceId = NewResource.Id;
             string ResourceName = NewResource.ResourceType.GetLiteral();
             var RequestMeta = IRequestMetaFactory.CreateRequestMeta().Set($"{ResourceName}/{ResourceId}");
             IResourceServiceOutcome PutResourceServiceOutcome = IResourceServices.Put(ResourceId, NewResource, RequestMeta);
-            if (PutResourceServiceOutcome.HttpStatusCode != System.Net.HttpStatusCode.OK)
+            if ((int)PutResourceServiceOutcome.HttpStatusCode > 201) //OK == 200 and Created == 201 so greater than 201 is and error, like 400.
             {
               Transaction.Rollback();
               ILog.Error($"ResourceSeeding on Startup, failed to PUT {ResourceName} with id of {ResourceId}. The entire seeding operation has been rolled back.");
+              ErrorDetected = true;
               break;
             }
           }
-          Transaction.Commit();
+          if (!ErrorDetected)
+            Transaction.Commit();
         }
         catch (Exception Exec)
         {
@@ -120,8 +122,7 @@ namespace Pyro.Engine.Services.ResourceSeed
           ILog.Error(Exec, $"ResourceSeeding on Startup, PUT operations failed with exception.");          
         }
         finally
-        {
-          //IResourceServices.TriggersActive = true;
+        {          
           this.IResourceTriggerService.TriggersActive = true;
         }
       }
