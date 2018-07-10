@@ -1,11 +1,13 @@
 ﻿using Hl7.Fhir.Model;
 using Hl7.Fhir.Utility;
 using Pyro.Common.CompositionRoot;
+using Pyro.Common.Global;
 using Pyro.Common.Interfaces.Repositories;
 using Pyro.Common.Interfaces.Service;
 using Pyro.Common.Logging;
 using Pyro.Common.Service.ResourceService;
 using Pyro.Common.Service.Trigger;
+using Pyro.Common.ServiceRoot;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -21,14 +23,18 @@ namespace Pyro.Engine.Services.ResourceSeed
     private readonly IResourceServices IResourceServices;
     private readonly IRequestMetaFactory IRequestMetaFactory;
     private readonly IResourceTriggerService IResourceTriggerService;
+    private readonly IGlobalProperties IGlobalProperties;
+    private readonly IRequestServiceRootValidate IRequestServiceRootValidate;
     private readonly ILog ILog;
 
-    public ResourceSeedingService(IUnitOfWork IUnitOfWork, IResourceServices IResourceServices, IRequestMetaFactory IRequestMetaFactory, IResourceTriggerService IResourceTriggerService, ILog ILog)
+    public ResourceSeedingService(IUnitOfWork IUnitOfWork, IResourceServices IResourceServices, IRequestMetaFactory IRequestMetaFactory, IResourceTriggerService IResourceTriggerService, IGlobalProperties IGlobalProperties, IRequestServiceRootValidate IRequestServiceRootValidate, ILog ILog)
     {
       this.IUnitOfWork = IUnitOfWork;
       this.IResourceServices = IResourceServices;
       this.IRequestMetaFactory = IRequestMetaFactory;
       this.IResourceTriggerService = IResourceTriggerService;
+      this.IGlobalProperties = IGlobalProperties;
+      this.IRequestServiceRootValidate = IRequestServiceRootValidate;
       this.ILog = ILog;
     }
 
@@ -36,7 +42,8 @@ namespace Pyro.Engine.Services.ResourceSeed
     {
       var MasterResourceList = ObtainMasterResoureList();      
       var ResourceToCommit = ResolveResourcesToLoad(MasterResourceList);
-      CommitResourceList(ResourceToCommit);
+      if (ResourceToCommit.Count > 0)
+        CommitResourceList(ResourceToCommit);
     }
 
     private List<Resource> ObtainMasterResoureList()
@@ -55,6 +62,12 @@ namespace Pyro.Engine.Services.ResourceSeed
       {
         string ResourceId = NewResource.Id;
         string ResourceName = NewResource.ResourceType.GetLiteral();
+
+        //This is required for a clean install so that the ServiceBaseURL is set in the database before the next call is made, 
+        //as the next call is the very first call to the FHIR API yet it uses a relative path which does not work is the database 
+        //ServiceBaseURL ius not set.
+        IRequestServiceRootValidate.Validate(IGlobalProperties.ServiceBaseURL);
+        
         var RequestMeta = IRequestMetaFactory.CreateRequestMeta().Set($"{ResourceName}/{ResourceId}");
 
         using (DbContextTransaction Transaction = IUnitOfWork.BeginTransaction())

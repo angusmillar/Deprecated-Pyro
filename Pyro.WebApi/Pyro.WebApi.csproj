@@ -209,6 +209,7 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\SimpleInjectorWebApiInitializer.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="App_Start\StartupPyroConfirgrationSynch.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Attributes\ActionLogAttribute.cs" />
     <Compile Include="Authorization\SwitchableAuthorizationAttribute .cs" />
@@ -228,6 +229,7 @@
     <Compile Include="SignalRHub\Broadcaster.cs" />
     <Compile Include="SignalRHub\BroadcastHub.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="App_Start\StarupPyroResourceSeeding.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\Connectons.config">

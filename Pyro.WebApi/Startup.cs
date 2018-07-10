@@ -101,6 +101,7 @@ namespace Pyro.WebApi
       {
         Console.Title = "Pyro.ConsoleServer";
       }
+
       //Warn up the database and show some warm messages while Synchronizeing the Database and Web.config file.
       WarmUpDatabaseAndSychWebConfiguration();
 
@@ -111,6 +112,32 @@ namespace Pyro.WebApi
       app.UseWebApi(HttpConfiguration);
     }
 
+    
+
+    //Warn up the database and show some warm messages while Synchronizeing the Database and Web.config file.
+    private static void WarmUpDatabaseAndSychWebConfiguration()
+    {
+      var WarmUpMessages = new Pyro.Common.ProductText.PyroWarmUpMessages();
+      if (!Console.IsOutputRedirected)
+      {
+        WarmUpMessages.Start("Pyro FHIR Server", $"Version: {System.Diagnostics.FileVersionInfo.GetVersionInfo(typeof(Pyro.Common.Global.GlobalProperties).Assembly.Location).ProductVersion}");
+      }
+
+      //Synch the Web Config file 
+      //(Note: this call takes significate time as it is the very first database call made on startup. 
+      //       This is slow due to Entity Framework (EF). EF on the first call loads the entire database schema into memory
+      //       and it is this loas that takes the time. Rougly just over 1 min on my machine. All later database calls are fast.
+      App_Start.StartupPyroConfirgrationSynch.RunTask(HttpConfiguration);
+      //Check seeded FHIR Resource and update if required
+      App_Start.StarupPyroResourceSeeding.RunTask(HttpConfiguration);      
+
+      if (!Console.IsOutputRedirected)
+      {
+        WarmUpMessages.Stop();
+        Console.Clear();
+      }
+    }
+    
     private ConsoleColor GetResponseColor(int StatusCode)
     {
       if (StatusCode > 0 && StatusCode < 200)
@@ -126,112 +153,6 @@ namespace Pyro.WebApi
       else
         return ConsoleColor.Cyan;
     }
-
-    //Warn up the database and show some warm messages while Synchronizeing the Database and Web.config file.
-    private static void WarmUpDatabaseAndSychWebConfiguration()
-    {
-      var WarmUpMessages = new Pyro.Common.ProductText.PyroWarmUpMessages();
-      if (!Console.IsOutputRedirected)
-      {
-        WarmUpMessages.Start("Pyro FHIR Server", $"Version: {System.Diagnostics.FileVersionInfo.GetVersionInfo(typeof(Pyro.Common.Global.GlobalProperties).Assembly.Location).ProductVersion}");
-      }
-
-
-      System.Threading.Tasks.Task<bool> SynchronizeTaskResults = System.Threading.Tasks.Task<bool>.Factory.StartNew(() =>
-      {
-        try
-        {
-          using (HttpConfiguration.DependencyResolver.BeginScope())
-          {
-            Pyro.Common.Interfaces.Repositories.IUnitOfWork UnitOfWork = (Pyro.Common.Interfaces.Repositories.IUnitOfWork)HttpConfiguration.DependencyResolver.GetService(typeof(Pyro.Common.Interfaces.Repositories.IUnitOfWork));
-            Pyro.Common.Global.IGlobalProperties GlobalProperties = (Pyro.Common.Global.IGlobalProperties)HttpConfiguration.DependencyResolver.GetService(typeof(Pyro.Common.Global.IGlobalProperties));
-            Pyro.Common.Interfaces.Service.IServiceConfigurationService ServiceConfigurationService = (Pyro.Common.Interfaces.Service.IServiceConfigurationService)HttpConfiguration.DependencyResolver.GetService(typeof(Pyro.Common.Interfaces.Service.IServiceConfigurationService));
-            bool WasUpdated = false;
-            using (System.Data.Entity.DbContextTransaction Transaction = UnitOfWork.BeginTransaction())
-            {
-              try
-              {
-                WasUpdated = ServiceConfigurationService.SynchronizeServiceConfigrationWithGlobalProperties(GlobalProperties);
-                if (WasUpdated)
-                {
-                  Pyro.Common.Logging.Logger.Log.Info("GlobalProperties were updated in ServiceConfiguration db table");
-                }
-                Transaction.Commit();
-                return WasUpdated;
-              }
-              catch (Exception Exec)
-              {
-                Transaction.Rollback();
-                Pyro.Common.Logging.Logger.Log.Error(Exec, $"Could not synch ServiceConfiguration with Web.config file.");
-                throw Exec;
-              }
-            }
-          }
-        }
-        catch (Exception Exec)
-        {
-          Pyro.Common.Logging.Logger.Log.Error(Exec, "SynchronizeServiceConfigrationWithGlobalProperties failed.");
-          throw Exec;
-        }
-        //End of Task Thread.
-      });
-
-      try
-      {
-        //Here we are catching any exceptions that occured inside the Task thread above.
-        SynchronizeTaskResults.Wait();
-        bool Result = SynchronizeTaskResults.Result;
-      }
-      catch (Exception Exec)
-      {
-        string ExecMessage = "Internal Server Error: Unable to Synchronize database ServiceConfiguration table with Web.Config file. This is likely to be due to the FHIR server database connection being unavailable.";
-        Pyro.Common.Logging.Logger.Log.Fatal(Exec, ExecMessage);
-        throw new Exception(ExecMessage, Exec);
-      }
-
-
-
-      System.Threading.Tasks.Task<bool> SeedTaskResults = System.Threading.Tasks.Task<bool>.Factory.StartNew(() =>
-      {
-        using (HttpConfiguration.DependencyResolver.BeginScope())
-        {
-          Pyro.Engine.Services.ResourceSeed.IResourceSeedingService ResourceSeedingService = (Pyro.Engine.Services.ResourceSeed.IResourceSeedingService)HttpConfiguration.DependencyResolver.GetService(typeof(Pyro.Engine.Services.ResourceSeed.IResourceSeedingService));
-          Pyro.Common.Interfaces.Repositories.IUnitOfWork UnitOfWork = (Pyro.Common.Interfaces.Repositories.IUnitOfWork)HttpConfiguration.DependencyResolver.GetService(typeof(Pyro.Common.Interfaces.Repositories.IUnitOfWork));
-          try
-          {
-            ResourceSeedingService.Process();
-            return true;
-          }
-          catch (Exception Exec)
-          {
-            Pyro.Common.Logging.Logger.Log.Error(Exec, $"IResourceSeedingService thrown Exception on Pyro server startup.");
-            throw Exec;
-          }
-        }
-        //End of Task Thread.
-      });
-
-      try
-      {
-        //Here we are catching any exceptions that occured inside the Task thread above.
-        SeedTaskResults.Wait();
-        bool Result = SeedTaskResults.Result;
-      }
-      catch (Exception Exec)
-      {
-        string ExecMessage = "Internal Server Error: Unable to Seed or chack Seed resources on startup. This is likely to be due to the FHIR server database connection being unavailable.";
-        Pyro.Common.Logging.Logger.Log.Fatal(Exec, ExecMessage);
-        throw new Exception(ExecMessage, Exec);
-      }
-      
-
-      if (!Console.IsOutputRedirected)
-      {
-        WarmUpMessages.Stop();
-        Console.Clear();
-      }
-    }
-
 
     //Register the SignalR Hubs for notification messaging to background service.
     private void RegisterSignalRHubs(IAppBuilder app)
