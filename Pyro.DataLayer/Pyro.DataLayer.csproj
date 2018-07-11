@@ -221,6 +221,14 @@
     <Compile Include="Migrations\201806280918213_ReferenceIndexCaseSensitiveReinstate.Designer.cs">
       <DependentUpon>201806280918213_ReferenceIndexCaseSensitiveReinstate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201807110801161_AddGZipResourceColumn.cs" />
+    <Compile Include="Migrations\201807110801161_AddGZipResourceColumn.Designer.cs">
+      <DependentUpon>201807110801161_AddGZipResourceColumn.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807110804261_ConversionXMLBlobtoGZipResourceColumn.cs" />
+    <Compile Include="Migrations\201807110804261_ConversionXMLBlobtoGZipResourceColumn.Designer.cs">
+      <DependentUpon>201807110804261_ConversionXMLBlobtoGZipResourceColumn.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\Custom\CustomApplicationDbConfiguration.cs" />
     <Compile Include="Migrations\Custom\CustomSqlServerMigrationSqlGenerator.cs" />
@@ -323,6 +331,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201806280918213_ReferenceIndexCaseSensitiveReinstate.resx">
       <DependentUpon>201806280918213_ReferenceIndexCaseSensitiveReinstate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807110801161_AddGZipResourceColumn.resx">
+      <DependentUpon>201807110801161_AddGZipResourceColumn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807110804261_ConversionXMLBlobtoGZipResourceColumn.resx">
+      <DependentUpon>201807110804261_ConversionXMLBlobtoGZipResourceColumn.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -222,6 +222,7 @@
     <Compile Include="Service\Trigger\TriggerServices\TriggerCompartmentDefinition.cs" />
     <Compile Include="Tools\Bundles\FhirBundleSupport.cs" />
     <Compile Include="Tools\FhirGuid\FhirGuid.cs" />
+    <Compile Include="Tools\GZip\GZipper.cs" />
     <Compile Include="Tools\Headers\IPreferHeader.cs" />
     <Compile Include="Tools\Headers\PreferHeader.cs" />
     <Compile Include="Tools\Headers\RequestHeader.cs" />

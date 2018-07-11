@@ -23,6 +23,11 @@ namespace Pyro.Common.Tools
       }
     }
 
+    public static Resource DeSerializeFromGZip(byte[] GZipResourceBytes)
+    {      
+      return FhirResourceSerializationSupport.DeSerializeFromXml(Common.Tools.GZip.GZipper.Decompress(GZipResourceBytes));
+    }
+
     public static string SerializeToXml(Resource Resource)
     {
       try

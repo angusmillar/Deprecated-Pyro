@@ -14,8 +14,8 @@ namespace Pyro.Common.DtoEntity
       this.IsDeleted = DtoResource.IsDeleted;
       this.Method = DtoResource.Method;
       this.ResourceType = DtoResource.ResourceType;
-      this.Version = DtoResource.Version;
-      this.Xml = DtoResource.Xml;
+      this.Version = DtoResource.Version;      
+      this.Resource = DtoResource.Resource;
     }
   }
 }

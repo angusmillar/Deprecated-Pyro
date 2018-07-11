@@ -32,7 +32,8 @@ namespace Pyro.Common.Tools.Bundles
         {
           try
           {
-            oResEntry.Resource = FhirResourceSerializationSupport.DeSerializeFromXml(DtoResource.Xml);
+            oResEntry.Resource = FhirResourceSerializationSupport.DeSerializeFromGZip(DtoResource.Resource);            
+            
           }
           catch (Exception oExec)
           {

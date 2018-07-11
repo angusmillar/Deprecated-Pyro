@@ -257,7 +257,7 @@ namespace Pyro.DataLayer.Repository
           Received = x.LastUpdated,
           Method = x.Method,
           ResourceType = this.RepositoryResourceType,
-          Xml = x.XmlBlob
+          Resource = x.Resource
         }).ToList();
       }
       else
@@ -318,7 +318,7 @@ namespace Pyro.DataLayer.Repository
           Received = x.LastUpdated,
           Method = x.Method,
           ResourceType = this.RepositoryResourceType,
-          Xml = x.XmlBlob
+          Resource = x.Resource
         }).ToList();
       }
       else
@@ -402,7 +402,7 @@ namespace Pyro.DataLayer.Repository
           Received = x.LastUpdated,
           Method = x.Method,
           ResourceType = this.RepositoryResourceType,
-          Xml = x.XmlBlob
+          Resource = x.Resource
         }).ToList();
       }
       else
@@ -625,8 +625,8 @@ namespace Pyro.DataLayer.Repository
         NewResourceEntity.IsCurrent = true;
         NewResourceEntity.IsDeleted = true;
         NewResourceEntity.LastUpdated = DateTimeOffset.Now;
-        NewResourceEntity.Method = Bundle.HTTPVerb.DELETE;
-        NewResourceEntity.XmlBlob = string.Empty;
+        NewResourceEntity.Method = Bundle.HTTPVerb.DELETE;        
+        NewResourceEntity.Resource = null;
         NewResourceEntity.VersionId = NewDeletedResourceVersion;
         this.CommonRepository.DbAddEntity(NewResourceEntity);
         OldResourceEntity.IsCurrent = false;
@@ -674,7 +674,7 @@ namespace Pyro.DataLayer.Repository
         NewResourceEntity.IsDeleted = true;
         NewResourceEntity.LastUpdated = DateTimeOffset.Now;
         NewResourceEntity.Method = Bundle.HTTPVerb.DELETE;
-        NewResourceEntity.XmlBlob = string.Empty;
+        NewResourceEntity.Resource = null;
         NewResourceEntity.VersionId = NewDeletedResourceVersion;
         this.CommonRepository.DbAddEntity(NewResourceEntity);
         OLdEntry.IsCurrent = false;
@@ -732,7 +732,7 @@ namespace Pyro.DataLayer.Repository
          .ToList();
         foreach (var Entity in EntityList)
         {
-          Resource Resource = Common.Tools.FhirResourceSerializationSupport.DeSerializeFromXml(Entity.XmlBlob);
+          Resource Resource = Common.Tools.FhirResourceSerializationSupport.DeSerializeFromGZip(Entity.Resource);
           AddResourceIndexes(Entity, Resource, FhirRequestUri, ServiceSearchParameterLightList);
         }
         this.Save();

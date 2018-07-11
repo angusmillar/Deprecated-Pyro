@@ -62,7 +62,8 @@ namespace Pyro.DataLayer.DbModel.DatabaseContextConfig
         .HasColumnAnnotation(IndexAnnotation.AnnotationName,
         new IndexAnnotation(new IndexAttribute("ix_LastUpdated")));
 
-      Property(x => x.XmlBlob).IsRequired();
+      Property(x => x.XmlBlob).IsOptional();      
+      Property(x => x.Resource).IsOptional();
       Property(x => x.Method).IsRequired();
 
       HasMany(a => a.IndexDateTimeList).WithOptional(g => g.Resource).HasForeignKey(m => m.ResourceId).WillCascadeOnDelete(true);

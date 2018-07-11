@@ -13,7 +13,7 @@ namespace Pyro.DataLayer.Migrations
   {
     public Configuration()
     {
-      AutomaticMigrationsEnabled = false;
+      AutomaticMigrationsEnabled = true;
     }
 
     protected override void Seed(PyroDbContext context)

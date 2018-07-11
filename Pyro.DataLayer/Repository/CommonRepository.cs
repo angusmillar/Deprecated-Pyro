@@ -227,8 +227,8 @@ namespace Pyro.DataLayer.Repository
         IsDeleted = x.IsDeleted,
         Version = x.VersionId,
         Received = x.LastUpdated,
-        Method = x.Method,
-        Xml = x.XmlBlob,
+        Method = x.Method,        
+        Resource = x.Resource
       }).FirstOrDefault();
     }
 

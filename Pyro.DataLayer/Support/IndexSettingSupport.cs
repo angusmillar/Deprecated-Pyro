@@ -28,47 +28,36 @@ namespace Pyro.DataLayer.Support
       {
         ResourceCurrentBase.FhirId = Resource.Id;
         Hl7.Fhir.Serialization.FhirXmlSerializer FhirXmlSerializer = new Hl7.Fhir.Serialization.FhirXmlSerializer();        
-        ResourceCurrentBase.XmlBlob = FhirXmlSerializer.SerializeToString(Resource);
-        
-        // Zip to byte[]
-        //byte[] inputBytes = FhirXmlSerializer.SerializeToBytes(Resource);
-
-        //using (var outputStream = new System.IO.MemoryStream())
-        //{
-        //  using (var gZipStream = new System.IO.Compression.GZipStream(outputStream, System.IO.Compression.CompressionMode.Compress))
-        //    gZipStream.Write(inputBytes, 0, inputBytes.Length);
-
-        //  var outputBytes = outputStream.ToArray();
-
-        //  var outputbase64 = Convert.ToBase64String(outputBytes);
-          
-        //  // TODO do something with the outputStream
-        //}
-
-        
+        ResourceCurrentBase.Resource = Common.Tools.GZip.GZipper.Compress(FhirXmlSerializer.SerializeToBytes(Resource));
         ResourceCurrentBase.LastUpdated = (DateTimeOffset)Resource.Meta.LastUpdated;
+
+        // Zip to byte[]
+        //byte[] CompressedBytes = Common.Tools.GZip.GZipper.Compress(FhirXmlSerializer.SerializeToBytes(Resource));
+
+        //string ResourceString = Common.Tools.GZip.GZipper.Decompress(CompressedBytes);
+        
+        
       }
       else
       {
         ResourceCurrentBase.FhirId = FhirResourceId;
-        ResourceCurrentBase.XmlBlob = "";
+        ResourceCurrentBase.Resource = null;
         ResourceCurrentBase.LastUpdated = DateTimeOffset.Now;
       }
     }
-    
 
+    
     public static DtoResource SetDtoResource<ResourceBaseType>(ResourceBaseType ResourceBase, FHIRAllTypes ResourceType)
       where ResourceBaseType : ResourceBase
     {
-      var DtoResource = new DtoResource();
-      
+      var DtoResource = new DtoResource();      
       DtoResource.FhirId = ResourceBase.FhirId;
       DtoResource.FhirReleaseId = ResourceBase.FhirReleaseId;
       DtoResource.IsCurrent = ResourceBase.IsCurrent;
       DtoResource.IsDeleted = ResourceBase.IsDeleted;
       DtoResource.Received = ResourceBase.LastUpdated;
-      DtoResource.Version = ResourceBase.VersionId;
-      DtoResource.Xml = ResourceBase.XmlBlob;
+      DtoResource.Version = ResourceBase.VersionId;      
+      DtoResource.Resource = ResourceBase.Resource;
       DtoResource.Method = ResourceBase.Method;
       DtoResource.ResourceType = ResourceType;
       return DtoResource;
@@ -117,7 +106,7 @@ namespace Pyro.DataLayer.Support
       ResourceCurrentBase.LastUpdated = DateTimeOffset.MinValue;
       ResourceCurrentBase.Method = Bundle.HTTPVerb.GET;
       ResourceCurrentBase.VersionId = "Reset";
-      ResourceCurrentBase.XmlBlob = null;
+      ResourceCurrentBase.Resource = null;
     }
 
     public static void SetHistoryResourceEntity<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>(ResourceCurrentBase<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType> ResourceCurrentBase, ResourceCurrentBase<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType> ResourceHistoryBase)
@@ -134,7 +123,7 @@ namespace Pyro.DataLayer.Support
       ResourceHistoryBase.FhirReleaseId = ResourceCurrentBase.FhirReleaseId;
       ResourceHistoryBase.FhirId = ResourceCurrentBase.FhirId;
       ResourceHistoryBase.IsDeleted = ResourceCurrentBase.IsDeleted;
-      ResourceHistoryBase.XmlBlob = ResourceCurrentBase.XmlBlob;
+      ResourceHistoryBase.Resource = ResourceCurrentBase.Resource;
       ResourceHistoryBase.LastUpdated = ResourceCurrentBase.LastUpdated;
       ResourceHistoryBase.VersionId = ResourceCurrentBase.VersionId;
       ResourceHistoryBase.Method = ResourceCurrentBase.Method;      

@@ -12,7 +12,9 @@ namespace Pyro.DataLayer.DbModel.EntityBase
     DateTimeOffset LastUpdated { get; set; }
     Bundle.HTTPVerb Method { get; set; }
     string VersionId { get; set; }
-    string XmlBlob { get; set; }
+    
+    //string XmlBlob { get; set; }
+    byte[] Resource { get; set; }
     _FhirRelease FhirRelease { get; set; }
     int FhirReleaseId { get; set; }
   }

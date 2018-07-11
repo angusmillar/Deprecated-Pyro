@@ -132,8 +132,8 @@ namespace Pyro.Engine.Services.Resources
             return oServiceOperationOutcome;
           }
         }
-
-        oServiceOperationOutcome.ResourceResult = FhirResourceSerializationSupport.DeSerializeFromXml(DatabaseOperationOutcome.ReturnedResourceList[0].Xml);
+        
+        oServiceOperationOutcome.ResourceResult = FhirResourceSerializationSupport.DeSerializeFromGZip(DatabaseOperationOutcome.ReturnedResourceList[0].Resource);
         oServiceOperationOutcome.FhirResourceId = DatabaseOperationOutcome.ReturnedResourceList[0].FhirId;
         oServiceOperationOutcome.LastModified = DatabaseOperationOutcome.ReturnedResourceList[0].Received;
         oServiceOperationOutcome.IsDeleted = DatabaseOperationOutcome.ReturnedResourceList[0].IsDeleted;
@@ -1108,8 +1108,8 @@ namespace Pyro.Engine.Services.Resources
       }
 
       if (DatabaseOperationOutcome.ReturnedResourceList != null && DatabaseOperationOutcome.ReturnedResourceList.Count == 1)
-      {
-        ServiceOperationOutcome.ResourceResult = FhirResourceSerializationSupport.DeSerializeFromXml(DatabaseOperationOutcome.ReturnedResourceList[0].Xml);
+      {        
+        ServiceOperationOutcome.ResourceResult = FhirResourceSerializationSupport.DeSerializeFromGZip(DatabaseOperationOutcome.ReturnedResourceList[0].Resource);
         ServiceOperationOutcome.FhirResourceId = DatabaseOperationOutcome.ReturnedResourceList[0].FhirId;
         ServiceOperationOutcome.LastModified = DatabaseOperationOutcome.ReturnedResourceList[0].Received;
         ServiceOperationOutcome.IsDeleted = DatabaseOperationOutcome.ReturnedResourceList[0].IsDeleted;
@@ -1169,8 +1169,8 @@ namespace Pyro.Engine.Services.Resources
       IDatabaseOperationOutcome DatabaseOperationOutcome = IResourceRepository.GetResourceByFhirIDAndVersionNumber(ResourceId, Version);
       if (DatabaseOperationOutcome.ReturnedResourceList != null && DatabaseOperationOutcome.ReturnedResourceList.Count == 1)
       {
-        if (!DatabaseOperationOutcome.ReturnedResourceList[0].IsDeleted)
-          oPyroServiceOperationOutcome.ResourceResult = FhirResourceSerializationSupport.DeSerializeFromXml(DatabaseOperationOutcome.ReturnedResourceList[0].Xml);
+        if (!DatabaseOperationOutcome.ReturnedResourceList[0].IsDeleted)          
+          oPyroServiceOperationOutcome.ResourceResult = FhirResourceSerializationSupport.DeSerializeFromGZip(DatabaseOperationOutcome.ReturnedResourceList[0].Resource);
         oPyroServiceOperationOutcome.FhirResourceId = DatabaseOperationOutcome.ReturnedResourceList[0].FhirId;
         oPyroServiceOperationOutcome.LastModified = DatabaseOperationOutcome.ReturnedResourceList[0].Received;
         oPyroServiceOperationOutcome.IsDeleted = DatabaseOperationOutcome.ReturnedResourceList[0].IsDeleted;
@@ -1219,8 +1219,8 @@ namespace Pyro.Engine.Services.Resources
             return oPyroServiceOperationOutcome;
           }
         }
-
-        oPyroServiceOperationOutcome.ResourceResult = FhirResourceSerializationSupport.DeSerializeFromXml(DatabaseOperationOutcome.ReturnedResourceList[0].Xml);
+        
+        oPyroServiceOperationOutcome.ResourceResult = FhirResourceSerializationSupport.DeSerializeFromGZip(DatabaseOperationOutcome.ReturnedResourceList[0].Resource);
         oPyroServiceOperationOutcome.FhirResourceId = DatabaseOperationOutcome.ReturnedResourceList[0].FhirId;
         oPyroServiceOperationOutcome.LastModified = DatabaseOperationOutcome.ReturnedResourceList[0].Received;
         oPyroServiceOperationOutcome.IsDeleted = DatabaseOperationOutcome.ReturnedResourceList[0].IsDeleted;

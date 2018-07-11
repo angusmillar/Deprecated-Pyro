@@ -285,7 +285,7 @@ namespace Pyro.Common.FhirOperation.Compartment
       var DatabaseOperation = IResourceRepository.GetResourceByFhirID(CompartmentDefintionFhirId, true, false);
       if (DatabaseOperation.ReturnedResourceList.Count > 0)
       {
-        return Tools.FhirResourceSerializationSupport.DeSerializeFromXml(DatabaseOperation.ReturnedResourceList[0].Xml) as CompartmentDefinition;
+        return Tools.FhirResourceSerializationSupport.DeSerializeFromGZip(DatabaseOperation.ReturnedResourceList[0].Resource) as CompartmentDefinition;        
       }
       return null;
     }
