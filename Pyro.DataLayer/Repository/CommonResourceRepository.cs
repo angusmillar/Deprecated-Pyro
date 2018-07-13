@@ -832,10 +832,7 @@ namespace Pyro.DataLayer.Repository
               Expression = Resource.TypeName + SearchParameter.Expression.TrimStart(Resource_ResourceName.ToCharArray());
             }
 
-            IEnumerable<IElementNavigator> ResultList = Navigator.Select(Expression, new EvaluationContext(Navigator));
-            //Upgrade of FHRI .NET API 
-            //IEnumerable<IElementNavigator> ResultList = Navigator.Select(Expression, Navigator);
-
+            IEnumerable<IElementNavigator> ResultList = Navigator.Select(Expression, new EvaluationContext(Navigator));            
             foreach (IElementNavigator oElement in ResultList)
             {
               if (oElement != null)
@@ -864,7 +861,7 @@ namespace Pyro.DataLayer.Repository
                       break;
                     }
                   case SearchParamType.Token:
-                    {
+                    {                      
                       ICollection<ResIndexTokenType> ResourceIndexToken = IIndexSetterFactory.CreateTokenSetter().Set(oElement, SearchParameter);
                       if (ResourceIndexToken != null)
                         ResourceEntity.IndexTokenList.AddRange(ResourceIndexToken);
