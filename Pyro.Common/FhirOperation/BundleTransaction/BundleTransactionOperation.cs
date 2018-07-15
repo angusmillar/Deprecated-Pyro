@@ -11,6 +11,7 @@ using Pyro.Common.Exceptions;
 using Pyro.Common.CompositionRoot;
 using Pyro.Common.RequestMetadata;
 using Pyro.Common.Service.ResourceService;
+using Hl7.Fhir.Utility;
 
 namespace Pyro.Common.FhirOperation.BundleTransaction
 {
@@ -112,8 +113,9 @@ namespace Pyro.Common.FhirOperation.BundleTransaction
               return _ServiceOperationOutcome;
             }
           }
-          
-          //Assign new id's for POSTs and then update all POST and PUT entrie referances          
+
+          //Assign new id's for POSTs and then update all POST and PUT entrie referances       
+          bool ok = ResolveAnyifNoneExistPostResourceIds(POSTEntries);
           AssignResourceIdsAndUpdateReferances(POSTEntries, PUTEntries);
 
           //POST Processing        
@@ -159,6 +161,8 @@ namespace Pyro.Common.FhirOperation.BundleTransaction
 
       return _ServiceOperationOutcome;
     }
+
+    
 
     private bool DeleteProcessing(Bundle.EntryComponent DeleteEntry, int DeleteEntryIndex)
     {
@@ -424,6 +428,28 @@ namespace Pyro.Common.FhirOperation.BundleTransaction
       return $"{originalString}/{FhirResourceId}/_history/{ResourceVersionNumber}";
     }
 
+    private bool ResolveAnyifNoneExistPostResourceIds(IEnumerable<Bundle.EntryComponent> pOSTEntries)
+    {
+      var ListOfIfNoneExistEntryies = pOSTEntries.Where(x => !string.IsNullOrWhiteSpace(x.Request.IfNoneMatch));
+      foreach(var Entry in ListOfIfNoneExistEntryies)
+      {
+        IRequestMeta RequestMeta = IRequestMetaFactory.CreateRequestMeta();
+        RequestMeta.Set($"{Entry.Resource.ResourceType.GetLiteral()}?{Entry.Request.IfNoneMatch}");
+        RequestMeta.RequestHeader.Prefer = _RequestHeader.Prefer;
+        var ResourceServiceOutcome = IResourceServices.GetSearch(RequestMeta);
+        if (ResourceServiceOutcome.HttpStatusCode == System.Net.HttpStatusCode.OK)
+        {
+          if (ResourceServiceOutcome.ResourceResult != null && ResourceServiceOutcome.ResourceResult is Bundle ReturnedBundle && ReturnedBundle.Entry.Count == 1 )
+          {
+            string ResourceFhirId = ReturnedBundle.Entry[0].Resource.Id;
+            string ResourceName = ReturnedBundle.Entry[0].Resource.ResourceType.GetLiteral();
+            
+          }
+        }
+      }
+    }
+
+
     private void AssignResourceIdsAndUpdateReferances(IEnumerable<Bundle.EntryComponent> PostEntryList, IEnumerable<Bundle.EntryComponent> PutEntryList)
     {
       OldNewResourceReferanceMap = new Dictionary<string, string>();
@@ -454,12 +480,51 @@ namespace Pyro.Common.FhirOperation.BundleTransaction
       foreach (var resRef in RefList.Where(rr => !string.IsNullOrEmpty(rr.Reference)))
       {
         // TODO: If this is an identifier reference, then we must resolve the reference
-        // Otherwise these are just normal references
-        string UUID = resRef.Reference.Split(':')[resRef.Reference.Split(':').Length - 1];
-        if (OldNewResourceReferanceMap.ContainsKey(UUID))
+        //e.g : "reference": "Patient?identifier=0987654321"
+        if (resRef.Reference.Contains('?'))
         {
-          resRef.Reference = OldNewResourceReferanceMap[UUID];
+          IRequestMeta RequestMeta = IRequestMetaFactory.CreateRequestMeta();
+          RequestMeta.Set(resRef.Reference);
+          RequestMeta.RequestHeader.Prefer = _RequestHeader.Prefer;
+          var ResourceServiceOutcome = IResourceServices.GetSearch(RequestMeta);
+          if (ResourceServiceOutcome.HttpStatusCode == System.Net.HttpStatusCode.OK && ResourceServiceOutcome.ResourceResult != null &&
+            ResourceServiceOutcome.ResourceResult is Bundle ReturnedBundle)
+          {
+            if (ReturnedBundle.Entry.Count == 1)
+            {
+              string ResourceFhirId = ReturnedBundle.Entry[0].Resource.Id;
+              string ResourceName = ReturnedBundle.Entry[0].Resource.ResourceType.GetLiteral();
+              resRef.Reference = $"{ResourceName}/{ResourceFhirId}";
+              //need to handel the error of no resource returned!!
+            }
+            else if (ReturnedBundle.Entry.Count > 1)
+            {
+              //Fail the entire transaction as more than a single resource match
+            }
+            else
+            {
+              //if not found in the database we need to inspect the resources of the bundle
+              //This is difficult as we need an in memory resource indexer to enable the search 
+              //of the un commited resources of the bundle.
+              throw new NotImplementedException("Reference contains search parameters and no resource match found in database.");
+            }
+          }
+          else
+          {
+            //why would the search fail to return OK, maybe the search parameters were invalid.
+            //Fail the entire transaction as more than a single resource match
+            throw new NotImplementedException("Reference contains search parameters and no resource match found in database.");
+          }
         }
+        else
+        {
+          //Is this a UUID referance
+          string UUID = resRef.Reference.Split(':')[resRef.Reference.Split(':').Length - 1];
+          if (OldNewResourceReferanceMap.ContainsKey(UUID))
+          {
+            resRef.Reference = OldNewResourceReferanceMap[UUID];
+          }
+        }        
       }
     }
     private string GetUUIDfromFullURL(string FullURL)
