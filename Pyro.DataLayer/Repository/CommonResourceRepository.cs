@@ -782,18 +782,7 @@ namespace Pyro.DataLayer.Repository
       return RowsRemovedCount;
     }
 
-    //public void GetResourceHistoryEntityList(LinqKit.ExpressionStarter<ResCurrentType> Predicate, int StartRecord, List<DtoResource> DtoResourceList)
-    //{
-    //  var HistoryEntityList = DbGetAll<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>(Predicate)
-    //     .OrderByDescending(x => x.LastUpdated)
-    //     .Skip(StartRecord)
-    //     .Take(_NumberOfRecordsPerPage)
-    //     .ToList();
-
-    //  if (HistoryEntityList != null)
-    //    HistoryEntityList.ForEach(x => DtoResourceList.Add(IndexSettingSupport.SetDtoResource(x, this.RepositoryResourceType)));
-    //}
-
+    
     public void PopulateResourceEntity(ResCurrentType ResourceEntity, Resource Resource, IPyroRequestUri FhirRequestUri)
     {
       IList<DtoServiceSearchParameterLight> SearchParmeters = IServiceSearchParameterCache.GetSearchParameterForResource(Resource.ResourceType.GetLiteral());
