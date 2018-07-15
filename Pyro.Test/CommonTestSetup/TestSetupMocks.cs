@@ -21,7 +21,7 @@ namespace Pyro.Test.CommonTestSetup
       Mock<IDtoRootUrlStore> MokIDtoRootUrlStore = new Mock<IDtoRootUrlStore>();
       MokIDtoRootUrlStore.Setup(x => x.Id).Returns(1);
       MokIDtoRootUrlStore.Setup(x => x.IsServersPrimaryUrlRoot).Returns(true);
-      MokIDtoRootUrlStore.Setup(x => x.RootUri).Returns(new Uri(StaticTestData.FhirEndpoint()));
+      //MokIDtoRootUrlStore.Setup(x => x.RootUri).Returns(new Uri(StaticTestData.FhirEndpoint()));
       MokIDtoRootUrlStore.Setup(x => x.Url).Returns(StaticTestData.FhirEndpoint());
       return MokIDtoRootUrlStore.Object;
     }

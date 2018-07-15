@@ -24,7 +24,7 @@ namespace Pyro.Test.Tools
     {
       Moq.Mock<IDtoRootUrlStore> MokDtoRootUrlStore = new Moq.Mock<IDtoRootUrlStore>();
       MokDtoRootUrlStore.Setup(x => x.Url).Returns(PrimaryServiceRoot);
-      MokDtoRootUrlStore.Setup(x => x.RootUri).Returns(new Uri(PrimaryServiceRoot));
+      //MokDtoRootUrlStore.Setup(x => x.RootUri).Returns(new Uri(PrimaryServiceRoot));
       MokDtoRootUrlStore.Setup(x => x.Id).Returns(1);
       MokDtoRootUrlStore.Setup(x => x.IsServersPrimaryUrlRoot).Returns(true);
 

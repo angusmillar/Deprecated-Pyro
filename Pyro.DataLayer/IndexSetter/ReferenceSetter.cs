@@ -158,7 +158,8 @@ namespace Pyro.DataLayer.IndexSetter
             }
             else
             {
-              ResourceIndex.ReferenceUrl = IServiceBaseUrlRepository.GetAndOrAddService_RootUrlStore(ReferanceUri.UriPrimaryServiceRoot.OriginalString);
+              ResourceIndex.ReferenceServiceBaseUrlId = IServiceBaseUrlRepository.GetAndOrAddService_RootUrlStore(ReferanceUri.UriPrimaryServiceRoot.OriginalString).Id;
+              //ResourceIndex.ReferenceUrl = IServiceBaseUrlRepository.GetAndOrAddService_RootUrlStore(ReferanceUri.UriPrimaryServiceRoot.OriginalString);
             }
             ResourceIndexList.Add(ResourceIndex);
           }
