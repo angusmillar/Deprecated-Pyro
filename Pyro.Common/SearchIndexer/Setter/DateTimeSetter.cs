@@ -1,30 +1,21 @@
-﻿using System;
-using Pyro.DataLayer.DbModel.EntityBase;
-using Hl7.Fhir.ElementModel;
+﻿using Hl7.Fhir.ElementModel;
 using Hl7.Fhir.Model;
 using Pyro.Common.Search;
+using Pyro.Common.SearchIndexer.Index;
+using System;
 using System.Collections.Generic;
 
-namespace Pyro.DataLayer.IndexSetter
+namespace Pyro.Common.SearchIndexer.Setter
 {
-  public class DateTimeSetter<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType> :
-    IDateTimeSetter<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>
-    where ResCurrentType : ResourceCurrentBase<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>
-    where ResIndexStringType : ResourceIndexString<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>
-    where ResIndexTokenType : ResourceIndexToken<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>
-    where ResIndexUriType : ResourceIndexUri<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>
-    where ResIndexReferenceType : ResourceIndexReference<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>
-    where ResIndexQuantityType : ResourceIndexQuantity<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>
-    where ResIndexDateTimeType : ResourceIndexDateTime<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>, new()
-    
+  public class DateTimeSetter : IDateTimeSetter
   {
-    public DateTimeSetter() { }
-    public IList<ResIndexDateTimeType> Set(IElementNavigator oElement, DtoServiceSearchParameterLight SearchParameter)
+    private IServiceSearchParameterLight _SearchParameter;
+    
+    public IList<IDateTimeIndex> Set(IElementNavigator oElement, DtoServiceSearchParameterLight SearchParameter)
     {
-      var ResourceIndexList = new List<ResIndexDateTimeType>();
-      int ServiceSearchParameterId = SearchParameter.Id;
-
-      //if (oElement is Hl7.Fhir.FhirPath.PocoNavigator Poco && Poco.FhirValue != null)
+      var ResourceIndexList = new List<IDateTimeIndex>();
+      _SearchParameter = SearchParameter;
+      
       if (oElement is Hl7.Fhir.ElementModel.PocoNavigator Poco && Poco.FhirValue != null)
         {
         if (Poco.FhirValue is Date Date)
@@ -55,7 +46,7 @@ namespace Pyro.DataLayer.IndexSetter
         {
           throw new FormatException($"Unknown FhirType: '{oElement.Type}' for SearchParameterType: '{SearchParameter.Type}'");
         }
-        ResourceIndexList.ForEach(x => x.ServiceSearchParameterId = ServiceSearchParameterId);
+        
         return ResourceIndexList;
       }
       else
@@ -64,9 +55,9 @@ namespace Pyro.DataLayer.IndexSetter
       }
     }
 
-    private void SetTiming(Timing Timing, List<ResIndexDateTimeType> ResourceIndexList)
+    private void SetTiming(Timing Timing, IList<IDateTimeIndex> ResourceIndexList)
     {
-      var ResourceIndex = new ResIndexDateTimeType();
+      var ResourceIndex = new DateTimeIndex(_SearchParameter);
       Common.Tools.DateTimeIndex DateTimeIndex = Common.Tools.DateTimeIndexSupport.GetDateTimeIndex(Timing);
       if (DateTimeIndex.Low != null || DateTimeIndex.High != null)
       {
@@ -76,11 +67,11 @@ namespace Pyro.DataLayer.IndexSetter
       }
     }
 
-    private void SetInstant(Instant Instant, List<ResIndexDateTimeType> ResourceIndexList)
+    private void SetInstant(Instant Instant, IList<IDateTimeIndex> ResourceIndexList)
     {
       if (Instant.Value.HasValue)
       {
-        var ResourceIndex = new ResIndexDateTimeType();
+        var ResourceIndex = new DateTimeIndex(_SearchParameter);
         Common.Tools.DateTimeIndex DateTimeIndex = Common.Tools.DateTimeIndexSupport.GetDateTimeIndex(Instant);
         if (DateTimeIndex.Low != null || DateTimeIndex.High != null)
         {
@@ -90,24 +81,24 @@ namespace Pyro.DataLayer.IndexSetter
         }
       }
     }
-    private void SetString(FhirString FhirString, List<ResIndexDateTimeType> ResourceIndexList)
+    private void SetString(FhirString FhirString, IList<IDateTimeIndex> ResourceIndexList)
     {
       if (Hl7.Fhir.Model.Date.IsValidValue(FhirString.Value) || FhirDateTime.IsValidValue(FhirString.Value))
       {
         Common.Tools.FhirDateTimeSupport oFhirDateTimeTool = new Common.Tools.FhirDateTimeSupport(FhirString.Value);
         if (oFhirDateTimeTool.IsValid)
         {
-          var ResourceIndex = new ResIndexDateTimeType();
+          var ResourceIndex = new DateTimeIndex(_SearchParameter);
           ResourceIndex.DateTimeOffsetLow = oFhirDateTimeTool.Value.Value;
           ResourceIndexList.Add(ResourceIndex);
         }
       }
     }
-    private void SetDateTime(FhirDateTime FhirDateTime, List<ResIndexDateTimeType> ResourceIndexList)
+    private void SetDateTime(FhirDateTime FhirDateTime, IList<IDateTimeIndex> ResourceIndexList)
     {
       if (FhirDateTime.IsValidValue(FhirDateTime.Value))
       {
-        var ResourceIndex = new ResIndexDateTimeType();
+        var ResourceIndex = new DateTimeIndex(_SearchParameter);
         Common.Tools.DateTimeIndex DateTimeIndex = Common.Tools.DateTimeIndexSupport.GetDateTimeIndex(FhirDateTime);
         if (DateTimeIndex.Low != null || DateTimeIndex.High != null)
         {
@@ -117,9 +108,9 @@ namespace Pyro.DataLayer.IndexSetter
         }
       }
     }
-    private void SetPeriod(Period Period, List<ResIndexDateTimeType> ResourceIndexList)
+    private void SetPeriod(Period Period, IList<IDateTimeIndex> ResourceIndexList)
     {
-      var ResourceIndex = new ResIndexDateTimeType();
+      var ResourceIndex = new DateTimeIndex(_SearchParameter);
       Common.Tools.DateTimeIndex DateTimeIndex = Common.Tools.DateTimeIndexSupport.GetDateTimeIndex(Period);
       if (DateTimeIndex.Low != null || DateTimeIndex.High != null)
       {
@@ -128,11 +119,11 @@ namespace Pyro.DataLayer.IndexSetter
         ResourceIndexList.Add(ResourceIndex);
       }
     }
-    private void SetDate(Date Date, List<ResIndexDateTimeType> ResourceIndexList)
+    private void SetDate(Date Date, IList<IDateTimeIndex> ResourceIndexList)
     {
       if (Date.IsValidValue(Date.Value))
       {
-        var ResourceIndex = new ResIndexDateTimeType();
+        var ResourceIndex = new DateTimeIndex(_SearchParameter);
         Common.Tools.DateTimeIndex DateTimeIndex = Common.Tools.DateTimeIndexSupport.GetDateTimeIndex(Date);
         if (DateTimeIndex.Low != null || DateTimeIndex.High != null)
         {

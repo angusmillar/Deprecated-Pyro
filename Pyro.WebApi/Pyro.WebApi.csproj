@@ -214,7 +214,7 @@
     <Compile Include="Attributes\ActionLogAttribute.cs" />
     <Compile Include="Authorization\SwitchableAuthorizationAttribute .cs" />
     <Compile Include="CompositionRoot\MapperProvider.cs" />
-    <Compile Include="CompositionRoot\IndexSetterFactory.cs" />
+    <Compile Include="CompositionRoot\DbIndexSetterFactory.cs" />
     <Compile Include="CompositionRoot\ResourceRepositoryFactory.cs" />
     <Compile Include="Controllers\FhirController.cs" />
     <Compile Include="Extensions\ControllerExtensions.cs" />

@@ -183,14 +183,27 @@ namespace Pyro.Backburner.App_Start
       //========================================================================================================
       //=================== Scoped =============================================================================            
       //========================================================================================================
-      container.RegisterConditional(typeof(IIndexSetterFactory<,,,,,,>), typeof(Pyro.WebApi.CompositionRoot.IndexSetterFactory<,,,,,,>), Lifestyle.Scoped, c => !c.Handled);
-      container.RegisterConditional(typeof(IReferenceSetter<,,,,,,>), typeof(ReferenceSetter<,,,,,,>), c => !c.Handled);
-      container.RegisterConditional(typeof(INumberSetter<,,,,,,>), typeof(NumberSetter<,,,,,,>), c => !c.Handled);
-      container.RegisterConditional(typeof(IDateTimeSetter<,,,,,,>), typeof(DateTimeSetter<,,,,,,>), c => !c.Handled);
-      container.RegisterConditional(typeof(IQuantitySetter<,,,,,,>), typeof(QuantitySetter<,,,,,,>), c => !c.Handled);
-      container.RegisterConditional(typeof(IStringSetter<,,,,,,>), typeof(StringSetter<,,,,,,>), c => !c.Handled);
-      container.RegisterConditional(typeof(ITokenSetter<,,,,,,>), typeof(TokenSetter<,,,,,,>), c => !c.Handled);
-      container.RegisterConditional(typeof(IUriSetter<,,,,,,>), typeof(UriSetter<,,,,,,>), c => !c.Handled);
+      
+      //Database indexes
+      container.RegisterConditional(typeof(IDbIndexSetterFactory<,,,,,,>), typeof(Pyro.WebApi.CompositionRoot.DbIndexSetterFactory<,,,,,,>), Lifestyle.Scoped, c => !c.Handled);
+      container.RegisterConditional(typeof(IDbReferenceSetter<,,,,,,>), typeof(DbReferenceSetter<,,,,,,>), c => !c.Handled);
+      container.RegisterConditional(typeof(IDbNumberSetter<,,,,,,>), typeof(DbNumberSetter<,,,,,,>), c => !c.Handled);
+      container.RegisterConditional(typeof(IDbDateTimeSetter<,,,,,,>), typeof(DbDateTimeSetter<,,,,,,>), c => !c.Handled);
+      container.RegisterConditional(typeof(IDbQuantitySetter<,,,,,,>), typeof(DbQuantitySetter<,,,,,,>), c => !c.Handled);
+      container.RegisterConditional(typeof(IDbStringSetter<,,,,,,>), typeof(DbStringSetter<,,,,,,>), c => !c.Handled);
+      container.RegisterConditional(typeof(IDbTokenSetter<,,,,,,>), typeof(DbTokenSetter<,,,,,,>), c => !c.Handled);
+      container.RegisterConditional(typeof(IDbUriSetter<,,,,,,>), typeof(DbUriSetter<,,,,,,>), c => !c.Handled);
+
+      //In Memory indexes
+      container.Register<Pyro.Common.CompositionRoot.IIndexSetterFactory, IndexSetterFactory>(Lifestyle.Scoped);
+      container.Register<Pyro.Common.SearchIndexer.Setter.IReferenceSetter, Pyro.Common.SearchIndexer.Setter.ReferenceSetter>(Lifestyle.Scoped);
+      container.Register<Pyro.Common.SearchIndexer.Setter.INumberSetter, Pyro.Common.SearchIndexer.Setter.NumberSetter>(Lifestyle.Scoped);
+      container.Register<Pyro.Common.SearchIndexer.Setter.IDateTimeSetter, Pyro.Common.SearchIndexer.Setter.DateTimeSetter>(Lifestyle.Scoped);
+      container.Register<Pyro.Common.SearchIndexer.Setter.IStringSetter, Pyro.Common.SearchIndexer.Setter.StringSetter>(Lifestyle.Scoped);
+      container.Register<Pyro.Common.SearchIndexer.Setter.ITokenSetter, Pyro.Common.SearchIndexer.Setter.TokenSetter>(Lifestyle.Scoped);
+      container.Register<Pyro.Common.SearchIndexer.Setter.IQuantitySetter, Pyro.Common.SearchIndexer.Setter.QuantitySetter>(Lifestyle.Scoped);
+      container.Register<Pyro.Common.SearchIndexer.Setter.IUriSetter, Pyro.Common.SearchIndexer.Setter.UriSetter>(Lifestyle.Scoped);
+      
 
 
       container.Register<IPyroDbContext, PyroDbContext>(Lifestyle.Scoped);

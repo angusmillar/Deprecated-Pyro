@@ -43,7 +43,7 @@ namespace Pyro.WebApi.App_Start
         }
         catch (Exception Exec)
         {
-          Pyro.Common.Logging.Logger.Log.Error(Exec, "SynchronizeServiceConfigrationWithGlobalProperties failed.");
+          Pyro.Common.Logging.Logger.Log.Error(Exec, "Synchronize Service Configration With GlobalProperties failed.");
           throw Exec;
         }
         //End of Task Thread.

@@ -142,21 +142,21 @@
     <Compile Include="DbModel\UnitOfWork\UnitOfWorkCodeGenerated.cs">
       <DependentUpon>MainTemplate.txt4</DependentUpon>
     </Compile>
-    <Compile Include="IndexSetter\IDateTimeSetter.cs" />
-    <Compile Include="IndexSetter\IIndexSetterFactory.cs" />
-    <Compile Include="IndexSetter\DateTimeSetter.cs" />
-    <Compile Include="IndexSetter\INumberSetter.cs" />
-    <Compile Include="IndexSetter\IQuantitySetter.cs" />
-    <Compile Include="IndexSetter\IReferenceSetter.cs" />
-    <Compile Include="IndexSetter\IStringSetter.cs" />
-    <Compile Include="IndexSetter\ITokenSetter.cs" />
-    <Compile Include="IndexSetter\IUriSetter.cs" />
-    <Compile Include="IndexSetter\NumberSetter.cs" />
-    <Compile Include="IndexSetter\ReferenceSetter.cs" />
-    <Compile Include="IndexSetter\UriSetter.cs" />
-    <Compile Include="IndexSetter\TokenSetter.cs" />
-    <Compile Include="IndexSetter\QuantitySetter.cs" />
-    <Compile Include="IndexSetter\StringSetter.cs" />
+    <Compile Include="IndexSetter\IDbDateTimeSetter.cs" />
+    <Compile Include="IndexSetter\IDbIndexSetterFactory.cs" />
+    <Compile Include="IndexSetter\DbDateTimeSetter.cs" />
+    <Compile Include="IndexSetter\IDbNumberSetter.cs" />
+    <Compile Include="IndexSetter\IDbQuantitySetter.cs" />
+    <Compile Include="IndexSetter\IDbReferenceSetter.cs" />
+    <Compile Include="IndexSetter\IDbStringSetter.cs" />
+    <Compile Include="IndexSetter\IDbTokenSetter.cs" />
+    <Compile Include="IndexSetter\IDbUriSetter.cs" />
+    <Compile Include="IndexSetter\DbNumberSetter.cs" />
+    <Compile Include="IndexSetter\DbReferenceSetter.cs" />
+    <Compile Include="IndexSetter\DbUriSetter.cs" />
+    <Compile Include="IndexSetter\DbTokenSetter.cs" />
+    <Compile Include="IndexSetter\DbQuantitySetter.cs" />
+    <Compile Include="IndexSetter\DbStringSetter.cs" />
     <Compile Include="Migrations\201706130247261_First.cs" />
     <Compile Include="Migrations\201706130247261_First.Designer.cs">
       <DependentUpon>201706130247261_First.cs</DependentUpon>

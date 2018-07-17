@@ -99,8 +99,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Pyro.WebApi\CompositionRoot\IndexSetterFactory.cs">
-      <Link>CompositionRoot\IndexSetterFactory.cs</Link>
+    <Compile Include="..\Pyro.WebApi\CompositionRoot\DbIndexSetterFactory.cs">
+      <Link>CompositionRoot\DbIndexSetterFactory.cs</Link>
     </Compile>
     <Compile Include="..\Pyro.WebApi\CompositionRoot\MapperProvider.cs">
       <Link>CompositionRoot\MapperProvider.cs</Link>

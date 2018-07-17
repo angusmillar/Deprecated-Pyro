@@ -1,31 +1,26 @@
 ﻿using System;
-using Pyro.DataLayer.DbModel.EntityBase;
+
 using Hl7.Fhir.ElementModel;
 using Hl7.Fhir.Model;
 using Pyro.Common.Search;
 using Pyro.Common.Tools;
 using Pyro.Common.Database;
 using System.Collections.Generic;
+using Pyro.Common.SearchIndexer.Index;
 
-namespace Pyro.DataLayer.IndexSetter
+namespace Pyro.Common.SearchIndexer.Setter
 {
-  public class StringSetter<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType> :
-    IStringSetter<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>
-    where ResCurrentType : ResourceCurrentBase<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>
-    where ResIndexStringType : ResourceIndexString<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>, new()
-    where ResIndexTokenType : ResourceIndexToken<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>
-    where ResIndexUriType : ResourceIndexUri<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>
-    where ResIndexReferenceType : ResourceIndexReference<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>
-    where ResIndexQuantityType : ResourceIndexQuantity<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>
-    where ResIndexDateTimeType : ResourceIndexDateTime<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>
-    
+  public class StringSetter : IStringSetter
   {
+    private IServiceSearchParameterLight _SearchParameter;
     private const string ItemDelimeter = " ";
     public StringSetter() { }
 
-    public IList<ResIndexStringType> Set(IElementNavigator oElement, DtoServiceSearchParameterLight SearchParameter)
+    public IList<IStringIndex> Set(IElementNavigator oElement, DtoServiceSearchParameterLight SearchParameter)
     {
-      var ResourceIndexList = new List<ResIndexStringType>();
+      _SearchParameter = SearchParameter;
+
+      var ResourceIndexList = new List<IStringIndex>();
       var ServiceSearchParameterId = SearchParameter.Id;
 
       if (oElement is Hl7.Fhir.ElementModel.PocoNavigator Poco && Poco.FhirValue != null)
@@ -61,13 +56,13 @@ namespace Pyro.DataLayer.IndexSetter
       }
       else if (oElement.Value is Hl7.FhirPath.ConstantValue ConstantValue)
       {
-        var ResourceIndex = new ResIndexStringType();
+        var ResourceIndex = new StringIndex(_SearchParameter);
         ResourceIndex.String = ConstantValue.Type.ToString();
         ResourceIndexList.Add(ResourceIndex);
       }
       else if (oElement.Value is bool Bool)
       {
-        var ResourceIndex = new ResIndexStringType();
+        var ResourceIndex = new StringIndex(_SearchParameter);
         ResourceIndex.String = Bool.ToString();
         ResourceIndexList.Add(ResourceIndex);
       }
@@ -75,38 +70,38 @@ namespace Pyro.DataLayer.IndexSetter
       {
         throw new FormatException($"Unknown Navigator FhirType: '{oElement.Type}' for SearchParameterType: '{SearchParameter.Type}'");
       }
-      ResourceIndexList.ForEach(x => x.ServiceSearchParameterId = ServiceSearchParameterId);
+      
       return ResourceIndexList;
     }
 
-    private void SetFhirString(FhirString FhirString, List<ResIndexStringType> ResourceIndexList)
+    private void SetFhirString(FhirString FhirString, IList<IStringIndex> ResourceIndexList)
     {
       if (!string.IsNullOrWhiteSpace(FhirString.Value))
       {
-        var ResourceIndex = new ResIndexStringType();
+        var ResourceIndex = new StringIndex(_SearchParameter);
         ResourceIndex.String = FhirString.Value.Truncate(StaticDatabaseInfo.BaseDatabaseFieldLength.StringMaxLength);
         ResourceIndexList.Add(ResourceIndex);
       }
     }
-    private void SetAnnotation(Annotation Annotation, List<ResIndexStringType> ResourceIndexList)
+    private void SetAnnotation(Annotation Annotation, IList<IStringIndex> ResourceIndexList)
     {
       if (!string.IsNullOrWhiteSpace(Annotation.Text))
       {
-        var ResourceIndex = new ResIndexStringType();
+        var ResourceIndex = new StringIndex(_SearchParameter);
         ResourceIndex.String = StringSupport.ToLowerAndRemoveDiacritics(Annotation.Text.Trim().Truncate(StaticDatabaseInfo.BaseDatabaseFieldLength.StringMaxLength));
         ResourceIndexList.Add(ResourceIndex);
       }
     }
-    private void SetMarkdown(Markdown Markdown, List<ResIndexStringType> ResourceIndexList)
+    private void SetMarkdown(Markdown Markdown, IList<IStringIndex> ResourceIndexList)
     {
       if (!string.IsNullOrWhiteSpace(Markdown.Value))
       {
-        var ResourceIndex = new ResIndexStringType();
+        var ResourceIndex = new StringIndex(_SearchParameter);
         ResourceIndex.String = Pyro.Common.Tools.StringSupport.ToLowerAndRemoveDiacritics(Markdown.Value.Trim().Truncate(StaticDatabaseInfo.BaseDatabaseFieldLength.StringMaxLength));
         ResourceIndexList.Add(ResourceIndex);
       }
     }
-    private void SetHumanName(HumanName HumanName, List<ResIndexStringType> ResourceIndexList)
+    private void SetHumanName(HumanName HumanName, IList<IStringIndex> ResourceIndexList)
     {
       string FullName = string.Empty;
       foreach (var Given in HumanName.Given)
@@ -121,12 +116,12 @@ namespace Pyro.DataLayer.IndexSetter
 
       if (FullName != string.Empty)
       {
-        var ResourceIndex = new ResIndexStringType();
+        var ResourceIndex = new StringIndex(_SearchParameter);
         ResourceIndex.String = Pyro.Common.Tools.StringSupport.ToLowerAndRemoveDiacritics(FullName.Trim().Truncate(StaticDatabaseInfo.BaseDatabaseFieldLength.StringMaxLength));
         ResourceIndexList.Add(ResourceIndex);
       }
     }
-    private void SetAddress(Address Address, List<ResIndexStringType> ResourceIndexList)
+    private void SetAddress(Address Address, IList<IStringIndex> ResourceIndexList)
     {
       string FullAdddress = string.Empty;
       foreach (var Line in Address.Line)
@@ -151,7 +146,7 @@ namespace Pyro.DataLayer.IndexSetter
       }
       if (FullAdddress != string.Empty)
       {
-        var ResourceIndex = new ResIndexStringType();
+        var ResourceIndex = new StringIndex(_SearchParameter);
         ResourceIndex.String = Pyro.Common.Tools.StringSupport.ToLowerAndRemoveDiacritics(FullAdddress.Trim().Truncate(StaticDatabaseInfo.BaseDatabaseFieldLength.StringMaxLength));
         ResourceIndexList.Add(ResourceIndex);
       }

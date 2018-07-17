@@ -115,7 +115,7 @@ namespace Pyro.Common.FhirOperation.BundleTransaction
           }
 
           //Assign new id's for POSTs and then update all POST and PUT entrie referances       
-          bool ok = ResolveAnyifNoneExistPostResourceIds(POSTEntries);
+          //bool ok = ResolveAnyifNoneExistPostResourceIds(POSTEntries);
           AssignResourceIdsAndUpdateReferances(POSTEntries, PUTEntries);
 
           //POST Processing        
@@ -428,26 +428,26 @@ namespace Pyro.Common.FhirOperation.BundleTransaction
       return $"{originalString}/{FhirResourceId}/_history/{ResourceVersionNumber}";
     }
 
-    private bool ResolveAnyifNoneExistPostResourceIds(IEnumerable<Bundle.EntryComponent> pOSTEntries)
-    {
-      var ListOfIfNoneExistEntryies = pOSTEntries.Where(x => !string.IsNullOrWhiteSpace(x.Request.IfNoneMatch));
-      foreach(var Entry in ListOfIfNoneExistEntryies)
-      {
-        IRequestMeta RequestMeta = IRequestMetaFactory.CreateRequestMeta();
-        RequestMeta.Set($"{Entry.Resource.ResourceType.GetLiteral()}?{Entry.Request.IfNoneMatch}");
-        RequestMeta.RequestHeader.Prefer = _RequestHeader.Prefer;
-        var ResourceServiceOutcome = IResourceServices.GetSearch(RequestMeta);
-        if (ResourceServiceOutcome.HttpStatusCode == System.Net.HttpStatusCode.OK)
-        {
-          if (ResourceServiceOutcome.ResourceResult != null && ResourceServiceOutcome.ResourceResult is Bundle ReturnedBundle && ReturnedBundle.Entry.Count == 1 )
-          {
-            string ResourceFhirId = ReturnedBundle.Entry[0].Resource.Id;
-            string ResourceName = ReturnedBundle.Entry[0].Resource.ResourceType.GetLiteral();
+    //private bool ResolveAnyifNoneExistPostResourceIds(IEnumerable<Bundle.EntryComponent> pOSTEntries)
+    //{
+    //  var ListOfIfNoneExistEntryies = pOSTEntries.Where(x => !string.IsNullOrWhiteSpace(x.Request.IfNoneMatch));
+    //  foreach(var Entry in ListOfIfNoneExistEntryies)
+    //  {
+    //    IRequestMeta RequestMeta = IRequestMetaFactory.CreateRequestMeta();
+    //    RequestMeta.Set($"{Entry.Resource.ResourceType.GetLiteral()}?{Entry.Request.IfNoneMatch}");
+    //    RequestMeta.RequestHeader.Prefer = _RequestHeader.Prefer;
+    //    var ResourceServiceOutcome = IResourceServices.GetSearch(RequestMeta);
+    //    if (ResourceServiceOutcome.HttpStatusCode == System.Net.HttpStatusCode.OK)
+    //    {
+    //      if (ResourceServiceOutcome.ResourceResult != null && ResourceServiceOutcome.ResourceResult is Bundle ReturnedBundle && ReturnedBundle.Entry.Count == 1 )
+    //      {
+    //        string ResourceFhirId = ReturnedBundle.Entry[0].Resource.Id;
+    //        string ResourceName = ReturnedBundle.Entry[0].Resource.ResourceType.GetLiteral();
             
-          }
-        }
-      }
-    }
+    //      }
+    //    }
+    //  }
+    //}
 
 
     private void AssignResourceIdsAndUpdateReferances(IEnumerable<Bundle.EntryComponent> PostEntryList, IEnumerable<Bundle.EntryComponent> PutEntryList)

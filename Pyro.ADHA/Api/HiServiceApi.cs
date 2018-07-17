@@ -131,7 +131,7 @@ namespace Pyro.ADHA.Api
         //of the orginisation you are making the call for.
         Pyro.ADHA.mcaR3.ConsumerSearchIHI.QualifiedId hpio = new Pyro.ADHA.mcaR3.ConsumerSearchIHI.QualifiedId()
         {
-          id = "9344699237",                                              // HPIO internal to your system
+          id = "8003621313528997",                                              // HPIO internal to your system
           qualifier = "http://ns.electronichealth.net.au/id/hi/hpio/1.0"    // Eg: http://ns.yourcompany.com.au/id/yoursoftware/userid/1.0
         };
 

@@ -29,6 +29,8 @@ using Pyro.DataLayer.DbModel.EntityGenerated;
 using LinqKit;
 using Pyro.Common.Search.SearchParameterEntity;
 using Pyro.Common.Service.Trigger;
+using Pyro.Common.SearchIndexer;
+using Pyro.Common.SearchIndexer.Index;
 
 namespace Pyro.DataLayer.Repository
 {
@@ -46,7 +48,8 @@ namespace Pyro.DataLayer.Repository
     where ResIndexDateTimeType : ResourceIndexDateTime<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>, new()
   {
     public FHIRAllTypes RepositoryResourceType { get; set; }
-    private readonly IIndexSetterFactory<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType> IIndexSetterFactory;
+    
+    private readonly IDbIndexSetterFactory<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType> IDbIndexSetterFactory;
     private readonly IServiceSearchParameterCache IServiceSearchParameterCache;
     private readonly IPrimaryServiceRootCache IPrimaryServiceRootCache;
     private readonly IFhirReleaseCache IFhirReleaseCache;
@@ -58,8 +61,8 @@ namespace Pyro.DataLayer.Repository
     private readonly CommonRepository<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType> CommonRepository;
 
     public CommonResourceRepository(IPyroDbContext IPyroDbContext,
-      IPrimaryServiceRootCache IPrimaryServiceRootCache,
-      IIndexSetterFactory<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType> IIndexSetterFactory,
+      IPrimaryServiceRootCache IPrimaryServiceRootCache,      
+      IDbIndexSetterFactory<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType> IDbIndexSetterFactory,
       IServiceSearchParameterCache IServiceSearchParameterCache,
       IFhirReleaseCache IFhirReleaseCache,
       IDatabaseOperationOutcomeFactory IDatabaseOperationOutcomeFactory,
@@ -68,8 +71,8 @@ namespace Pyro.DataLayer.Repository
       IResourceTriggerService IResourceTriggerService)
       : base(IPyroDbContext)
     {
-      this.IPrimaryServiceRootCache = IPrimaryServiceRootCache;
-      this.IIndexSetterFactory = IIndexSetterFactory;
+      this.IPrimaryServiceRootCache = IPrimaryServiceRootCache;      
+      this.IDbIndexSetterFactory = IDbIndexSetterFactory;
       this.IServiceSearchParameterCache = IServiceSearchParameterCache;
       this.IFhirReleaseCache = IFhirReleaseCache;
       this.IDatabaseOperationOutcomeFactory = IDatabaseOperationOutcomeFactory;
@@ -829,36 +832,36 @@ namespace Pyro.DataLayer.Repository
                 switch (SearchParameter.Type)
                 {
                   case SearchParamType.Number:
-                    {
-                      ICollection<ResIndexQuantityType> ResourceIndexQuantity = IIndexSetterFactory.CreateNumberSetter().Set(oElement, SearchParameter);
+                    {                      
+                      ICollection<ResIndexQuantityType> ResourceIndexQuantity = IDbIndexSetterFactory.CreateNumberSetter().Set(oElement, SearchParameter);
                       if (ResourceIndexQuantity != null)
                         ResourceEntity.IndexQuantityList.AddRange(ResourceIndexQuantity);
                       break;
                     }
                   case SearchParamType.Date:
                     {
-                      ICollection<ResIndexDateTimeType> ResourceIndexDateTime = IIndexSetterFactory.CreateDateTimeSetter().Set(oElement, SearchParameter);
+                      ICollection<ResIndexDateTimeType> ResourceIndexDateTime = IDbIndexSetterFactory.CreateDateTimeSetter().Set(oElement, SearchParameter);
                       if (ResourceIndexDateTime != null)
                         ResourceEntity.IndexDateTimeList.AddRange(ResourceIndexDateTime);
                       break;
                     }
                   case SearchParamType.String:
                     {
-                      ICollection<ResIndexStringType> ResourceIndexString = IIndexSetterFactory.CreateStringSetter().Set(oElement, SearchParameter);
+                      ICollection<ResIndexStringType> ResourceIndexString = IDbIndexSetterFactory.CreateStringSetter().Set(oElement, SearchParameter);
                       if (ResourceIndexString != null)
                         ResourceEntity.IndexStringList.AddRange(ResourceIndexString);
                       break;
                     }
                   case SearchParamType.Token:
                     {                      
-                      ICollection<ResIndexTokenType> ResourceIndexToken = IIndexSetterFactory.CreateTokenSetter().Set(oElement, SearchParameter);
+                      ICollection<ResIndexTokenType> ResourceIndexToken = IDbIndexSetterFactory.CreateTokenSetter().Set(oElement, SearchParameter);
                       if (ResourceIndexToken != null)
                         ResourceEntity.IndexTokenList.AddRange(ResourceIndexToken);
                       break;
                     }
                   case SearchParamType.Reference:
-                    {
-                      ICollection<ResIndexReferenceType> ResourceIndexReference = IIndexSetterFactory.CreateReferenceSetter().Set(oElement, SearchParameter);
+                    {                      
+                      ICollection<ResIndexReferenceType> ResourceIndexReference = IDbIndexSetterFactory.CreateReferenceSetter().Set(oElement, SearchParameter);                      
                       if (ResourceIndexReference != null)
                         ResourceEntity.IndexReferenceList.AddRange(ResourceIndexReference);
                       break;
@@ -869,14 +872,14 @@ namespace Pyro.DataLayer.Repository
                     }
                   case SearchParamType.Quantity:
                     {
-                      ICollection<ResIndexQuantityType> ResourceIndexQuantity = IIndexSetterFactory.CreateQuantitySetter().Set(oElement, SearchParameter);
+                      ICollection<ResIndexQuantityType> ResourceIndexQuantity = IDbIndexSetterFactory.CreateQuantitySetter().Set(oElement, SearchParameter);
                       if (ResourceIndexQuantity != null)
                         ResourceEntity.IndexQuantityList.AddRange(ResourceIndexQuantity);
                       break;
                     }
                   case SearchParamType.Uri:
                     {
-                      ICollection<ResIndexUriType> ResourceIndexUri = IIndexSetterFactory.CreateUriSetter().Set(oElement, SearchParameter);
+                      ICollection<ResIndexUriType> ResourceIndexUri = IDbIndexSetterFactory.CreateUriSetter().Set(oElement, SearchParameter);
                       if (ResourceIndexUri != null)
                         ResourceEntity.IndexUriList.AddRange(ResourceIndexUri);
                       break;

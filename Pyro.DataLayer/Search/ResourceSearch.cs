@@ -22,6 +22,7 @@ namespace Pyro.DataLayer.Search
       where ResIndexDateTimeType : ResourceIndexDateTime<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>
   {
 
+    ////---- String Property Expressions ------------------------------------------------------
     public Expression<Func<ResCurrentType, bool>> StringCollectionAnyEqualTo(int Id, string Value)
     {
       //(x => x.IndexList.Any(c => c.String.Equals("héllo UPPER") & c.ServiceSearchParameterId == Id);      
@@ -139,6 +140,8 @@ namespace Pyro.DataLayer.Search
       var BinaryExpression = Expression.LessThanOrEqual(LastUpdatedProperty, constantReference);
       return Expression.Lambda<Func<ResCurrentType, bool>>(BinaryExpression, new[] { MainParameter });
     }
+
+    ////---- DateTime Property Expressions ------------------------------------------------------
 
     public Expression<Func<ResCurrentType, bool>> DateTimePeriodCollectionAnyEqualTo(int Id, DateTimeOffset SearchValueLow, DateTimeOffset SearchValueHigh)
     {
@@ -290,6 +293,8 @@ namespace Pyro.DataLayer.Search
       return Expression.Lambda<Func<ResCurrentType, bool>>(MethodAnyCall, IndexListParameter);
     }
 
+    ////---- Token Property Expressions ------------------------------------------------------
+
     public Expression<Func<ResCurrentType, bool>> TokenMainAnyEqualTo(string Code)
     {
       ParameterExpression MainParameter = Expression.Parameter(typeof(ResCurrentType), "x");
@@ -345,7 +350,7 @@ namespace Pyro.DataLayer.Search
       return Expression.Lambda<Func<ResCurrentType, bool>>(MethodAnyCall, IndexListParameter);
     }
 
-    ////---- Number Index Expressions ------------------------------------------------------
+    ////---- Number Property Expressions ------------------------------------------------------
     public Expression<Func<ResCurrentType, bool>> NumberCollectionAnyEqualTo(int Id, decimal LowNumber, decimal MidNumber, decimal HighNumber)
     {
       return NumberCollectionAllEqual(Id, LowNumber, MidNumber, HighNumber, Hl7.Fhir.Model.SearchParameter.SearchComparator.Eq);
@@ -657,6 +662,8 @@ namespace Pyro.DataLayer.Search
       return Expression.Lambda<Func<ResCurrentType, bool>>(MethodAnyCall, IndexListParameter);
     }
 
+    ////---- Uri Property Expressions ------------------------------------------------------
+
     public Expression<Func<ResCurrentType, bool>> UriCollectionAnyEqualTo(int Id, string Value)
     {
       //(x => x.IndexList.Any(c => c.String.StartsWith("Mill") & c.ServiceSearchParameterId == Id);
@@ -748,6 +755,8 @@ namespace Pyro.DataLayer.Search
       return Expression.Lambda<Func<ResCurrentType, bool>>(MethodAnyCall, IndexListParameter);
     }
 
+    ////---- Referance Property Expressions ------------------------------------------------------
+
     public Expression<Func<ResCurrentType, bool>> ReferanceCollectionAnyEqualTo_ByKey(int Id, int ServiceBaseUrlId, string ResourceType, string FhirId, string VersionId)
     {
       ParameterExpression InnerParameter = Expression.Parameter(typeof(ResIndexReferenceType), "c");
@@ -784,7 +793,6 @@ namespace Pyro.DataLayer.Search
       return Expression.Lambda<Func<ResCurrentType, bool>>(MethodAnyCall, IndexListParameter);
 
     }
-
 
     public Expression<Func<ResCurrentType, bool>> ReferanceCollectionAnyEqualTo_ByKey_Many_FhirIds(int Id, int ServiceBaseUrlId, string ResourceType, string[] FhirIdArray, string VersionId)
     {
@@ -879,10 +887,9 @@ namespace Pyro.DataLayer.Search
       return SearchParameterIdNull<ResCurrentType>(Id, true);
     }
 
-    ////---- QuantityRange Index Expressions ------------------------------------------------------
+    ////---- QuantityRange Property Expressions ------------------------------------------------------
 
     ////Not implemented as there are no QuantityRange search parameters as yet in FHIR spec, as of this early STU3 release
-
 
     ///---- General Index Expressions ------------------------------------------------------
 
