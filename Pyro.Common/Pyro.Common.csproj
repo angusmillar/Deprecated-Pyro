@@ -68,6 +68,9 @@
     <Reference Include="Hl7.FhirPath, Version=0.94.0.0, Culture=neutral, PublicKeyToken=d706911480550fc3, processorArchitecture=MSIL">
       <HintPath>..\packages\Hl7.FhirPath.0.94.0\lib\net45\Hl7.FhirPath.dll</HintPath>
     </Reference>
+    <Reference Include="LinqKit, Version=1.1.15.0, Culture=neutral, PublicKeyToken=bc217f8844052a91, processorArchitecture=MSIL">
+      <HintPath>..\packages\LinqKit.1.1.15\lib\net45\LinqKit.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -118,6 +121,8 @@
     <Compile Include="BackgroundTask\IBackgroundTaskPayloadBase.cs" />
     <Compile Include="BackgroundTask\Task\ITaskPayloadHiServiceIHISearch.cs" />
     <Compile Include="BackgroundTask\Task\TaskPayloadHiServiceIHISearch.cs" />
+    <Compile Include="CompositionRoot\Concrete\GenericInstanceFactory.cs" />
+    <Compile Include="CompositionRoot\IGenericInstanceFactory.cs" />
     <Compile Include="CompositionRoot\IIndexSetterFactory.cs" />
     <Compile Include="CompositionRoot\Concrete\IndexSetterFactory.cs" />
     <Compile Include="DtoEntity\DtoDatabaseOperationOutcome.cs" />
@@ -125,13 +130,33 @@
     <Compile Include="DtoEntity\DtoResource.cs" />
     <Compile Include="DtoEntity\DtoTokenIndex.cs" />
     <Compile Include="Enum\PyroProject.cs" />
+    <Compile Include="FhirOperation\BundleTransaction\IfNoneExsistMap.cs" />
     <Compile Include="Global\DbGlobalProperties.cs" />
     <Compile Include="Global\WebConfigPropertiesNames.cs" />
     <Compile Include="Global\WebConfigPropertiesDefaults.cs" />
     <Compile Include="Interfaces\Repositories\IServiceConfigurationRepository.cs" />
     <Compile Include="Interfaces\Service\IServiceConfigurationService.cs" />
     <Compile Include="ProductText\PyroWarmUpMessages.cs" />
+    <Compile Include="SearchIndexer\Indexer\ExpressionSupport\DateTimePeriodExpression.cs" />
+    <Compile Include="SearchIndexer\Indexer\ExpressionSupport\DecimalExpression.cs" />
+    <Compile Include="SearchIndexer\Indexer\ExpressionSupport\QuantityExpression.cs" />
+    <Compile Include="SearchIndexer\Indexer\ExpressionSupport\ReferanceExpression.cs" />
+    <Compile Include="SearchIndexer\Indexer\ExpressionSupport\TokenExpression.cs" />
+    <Compile Include="SearchIndexer\Indexer\IInMemoryResourceSearch.cs" />
+    <Compile Include="SearchIndexer\Indexer\IResourceIndexed.cs" />
+    <Compile Include="SearchIndexer\Indexer\Predicate\DateTimePeriodPredicateBuilder.cs" />
+    <Compile Include="SearchIndexer\Indexer\Predicate\NumberPredicateBuilder.cs" />
+    <Compile Include="SearchIndexer\Indexer\Predicate\QuantityPredicateBuilder.cs" />
+    <Compile Include="SearchIndexer\Indexer\Predicate\ReferancePredicateBuilder.cs" />
+    <Compile Include="SearchIndexer\Indexer\Predicate\StringPredicateBuilder.cs" />
+    <Compile Include="SearchIndexer\Indexer\Predicate\TokenPredicateBuilder.cs" />
+    <Compile Include="SearchIndexer\Indexer\Predicate\UriPredicateBuilder.cs" />
+    <Compile Include="SearchIndexer\Indexer\InMemoryResourceSearch.cs" />
+    <Compile Include="SearchIndexer\Indexer\Search.cs" />
     <Compile Include="SearchIndexer\Index\IDateTimeIndex.cs" />
+    <Compile Include="SearchIndexer\Indexer\ResourceIndexed.cs" />
+    <Compile Include="SearchIndexer\Index\IIndexBase.cs" />
+    <Compile Include="SearchIndexer\Index\IndexBase.cs" />
     <Compile Include="SearchIndexer\Index\IQuantityIndex.cs" />
     <Compile Include="SearchIndexer\Index\IReferenceIndex.cs" />
     <Compile Include="SearchIndexer\Index\DateTimeIndex.cs" />

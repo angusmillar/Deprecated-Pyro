@@ -8,14 +8,11 @@ using System.Threading.Tasks;
 
 namespace Pyro.Common.SearchIndexer.Index
 {
-  public class QuantityIndex : IQuantityIndex
+  public class QuantityIndex : IndexBase, IQuantityIndex
   {
     public QuantityIndex(IServiceSearchParameterLight ServiceSearchParameterLight)
-    {
-      this.ServiceSearchParameterLight = ServiceSearchParameterLight;
-    }
-
-    public IServiceSearchParameterLight ServiceSearchParameterLight { get; set; }
+      : base(ServiceSearchParameterLight) { }
+    new int ServiceSearchParameterId { get; }
 
     public Quantity.QuantityComparator? Comparator { get; set; }
     public decimal? Quantity { get; set; }

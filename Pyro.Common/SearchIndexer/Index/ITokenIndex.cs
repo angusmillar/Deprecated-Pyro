@@ -2,10 +2,11 @@
 
 namespace Pyro.Common.SearchIndexer.Index
 {
-  public interface ITokenIndex
+  public interface ITokenIndex : IIndexBase
   {
-    string Code { get; set; }
-    IServiceSearchParameterLight ServiceSearchParameterLight { get; set; }
-    string System { get; set; }
+    new int ServiceSearchParameterId { get; }
+
+    string Code { get; set; }    
+    string System { get; set; }    
   }
 }

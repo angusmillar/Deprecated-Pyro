@@ -214,8 +214,8 @@ namespace Pyro.Test.Search
       Assert.AreEqual(Result.SearchParameters.SearchParametersList[0].ChainedSearchParameter.ChainedSearchParameter.ChainedSearchParameter.Name, "name", "First chain must have name of name");
       Assert.AreEqual(Result.SearchParameters.SearchParametersList[0].ChainedSearchParameter.ChainedSearchParameter.ChainedSearchParameter.Resource, FHIRAllTypes.Endpoint.GetLiteral(), $"First chain should be Resource of {FHIRAllTypes.Endpoint.GetLiteral()}");
       Assert.AreEqual((Result.SearchParameters.SearchParametersList[0].ChainedSearchParameter.ChainedSearchParameter.ChainedSearchParameter as SearchParameterString).ValueList.Count, 2, $"Must 1 and only one value");
-      Assert.AreEqual((Result.SearchParameters.SearchParametersList[0].ChainedSearchParameter.ChainedSearchParameter.ChainedSearchParameter as SearchParameterString).ValueList[0].Value, "AcmeMail", $"Value should be a string of 'AcmeMail'");
-      Assert.AreEqual((Result.SearchParameters.SearchParametersList[0].ChainedSearchParameter.ChainedSearchParameter.ChainedSearchParameter as SearchParameterString).ValueList[1].Value, "AcmeMail2", $"Value should be a string of 'AcmeMail2'");
+      Assert.AreEqual((Result.SearchParameters.SearchParametersList[0].ChainedSearchParameter.ChainedSearchParameter.ChainedSearchParameter as SearchParameterString).ValueList[0].Value, "acmemail", $"Value should be a string of 'acmemail'");
+      Assert.AreEqual((Result.SearchParameters.SearchParametersList[0].ChainedSearchParameter.ChainedSearchParameter.ChainedSearchParameter as SearchParameterString).ValueList[1].Value, "acmemail2", $"Value should be a string of 'acmemail2'");
       Assert.IsNull(Result.SearchParameters.SearchParametersList[0].ChainedSearchParameter.ChainedSearchParameter.ChainedSearchParameter.ChainedSearchParameter, "The 'endpoint' search  paramerter does not have a child chain parameter");
 
       //DiagnosticReport.identifier
@@ -273,8 +273,8 @@ namespace Pyro.Test.Search
       Assert.AreEqual(Result.SearchParameters.SearchParametersList[0].ChainedSearchParameter.ChainedSearchParameter.ChainedSearchParameter.Name, "name", "First chain must have name of name");
       Assert.AreEqual(Result.SearchParameters.SearchParametersList[0].ChainedSearchParameter.ChainedSearchParameter.ChainedSearchParameter.Resource, FHIRAllTypes.Endpoint.GetLiteral(), $"First chain should be Resource of {FHIRAllTypes.Endpoint.GetLiteral()}");
       Assert.AreEqual((Result.SearchParameters.SearchParametersList[0].ChainedSearchParameter.ChainedSearchParameter.ChainedSearchParameter as SearchParameterString).ValueList.Count, 2, $"Must 1 and only one value");
-      Assert.AreEqual((Result.SearchParameters.SearchParametersList[0].ChainedSearchParameter.ChainedSearchParameter.ChainedSearchParameter as SearchParameterString).ValueList[0].Value, "AcmeMail", $"Value should be a string of 'AcmeMail'");
-      Assert.AreEqual((Result.SearchParameters.SearchParametersList[0].ChainedSearchParameter.ChainedSearchParameter.ChainedSearchParameter as SearchParameterString).ValueList[1].Value, "AcmeMail2", $"Value should be a string of 'AcmeMail2'");
+      Assert.AreEqual((Result.SearchParameters.SearchParametersList[0].ChainedSearchParameter.ChainedSearchParameter.ChainedSearchParameter as SearchParameterString).ValueList[0].Value, "acmemail", $"Value should be a string of 'acmemail'");
+      Assert.AreEqual((Result.SearchParameters.SearchParametersList[0].ChainedSearchParameter.ChainedSearchParameter.ChainedSearchParameter as SearchParameterString).ValueList[1].Value, "acmemail2", $"Value should be a string of 'acmemail2'");
       Assert.IsNull(Result.SearchParameters.SearchParametersList[0].ChainedSearchParameter.ChainedSearchParameter.ChainedSearchParameter.ChainedSearchParameter, "The 'endpoint' search  paramerter does not have a child chain parameter");
 
       //DiagnosticReport.identifier

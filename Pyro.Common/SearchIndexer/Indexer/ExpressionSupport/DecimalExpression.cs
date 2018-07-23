@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace Pyro.DataLayer.Search.ExpressionSupport
+namespace Pyro.Common.SearchIndexer.Indexer.ExpressionSupport
 {
   public static class DecimalExpression
   {

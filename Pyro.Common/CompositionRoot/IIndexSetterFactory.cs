@@ -5,12 +5,12 @@ namespace Pyro.Common.CompositionRoot
 {
   public interface IIndexSetterFactory
   {
-    //IDateTimeSetter CreateDateTimeSetter();
+    IDateTimeSetter CreateDateTimeSetter();
     INumberSetter CreateNumberSetter();
-    //IQuantitySetter CreateQuantitySetter();
+    IQuantitySetter CreateQuantitySetter();
     IReferenceSetter CreateReferenceSetter();
-    //IStringSetter CreateStringSetter();
-    //ITokenSetter CreateTokenSetter();
-    //IUriSetter CreateUriSetter();
+    IStringSetter CreateStringSetter();
+    ITokenSetter CreateTokenSetter();
+    IUriSetter CreateUriSetter();
   }
 }

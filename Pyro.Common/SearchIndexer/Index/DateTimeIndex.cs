@@ -3,15 +3,12 @@ using System;
 
 namespace Pyro.Common.SearchIndexer.Index
 {
-  public class DateTimeIndex : IDateTimeIndex
+  public class DateTimeIndex : IndexBase, IDateTimeIndex
   {
     public DateTimeIndex(IServiceSearchParameterLight ServiceSearchParameterLight)
-    {
-      this.ServiceSearchParameterLight = ServiceSearchParameterLight;
-    }
+      : base(ServiceSearchParameterLight){ }
 
-    public IServiceSearchParameterLight ServiceSearchParameterLight { get; set; }
-
+    new int ServiceSearchParameterId { get; }
     public DateTimeOffset? DateTimeOffsetHigh { get; set; }
     public DateTimeOffset? DateTimeOffsetLow { get; set; }
 

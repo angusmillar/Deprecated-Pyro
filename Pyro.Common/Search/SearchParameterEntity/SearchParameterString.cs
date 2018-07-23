@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Pyro.Common.Enum;
 using Pyro.Common.DtoEntity;
+using Pyro.Common.Tools;
 
 namespace Pyro.Common.Search.SearchParameterEntity
 {
@@ -49,7 +50,7 @@ namespace Pyro.Common.Search.SearchParameterEntity
         }
         else
         {
-          DtoSearchParameterStringValue.Value = Value.Trim();
+          DtoSearchParameterStringValue.Value = StringSupport.ToLowerTrimRemoveDiacriticsTruncate(Value, Database.StaticDatabaseInfo.BaseDatabaseFieldLength.StringMaxLength); 
           this.ValueList.Add(DtoSearchParameterStringValue);
         }
       }

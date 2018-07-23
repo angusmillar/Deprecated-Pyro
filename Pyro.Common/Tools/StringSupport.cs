@@ -28,6 +28,11 @@ namespace Pyro.Common.Tools
       return ToLowerFast(RemoveDiacritics(text));
     }
 
+    public static string ToLowerTrimRemoveDiacriticsTruncate(string text, int TruncateMaxLength)
+    {
+      return ToLowerFast(RemoveDiacritics(text.Trim().Truncate(TruncateMaxLength)));
+    }
+
     public static string UppercaseFirst(string s)
     {
       if (string.IsNullOrEmpty(s))

@@ -7,14 +7,12 @@ using System.Threading.Tasks;
 
 namespace Pyro.Common.SearchIndexer.Index
 {
-  public class ReferenceIndex : IReferenceIndex
+  public class ReferenceIndex : IndexBase, IReferenceIndex
   {
     public ReferenceIndex(IServiceSearchParameterLight ServiceSearchParameterLight)
-    {
-      this.ServiceSearchParameterLight = ServiceSearchParameterLight;
-    }
+      : base(ServiceSearchParameterLight) { }
+    new int ServiceSearchParameterId { get; }
 
-    public IServiceSearchParameterLight ServiceSearchParameterLight { get; set; }
     public string VersionId { get; set; }
     public string FhirId { get; set; }
     public string ResourceType { get; set; }

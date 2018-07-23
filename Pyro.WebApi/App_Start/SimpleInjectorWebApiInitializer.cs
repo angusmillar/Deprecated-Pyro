@@ -198,12 +198,18 @@ namespace Pyro.WebApi.App_Start
       container.Register<IDatabaseOperationOutcome, DtoDatabaseOperationOutcome>(Lifestyle.Transient);
       container.Register<IResourceServiceOutcome, ResourceServiceOutcome>(Lifestyle.Transient);
 
-
+      container.Register<Common.SearchIndexer.Indexer.IInMemoryResourceSearch, Common.SearchIndexer.Indexer.InMemoryResourceSearch>(Lifestyle.Transient);
+      container.Register<Common.SearchIndexer.Indexer.IResourceIndexed, Common.SearchIndexer.Indexer.ResourceIndexed>(Lifestyle.Transient);
+      
 
       //========================================================================================================
       //=================== Scoped =============================================================================            
       //========================================================================================================
-     
+
+
+      //GenericInstanceFactory
+      container.Register<Pyro.Common.CompositionRoot.IGenericInstanceFactory, Pyro.Common.CompositionRoot.Concrete.GenericInstanceFactory>(Lifestyle.Scoped);
+      
       //Database indexes
       container.RegisterConditional(typeof(IDbIndexSetterFactory<,,,,,,>), typeof(Pyro.WebApi.CompositionRoot.DbIndexSetterFactory<,,,,,,>), Lifestyle.Scoped, c => !c.Handled);
       container.RegisterConditional(typeof(IDbReferenceSetter<,,,,,,>), typeof(DbReferenceSetter<,,,,,,>), c => !c.Handled);

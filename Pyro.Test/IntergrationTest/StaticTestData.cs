@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Hl7.Fhir.Model;
 using Microsoft.Owin.Hosting;
 
 namespace Pyro.Test.IntergrationTest
@@ -29,6 +30,23 @@ namespace Pyro.Test.IntergrationTest
     public static string FhirEndpoint()
     {
       return $"{ServerEndPoint()}/{Pyro.Common.Web.StaticWebInfo.ServiceRoute}";
+    }
+
+    public static Patient CreateTestPatient(string Mrn = "", string FhirId = "")
+    {
+      string PatientMRNIdentifer = Mrn;
+      if (string.IsNullOrWhiteSpace(PatientMRNIdentifer))
+        PatientMRNIdentifer = Guid.NewGuid().ToString();
+      
+      //Add a Patient resource by Create
+      Patient Pat = new Patient();
+      if (!string.IsNullOrWhiteSpace(FhirId))
+        Pat.Id = FhirId;
+      Pat.Name.Add(HumanName.ForFamily("TestPatient").WithGiven("Test"));
+      Pat.BirthDateElement = new Date("1979-09-30");
+      Pat.Identifier.Add(new Identifier(StaticTestData.TestIdentiferSystem, PatientMRNIdentifer));
+      Pat.Gender = AdministrativeGender.Unknown;
+      return Pat;
     }
 
   }

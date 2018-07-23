@@ -3,15 +3,16 @@ using Pyro.Common.Search;
 
 namespace Pyro.Common.SearchIndexer.Index
 {
-  public interface IQuantityIndex
+  public interface IQuantityIndex : IIndexBase
   {
+    new int ServiceSearchParameterId { get; }
+
     string Code { get; set; }
     string CodeHigh { get; set; }
     Quantity.QuantityComparator? Comparator { get; set; }
     Quantity.QuantityComparator? ComparatorHigh { get; set; }
     decimal? Quantity { get; set; }
-    decimal? QuantityHigh { get; set; }
-    IServiceSearchParameterLight ServiceSearchParameterLight { get; set; }
+    decimal? QuantityHigh { get; set; }    
     string System { get; set; }
     string SystemHigh { get; set; }
     string Unit { get; set; }

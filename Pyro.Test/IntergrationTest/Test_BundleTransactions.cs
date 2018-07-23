@@ -7,7 +7,7 @@ using Microsoft.Owin.Hosting;
 using NUnit.Framework;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Rest;
-
+using Hl7.Fhir.Utility;
 
 namespace Pyro.Test.IntergrationTest
 {
@@ -30,10 +30,227 @@ namespace Pyro.Test.IntergrationTest
       Server.Dispose();
     }
 
+    private void CleanUpByIdentifier(ResourceType ResourceType)
+    {
+      // give the call a while to execute (particularly while debugging).
+      Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(StaticTestData.FhirEndpoint(), false);
+      clientFhir.Timeout = 1000 * 1000; 
+      
+      //--- Clean Up ---------------------------------------------------------
+      //Clean up by deleting all Test Patients
+
+      SearchParams sp = new SearchParams().Where($"identifier={StaticTestData.TestIdentiferSystem}|");
+      try
+      {
+        clientFhir.Delete(ResourceType.GetLiteral(), sp);
+      }
+      catch (Exception Exec)
+      {
+        Assert.True(false, $"Exception thrown on clean up delete of resource {ResourceType.GetLiteral()}: " + Exec.Message);
+      }
+      
+    }
+
     [Test]
-    [TestCase(Bundle.BundleType.Transaction)]
-    [TestCase(Bundle.BundleType.Batch)]
-    public void Test_BundleTransaction(Bundle.BundleType bundleType)
+    public void Test_TransBundleIfNoneExsists()
+    {
+      CleanUpByIdentifier(ResourceType.Patient);
+      CleanUpByIdentifier(ResourceType.Observation);
+
+      Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(StaticTestData.FhirEndpoint(), false);
+      clientFhir.Timeout = 1000 * 1000; // give the call a while to execute (particularly while debugging).
+
+      //Test If-None-Exsists within a bundle transaction where their is a link from 
+      //one resource Observation to a Patient resource that by an identifier Reference.
+      //So the idea is that the Observation resource identifier Reference is updated
+      //with the servers true Id for the Patient resource which already exsists in the server. 
+      //The Patient resource in the bundle is not actualy commited as it already exsist.
+      //So the test is as follows:
+      //1. Add as a POST (Create) patient one as setup so it is in the server
+      //2. POST a transaction bundle which has the same Pateint one resource marked as 'IfNoneExsists'
+      //   and an Observation resource with a identifier Reference to Patient one. I will also add 
+      //   another Patient Two and Observation two resource that also have a identifier Reference link between
+      //   them selves and IfNoneExists for the Patient two, yet in this case the Patient resource 
+      //   will not exists, so will be commited.
+      //3. The outcome should be:
+      //   - Patient One - OK (indicating it is already in the server, and has the same Fhir id as the step 1 PUT)
+      //   - ObservationOne - Created (referance updated Patient One Fhir Id)
+      //   - Patient Two - Created (Assigned a new Fhir ID)
+      //   - Observation Two - Created (referance updated Patient One Fhir Id)
+
+
+      //Arrange ------------------------------------------------------------
+
+      //Patient One Setup
+      string PatientOneMRNIdentifer = Guid.NewGuid().ToString();      
+      Patient PatientOne = StaticTestData.CreateTestPatient(PatientOneMRNIdentifer);
+
+      Patient PatientCreateResult = null;
+      try
+      {
+        //POST Patent One as Setup
+        PatientCreateResult = clientFhir.Create(PatientOne);
+      }
+      catch (Exception Exec)
+      {
+        Assert.True(false, "Exception thrown on PUT Patient One setup: " + Exec.Message);
+      }
+      //Get the Fhir Id Assiged to patient One to assert later
+      string PatientOneFhirId = PatientCreateResult.Id;
+
+      Observation ObservationOne = new Observation();
+      ObservationOne.Subject = new ResourceReference($"{ResourceType.Patient.GetLiteral()}?identifier={PatientOneMRNIdentifer}");
+      ObservationOne.Identifier = new List<Identifier>(){
+         new Identifier()
+         {
+            System = StaticTestData.TestIdentiferSystem,
+            Value = Common.Tools.FhirGuid.FhirGuid.NewFhirGuid()
+         }
+      };
+      ObservationOne.Code = new CodeableConcept();
+      ObservationOne.Code.Coding = new List<Coding>();
+      ObservationOne.Code.Coding.Add(new Coding(){
+        System = "http:/mytestcodesystem.com/system",
+        Code = "ObsOne"
+      });
+      
+      //Patient Two Setup
+      string PatientTwoMRNIdentifer = Guid.NewGuid().ToString();
+      Patient PatientTwo = StaticTestData.CreateTestPatient(PatientTwoMRNIdentifer);
+
+      Observation ObservationTwo = new Observation();
+      ObservationTwo.Subject = new ResourceReference($"{ResourceType.Patient.GetLiteral()}?identifier={PatientTwoMRNIdentifer}");
+      ObservationTwo.Identifier = new List<Identifier>(){
+         new Identifier()
+         {
+            System = StaticTestData.TestIdentiferSystem,
+            Value = Common.Tools.FhirGuid.FhirGuid.NewFhirGuid()
+         }
+      };
+      ObservationTwo.Code = new CodeableConcept();
+      ObservationTwo.Code.Coding = new List<Coding>();
+      ObservationTwo.Code.Coding.Add(new Coding()
+      {
+        System = "http:/mytestcodesystem.com/system",
+        Code = "ObsTwo"
+      });
+
+      //Now setup Transaction bundle
+      Bundle TransBundleIfNoneExsists = new Bundle();
+      TransBundleIfNoneExsists.Id = Guid.NewGuid().ToString();
+      TransBundleIfNoneExsists.Type = Bundle.BundleType.Transaction;
+      TransBundleIfNoneExsists.Entry = new List<Bundle.EntryComponent>();
+      
+      //Patient One Entry
+      var PatientOneEntry = new Bundle.EntryComponent();
+      TransBundleIfNoneExsists.Entry.Add(PatientOneEntry);
+      PatientOneEntry.FullUrl = CreateFullUrlUUID(Guid.NewGuid().ToString());
+      PatientOneEntry.Resource = PatientOne;
+      PatientOneEntry.Request = new Bundle.RequestComponent();
+      PatientOneEntry.Request.Method = Bundle.HTTPVerb.POST;
+      PatientOneEntry.Request.Url = ResourceType.Patient.GetLiteral();
+      PatientOneEntry.Request.IfNoneExist = $"identifier={PatientOneMRNIdentifer}";
+
+      //Observation One Entry
+      //Patient One Entry
+      var ObservationOneEntry = new Bundle.EntryComponent();
+      TransBundleIfNoneExsists.Entry.Add(ObservationOneEntry);
+      ObservationOneEntry.FullUrl = CreateFullUrlUUID(Guid.NewGuid().ToString());
+      ObservationOneEntry.Resource = ObservationOne;
+      ObservationOneEntry.Request = new Bundle.RequestComponent();
+      ObservationOneEntry.Request.Method = Bundle.HTTPVerb.POST;
+      ObservationOneEntry.Request.Url = ResourceType.Observation.GetLiteral();
+
+      //Patient Two Entry
+      var PatientTwoEntry = new Bundle.EntryComponent();
+      TransBundleIfNoneExsists.Entry.Add(PatientTwoEntry);
+      PatientTwoEntry.FullUrl = CreateFullUrlUUID(Guid.NewGuid().ToString());
+      PatientTwoEntry.Resource = PatientTwo;
+      PatientTwoEntry.Request = new Bundle.RequestComponent();
+      PatientTwoEntry.Request.Method = Bundle.HTTPVerb.POST;
+      PatientTwoEntry.Request.Url = ResourceType.Patient.GetLiteral();
+      PatientTwoEntry.Request.IfNoneExist = $"identifier={PatientTwoMRNIdentifer}";
+
+      //Observation One Entry
+      //Patient One Entry
+      var ObservationTwoEntry = new Bundle.EntryComponent();
+      TransBundleIfNoneExsists.Entry.Add(ObservationTwoEntry);
+      ObservationTwoEntry.FullUrl = CreateFullUrlUUID(Guid.NewGuid().ToString());
+      ObservationTwoEntry.Resource = ObservationTwo;
+      ObservationTwoEntry.Request = new Bundle.RequestComponent();
+      ObservationTwoEntry.Request.Method = Bundle.HTTPVerb.POST;
+      ObservationTwoEntry.Request.Url = ResourceType.Observation.GetLiteral();
+
+      //Act -------------------------------------------------------------------
+      Bundle TransactionResult = null;
+      try
+      {
+        TransactionResult = clientFhir.Transaction(TransBundleIfNoneExsists);
+      }
+      catch (Exception Exec)
+      {
+        Assert.True(false, "Exception thrown on POST Transaction bundle if-none-exsists: " + Exec.Message);
+      }
+
+      //Assert ---------------------------------------------------------------
+      Assert.True(TransactionResult.Type == Bundle.BundleType.TransactionResponse);
+      Assert.AreEqual(TransactionResult.Entry.Count, 4);
+      
+      //Patient One
+      Assert.AreEqual(TransactionResult.Entry[0].Resource.ResourceType, ResourceType.Patient);
+      //Assert.AreSame(TransactionResult.Entry[0].Resource.Id, PatientOneFhirId);
+      Assert.AreEqual(TransactionResult.Entry[0].Response.Status, "200 OK");
+      Assert.AreEqual(TransactionResult.Entry[0].Response.Etag, "W/\"1\"");
+      
+      //Observation One
+      Assert.AreEqual(TransactionResult.Entry[1].Resource.ResourceType, ResourceType.Observation);      
+      Assert.AreEqual(TransactionResult.Entry[1].Response.Status, "201 Created");
+      Assert.AreEqual(TransactionResult.Entry[1].Response.Etag, "W/\"1\"");
+      if (TransactionResult.Entry[1].Resource is Observation ObsOneResult)
+      {
+        Assert.AreEqual(ObsOneResult.Code.Coding[0].Code, "ObsOne");
+        Assert.AreEqual(ObsOneResult.Subject.Reference, $"{ResourceType.Patient.GetLiteral()}/{PatientOneFhirId}");
+      }
+      else
+      {
+        Assert.True(false, "Entry[1] shoudl have been a Observation resource");
+      }
+
+      //Patient Two
+      Assert.AreEqual(TransactionResult.Entry[2].Resource.ResourceType, ResourceType.Patient);      
+      Assert.AreEqual(TransactionResult.Entry[2].Response.Status, "201 Created");
+      Assert.AreEqual(TransactionResult.Entry[2].Response.Etag, "W/\"1\"");
+      string PatientTwoFhirId = string.Empty;
+      if (TransactionResult.Entry[2].Resource is Patient PatTwoResult)
+      {
+        Assert.AreEqual(PatTwoResult.Identifier[0].Value, PatientTwoMRNIdentifer);
+        PatientTwoFhirId = PatTwoResult.Id;
+      }
+      else
+      {
+        Assert.True(false, "Entry[2] should have been a Patient resource");
+      }
+
+      //Observation Two
+      Assert.AreEqual(TransactionResult.Entry[3].Resource.ResourceType, ResourceType.Observation);
+      Assert.AreEqual(TransactionResult.Entry[3].Response.Status, "201 Created");
+      Assert.AreEqual(TransactionResult.Entry[3].Response.Etag, "W/\"1\"");
+      if (TransactionResult.Entry[3].Resource is Observation ObsTwoResult)
+      {
+        Assert.AreEqual(ObsTwoResult.Code.Coding[0].Code, "ObsTwo");
+        Assert.AreEqual(ObsTwoResult.Subject.Reference, $"{ResourceType.Patient.GetLiteral()}/{PatientTwoFhirId}");
+      }
+      else
+      {
+        Assert.True(false, "Entry[3] should have been a Observation resource");
+      }
+
+      CleanUpByIdentifier(ResourceType.Patient);
+      CleanUpByIdentifier(ResourceType.Observation);
+    }
+
+    [Test]
+    public void Test_BundleTransaction()
     {
 
       Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(StaticTestData.FhirEndpoint(), false);
@@ -45,17 +262,13 @@ namespace Pyro.Test.IntergrationTest
 
       Bundle TransBundle = new Bundle();
       TransBundle.Id = Guid.NewGuid().ToString();
-      TransBundle.Type = bundleType;
+      TransBundle.Type = Bundle.BundleType.Transaction;
       TransBundle.Entry = new List<Bundle.EntryComponent>();
       string PatientOneMRNIdentifer = Guid.NewGuid().ToString();
       string OrganizationOneMRNIdentifer = Guid.NewGuid().ToString();
 
       //Add a Patient resource by Create
-      Patient PatientOne = new Patient();
-      PatientOne.Name.Add(HumanName.ForFamily("TestPatient").WithGiven("Test"));
-      PatientOne.BirthDateElement = new Date("1979-09-30");
-      PatientOne.Identifier.Add(new Identifier(StaticTestData.TestIdentiferSystem, PatientOneMRNIdentifer));
-      PatientOne.Gender = AdministrativeGender.Unknown;
+      Patient PatientOne = StaticTestData.CreateTestPatient(PatientOneMRNIdentifer);
       string OrgOneResourceIdFulUrl = CreateFullUrlUUID(Guid.NewGuid().ToString());
       PatientOne.ManagingOrganization = new ResourceReference()
       {
@@ -101,20 +314,8 @@ namespace Pyro.Test.IntergrationTest
       {
         Assert.True(false, "Exception thrown on POST Transaction bundle: " + Exec.Message);
       }
-
-      if (bundleType == Bundle.BundleType.Batch)
-      {
-        Assert.True(TransactionResult.Type == Bundle.BundleType.BatchResponse);
-      }
-      else if (bundleType == Bundle.BundleType.Transaction)
-      {
-        Assert.True(TransactionResult.Type == Bundle.BundleType.TransactionResponse);
-      }
-      else
-      {
-        Assert.Fail();
-      }
-
+      
+      Assert.True(TransactionResult.Type == Bundle.BundleType.TransactionResponse);      
       Assert.IsTrue(TransactionResult.Entry[0].Response.Status.Contains(System.Net.HttpStatusCode.Created.ToString()));
       Assert.IsTrue(TransactionResult.Entry[1].Response.Status.Contains(System.Net.HttpStatusCode.Created.ToString()));
       Patient TransactionResultPatient = TransactionResult.Entry[0].Resource as Patient;
@@ -336,32 +537,11 @@ namespace Pyro.Test.IntergrationTest
       Assert.IsTrue(TransactionResult.Entry[0].Response.Status.Contains(System.Net.HttpStatusCode.NoContent.ToString()));
       Assert.IsTrue(TransactionResult.Entry[1].Response.Status.Contains(System.Net.HttpStatusCode.NoContent.ToString()));
 
-
-      //--- Clean Up ---------------------------------------------------------
-      //Clean up by deleting all Test Patients
-      SearchParams sp = new SearchParams().Where("identifier=http://TestingSystem.org/id|");
-      try
-      {
-        clientFhir.Delete("Patient", sp);
-      }
-      catch (Exception Exec)
-      {
-        Assert.True(false, "Exception thrown on conditional delete of resource Patient: " + Exec.Message);
-      }
-
-      //Clean up by deleting all Test Organization
-      sp = new SearchParams().Where("identifier=http://TestingSystem.org/id|");
-      try
-      {
-        clientFhir.Delete("Organization", sp);
-      }
-      catch (Exception Exec)
-      {
-        Assert.True(false, "Exception thrown on conditional delete of resource Organization: " + Exec.Message);
-      }
-
+      CleanUpByIdentifier(ResourceType.Patient);
+      CleanUpByIdentifier(ResourceType.Organization);
+      
     }
-
+    
     private static string CreateFullUrlUUID(string OrgOneResourceIdFulUrl)
     {
       return $"urn:uuid:{OrgOneResourceIdFulUrl}";

@@ -150,7 +150,7 @@ namespace Pyro.DataLayer.Migrations
         while (Running)
         {
           PyroDbContext context = new PyroDbContext();
-          var Query = context.Set<ResCurrentType>().Where(x => x.XmlBlob != null && x.IsDeleted == false && x.Resource == null).Take(50).ToList();
+          var Query = context.Set<ResCurrentType>().Where(x => x.XmlBlob != null && x.IsDeleted == false && x.Resource == null).Take(200).ToList();
           if (Query == null || Query.Count == 0)
           {
             Running = false;

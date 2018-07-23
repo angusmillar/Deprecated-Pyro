@@ -23,29 +23,29 @@ namespace Pyro.Common.CompositionRoot.Concrete
       return Container.GetInstance<INumberSetter>();
     }
 
-    //public IDateTimeSetter CreateDateTimeSetter()
-    //{
-    //  return Container.GetInstance<IDateTimeSetter>();
-    //}
+    public IDateTimeSetter CreateDateTimeSetter()
+    {
+      return Container.GetInstance<IDateTimeSetter>();
+    }
 
-    //public IQuantitySetter CreateQuantitySetter()
-    //{
-    //  return Container.GetInstance<IQuantitySetter>();
-    //}
+    public IQuantitySetter CreateQuantitySetter()
+    {
+      return Container.GetInstance<IQuantitySetter>();
+    }
 
-    //public IStringSetter CreateStringSetter()
-    //{
-    //  return Container.GetInstance<IStringSetter>();
-    //}
+    public IStringSetter CreateStringSetter()
+    {
+      return Container.GetInstance<IStringSetter>();
+    }
 
-    //public ITokenSetter CreateTokenSetter()
-    //{
-    //  return Container.GetInstance<ITokenSetter>();
-    //}
+    public ITokenSetter CreateTokenSetter()
+    {
+      return Container.GetInstance<ITokenSetter>();
+    }
 
-    //public IUriSetter CreateUriSetter()
-    //{
-    //  return Container.GetInstance<IUriSetter>();
-    //}
+    public IUriSetter CreateUriSetter()
+    {
+      return Container.GetInstance<IUriSetter>();
+    }
   }
 }

@@ -2,9 +2,10 @@
 
 namespace Pyro.Common.SearchIndexer.Index
 {
-  public interface IReferenceIndex
+  public interface IReferenceIndex : IIndexBase
   {
-    IServiceSearchParameterLight ServiceSearchParameterLight { get; set; }
+    new int ServiceSearchParameterId { get; }
+
     string VersionId { get; set; }
     string FhirId { get; set; }
     string ResourceType { get; set; }    

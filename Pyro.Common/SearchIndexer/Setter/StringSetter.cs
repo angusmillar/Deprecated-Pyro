@@ -57,13 +57,13 @@ namespace Pyro.Common.SearchIndexer.Setter
       else if (oElement.Value is Hl7.FhirPath.ConstantValue ConstantValue)
       {
         var ResourceIndex = new StringIndex(_SearchParameter);
-        ResourceIndex.String = ConstantValue.Type.ToString();
+        ResourceIndex.String = LowerTrimRemoveDiacriticsAndTruncate(ConstantValue.Type.ToString());
         ResourceIndexList.Add(ResourceIndex);
       }
       else if (oElement.Value is bool Bool)
       {
         var ResourceIndex = new StringIndex(_SearchParameter);
-        ResourceIndex.String = Bool.ToString();
+        ResourceIndex.String = LowerTrimRemoveDiacriticsAndTruncate(Bool.ToString());
         ResourceIndexList.Add(ResourceIndex);
       }
       else
@@ -79,7 +79,7 @@ namespace Pyro.Common.SearchIndexer.Setter
       if (!string.IsNullOrWhiteSpace(FhirString.Value))
       {
         var ResourceIndex = new StringIndex(_SearchParameter);
-        ResourceIndex.String = FhirString.Value.Truncate(StaticDatabaseInfo.BaseDatabaseFieldLength.StringMaxLength);
+        ResourceIndex.String = LowerTrimRemoveDiacriticsAndTruncate(FhirString.Value);        
         ResourceIndexList.Add(ResourceIndex);
       }
     }
@@ -88,7 +88,7 @@ namespace Pyro.Common.SearchIndexer.Setter
       if (!string.IsNullOrWhiteSpace(Annotation.Text))
       {
         var ResourceIndex = new StringIndex(_SearchParameter);
-        ResourceIndex.String = StringSupport.ToLowerAndRemoveDiacritics(Annotation.Text.Trim().Truncate(StaticDatabaseInfo.BaseDatabaseFieldLength.StringMaxLength));
+        ResourceIndex.String = LowerTrimRemoveDiacriticsAndTruncate(Annotation.Text);        
         ResourceIndexList.Add(ResourceIndex);
       }
     }
@@ -97,7 +97,7 @@ namespace Pyro.Common.SearchIndexer.Setter
       if (!string.IsNullOrWhiteSpace(Markdown.Value))
       {
         var ResourceIndex = new StringIndex(_SearchParameter);
-        ResourceIndex.String = Pyro.Common.Tools.StringSupport.ToLowerAndRemoveDiacritics(Markdown.Value.Trim().Truncate(StaticDatabaseInfo.BaseDatabaseFieldLength.StringMaxLength));
+        ResourceIndex.String = LowerTrimRemoveDiacriticsAndTruncate(Markdown.Value);
         ResourceIndexList.Add(ResourceIndex);
       }
     }
@@ -117,7 +117,7 @@ namespace Pyro.Common.SearchIndexer.Setter
       if (FullName != string.Empty)
       {
         var ResourceIndex = new StringIndex(_SearchParameter);
-        ResourceIndex.String = Pyro.Common.Tools.StringSupport.ToLowerAndRemoveDiacritics(FullName.Trim().Truncate(StaticDatabaseInfo.BaseDatabaseFieldLength.StringMaxLength));
+        ResourceIndex.String = LowerTrimRemoveDiacriticsAndTruncate(FullName);
         ResourceIndexList.Add(ResourceIndex);
       }
     }
@@ -147,9 +147,15 @@ namespace Pyro.Common.SearchIndexer.Setter
       if (FullAdddress != string.Empty)
       {
         var ResourceIndex = new StringIndex(_SearchParameter);
-        ResourceIndex.String = Pyro.Common.Tools.StringSupport.ToLowerAndRemoveDiacritics(FullAdddress.Trim().Truncate(StaticDatabaseInfo.BaseDatabaseFieldLength.StringMaxLength));
+
+        ResourceIndex.String = LowerTrimRemoveDiacriticsAndTruncate(FullAdddress);
         ResourceIndexList.Add(ResourceIndex);
       }
+    }
+
+    private string LowerTrimRemoveDiacriticsAndTruncate(string item)
+    {
+      return StringSupport.ToLowerTrimRemoveDiacriticsTruncate(item, StaticDatabaseInfo.BaseDatabaseFieldLength.StringMaxLength);      
     }
   }
 }

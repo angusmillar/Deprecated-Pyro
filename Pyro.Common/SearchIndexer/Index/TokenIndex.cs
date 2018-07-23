@@ -2,14 +2,12 @@
 
 namespace Pyro.Common.SearchIndexer.Index
 {
-  public class TokenIndex : ITokenIndex
+  public class TokenIndex : IndexBase, ITokenIndex
   { 
     public TokenIndex(IServiceSearchParameterLight ServiceSearchParameterLight)
-    {
-      this.ServiceSearchParameterLight = ServiceSearchParameterLight;
-    }
+      : base(ServiceSearchParameterLight) { }
 
-    public IServiceSearchParameterLight ServiceSearchParameterLight { get; set; }
+    new int ServiceSearchParameterId { get; }
 
     public string Code { get; set; }
     public string System { get; set; }
