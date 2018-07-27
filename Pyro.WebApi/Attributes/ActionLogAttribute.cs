@@ -45,12 +45,14 @@ namespace Pyro.WebApi.Attributes
       var IPyroRequestUriFactory = actionExecutedContext.ActionContext.ControllerContext.Configuration.DependencyResolver.GetService(typeof(IPyroRequestUriFactory)) as IPyroRequestUriFactory;
       var IGlobalProperties = actionExecutedContext.ActionContext.ControllerContext.Configuration.DependencyResolver.GetService(typeof(IGlobalProperties)) as IGlobalProperties;
       var IResourceTriggerService = actionExecutedContext.ActionContext.ControllerContext.Configuration.DependencyResolver.GetService(typeof(IResourceTriggerService)) as IResourceTriggerService;
-      //var ILog = actionExecutedContext.ActionContext.ControllerContext.Configuration.DependencyResolver.GetService(typeof(ILog)) as ILog;
-
+      var IPyroFhirResource = actionExecutedContext.ActionContext.ControllerContext.Configuration.DependencyResolver.GetService(typeof(Common.PyroHealthInformation.IPyroFhirResource)) as Common.PyroHealthInformation.IPyroFhirResource;
+      
       using (DbContextTransaction Transaction = IUnitOfWork.BeginTransaction())
       {
         try
         {
+          
+          var PyroCodeSystem = IPyroFhirResource.CodeSystem.PyroFhirServerCodeSystem;
 
           DateTime dtStart = (DateTime)actionExecutedContext.Request.Properties[DateTimeKey];
           System.Diagnostics.Stopwatch stopwatch = (System.Diagnostics.Stopwatch)actionExecutedContext.Request.Properties[StopwatchKey];
@@ -77,7 +79,7 @@ namespace Pyro.WebApi.Attributes
           // Create the Security Event Object
           AuditEvent Audit = new AuditEvent();
           Audit.Meta = new Meta();
-          Audit.Meta.Tag = new List<Coding>() { Common.PyroHealthInformation.PyroServerCodeSystem.Protected };
+          Audit.Meta.Tag = new List<Coding>() { PyroCodeSystem.GetCoding(Common.PyroHealthInformation.CodeSystems.PyroFhirServer.Codes.Protected) };
           if (actionExecutedContext.Request.Method == HttpMethod.Put)
             Audit.Action = AuditEvent.AuditEventAction.U;
           else if (actionExecutedContext.Request.Method == HttpMethod.Post)

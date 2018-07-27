@@ -15,6 +15,7 @@ using Pyro.Common.Tools;
 using Pyro.Common.Global;
 using Pyro.Common.Service.ResourceService;
 
+
 namespace Pyro.Common.FhirOperation.ServerInitialize
 {
   public class ServerInitializeOperationService
@@ -25,6 +26,7 @@ namespace Pyro.Common.FhirOperation.ServerInitialize
     private readonly IRequestMetaFactory IRequestMetaFactory;
     private readonly IBundleTransactionOperation IBundleTransactionOperation;
     private readonly IGlobalProperties IGlobalProperties;
+    private readonly PyroHealthInformation.CodeSystems.IPyroFhirServer IPyroFhirServerCodeSystem;
 
     IResourceServiceOutcome ResourceServiceOutcome;
 
@@ -34,7 +36,8 @@ namespace Pyro.Common.FhirOperation.ServerInitialize
       IResourceServices IResourceServices,
       IRequestMetaFactory IRequestMetaFactory,
       IGlobalProperties IGlobalProperties,
-      IBundleTransactionOperation IBundleTransactionOperation)
+      IBundleTransactionOperation IBundleTransactionOperation,
+      PyroHealthInformation.CodeSystems.IPyroFhirServer IPyroFhirServerCodeSystem)
     {
       this.IRepositorySwitcher = IRepositorySwitcher;
       this.IResourceServiceOutcomeFactory = IResourceServiceOutcomeFactory;
@@ -42,6 +45,7 @@ namespace Pyro.Common.FhirOperation.ServerInitialize
       this.IRequestMetaFactory = IRequestMetaFactory;
       this.IGlobalProperties = IGlobalProperties;
       this.IBundleTransactionOperation = IBundleTransactionOperation;
+      this.IPyroFhirServerCodeSystem = IPyroFhirServerCodeSystem;
     }
 
     public IResourceServiceOutcome Initialize(OperationClass OperationClass, IRequestMeta RequestMeta, string FhirId)
@@ -104,15 +108,12 @@ namespace Pyro.Common.FhirOperation.ServerInitialize
       {
         var TaskRes = new Task();
         TaskRes.Id = TaskId;
+
         TaskRes.Meta = new Meta()
         {
           Tag = new List<Coding>()
            {
-              new Coding()
-              {
-                 Code = PyroHealthInformation.PyroServerCodeSystem.Codes.Protected.GetPyroLiteral(),
-                 System = PyroHealthInformation.PyroServerCodeSystem.System,
-              }
+            IPyroFhirServerCodeSystem.GetCoding(PyroHealthInformation.CodeSystems.PyroFhirServer.Codes.Protected)
            }
         };
 

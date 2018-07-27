@@ -164,6 +164,10 @@
       <Project>{ed443624-3bca-44a2-ad32-cea9cd47e9a7}</Project>
       <Name>Pyro.DataLayer</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Pyro.Engine\Pyro.Engine.csproj">
+      <Project>{7cdc3e7f-1823-497e-802d-1feb4d0d0caa}</Project>
+      <Name>Pyro.Engine</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Pyro.Identifiers\Pyro.Identifiers.csproj">
       <Project>{fa3f0878-ccc9-410b-8bda-6c4645eb60cb}</Project>
       <Name>Pyro.Identifiers</Name>

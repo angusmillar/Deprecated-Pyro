@@ -4,6 +4,7 @@ using Hl7.Fhir.Model;
 using Hl7.Fhir.Utility;
 using Pyro.Common.Enum;
 using Pyro.Common.Interfaces.Repositories;
+using Pyro.Common.PyroHealthInformation;
 using Pyro.Common.Tools;
 
 namespace Pyro.Common.Service.Trigger.TriggerServices
@@ -15,11 +16,13 @@ namespace Pyro.Common.Service.Trigger.TriggerServices
   {
     private readonly IRepositorySwitcher IRepositorySwitcher;
     private readonly IServiceCompartmentRepository IServiceCompartmentRepository;
+    private readonly IPyroFhirResource IPyroFhirResource;
 
-    public TriggerCompartmentDefinition(IRepositorySwitcher IRepositorySwitcher, IServiceCompartmentRepository IServiceCompartmentRepository)
+    public TriggerCompartmentDefinition(IRepositorySwitcher IRepositorySwitcher, IServiceCompartmentRepository IServiceCompartmentRepository, IPyroFhirResource IPyroFhirResource)
     {
       this.IRepositorySwitcher = IRepositorySwitcher;
       this.IServiceCompartmentRepository = IServiceCompartmentRepository;
+      this.IPyroFhirResource = IPyroFhirResource;
     }
 
     public ITriggerOutcome ProcessTrigger(ITriggerInput TriggerInput)
@@ -94,9 +97,8 @@ namespace Pyro.Common.Service.Trigger.TriggerServices
       {
         if (Resource.Meta.Tag != null)
         {
-          var PyroCodeSystem = Common.PyroHealthInformation.PyroServerCodeSystem.GetCodeSystem();
-          var ActiveCode = PyroCodeSystem.Concept.Single(x => x.Code == Common.PyroHealthInformation.PyroServerCodeSystem.Codes.ActiveCompartment.GetPyroLiteral());
-          var TagCode = Resource.Meta.Tag.SingleOrDefault(x => x.System == PyroCodeSystem.Url && x.Code == ActiveCode.Code);
+          var ActiveCoding = IPyroFhirResource.CodeSystem.PyroFhirServerCodeSystem.GetCoding(PyroHealthInformation.CodeSystems.PyroFhirServer.Codes.ActiveCompartment);
+          var TagCode = Resource.Meta.Tag.SingleOrDefault(x => x.System == ActiveCoding.System && x.Code == ActiveCoding.Code);
           if (TagCode != null)
           {
             Resource.Meta.Tag.Remove(TagCode);

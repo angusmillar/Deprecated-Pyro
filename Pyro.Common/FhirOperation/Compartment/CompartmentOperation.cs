@@ -13,6 +13,7 @@ using Pyro.Common.ServiceSearchParameter;
 using Pyro.Common.Tools;
 using Pyro.Common.Service.ResourceService;
 using Pyro.Common.Service.Trigger;
+using Pyro.Common.PyroHealthInformation;
 
 namespace Pyro.Common.FhirOperation.Compartment
 {
@@ -26,6 +27,7 @@ namespace Pyro.Common.FhirOperation.Compartment
     private readonly IServiceSearchParameterCache IServiceSearchParameterCache;
     private readonly IServiceCompartmentCache IServiceCompartmentCache;
     private readonly IResourceTriggerService IResourceTriggerService;
+    private readonly IPyroFhirResource IPyroFhirResource;
 
     IResourceServiceOutcome ResourceServiceOutcome;
 
@@ -41,7 +43,8 @@ namespace Pyro.Common.FhirOperation.Compartment
       IServiceCompartmentRepository IServiceCompartmentRepository,
       IServiceSearchParameterCache IServiceSearchParameterCache,
       IServiceCompartmentCache IServiceCompartmentCache,
-      IResourceTriggerService IResourceTriggerService)
+      IResourceTriggerService IResourceTriggerService,
+      IPyroFhirResource IPyroFhirResource)
     {
       this.IRepositorySwitcher = IRepositorySwitcher;
       this.IResourceServiceOutcomeFactory = IResourceServiceOutcomeFactory;
@@ -51,9 +54,11 @@ namespace Pyro.Common.FhirOperation.Compartment
       this.IServiceSearchParameterCache = IServiceSearchParameterCache;
       this.IServiceCompartmentCache = IServiceCompartmentCache;
       this.IResourceTriggerService = IResourceTriggerService;
+      this.IPyroFhirResource = IPyroFhirResource;
 
-      var PyroHealthCodeSystem = PyroHealthInformation.PyroServerCodeSystem.GetCodeSystem();
-      PyroOrgUrl = $"{PyroHealthCodeSystem.Url}/{PyroHealthInformation.PyroServerCodeSystem.Codes.CompartmentDefinition.GetPyroLiteral()}";
+      //var PyroResource = new Common.PyroHealthInformation.PyroFhirResource();
+      var PyroHealthCodeSystem = IPyroFhirResource.CodeSystem.PyroFhirServerCodeSystem;
+      PyroOrgUrl = $"{PyroHealthCodeSystem.GetSystem()}/{PyroHealthCodeSystem.GetCode(PyroHealthInformation.CodeSystems.PyroFhirServer.Codes.CompartmentDefinition)}";
     }
 
     public IResourceServiceOutcome SetActive(OperationClass OperationClass, IRequestMeta RequestMeta, string FhirId)
@@ -216,15 +221,13 @@ namespace Pyro.Common.FhirOperation.Compartment
       }
     }
 
-    private static void AddCompartmentActiveTag(CompartmentDefinition CompartDef)
+    private void AddCompartmentActiveTag(CompartmentDefinition CompartDef)
     {
       if (CompartDef.Meta == null)
         CompartDef.Meta = new Meta();
       if (CompartDef.Meta.Tag == null)
-        CompartDef.Meta.Tag = new List<Coding>();
-      var PyroCodeSystem = PyroHealthInformation.PyroServerCodeSystem.GetCodeSystem();
-      var PyroActiveCode = PyroCodeSystem.Concept.Single(x => x.Code == PyroHealthInformation.PyroServerCodeSystem.Codes.ActiveCompartment.GetPyroLiteral());
-      CompartDef.Meta.Tag.Add(new Coding(PyroCodeSystem.Url, PyroActiveCode.Code, PyroActiveCode.Display));
+        CompartDef.Meta.Tag = new List<Coding>();      
+      CompartDef.Meta.Tag.Add(IPyroFhirResource.CodeSystem.PyroFhirServerCodeSystem.GetCoding(PyroHealthInformation.CodeSystems.PyroFhirServer.Codes.ActiveCompartment));
     }
 
     public IResourceServiceOutcome SetInActive(OperationClass OperationClass, IRequestMeta RequestMeta, string FhirId)

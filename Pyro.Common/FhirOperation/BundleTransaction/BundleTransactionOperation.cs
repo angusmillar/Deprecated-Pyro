@@ -596,27 +596,33 @@ namespace Pyro.Common.FhirOperation.BundleTransaction
 
     private void UpddateNarrativeResourceReferences(IEnumerable<Bundle.EntryComponent> EntryList)
     {
-      //Then roll through all POST and PUT entries updating referances           
-      foreach (var PostPutItem in EntryList)
+      if (_OldNewResourceReferanceMap.Count > 0)
       {
-        if (PostPutItem.Resource is DomainResource dr)
+        //Then roll through all POST and PUT entries updating referances           
+        foreach (var PostPutItem in EntryList)
         {
-          //Update all <a href="" & <img src=""
-          dr.Text.UpdateAllReferances(_OldNewResourceReferanceMap);
+          if (PostPutItem.Resource is DomainResource dr)
+          {
+            //Update all <a href="" & <img src=""
+            dr.Text.UpdateAllReferances(_OldNewResourceReferanceMap);
+          }
         }
       }
     }
 
     private void UpdateResourceReferences(IEnumerable<Bundle.EntryComponent> EntryList)
     {
-      List<ResourceReference> RefList = EntryList.AllReferences();
-      foreach (var resRef in RefList.Where(rr => !string.IsNullOrEmpty(rr.Reference)))
+      if (_OldNewResourceReferanceMap.Count > 0)
       {
-        //Is this a UUID referance
-        string UUID = resRef.Reference.Split(':')[resRef.Reference.Split(':').Length - 1];
-        if (_OldNewResourceReferanceMap.ContainsKey(UUID))
+        List<ResourceReference> RefList = EntryList.AllReferences();
+        foreach (var resRef in RefList.Where(rr => !string.IsNullOrEmpty(rr.Reference)))
         {
-          resRef.Reference = _OldNewResourceReferanceMap[UUID];
+          //Is this a UUID referance
+          string UUID = resRef.Reference.Split(':')[resRef.Reference.Split(':').Length - 1];
+          if (_OldNewResourceReferanceMap.ContainsKey(UUID))
+          {
+            resRef.Reference = _OldNewResourceReferanceMap[UUID];
+          }
         }
       }
     }
@@ -787,10 +793,13 @@ namespace Pyro.Common.FhirOperation.BundleTransaction
     private void AssignResourceIdsAndUpdateReferances(IEnumerable<Bundle.EntryComponent> PostEntryList, IEnumerable<Bundle.EntryComponent> PutEntryList, List<IfNoneExistsMapItem> IfNoneExistsMapItemList)
     {
       PopulateOldNewResourceIdReferanceMap(PostEntryList, IfNoneExistsMapItemList);
-      //Then roll through all POST and PUT entries updating referances     
-      List<Bundle.EntryComponent> AllPostAndPutEntriesToBeCommitedToDatabaseList = PostEntryList.Concat(PutEntryList).ToList();
-      UpddateNarrativeResourceReferences(AllPostAndPutEntriesToBeCommitedToDatabaseList);
-      UpdateResourceReferences(AllPostAndPutEntriesToBeCommitedToDatabaseList);
+      if (_OldNewResourceReferanceMap.Count > 0)
+      {
+        //Then roll through all POST and PUT entries updating referances is any exists in the _OldNewResourceReferanceMap     
+        List<Bundle.EntryComponent> AllPostAndPutEntriesToBeCommitedToDatabaseList = PostEntryList.Concat(PutEntryList).ToList();
+        UpddateNarrativeResourceReferences(AllPostAndPutEntriesToBeCommitedToDatabaseList);
+        UpdateResourceReferences(AllPostAndPutEntriesToBeCommitedToDatabaseList);
+      }
     }
 
     private string GetUUIDfromFullURL(string FullURL)

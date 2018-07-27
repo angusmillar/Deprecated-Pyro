@@ -78,8 +78,7 @@ namespace Pyro.Backburner.App_Start
       //Lifestyle.Scoped      
       container.Register<ServiceTask.HiService.IIhiSearchService, ServiceTask.HiService.IhiSearchService>(Lifestyle.Scoped);
       container.Register<ServiceTask.FhirApiDiscovery.IFhirApiDiscoveryService, ServiceTask.FhirApiDiscovery.FhirApiDiscoveryService>(Lifestyle.Scoped);
-      
-
+     
     }
 
     /// <summary>
@@ -95,7 +94,7 @@ namespace Pyro.Backburner.App_Start
           }
           break;
         case PyroProject.PyroProjectType.Backburner:
-          {
+          {            
             container.Register<IGlobalProperties, DbGlobalProperties>(Lifestyle.Scoped);
           }
           break;
@@ -117,9 +116,6 @@ namespace Pyro.Backburner.App_Start
       //========================================================================================================
 
       container.RegisterConditional(typeof(ILog), context => typeof(Log<>).MakeGenericType(context.Consumer.ImplementationType), Lifestyle.Singleton, context => true);
-      container.Register<IServiceConfigurationService, ServiceConfigurationService>(Lifestyle.Scoped);
-      container.Register<IServiceConfigurationRepository, ServiceConfigurationRepository>(Lifestyle.Scoped);
-
       container.Register<Pyro.Common.CompositionRoot.ICommonFactory, CommonFactory>(Lifestyle.Singleton);
       container.Register<Pyro.Common.CompositionRoot.IDtoRootUrlStoreFactory, DtoRootUrlStoreFactory>(Lifestyle.Singleton);
       container.Register<Pyro.Common.CompositionRoot.IDatabaseOperationOutcomeFactory, DatabaseOperationOutcomeFactory>(Lifestyle.Singleton);
@@ -139,6 +135,7 @@ namespace Pyro.Backburner.App_Start
       container.Register<Pyro.Common.CompositionRoot.IFhirResourceInstanceOperationServiceFactory, FhirResourceInstanceOperationServiceFactory>(Lifestyle.Singleton);
       container.Register<Pyro.Common.CompositionRoot.IFhirResourceOperationServiceFactory, FhirResourceOperationServiceFactory>(Lifestyle.Singleton);
       container.Register<Pyro.Common.CompositionRoot.IServerSearchParameterServiceFactory, ServerSearchParameterServiceFactory>(Lifestyle.Singleton);
+
 
       container.Register<Pyro.Identifiers.Australian.MedicareNumber.IMedicareNumberParser, Pyro.Identifiers.Australian.MedicareNumber.MedicareNumberParser>(Lifestyle.Singleton);
       container.Register<Pyro.Identifiers.Australian.DepartmentVeteransAffairs.IDVANumberParser, Pyro.Identifiers.Australian.DepartmentVeteransAffairs.DVANumberParser>(Lifestyle.Singleton);
@@ -178,12 +175,18 @@ namespace Pyro.Backburner.App_Start
       container.Register<IDatabaseOperationOutcome, DtoDatabaseOperationOutcome>(Lifestyle.Transient);
       container.Register<IResourceServiceOutcome, ResourceServiceOutcome>(Lifestyle.Transient);
 
+      container.Register<Common.SearchIndexer.Indexer.IInMemoryResourceSearch, Common.SearchIndexer.Indexer.InMemoryResourceSearch>(Lifestyle.Transient);
+      container.Register<Common.SearchIndexer.Indexer.IResourceIndexed, Common.SearchIndexer.Indexer.ResourceIndexed>(Lifestyle.Transient);
 
 
       //========================================================================================================
       //=================== Scoped =============================================================================            
       //========================================================================================================
-      
+
+
+      //GenericInstanceFactory
+      container.Register<Pyro.Common.CompositionRoot.IGenericInstanceFactory, Pyro.Common.CompositionRoot.Concrete.GenericInstanceFactory>(Lifestyle.Scoped);
+
       //Database indexes
       container.RegisterConditional(typeof(IDbIndexSetterFactory<,,,,,,>), typeof(Pyro.WebApi.CompositionRoot.DbIndexSetterFactory<,,,,,,>), Lifestyle.Scoped, c => !c.Handled);
       container.RegisterConditional(typeof(IDbReferenceSetter<,,,,,,>), typeof(DbReferenceSetter<,,,,,,>), c => !c.Handled);
@@ -203,8 +206,6 @@ namespace Pyro.Backburner.App_Start
       container.Register<Pyro.Common.SearchIndexer.Setter.ITokenSetter, Pyro.Common.SearchIndexer.Setter.TokenSetter>(Lifestyle.Scoped);
       container.Register<Pyro.Common.SearchIndexer.Setter.IQuantitySetter, Pyro.Common.SearchIndexer.Setter.QuantitySetter>(Lifestyle.Scoped);
       container.Register<Pyro.Common.SearchIndexer.Setter.IUriSetter, Pyro.Common.SearchIndexer.Setter.UriSetter>(Lifestyle.Scoped);
-      
-
 
       container.Register<IPyroDbContext, PyroDbContext>(Lifestyle.Scoped);
       container.Register<IRequestServiceRootValidate, RequestServiceRootValidate>(Lifestyle.Scoped);
@@ -217,7 +218,7 @@ namespace Pyro.Backburner.App_Start
       container.Register<IResourceServices, ResourceServices>(Lifestyle.Scoped);
       container.Register<ISmartScopeService, SmartScopeService>(Lifestyle.Scoped);
       container.Register<ISearchParameterFactory, SearchParameterFactory>(Lifestyle.Scoped);
-      container.Register<IIncludeService, IncludeService>(Lifestyle.Scoped);      
+      container.Register<IIncludeService, IncludeService>(Lifestyle.Scoped);
       container.Register<Pyro.ADHA.Api.IIhiSearchValidateConfig, Pyro.Common.ADHA.Api.IhiSearchValidateConfig>(Lifestyle.Scoped);
       container.Register<Pyro.ADHA.Api.IHiServiceApi, Pyro.ADHA.Api.HiServiceApi>(Lifestyle.Scoped);
 
@@ -261,6 +262,35 @@ namespace Pyro.Backburner.App_Start
       container.Register<IResourceTriggerService, ResourceTriggerService>(Lifestyle.Scoped);
       container.Register<ITriggerCompartmentDefinition, TriggerCompartmentDefinition>(Lifestyle.Scoped);
       container.Register<ITriggerProtectedResource, TriggerProtectedResource>(Lifestyle.Scoped);
+
+      //Service Configuration to Db
+      container.Register<IServiceConfigurationService, ServiceConfigurationService>(Lifestyle.Scoped);
+      container.Register<IServiceConfigurationRepository, ServiceConfigurationRepository>(Lifestyle.Scoped);
+
+      //Fhir Tasks Processing
+      container.Register<Pyro.Engine.Services.FhirTasks.ITaskRunner, Pyro.Engine.Services.FhirTasks.TaskRunner>(Lifestyle.Scoped);
+      container.Register<Common.Tools.FhirTask.IFhirTaskTool, Common.Tools.FhirTask.FhirTaskTool>(Lifestyle.Scoped);
+      container.Register<Pyro.Engine.Services.FhirTasks.FhirSpecLoader.IFhirSpecificationDefinitionLoader, Pyro.Engine.Services.FhirTasks.FhirSpecLoader.FhirSpecificationDefinitionLoader>(Lifestyle.Scoped);
+      container.Register<Pyro.Engine.Services.FhirTasks.FhirSpecLoader.IFhirSpecificationDefinitionLoaderParameters, Pyro.Engine.Services.FhirTasks.FhirSpecLoader.FhirSpecificationDefinitionLoaderParameters>(Lifestyle.Scoped);
+
+
+      //Pyro FHIR Resources
+      container.Register<Pyro.Common.PyroHealthInformation.IPyroFhirResource, Pyro.Common.PyroHealthInformation.PyroFhirResource>(Lifestyle.Scoped);
+      container.Register<Pyro.Common.PyroHealthInformation.ICodeSystem, Pyro.Common.PyroHealthInformation.CodeSystem>(Lifestyle.Scoped);
+      container.Register<Pyro.Common.PyroHealthInformation.IOrganization, Pyro.Common.PyroHealthInformation.Organization>(Lifestyle.Scoped);
+      container.Register<Pyro.Common.PyroHealthInformation.ITask, Pyro.Common.PyroHealthInformation.Task>(Lifestyle.Scoped);
+      container.Register<Pyro.Common.PyroHealthInformation.IDevice, Pyro.Common.PyroHealthInformation.Device>(Lifestyle.Scoped);
+      //Pyro FHIR Resources: CodeSystems
+      container.Register<Pyro.Common.PyroHealthInformation.CodeSystems.IPyroFhirServer, Pyro.Common.PyroHealthInformation.CodeSystems.PyroFhirServer>(Lifestyle.Scoped);
+      container.Register<Pyro.Common.PyroHealthInformation.CodeSystems.IPyroTask, Pyro.Common.PyroHealthInformation.CodeSystems.PyroTask>(Lifestyle.Scoped);
+      container.Register<Pyro.Common.PyroHealthInformation.CodeSystems.IPyroHealth, Pyro.Common.PyroHealthInformation.CodeSystems.PyroHealth>(Lifestyle.Scoped);
+      //Pyro FHIR Resources: Organizations
+      container.Register<Pyro.Common.PyroHealthInformation.Organizations.IPyroHealth, Pyro.Common.PyroHealthInformation.Organizations.PyroHealth>(Lifestyle.Scoped);
+      //Pyro FHIR Resources: Tasks
+      container.Register<Pyro.Common.PyroHealthInformation.Tasks.ILoadFhirSpecificationDefinitions, Pyro.Common.PyroHealthInformation.Tasks.LoadFhirSpecificationDefinitions>(Lifestyle.Scoped);
+      //Pyro FHIR Resources: Device
+      container.Register<Pyro.Common.PyroHealthInformation.Devices.IPyroFhirServer, Pyro.Common.PyroHealthInformation.Devices.PyroFhirServer>(Lifestyle.Scoped);
+
     }
   }
 }

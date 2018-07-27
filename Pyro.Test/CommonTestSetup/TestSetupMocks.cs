@@ -11,6 +11,7 @@ using Pyro.Common.Tools.UriSupport;
 using Pyro.Common.Tools.Headers;
 using Pyro.Common.Service.ResourceService;
 using Pyro.Common.Global;
+using Pyro.Common.Logging;
 
 namespace Pyro.Test.CommonTestSetup
 {
@@ -85,5 +86,10 @@ namespace Pyro.Test.CommonTestSetup
       return MokIGlobalProperties.Object;
     }
     
+    public static ILog ILog()
+    {
+      Mock<ILog> MokIGlobalProperties = new Mock<ILog>();
+      return MokIGlobalProperties.Object;
+    }
   }
 }

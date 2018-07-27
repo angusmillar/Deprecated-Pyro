@@ -16,7 +16,7 @@ namespace Pyro.Common.Global
     
     public static string ThisServersEntitySystem { get; } = "http://ThisServersEntitySystem.HasNot/BeenSet";
     
-    public static string ThisServersManagingOrganizationResource { get; } = "http://ThisServersEntitySystem.HasNot/BeenSet";
+    public static string ThisServersManagingOrganizationResource { get; } = string.Empty;
 
     public static bool ApplicationCacheServicesActive { get; } = true;
 

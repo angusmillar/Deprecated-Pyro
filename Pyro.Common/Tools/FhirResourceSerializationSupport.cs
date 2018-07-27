@@ -8,6 +8,21 @@ namespace Pyro.Common.Tools
 {
   public static class FhirResourceSerializationSupport
   {
+    public static Resource DeSerializeFromXml(System.Xml.XmlReader XmlReader)
+    {
+      try
+      {
+        FhirXmlParser FhirXmlParser = new FhirXmlParser();
+        return FhirXmlParser.Parse<Resource>(XmlReader);
+      }
+      catch (Exception oExec)
+      {
+        string Message = string.Format("DeSerialisation of a XmlReader to FHIR Resource failed with the following message: {0}", oExec.Message);
+        OperationOutcome OpOutcome = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Exception, Message);
+        throw new PyroException(System.Net.HttpStatusCode.InternalServerError, OpOutcome, Message);
+      }
+    }
+
     public static Resource DeSerializeFromXml(string Xml)
     {
       try

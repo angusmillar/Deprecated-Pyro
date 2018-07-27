@@ -210,6 +210,7 @@
     <Compile Include="App_Start\SimpleInjectorWebApiInitializer.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\StartupPyroConfirgrationSynch.cs" />
+    <Compile Include="App_Start\StarupPyroTaskRunner.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Attributes\ActionLogAttribute.cs" />
     <Compile Include="Authorization\SwitchableAuthorizationAttribute .cs" />

@@ -93,6 +93,10 @@
     <Compile Include="Operation\FhirResourceInstanceOperationService.cs" />
     <Compile Include="Operation\FhirResourceOperationService.cs" />
     <Compile Include="Services\PyroServiceApi\IPyroService.cs" />
+    <Compile Include="Services\FhirTasks\FhirSpecLoader\FhirSpecificationDefinitionLoaderParameters.cs" />
+    <Compile Include="Services\FhirTasks\FhirSpecLoader\IFhirSpecificationDefinitionLoader.cs" />
+    <Compile Include="Services\FhirTasks\FhirSpecLoader\FhirSpecificationDefinitionLoader.cs" />
+    <Compile Include="Services\FhirTasks\FhirSpecLoader\IFhirSpecificationDefinitionLoaderParameters.cs" />
     <Compile Include="Services\ResourceSeed\IResourceSeedingService.cs" />
     <Compile Include="Services\ResourceSeed\ResourceSeedingService.cs" />
     <Compile Include="Services\Resources\ResourceServices.cs" />
@@ -101,6 +105,8 @@
     <Compile Include="Services\ServiceBaseUrl\ServiceBaseUrlService.cs" />
     <Compile Include="Services\ServiceConfiguration\ServiceConfigurationService.cs" />
     <Compile Include="Services\ServiceSearchParameter\ServiceSearchParameterService.cs" />
+    <Compile Include="Services\FhirTasks\ITaskRunner.cs" />
+    <Compile Include="Services\FhirTasks\TaskRunner.cs" />
     <Compile Include="TriggerServices\CompartmentDefinitionResource\ITriggerCompartmentDefinition.cs" />
     <Compile Include="TriggerServices\ITriggerOutcome.cs" />
     <Compile Include="TriggerServices\ITriggerService.cs" />
@@ -116,6 +122,9 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+    <Content Include="ZipArchiveFiles\definitions.xml.zip">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

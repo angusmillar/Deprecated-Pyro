@@ -5,6 +5,7 @@ using Pyro.Common.Global;
 using Pyro.Common.Interfaces.Repositories;
 using Pyro.Common.Interfaces.Service;
 using Pyro.Common.Logging;
+using Pyro.Common.PyroHealthInformation;
 using Pyro.Common.Service.ResourceService;
 using Pyro.Common.Service.Trigger;
 using Pyro.Common.ServiceRoot;
@@ -26,8 +27,9 @@ namespace Pyro.Engine.Services.ResourceSeed
     private readonly IGlobalProperties IGlobalProperties;
     private readonly IRequestServiceRootValidate IRequestServiceRootValidate;
     private readonly ILog ILog;
+    private readonly IPyroFhirResource IPyroFhirResource;
 
-    public ResourceSeedingService(IUnitOfWork IUnitOfWork, IResourceServices IResourceServices, IRequestMetaFactory IRequestMetaFactory, IResourceTriggerService IResourceTriggerService, IGlobalProperties IGlobalProperties, IRequestServiceRootValidate IRequestServiceRootValidate, ILog ILog)
+    public ResourceSeedingService(IUnitOfWork IUnitOfWork, IResourceServices IResourceServices, IRequestMetaFactory IRequestMetaFactory, IResourceTriggerService IResourceTriggerService, IGlobalProperties IGlobalProperties, IRequestServiceRootValidate IRequestServiceRootValidate, ILog ILog, IPyroFhirResource IPyroFhirResource)
     {
       this.IUnitOfWork = IUnitOfWork;
       this.IResourceServices = IResourceServices;
@@ -36,6 +38,7 @@ namespace Pyro.Engine.Services.ResourceSeed
       this.IGlobalProperties = IGlobalProperties;
       this.IRequestServiceRootValidate = IRequestServiceRootValidate;
       this.ILog = ILog;
+      this.IPyroFhirResource = IPyroFhirResource;
     }
 
     public void Process()
@@ -49,8 +52,12 @@ namespace Pyro.Engine.Services.ResourceSeed
     private List<Resource> ObtainMasterResoureList()
     {
       List<Resource> MasterResourceList = new List<Resource>();
-      CodeSystem PyroCodeSystem = Common.PyroHealthInformation.PyroServerCodeSystem.GetCodeSystem();
-      MasterResourceList.Add(PyroCodeSystem);
+      MasterResourceList.Add(IPyroFhirResource.CodeSystem.PyroHealthCodeSystem.GetCodeSystem());
+      MasterResourceList.Add(IPyroFhirResource.CodeSystem.PyroFhirServerCodeSystem.GetCodeSystem());      
+      MasterResourceList.Add(IPyroFhirResource.CodeSystem.PyroTaskCodeSystem.GetCodeSystem());
+      MasterResourceList.Add(IPyroFhirResource.Organization.PyroHealthOrganization.GetOrganization());
+      MasterResourceList.Add(IPyroFhirResource.Device.PyroFhirServerDevice.GetDevice());
+      MasterResourceList.Add(IPyroFhirResource.Task.LoadFhirSpecificationDefinitionsTask.GetTask());
       return MasterResourceList;
 
     }

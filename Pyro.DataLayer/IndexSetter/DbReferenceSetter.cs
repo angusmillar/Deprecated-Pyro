@@ -59,7 +59,7 @@ namespace Pyro.DataLayer.IndexSetter
           DbResourceIndex.ReferenceServiceBaseUrlId = IPrimaryServiceRootCache.GetPrimaryRootUrlFromDatabase().Id;
         }
         else
-        {
+        {          
           DbResourceIndex.ReferenceServiceBaseUrlId = IServiceBaseUrlRepository.GetAndOrAddService_RootUrlStore(Index.BaseUrl).Id;
         }
         DbReferenceIndexList.Add(DbResourceIndex);

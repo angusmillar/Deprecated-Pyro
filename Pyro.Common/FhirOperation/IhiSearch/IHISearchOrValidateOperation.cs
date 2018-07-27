@@ -17,6 +17,7 @@ using System.Text;
 using Pyro.Common.RequestMetadata;
 using Pyro.Common.Enum;
 using Pyro.Common.Service.ResourceService;
+using Pyro.Common.PyroHealthInformation;
 
 namespace Pyro.Common.FhirOperation.IhiSearch
 {
@@ -41,6 +42,7 @@ namespace Pyro.Common.FhirOperation.IhiSearch
     private readonly IDVANumberParser IDVANumberParser;
     private readonly INationalHealthcareIdentifierInfo INationalHealthcareIdentifierInfo;
     private readonly IMedicareNumberInfo IMedicareNumberInfo;
+    private readonly Common.PyroHealthInformation.CodeSystems.IPyroFhirServer IPyroFhirServerCodeSystem;
 
     public IHISearchOrValidateOperation(
       IResourceServiceOutcomeFactory IResourceServiceOutcomeFactory,
@@ -52,7 +54,8 @@ namespace Pyro.Common.FhirOperation.IhiSearch
       IIndividualHealthcareIdentifierParser IIndividualHealthcareIdentifierParser,
       IDVANumberParser IDVANumberParser,
       INationalHealthcareIdentifierInfo INationalHealthcareIdentifierInfo,
-      IMedicareNumberInfo IMedicareNumberInfo)
+      IMedicareNumberInfo IMedicareNumberInfo,
+      Common.PyroHealthInformation.CodeSystems.IPyroFhirServer IPyroFhirServerCodeSystem)
     {
       this.IResourceServiceOutcomeFactory = IResourceServiceOutcomeFactory;
       this.IResourceServices = IResourceServices;
@@ -64,7 +67,9 @@ namespace Pyro.Common.FhirOperation.IhiSearch
       this.HiServiceApi = IHiServiceApi;
       this.INationalHealthcareIdentifierInfo = INationalHealthcareIdentifierInfo;
       this.IMedicareNumberInfo = IMedicareNumberInfo;
-      
+      this.IPyroFhirServerCodeSystem = IPyroFhirServerCodeSystem;
+
+
     }
 
     public IResourceServiceOutcome IHISearchOrValidate(OperationClass OperationClass, Resource Resource, IRequestMeta RequestMeta)
@@ -197,17 +202,10 @@ namespace Pyro.Common.FhirOperation.IhiSearch
     }
 
     private IResourceServiceOutcome CommitAuditResourceForHiServiceCall(IIhiSearchValidateOutcome HiServiceOutCome, bool SuccessfulQuery)
-    {
-      var PyroHealthCodeSystem = PyroHealthInformation.PyroServerCodeSystem.GetCodeSystem();
-      var AuditCode = PyroHealthCodeSystem.Concept.Single(x => x.Code == PyroHealthInformation.PyroServerCodeSystem.Codes.HiServiceCallAudit.GetPyroLiteral());
+    {     
+      var AuditCode = IPyroFhirServerCodeSystem.GetCoding(PyroHealthInformation.CodeSystems.PyroFhirServer.Codes.HiServiceCallAudit);      
       var Audit = new AuditEvent();
-      Audit.Type = new Coding()
-      {
-        Code = AuditCode.Code,
-        Display = AuditCode.Display,
-        System = PyroHealthCodeSystem.Url
-      };
-
+      Audit.Type = AuditCode;
       Audit.Action = AuditEvent.AuditEventAction.E;
       Audit.Recorded = DateTimeOffset.Now;
       if (SuccessfulQuery)

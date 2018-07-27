@@ -19,8 +19,7 @@ namespace Pyro.DataLayer.Repository
     }
 
     public IDtoRootUrlStore SetPrimaryRootUrlStore(string RootUrl)
-    {
-      RootUrl = StringSupport.ToLowerFast(RootUrl.StripHttp());
+    {     
       IDtoRootUrlStore ExsistingPrimaryRootURL = this.GetPrimaryPyro_RootUrlStore();
       if (ExsistingPrimaryRootURL != null)
       {
@@ -35,7 +34,7 @@ namespace Pyro.DataLayer.Repository
       {
         _ServiceBaseUrl Pyro_RootUrlStore = new _ServiceBaseUrl();
         Pyro_RootUrlStore.IsServersPrimaryUrlRoot = true;
-        Pyro_RootUrlStore.Url = RootUrl;
+        Pyro_RootUrlStore.Url = StringSupport.ToLowerFast(RootUrl.StripHttp());
         IPyroDbContext.Set<_ServiceBaseUrl>().Add(Pyro_RootUrlStore);
       }
       this.Save();
@@ -62,14 +61,13 @@ namespace Pyro.DataLayer.Repository
     /// <param name="UrlString"></param>
     /// <returns></returns>
     public IDtoRootUrlStore GetAndOrAddService_RootUrlStore(string ServiceRootUrl)
-    {
-      ServiceRootUrl = StringSupport.ToLowerFast(ServiceRootUrl.StripHttp());
+    {      
       IDtoRootUrlStore Pyro_RootUrlStore = this.GetPyro_RootUrlStore(ServiceRootUrl);
       if (Pyro_RootUrlStore == null)
       {
         var Pyro_RootUrlStoreDb = new _ServiceBaseUrl();
         Pyro_RootUrlStoreDb.IsServersPrimaryUrlRoot = false;
-        Pyro_RootUrlStoreDb.Url = ServiceRootUrl;
+        Pyro_RootUrlStoreDb.Url = StringSupport.ToLowerFast(ServiceRootUrl.StripHttp());
         Pyro_RootUrlStoreDb = IPyroDbContext.Set<_ServiceBaseUrl>().Add(Pyro_RootUrlStoreDb);
         this.Save();
         return Pyro_RootUrlStoreDb;
@@ -87,7 +85,7 @@ namespace Pyro.DataLayer.Repository
 
     private IDtoRootUrlStore GetPyro_RootUrlStore(string ServiceRootUrl)
     {
-      ServiceRootUrl = StringSupport.ToLowerFast(ServiceRootUrl.StripHttp());
+      ServiceRootUrl = StringSupport.ToLowerFast(ServiceRootUrl.StripHttp());          
       return IPyroDbContext.ServiceBaseUrl.SingleOrDefault(x => x.Url == ServiceRootUrl);
     }
   }

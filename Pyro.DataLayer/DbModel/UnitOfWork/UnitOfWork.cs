@@ -23,6 +23,7 @@ namespace Pyro.DataLayer.DbModel.UnitOfWork
     {
       try
       {
+        //return _context.Database.CurrentTransaction ?? _context.Database.BeginTransaction();
         return _context.Database.BeginTransaction();
       }
       catch (Exception Exec)
