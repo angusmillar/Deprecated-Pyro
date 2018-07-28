@@ -35,12 +35,12 @@ namespace Pyro.Engine.Services.FhirTasks.FhirSpecLoader
     private readonly string _ZipFileName = "definitions.xml.zip";
     private readonly string _TaskStatusSystem = "http://hl7.org/fhir/task-status";
 
-    public FhirSpecificationDefinitionLoader(ILog ILog, 
-      IUnitOfWork IUnitOfWork, 
-      IRequestMetaFactory IRequestMetaFactory, 
-      IResourceTriggerService IResourceTriggerService, 
-      IBundleTransactionOperationFactory IBundleTransactionOperationFactory, 
-      IFhirSpecificationDefinitionLoaderParameters IFhirSpecificationDefinitionLoaderParameters, 
+    public FhirSpecificationDefinitionLoader(ILog ILog,
+      IUnitOfWork IUnitOfWork,
+      IRequestMetaFactory IRequestMetaFactory,
+      IResourceTriggerService IResourceTriggerService,
+      IBundleTransactionOperationFactory IBundleTransactionOperationFactory,
+      IFhirSpecificationDefinitionLoaderParameters IFhirSpecificationDefinitionLoaderParameters,
       IFhirTaskTool IFhirTaskTool,
       Common.PyroHealthInformation.CodeSystems.IPyroFhirServer IPyroFhirServerCodeSystem)
     {
@@ -77,29 +77,42 @@ namespace Pyro.Engine.Services.FhirTasks.FhirSpecLoader
             AllOk = LoadFromZip(IFhirSpecificationDefinitionLoaderParameters);
             if (AllOk)
             {
-              SetParametersInProgressTaskLoad(Task);
-              IFhirTaskTool.UpdateTaskAsStatus(IFhirSpecificationDefinitionLoaderParameters.TaskStatus.Value, Task);
-              Transaction.Commit();
+              if (IFhirSpecificationDefinitionLoaderParameters.TaskStatus != Task.TaskStatus.Completed)
+              {
+                //Still InProgress so update this file status and commit
+                SetParametersInProgressTaskLoad(Task);
+                IFhirTaskTool.UpdateTaskAsStatus(IFhirSpecificationDefinitionLoaderParameters.TaskStatus.Value, Task);
+                Transaction.Commit();
+              }
+              else
+              {
+                //All finshed set the Whole Task to Completed and set the Completed end timestamp
+                SetParametersOnCompletedTaskLoad(Task);
+                IFhirTaskTool.UpdateTaskAsStatus(IFhirSpecificationDefinitionLoaderParameters.TaskStatus.Value, Task);
+                Transaction.Commit();
+                return IFhirSpecificationDefinitionLoaderParameters.TaskStatus.Value;
+              }
             }
             else
             {
-              Transaction.Rollback();
-              SetParametersOnFailedTaskLoad(Task);
+              //Rollback the failed transaction, we will update the Task as failed 
+              //in a seperate transaction below
+              Transaction.Rollback();              
             }
           }
 
           //Update the Task as Failed in new Transaction
           if (!AllOk)
+          {
+            SetParametersOnFailedTaskLoad(Task);
             using (DbContextTransaction Transaction = IUnitOfWork.BeginTransaction())
             {
               IFhirTaskTool.UpdateTaskAsStatus(IFhirSpecificationDefinitionLoaderParameters.TaskStatus.Value, Task);
               Transaction.Commit();
               return IFhirSpecificationDefinitionLoaderParameters.TaskStatus.Value;
             }
+          }
         }
-
-        SetParametersOnCompletedTaskLoad(Task);
-        return IFhirSpecificationDefinitionLoaderParameters.TaskStatus.Value;
       }
       catch (Exception Exec)
       {
@@ -353,7 +366,7 @@ namespace Pyro.Engine.Services.FhirTasks.FhirSpecLoader
         Task.Output.Add(new Task.OutputComponent() { Type = MyCodableConcept, Value = FhirStringValue });
       }
     }
-    
+
     private void SetParametersOnFailedTaskLoad(Task Task)
     {
       Task.Status = IFhirSpecificationDefinitionLoaderParameters.TaskStatus.Value;
@@ -376,7 +389,7 @@ namespace Pyro.Engine.Services.FhirTasks.FhirSpecLoader
         Task.Output.Add(new Task.OutputComponent() { Type = MyCodableConcept, Value = FhirStringValue });
       }
 
-      //Update Task Failed
+      //Update Task File Failed
       if (IFhirSpecificationDefinitionLoaderParameters.TaskStatus == Task.TaskStatus.Failed && !string.IsNullOrWhiteSpace(IFhirSpecificationDefinitionLoaderParameters.FileInError))
       {
         var FhirStringValue = new FhirString($"{IFhirSpecificationDefinitionLoaderParameters.FileInError}: {IFhirSpecificationDefinitionLoaderParameters.ErrorMessage}");
@@ -384,7 +397,7 @@ namespace Pyro.Engine.Services.FhirTasks.FhirSpecLoader
         Task.Output.Add(new Task.OutputComponent() { Type = MyCodableConcept, Value = FhirStringValue });
       }
 
-      //Update Task Failed
+      //Update whole Task Failed
       if (IFhirSpecificationDefinitionLoaderParameters.TaskStatus == Task.TaskStatus.Failed && string.IsNullOrWhiteSpace(IFhirSpecificationDefinitionLoaderParameters.FileInError) && !string.IsNullOrWhiteSpace(IFhirSpecificationDefinitionLoaderParameters.ErrorMessage))
       {
         var FhirStringValue = new FhirString(IFhirSpecificationDefinitionLoaderParameters.ErrorMessage);
@@ -392,7 +405,7 @@ namespace Pyro.Engine.Services.FhirTasks.FhirSpecLoader
         Task.Output.Add(new Task.OutputComponent() { Type = MyCodableConcept, Value = FhirStringValue });
       }
     }
-    
+
     private string GetZipFilePath()
     {
 
