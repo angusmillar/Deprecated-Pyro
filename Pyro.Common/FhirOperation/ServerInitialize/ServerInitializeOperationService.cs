@@ -26,7 +26,7 @@ namespace Pyro.Common.FhirOperation.ServerInitialize
     private readonly IRequestMetaFactory IRequestMetaFactory;
     private readonly IBundleTransactionOperation IBundleTransactionOperation;
     private readonly IGlobalProperties IGlobalProperties;
-    private readonly PyroHealthInformation.CodeSystems.IPyroFhirServer IPyroFhirServerCodeSystem;
+    private readonly PyroHealthFhirResource.CodeSystems.IPyroFhirServer IPyroFhirServerCodeSystem;
 
     IResourceServiceOutcome ResourceServiceOutcome;
 
@@ -37,7 +37,7 @@ namespace Pyro.Common.FhirOperation.ServerInitialize
       IRequestMetaFactory IRequestMetaFactory,
       IGlobalProperties IGlobalProperties,
       IBundleTransactionOperation IBundleTransactionOperation,
-      PyroHealthInformation.CodeSystems.IPyroFhirServer IPyroFhirServerCodeSystem)
+      PyroHealthFhirResource.CodeSystems.IPyroFhirServer IPyroFhirServerCodeSystem)
     {
       this.IRepositorySwitcher = IRepositorySwitcher;
       this.IResourceServiceOutcomeFactory = IResourceServiceOutcomeFactory;
@@ -113,7 +113,7 @@ namespace Pyro.Common.FhirOperation.ServerInitialize
         {
           Tag = new List<Coding>()
            {
-            IPyroFhirServerCodeSystem.GetCoding(PyroHealthInformation.CodeSystems.PyroFhirServer.Codes.Protected)
+            IPyroFhirServerCodeSystem.GetCoding(PyroHealthFhirResource.CodeSystems.PyroFhirServer.Codes.Protected)
            }
         };
 

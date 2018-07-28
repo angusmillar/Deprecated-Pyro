@@ -97,8 +97,8 @@
 //      {
 //        if (Resource.Meta.Tag != null)
 //        {
-//          var PyroCodeSystem = Common.PyroHealthInformation.PyroServerCodeSystem.GetCodeSystem();
-//          var ActiveCode = PyroCodeSystem.Concept.Single(x => x.Code == Common.PyroHealthInformation.PyroServerCodeSystem.Codes.ActiveCompartment.GetPyroLiteral());
+//          var PyroCodeSystem = Common.PyroHealthFhirResource.PyroServerCodeSystem.GetCodeSystem();
+//          var ActiveCode = PyroCodeSystem.Concept.Single(x => x.Code == Common.PyroHealthFhirResource.PyroServerCodeSystem.Codes.ActiveCompartment.GetPyroLiteral());
 //          var TagCode = Resource.Meta.Tag.SingleOrDefault(x => x.System == PyroCodeSystem.Url && x.Code == ActiveCode.Code);
 //          if (TagCode != null)
 //          {

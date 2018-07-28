@@ -45,7 +45,7 @@ namespace Pyro.WebApi.Attributes
       var IPyroRequestUriFactory = actionExecutedContext.ActionContext.ControllerContext.Configuration.DependencyResolver.GetService(typeof(IPyroRequestUriFactory)) as IPyroRequestUriFactory;
       var IGlobalProperties = actionExecutedContext.ActionContext.ControllerContext.Configuration.DependencyResolver.GetService(typeof(IGlobalProperties)) as IGlobalProperties;
       var IResourceTriggerService = actionExecutedContext.ActionContext.ControllerContext.Configuration.DependencyResolver.GetService(typeof(IResourceTriggerService)) as IResourceTriggerService;
-      var IPyroFhirResource = actionExecutedContext.ActionContext.ControllerContext.Configuration.DependencyResolver.GetService(typeof(Common.PyroHealthInformation.IPyroFhirResource)) as Common.PyroHealthInformation.IPyroFhirResource;
+      var IPyroFhirResource = actionExecutedContext.ActionContext.ControllerContext.Configuration.DependencyResolver.GetService(typeof(Common.PyroHealthFhirResource.IPyroFhirResource)) as Common.PyroHealthFhirResource.IPyroFhirResource;
       
       using (DbContextTransaction Transaction = IUnitOfWork.BeginTransaction())
       {
@@ -79,7 +79,7 @@ namespace Pyro.WebApi.Attributes
           // Create the Security Event Object
           AuditEvent Audit = new AuditEvent();
           Audit.Meta = new Meta();
-          Audit.Meta.Tag = new List<Coding>() { PyroCodeSystem.GetCoding(Common.PyroHealthInformation.CodeSystems.PyroFhirServer.Codes.Protected) };
+          Audit.Meta.Tag = new List<Coding>() { PyroCodeSystem.GetCoding(Common.PyroHealthFhirResource.CodeSystems.PyroFhirServer.Codes.Protected) };
           if (actionExecutedContext.Request.Method == HttpMethod.Put)
             Audit.Action = AuditEvent.AuditEventAction.U;
           else if (actionExecutedContext.Request.Method == HttpMethod.Post)

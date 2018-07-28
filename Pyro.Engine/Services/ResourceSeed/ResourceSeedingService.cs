@@ -5,7 +5,7 @@ using Pyro.Common.Global;
 using Pyro.Common.Interfaces.Repositories;
 using Pyro.Common.Interfaces.Service;
 using Pyro.Common.Logging;
-using Pyro.Common.PyroHealthInformation;
+using Pyro.Common.PyroHealthFhirResource;
 using Pyro.Common.Service.ResourceService;
 using Pyro.Common.Service.Trigger;
 using Pyro.Common.ServiceRoot;

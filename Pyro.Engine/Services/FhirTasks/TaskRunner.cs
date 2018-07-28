@@ -7,7 +7,7 @@ using Pyro.Common.Interfaces.Service;
 using Pyro.Common.Logging;
 using Pyro.Common.Service.ResourceService;
 using Pyro.Common.Service.Trigger;
-//using Pyro.Common.PyroHealthInformation;
+//using Pyro.Common.PyroHealthFhirResource;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -24,8 +24,8 @@ namespace Pyro.Engine.Services.FhirTasks
     private readonly IRequestHeaderFactory IRequestHeaderFactory;    
     private readonly IFhirSpecificationDefinitionLoader IFhirSpecificationDefinitionLoader;    
     private readonly ILog ILog;
-    private readonly Common.PyroHealthInformation.CodeSystems.IPyroTask IPyroTaskCodeSystem;
-    private readonly Common.PyroHealthInformation.CodeSystems.IPyroFhirServer IPyroFhirServerCodeSystem;
+    private readonly Common.PyroHealthFhirResource.CodeSystems.IPyroTask IPyroTaskCodeSystem;
+    private readonly Common.PyroHealthFhirResource.CodeSystems.IPyroFhirServer IPyroFhirServerCodeSystem;
     private readonly IFhirTaskTool IFhirTaskTool;
 
     public TaskRunner(IResourceServices IResourceServices,
@@ -33,8 +33,8 @@ namespace Pyro.Engine.Services.FhirTasks
       IRequestHeaderFactory IRequestHeaderFactory,      
       ILog ILog,
       IFhirSpecificationDefinitionLoader IFhirSpecificationDefinitionLoader,      
-      Common.PyroHealthInformation.CodeSystems.IPyroTask IPyroTaskCodeSystem,
-      Common.PyroHealthInformation.CodeSystems.IPyroFhirServer IPyroFhirServerCodeSystem,
+      Common.PyroHealthFhirResource.CodeSystems.IPyroTask IPyroTaskCodeSystem,
+      Common.PyroHealthFhirResource.CodeSystems.IPyroFhirServer IPyroFhirServerCodeSystem,
       IFhirTaskTool IFhirTaskTool)
     {      
       this.IResourceServices = IResourceServices;
@@ -47,9 +47,9 @@ namespace Pyro.Engine.Services.FhirTasks
       this.IFhirTaskTool = IFhirTaskTool;
     }
     
-    private IEnumerable<Common.PyroHealthInformation.CodeSystems.PyroFhirServer.Codes> _TaskIdentifierToRunList;
+    private IEnumerable<Common.PyroHealthFhirResource.CodeSystems.PyroFhirServer.Codes> _TaskIdentifierToRunList;
 
-    public void Run(IEnumerable<Common.PyroHealthInformation.CodeSystems.PyroFhirServer.Codes> TaskIdentifierToRunList)
+    public void Run(IEnumerable<Common.PyroHealthFhirResource.CodeSystems.PyroFhirServer.Codes> TaskIdentifierToRunList)
     {
       _TaskIdentifierToRunList = TaskIdentifierToRunList;
       if (_TaskIdentifierToRunList.Count() > 0)
@@ -109,7 +109,7 @@ namespace Pyro.Engine.Services.FhirTasks
           var TaskTypeList = Task.Code?.Coding?.Where(x => x.System == IPyroTaskCodeSystem.GetSystem());
           if (TaskTypeList != null)
           {
-            if (TaskTypeList.Any(x => x.Code == IPyroTaskCodeSystem.GetCode(Common.PyroHealthInformation.CodeSystems.PyroTask.Codes.LoadFhirSpecResources)))
+            if (TaskTypeList.Any(x => x.Code == IPyroTaskCodeSystem.GetCode(Common.PyroHealthFhirResource.CodeSystems.PyroTask.Codes.LoadFhirSpecResources)))
             {
               //This Task Manages it's own Transaction within
               TaskStatus = IFhirSpecificationDefinitionLoader.Run(Task);              

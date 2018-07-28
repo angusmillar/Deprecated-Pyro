@@ -5,7 +5,7 @@ using Hl7.Fhir.Model;
 using Hl7.Fhir.Utility;
 using Pyro.Common.Enum;
 using Pyro.Common.Interfaces.Repositories;
-using Pyro.Common.PyroHealthInformation;
+using Pyro.Common.PyroHealthFhirResource;
 using Pyro.Common.Search;
 using Pyro.Common.ServiceSearchParameter;
 using Pyro.Common.Tools;
@@ -26,7 +26,7 @@ namespace Pyro.Common.Service.Trigger.TriggerServices
     {
       this.IServiceSearchParameterCache = IServiceSearchParameterCache;
       this.IPyroFhirResource = IPyroFhirResource;
-      _ProtectedCoding = IPyroFhirResource.CodeSystem.PyroFhirServerCodeSystem.GetCoding(PyroHealthInformation.CodeSystems.PyroFhirServer.Codes.Protected);
+      _ProtectedCoding = IPyroFhirResource.CodeSystem.PyroFhirServerCodeSystem.GetCoding(PyroHealthFhirResource.CodeSystems.PyroFhirServer.Codes.Protected);
     }
 
     public ITriggerOutcome ProcessTrigger(ITriggerInput TriggerInput)

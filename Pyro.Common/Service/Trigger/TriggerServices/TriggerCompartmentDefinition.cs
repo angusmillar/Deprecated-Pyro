@@ -4,7 +4,7 @@ using Hl7.Fhir.Model;
 using Hl7.Fhir.Utility;
 using Pyro.Common.Enum;
 using Pyro.Common.Interfaces.Repositories;
-using Pyro.Common.PyroHealthInformation;
+using Pyro.Common.PyroHealthFhirResource;
 using Pyro.Common.Tools;
 
 namespace Pyro.Common.Service.Trigger.TriggerServices
@@ -97,7 +97,7 @@ namespace Pyro.Common.Service.Trigger.TriggerServices
       {
         if (Resource.Meta.Tag != null)
         {
-          var ActiveCoding = IPyroFhirResource.CodeSystem.PyroFhirServerCodeSystem.GetCoding(PyroHealthInformation.CodeSystems.PyroFhirServer.Codes.ActiveCompartment);
+          var ActiveCoding = IPyroFhirResource.CodeSystem.PyroFhirServerCodeSystem.GetCoding(PyroHealthFhirResource.CodeSystems.PyroFhirServer.Codes.ActiveCompartment);
           var TagCode = Resource.Meta.Tag.SingleOrDefault(x => x.System == ActiveCoding.System && x.Code == ActiveCoding.Code);
           if (TagCode != null)
           {

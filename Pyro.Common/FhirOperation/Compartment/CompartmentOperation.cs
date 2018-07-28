@@ -13,7 +13,7 @@ using Pyro.Common.ServiceSearchParameter;
 using Pyro.Common.Tools;
 using Pyro.Common.Service.ResourceService;
 using Pyro.Common.Service.Trigger;
-using Pyro.Common.PyroHealthInformation;
+using Pyro.Common.PyroHealthFhirResource;
 
 namespace Pyro.Common.FhirOperation.Compartment
 {
@@ -56,9 +56,9 @@ namespace Pyro.Common.FhirOperation.Compartment
       this.IResourceTriggerService = IResourceTriggerService;
       this.IPyroFhirResource = IPyroFhirResource;
 
-      //var PyroResource = new Common.PyroHealthInformation.PyroFhirResource();
+      //var PyroResource = new Common.PyroHealthFhirResource.PyroFhirResource();
       var PyroHealthCodeSystem = IPyroFhirResource.CodeSystem.PyroFhirServerCodeSystem;
-      PyroOrgUrl = $"{PyroHealthCodeSystem.GetSystem()}/{PyroHealthCodeSystem.GetCode(PyroHealthInformation.CodeSystems.PyroFhirServer.Codes.CompartmentDefinition)}";
+      PyroOrgUrl = $"{PyroHealthCodeSystem.GetSystem()}/{PyroHealthCodeSystem.GetCode(PyroHealthFhirResource.CodeSystems.PyroFhirServer.Codes.CompartmentDefinition)}";
     }
 
     public IResourceServiceOutcome SetActive(OperationClass OperationClass, IRequestMeta RequestMeta, string FhirId)
@@ -227,7 +227,7 @@ namespace Pyro.Common.FhirOperation.Compartment
         CompartDef.Meta = new Meta();
       if (CompartDef.Meta.Tag == null)
         CompartDef.Meta.Tag = new List<Coding>();      
-      CompartDef.Meta.Tag.Add(IPyroFhirResource.CodeSystem.PyroFhirServerCodeSystem.GetCoding(PyroHealthInformation.CodeSystems.PyroFhirServer.Codes.ActiveCompartment));
+      CompartDef.Meta.Tag.Add(IPyroFhirResource.CodeSystem.PyroFhirServerCodeSystem.GetCoding(PyroHealthFhirResource.CodeSystems.PyroFhirServer.Codes.ActiveCompartment));
     }
 
     public IResourceServiceOutcome SetInActive(OperationClass OperationClass, IRequestMeta RequestMeta, string FhirId)

@@ -4,6 +4,6 @@ namespace Pyro.Engine.Services.FhirTasks
 {
   public interface ITaskRunner
   {
-    void Run(IEnumerable<Common.PyroHealthInformation.CodeSystems.PyroFhirServer.Codes> TaskIdentifierToRunList);
+    void Run(IEnumerable<Common.PyroHealthFhirResource.CodeSystems.PyroFhirServer.Codes> TaskIdentifierToRunList);
   }
 }

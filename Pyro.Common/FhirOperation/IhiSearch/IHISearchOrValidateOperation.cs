@@ -17,7 +17,7 @@ using System.Text;
 using Pyro.Common.RequestMetadata;
 using Pyro.Common.Enum;
 using Pyro.Common.Service.ResourceService;
-using Pyro.Common.PyroHealthInformation;
+using Pyro.Common.PyroHealthFhirResource;
 
 namespace Pyro.Common.FhirOperation.IhiSearch
 {
@@ -42,7 +42,7 @@ namespace Pyro.Common.FhirOperation.IhiSearch
     private readonly IDVANumberParser IDVANumberParser;
     private readonly INationalHealthcareIdentifierInfo INationalHealthcareIdentifierInfo;
     private readonly IMedicareNumberInfo IMedicareNumberInfo;
-    private readonly Common.PyroHealthInformation.CodeSystems.IPyroFhirServer IPyroFhirServerCodeSystem;
+    private readonly Common.PyroHealthFhirResource.CodeSystems.IPyroFhirServer IPyroFhirServerCodeSystem;
 
     public IHISearchOrValidateOperation(
       IResourceServiceOutcomeFactory IResourceServiceOutcomeFactory,
@@ -55,7 +55,7 @@ namespace Pyro.Common.FhirOperation.IhiSearch
       IDVANumberParser IDVANumberParser,
       INationalHealthcareIdentifierInfo INationalHealthcareIdentifierInfo,
       IMedicareNumberInfo IMedicareNumberInfo,
-      Common.PyroHealthInformation.CodeSystems.IPyroFhirServer IPyroFhirServerCodeSystem)
+      Common.PyroHealthFhirResource.CodeSystems.IPyroFhirServer IPyroFhirServerCodeSystem)
     {
       this.IResourceServiceOutcomeFactory = IResourceServiceOutcomeFactory;
       this.IResourceServices = IResourceServices;
@@ -203,7 +203,7 @@ namespace Pyro.Common.FhirOperation.IhiSearch
 
     private IResourceServiceOutcome CommitAuditResourceForHiServiceCall(IIhiSearchValidateOutcome HiServiceOutCome, bool SuccessfulQuery)
     {     
-      var AuditCode = IPyroFhirServerCodeSystem.GetCoding(PyroHealthInformation.CodeSystems.PyroFhirServer.Codes.HiServiceCallAudit);      
+      var AuditCode = IPyroFhirServerCodeSystem.GetCoding(PyroHealthFhirResource.CodeSystems.PyroFhirServer.Codes.HiServiceCallAudit);      
       var Audit = new AuditEvent();
       Audit.Type = AuditCode;
       Audit.Action = AuditEvent.AuditEventAction.E;

@@ -18,9 +18,9 @@ namespace Pyro.WebApi.App_Start
           try
           {
             //Only run Task of type ServerStartupTask
-            var IdentifierTypesToRun = new List<Common.PyroHealthInformation.CodeSystems.PyroFhirServer.Codes>()
+            var IdentifierTypesToRun = new List<Common.PyroHealthFhirResource.CodeSystems.PyroFhirServer.Codes>()
             {
-               Common.PyroHealthInformation.CodeSystems.PyroFhirServer.Codes.ServerStartupTask
+               Common.PyroHealthFhirResource.CodeSystems.PyroFhirServer.Codes.ServerStartupTask
             };                         
             ITaskRunner.Run(IdentifierTypesToRun);
             return true;

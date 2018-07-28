@@ -275,21 +275,21 @@ namespace Pyro.Backburner.App_Start
 
 
       //Pyro FHIR Resources
-      container.Register<Pyro.Common.PyroHealthInformation.IPyroFhirResource, Pyro.Common.PyroHealthInformation.PyroFhirResource>(Lifestyle.Scoped);
-      container.Register<Pyro.Common.PyroHealthInformation.ICodeSystem, Pyro.Common.PyroHealthInformation.CodeSystem>(Lifestyle.Scoped);
-      container.Register<Pyro.Common.PyroHealthInformation.IOrganization, Pyro.Common.PyroHealthInformation.Organization>(Lifestyle.Scoped);
-      container.Register<Pyro.Common.PyroHealthInformation.ITask, Pyro.Common.PyroHealthInformation.Task>(Lifestyle.Scoped);
-      container.Register<Pyro.Common.PyroHealthInformation.IDevice, Pyro.Common.PyroHealthInformation.Device>(Lifestyle.Scoped);
+      container.Register<Pyro.Common.PyroHealthFhirResource.IPyroFhirResource, Pyro.Common.PyroHealthFhirResource.PyroFhirResource>(Lifestyle.Scoped);
+      container.Register<Pyro.Common.PyroHealthFhirResource.ICodeSystem, Pyro.Common.PyroHealthFhirResource.CodeSystem>(Lifestyle.Scoped);
+      container.Register<Pyro.Common.PyroHealthFhirResource.IOrganization, Pyro.Common.PyroHealthFhirResource.Organization>(Lifestyle.Scoped);
+      container.Register<Pyro.Common.PyroHealthFhirResource.ITask, Pyro.Common.PyroHealthFhirResource.Task>(Lifestyle.Scoped);
+      container.Register<Pyro.Common.PyroHealthFhirResource.IDevice, Pyro.Common.PyroHealthFhirResource.Device>(Lifestyle.Scoped);
       //Pyro FHIR Resources: CodeSystems
-      container.Register<Pyro.Common.PyroHealthInformation.CodeSystems.IPyroFhirServer, Pyro.Common.PyroHealthInformation.CodeSystems.PyroFhirServer>(Lifestyle.Scoped);
-      container.Register<Pyro.Common.PyroHealthInformation.CodeSystems.IPyroTask, Pyro.Common.PyroHealthInformation.CodeSystems.PyroTask>(Lifestyle.Scoped);
-      container.Register<Pyro.Common.PyroHealthInformation.CodeSystems.IPyroHealth, Pyro.Common.PyroHealthInformation.CodeSystems.PyroHealth>(Lifestyle.Scoped);
+      container.Register<Pyro.Common.PyroHealthFhirResource.CodeSystems.IPyroFhirServer, Pyro.Common.PyroHealthFhirResource.CodeSystems.PyroFhirServer>(Lifestyle.Scoped);
+      container.Register<Pyro.Common.PyroHealthFhirResource.CodeSystems.IPyroTask, Pyro.Common.PyroHealthFhirResource.CodeSystems.PyroTask>(Lifestyle.Scoped);
+      container.Register<Pyro.Common.PyroHealthFhirResource.CodeSystems.IPyroHealth, Pyro.Common.PyroHealthFhirResource.CodeSystems.PyroHealth>(Lifestyle.Scoped);
       //Pyro FHIR Resources: Organizations
-      container.Register<Pyro.Common.PyroHealthInformation.Organizations.IPyroHealth, Pyro.Common.PyroHealthInformation.Organizations.PyroHealth>(Lifestyle.Scoped);
+      container.Register<Pyro.Common.PyroHealthFhirResource.Organizations.IPyroHealth, Pyro.Common.PyroHealthFhirResource.Organizations.PyroHealth>(Lifestyle.Scoped);
       //Pyro FHIR Resources: Tasks
-      container.Register<Pyro.Common.PyroHealthInformation.Tasks.ILoadFhirSpecificationDefinitions, Pyro.Common.PyroHealthInformation.Tasks.LoadFhirSpecificationDefinitions>(Lifestyle.Scoped);
+      container.Register<Pyro.Common.PyroHealthFhirResource.Tasks.ILoadFhirSpecificationDefinitions, Pyro.Common.PyroHealthFhirResource.Tasks.LoadFhirSpecificationDefinitions>(Lifestyle.Scoped);
       //Pyro FHIR Resources: Device
-      container.Register<Pyro.Common.PyroHealthInformation.Devices.IPyroFhirServer, Pyro.Common.PyroHealthInformation.Devices.PyroFhirServer>(Lifestyle.Scoped);
+      container.Register<Pyro.Common.PyroHealthFhirResource.Devices.IPyroFhirServer, Pyro.Common.PyroHealthFhirResource.Devices.PyroFhirServer>(Lifestyle.Scoped);
 
     }
   }

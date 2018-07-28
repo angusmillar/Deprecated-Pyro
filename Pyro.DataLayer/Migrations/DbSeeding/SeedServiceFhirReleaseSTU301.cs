@@ -52,7 +52,7 @@ namespace Pyro.DataLayer.Migrations.DbSeeding
         CreatedDate = DateTimeNow,
         CreatedUser = "PyroHealthDev",
         LastUpdated = DateTimeNow,
-        LastUpdatedUser = Pyro.Common.PyroHealthInformation.PyroHealthSystemUser.User,
+        LastUpdatedUser = Pyro.Common.PyroHealthFhirResource.PyroHealthSystemUser.User,
       };
       _Context.FhirRelease.Add(FhirReleaseSTU301);
       _Context.SaveChanges();

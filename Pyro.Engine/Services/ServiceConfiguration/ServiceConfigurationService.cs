@@ -41,7 +41,7 @@ namespace Pyro.Engine.Services.ServiceConfiguration
       PropertyInfo[] properties = type.GetProperties();
       foreach (PropertyInfo property in properties)
       {        
-        if (IServiceConfigurationRepository.UpdateIfNewOrModifiedServiceConfigration(property.Name, property.GetValue(GlobalProperties, null).ToString(), Pyro.Common.PyroHealthInformation.PyroHealthSystemUser.User, DateNow))
+        if (IServiceConfigurationRepository.UpdateIfNewOrModifiedServiceConfigration(property.Name, property.GetValue(GlobalProperties, null).ToString(), Pyro.Common.PyroHealthFhirResource.PyroHealthSystemUser.User, DateNow))
         {
           Result = true;
         }

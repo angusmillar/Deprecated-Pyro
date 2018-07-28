@@ -30,7 +30,7 @@ namespace Pyro.Engine.Services.FhirTasks.FhirSpecLoader
     private readonly IBundleTransactionOperationFactory IBundleTransactionOperationFactory;
     private readonly IFhirSpecificationDefinitionLoaderParameters IFhirSpecificationDefinitionLoaderParameters;
     private readonly IFhirTaskTool IFhirTaskTool;
-    private readonly Common.PyroHealthInformation.CodeSystems.IPyroFhirServer IPyroFhirServerCodeSystem;
+    private readonly Common.PyroHealthFhirResource.CodeSystems.IPyroFhirServer IPyroFhirServerCodeSystem;
 
     private readonly string _ZipFileName = "definitions.xml.zip";
     private readonly string _TaskStatusSystem = "http://hl7.org/fhir/task-status";
@@ -42,7 +42,7 @@ namespace Pyro.Engine.Services.FhirTasks.FhirSpecLoader
       IBundleTransactionOperationFactory IBundleTransactionOperationFactory,
       IFhirSpecificationDefinitionLoaderParameters IFhirSpecificationDefinitionLoaderParameters,
       IFhirTaskTool IFhirTaskTool,
-      Common.PyroHealthInformation.CodeSystems.IPyroFhirServer IPyroFhirServerCodeSystem)
+      Common.PyroHealthFhirResource.CodeSystems.IPyroFhirServer IPyroFhirServerCodeSystem)
     {
       this.ILog = ILog;
       this.IUnitOfWork = IUnitOfWork;
@@ -79,18 +79,26 @@ namespace Pyro.Engine.Services.FhirTasks.FhirSpecLoader
             {
               if (IFhirSpecificationDefinitionLoaderParameters.TaskStatus != Task.TaskStatus.Completed)
               {
-                //Still InProgress so update this file status and commit
+                //Still InProgress so update this file status and commit this Bundle Transaction and update the Task
+                //Then loop again for the next file 
                 SetParametersInProgressTaskLoad(Task);
                 IFhirTaskTool.UpdateTaskAsStatus(IFhirSpecificationDefinitionLoaderParameters.TaskStatus.Value, Task);
-                Transaction.Commit();
+                Transaction.Commit();                
               }
-              else
+              else if (IFhirSpecificationDefinitionLoaderParameters.TaskStatus == Task.TaskStatus.Completed)
               {
-                //All finshed set the Whole Task to Completed and set the Completed end timestamp
+                //AllOk was True so IFhirSpecificationDefinitionLoaderParameters.TaskStatus == Completed
+                //All finshed set the Whole Task to Completed and set the Completed end timestamp to the Tasl and Commit
+                //The Break out of loop
                 SetParametersOnCompletedTaskLoad(Task);
                 IFhirTaskTool.UpdateTaskAsStatus(IFhirSpecificationDefinitionLoaderParameters.TaskStatus.Value, Task);
                 Transaction.Commit();
-                return IFhirSpecificationDefinitionLoaderParameters.TaskStatus.Value;
+                break;
+              }
+              else
+              {
+                //What went wrong, when SetParametersInProgressTaskLoad(Task) retuns True the TaskStatus must always be Completed
+                throw new Exception("Internal Server Error: SetParametersInProgressTaskLoad(Task) returned True yet TaskStatus was not Completed.");
               }
             }
             else
@@ -111,8 +119,10 @@ namespace Pyro.Engine.Services.FhirTasks.FhirSpecLoader
               Transaction.Commit();
               return IFhirSpecificationDefinitionLoaderParameters.TaskStatus.Value;
             }
-          }
+          }          
         }
+        //AllOk was True so IFhirSpecificationDefinitionLoaderParameters.TaskStatus == Completed        
+        return IFhirSpecificationDefinitionLoaderParameters.TaskStatus.Value;
       }
       catch (Exception Exec)
       {
@@ -126,20 +136,8 @@ namespace Pyro.Engine.Services.FhirTasks.FhirSpecLoader
     {
       bool OneFileCompleted = false;
       string ZipFilePath = GetZipFilePath();
-      Stream FileStream = null;
-      try
-      {
-        FileStream = new FileStream(ZipFilePath, FileMode.Open, FileAccess.Read);
-      }
-      catch (Exception Exec)
-      {
-        string ErrorMessage = $"Internal Server Error: Could not read the FHIR specification zip file named: {_ZipFileName} from the server path {ZipFilePath}.";
-        Parameters.ErrorMessage = ErrorMessage;
-        Parameters.TaskStatus = Hl7.Fhir.Model.Task.TaskStatus.Failed;
-        ILog.Error(Exec, ErrorMessage);
-        return false;
-      }
-
+      Stream FileStream = new MemoryStream(Common.CommonResource.definitions_xml);
+              
       try
       {
         using (ZipArchive Archive = new ZipArchive(FileStream))

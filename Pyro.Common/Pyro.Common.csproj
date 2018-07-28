@@ -121,6 +121,11 @@
     <Compile Include="BackgroundTask\IBackgroundTaskPayloadBase.cs" />
     <Compile Include="BackgroundTask\Task\ITaskPayloadHiServiceIHISearch.cs" />
     <Compile Include="BackgroundTask\Task\TaskPayloadHiServiceIHISearch.cs" />
+    <Compile Include="CommonResource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CommonResource.resx</DependentUpon>
+    </Compile>
     <Compile Include="CompositionRoot\Concrete\GenericInstanceFactory.cs" />
     <Compile Include="CompositionRoot\IGenericInstanceFactory.cs" />
     <Compile Include="CompositionRoot\IIndexSetterFactory.cs" />
@@ -137,28 +142,28 @@
     <Compile Include="Interfaces\Repositories\IServiceConfigurationRepository.cs" />
     <Compile Include="Interfaces\Service\IServiceConfigurationService.cs" />
     <Compile Include="ProductText\PyroWarmUpMessages.cs" />
-    <Compile Include="PyroHealthInformation\Device.cs" />
-    <Compile Include="PyroHealthInformation\CodeSystems\IPyroHealth.cs" />
-    <Compile Include="PyroHealthInformation\CodeSystems\PyroHealth.cs" />
-    <Compile Include="PyroHealthInformation\Devices\IPyroFhirServer.cs" />
-    <Compile Include="PyroHealthInformation\Devices\PyroFhirServer.cs" />
-    <Compile Include="PyroHealthInformation\IDevice.cs" />
-    <Compile Include="PyroHealthInformation\ITask.cs" />
-    <Compile Include="PyroHealthInformation\Task.cs" />
-    <Compile Include="PyroHealthInformation\CodeSystem.cs" />
-    <Compile Include="PyroHealthInformation\CodeSystems\IPyroFhirServer.cs" />
-    <Compile Include="PyroHealthInformation\CodeSystems\IPyroTask.cs" />
-    <Compile Include="PyroHealthInformation\CodeSystems\PyroTask.cs" />
-    <Compile Include="PyroHealthInformation\CodeSystems\PyroFhirServer.cs" />
-    <Compile Include="PyroHealthInformation\ICodeSystem.cs" />
-    <Compile Include="PyroHealthInformation\IOrganization.cs" />
-    <Compile Include="PyroHealthInformation\IPyroFhirResource.cs" />
-    <Compile Include="PyroHealthInformation\Organization.cs" />
-    <Compile Include="PyroHealthInformation\Organizations\IPyroHealth.cs" />
-    <Compile Include="PyroHealthInformation\PyroFhirResource.cs" />
-    <Compile Include="PyroHealthInformation\Organizations\PyroHealth.cs" />
-    <Compile Include="PyroHealthInformation\Tasks\ILoadFhirSpecificationDefinitions.cs" />
-    <Compile Include="PyroHealthInformation\Tasks\LoadFhirSpecificationDefinitions.cs" />
+    <Compile Include="PyroHealthFhirResource\Device.cs" />
+    <Compile Include="PyroHealthFhirResource\CodeSystems\IPyroHealth.cs" />
+    <Compile Include="PyroHealthFhirResource\CodeSystems\PyroHealth.cs" />
+    <Compile Include="PyroHealthFhirResource\Devices\IPyroFhirServer.cs" />
+    <Compile Include="PyroHealthFhirResource\Devices\PyroFhirServer.cs" />
+    <Compile Include="PyroHealthFhirResource\IDevice.cs" />
+    <Compile Include="PyroHealthFhirResource\ITask.cs" />
+    <Compile Include="PyroHealthFhirResource\Task.cs" />
+    <Compile Include="PyroHealthFhirResource\CodeSystem.cs" />
+    <Compile Include="PyroHealthFhirResource\CodeSystems\IPyroFhirServer.cs" />
+    <Compile Include="PyroHealthFhirResource\CodeSystems\IPyroTask.cs" />
+    <Compile Include="PyroHealthFhirResource\CodeSystems\PyroTask.cs" />
+    <Compile Include="PyroHealthFhirResource\CodeSystems\PyroFhirServer.cs" />
+    <Compile Include="PyroHealthFhirResource\ICodeSystem.cs" />
+    <Compile Include="PyroHealthFhirResource\IOrganization.cs" />
+    <Compile Include="PyroHealthFhirResource\IPyroFhirResource.cs" />
+    <Compile Include="PyroHealthFhirResource\Organization.cs" />
+    <Compile Include="PyroHealthFhirResource\Organizations\IPyroHealth.cs" />
+    <Compile Include="PyroHealthFhirResource\PyroFhirResource.cs" />
+    <Compile Include="PyroHealthFhirResource\Organizations\PyroHealth.cs" />
+    <Compile Include="PyroHealthFhirResource\Tasks\ILoadFhirSpecificationDefinitions.cs" />
+    <Compile Include="PyroHealthFhirResource\Tasks\LoadFhirSpecificationDefinitions.cs" />
     <Compile Include="SearchIndexer\Indexer\ExpressionSupport\DateTimePeriodExpression.cs" />
     <Compile Include="SearchIndexer\Indexer\ExpressionSupport\DecimalExpression.cs" />
     <Compile Include="SearchIndexer\Indexer\ExpressionSupport\QuantityExpression.cs" />
@@ -261,8 +266,8 @@
     <Compile Include="Interfaces\Service\IServicePrimaryBaseUrlService.cs" />
     <Compile Include="Interfaces\Service\IServiceSearchParameterService.cs" />
     <Compile Include="ProductText\PyroText.cs" />
-    <Compile Include="PyroHealthInformation\Elements\PyroHealthContactList.cs" />
-    <Compile Include="PyroHealthInformation\PyroHealthSystemUser.cs" />
+    <Compile Include="PyroHealthFhirResource\Elements\PyroHealthContactList.cs" />
+    <Compile Include="PyroHealthFhirResource\PyroHealthSystemUser.cs" />
     <Compile Include="RequestMetadata\IRequestMeta.cs" />
     <Compile Include="RequestMetadata\RequestMeta.cs" />
     <Compile Include="Search\DtoServiceSearchParameter.cs" />
@@ -452,9 +457,15 @@
     <None Include="app.config" />
     <None Include="Interfaces\Repositories\MainTemplate.txt4" />
     <None Include="packages.config" />
+    <None Include="Resources\definitions.xml.zip" />
     <None Include="Tools\MainTemplate.txt4" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="CommonResource.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>CommonResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Pyro.ADHA\Pyro.ADHA.csproj">
       <Project>{e6f613e6-7245-4d83-9ed3-d316dc66d0de}</Project>
@@ -468,6 +479,9 @@
       <Project>{AFDCDF8C-9233-446D-88AF-4F3374A1A309}</Project>
       <Name>Pyro.Smart</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PyroPatientCompartmentDefinition.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
