@@ -8,6 +8,7 @@
     string ThisServersEntityCode { get; }
     string ThisServersEntitySystem { get; }
     string ThisServersManagingOrganizationResource { get; }
+    bool LoadFhirDefinitionResources { get; }
     bool ApplicationCacheServicesActive { get; }
     string ApplicationVersionInfo { get; }
     int NumberOfRecordsPerPageDefault { get; }

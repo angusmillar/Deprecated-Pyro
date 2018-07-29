@@ -137,7 +137,7 @@ namespace Pyro.Engine.Services.Metadata
         FHIRAllTypes? FhirType = Hl7.Fhir.Model.ModelInfo.FhirTypeNameToFhirType(CurrentResourceString);
         var ResourceComponent = new CapabilityStatement.ResourceComponent();
         RestComponent.Resource.Add(ResourceComponent);
-        ResourceComponent.Type = ResourceType;
+        ResourceComponent.Type = ResourceType;        
         ResourceComponent.Interaction = new List<CapabilityStatement.ResourceInteractionComponent>()
         {
           new CapabilityStatement.ResourceInteractionComponent() { Code = CapabilityStatement.TypeRestfulInteraction.Create },

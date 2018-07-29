@@ -1,4 +1,7 @@
-﻿namespace Pyro.Common.PyroHealthFhirResource
+﻿using System.Collections.Generic;
+using Hl7.Fhir.Model;
+
+namespace Pyro.Common.PyroHealthFhirResource
 {
 
   public class PyroFhirResource : IPyroFhirResource
@@ -21,5 +24,26 @@
     public ICodeSystem CodeSystem => ICodeSystem;
     public ITask Task => ITask;
     public IDevice Device => IDevice;
+
+    public IEnumerable<Resource> ResourceToLoadOnStartupList()
+    {
+      List<Resource> ResourceList = new List<Resource>();
+      
+      //Orginisation
+      ResourceList.Add(IOrganization.PyroHealthOrganization.GetResource());
+      
+      //CodeSystem
+      ResourceList.Add(ICodeSystem.PyroFhirServerCodeSystem.GetResource());
+      ResourceList.Add(ICodeSystem.PyroHealthCodeSystem.GetResource());
+      ResourceList.Add(ICodeSystem.PyroTaskCodeSystem.GetResource());
+      
+      //Device
+      ResourceList.Add(IDevice.PyroFhirServerDevice.GetResource());
+      
+      //Task
+      ResourceList.Add(ITask.LoadFhirSpecificationDefinitionsTask.GetResource());
+
+      return ResourceList;      
+    }
   }
 }

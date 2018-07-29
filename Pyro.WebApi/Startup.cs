@@ -95,6 +95,7 @@ namespace Pyro.WebApi
       App_Start.SimpleInjectorWebApiInitializer.Initialize(HttpConfiguration);
 
       var IFhirExceptionFilter = (Pyro.Common.Exceptions.IFhirExceptionFilter)HttpConfiguration.DependencyResolver.GetService(typeof(Pyro.Common.Exceptions.IFhirExceptionFilter));
+
       HttpConfiguration.Filters.Add(IFhirExceptionFilter);
 
       if (!Console.IsOutputRedirected)
@@ -128,12 +129,13 @@ namespace Pyro.WebApi
       //       This is slow due to Entity Framework (EF). EF on the first call loads the entire database schema into memory
       //       and it is this loas that takes the time. Rougly just over 1 min on my machine. All later database calls are fast.
       App_Start.StartupPyroConfirgrationSynch.RunTask(HttpConfiguration);
-      
-      //Check seeded FHIR Resource and update if required
+
+      //Check seeded FHIR Resource and update if required      
       App_Start.StarupPyroResourceSeeding.RunTask(HttpConfiguration);
 
-      //Check for any FHIR task to process on startup
-      App_Start.StarupPyroTaskRunner.RunTask(HttpConfiguration);
+
+      //Check for any FHIR task to process on startup      
+      App_Start.StarupPyroTaskRunner.RunTask(HttpConfiguration);      
 
       if (!Console.IsOutputRedirected)
       {

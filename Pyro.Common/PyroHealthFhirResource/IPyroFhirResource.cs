@@ -1,4 +1,6 @@
-﻿
+﻿using Hl7.Fhir.Model;
+using System.Collections.Generic;
+
 namespace Pyro.Common.PyroHealthFhirResource
 {
   public interface IPyroFhirResource
@@ -7,5 +9,7 @@ namespace Pyro.Common.PyroHealthFhirResource
     IOrganization Organization { get; }       
     ITask Task { get; }
     IDevice Device { get; }
+    IEnumerable<Resource> ResourceToLoadOnStartupList();
+    
   }
 }

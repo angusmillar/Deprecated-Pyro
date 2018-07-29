@@ -39,7 +39,7 @@ namespace Pyro.WebApi.App_Start
         // This code and specifically the line 'SeedTaskResults.Wait()' and 'Result = SeedTaskResults.Result' are commented out
         // so that this task does not stop the FHIR server from being operational while waiting for this task
         //This task is to run in the background untill completd. The task recoveres and picks up from where it finished.
-        //You can do a GET: [base]/Task/Load-Fhir-Specification-Definitions to monitor it's progress. It can take upto an hour 
+        //You can do a GET: [base]/Task/Load-Fhir-Definition-Resources to monitor it's progress. It can take upto an hour 
         //to complete. It primary use is to load all the FHIR specification resources into the server.
 
         //Here we are catching any exceptions that occured inside the Task thread above.

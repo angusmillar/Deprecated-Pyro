@@ -30,28 +30,24 @@ namespace Pyro.Common.PyroHealthFhirResource.Tasks
       this.IGlobalProperties = IGlobalProperties;
       this.IPyroHealthOrg = IPyroHealthOrg;
     }
-
-    private static string ResourceId = "Load-Fhir-Specification-Definitions";
-
-    public string GetName()
-    {
-      return ResourceId;
-    }
-
+    
+    private static string ResourceId = "Load-Fhir-Definition-Resources";
+    
     public string GetResourceId()
     {
       return ResourceId;
     }
 
+    public DateTimeOffset MasterLastUpdated => new DateTimeOffset(2018, 07, 27, 16, 37, 00, new TimeSpan(8, 0, 0));
 
-    public FhirModel.Task GetTask()
+    public FhirModel.Task GetResource()
     {
       var LastUpdated = new DateTimeOffset(2018, 07, 27, 16, 37, 00, new TimeSpan(8, 0, 0));
 
       var Resource = new FhirModel.Task();
       Resource.Id = GetResourceId();
       IPyroFhirServerCodeSystem.SetProtectedMetaTag(Resource);      
-      Resource.Meta.LastUpdated = LastUpdated;
+      Resource.Meta.LastUpdated = MasterLastUpdated;
       Resource.Identifier = new List<FhirModel.Identifier>()
       {
         IPyroFhirServerCodeSystem.GetIdentifier(PyroHealthFhirResource.CodeSystems.PyroFhirServer.Codes.ServerStartupTask)
@@ -71,7 +67,7 @@ namespace Pyro.Common.PyroHealthFhirResource.Tasks
 
       Resource.Focus = new FhirModel.ResourceReference($"{FhirModel.ResourceType.Device.GetLiteral()}/{IPyroFhirServerDevice.GetResourceId()}");
       FhirModel.ResourceReference ServerManagingOrginationReferrence;
-      FhirModel.ResourceReference PyroHealthOrgReference = new FhirModel.ResourceReference($"{FhirModel.ResourceType.Organization.GetLiteral()}/{IPyroHealthOrg.GetOrganization().Id}");
+      FhirModel.ResourceReference PyroHealthOrgReference = new FhirModel.ResourceReference($"{FhirModel.ResourceType.Organization.GetLiteral()}/{IPyroHealthOrg.GetResourceId()}");
       if (string.IsNullOrWhiteSpace(IGlobalProperties.ThisServersManagingOrganizationResource))
       {
         ServerManagingOrginationReferrence = PyroHealthOrgReference;

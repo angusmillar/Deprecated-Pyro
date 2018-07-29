@@ -14,6 +14,7 @@ using System.Data.Entity;
 using System.Linq;
 using Pyro.Engine.Services.FhirTasks.FhirSpecLoader;
 using Pyro.Common.Tools.FhirTask;
+using Pyro.Common.Global;
 
 namespace Pyro.Engine.Services.FhirTasks
 {
@@ -27,6 +28,7 @@ namespace Pyro.Engine.Services.FhirTasks
     private readonly Common.PyroHealthFhirResource.CodeSystems.IPyroTask IPyroTaskCodeSystem;
     private readonly Common.PyroHealthFhirResource.CodeSystems.IPyroFhirServer IPyroFhirServerCodeSystem;
     private readonly IFhirTaskTool IFhirTaskTool;
+    private readonly IGlobalProperties IGlobalProperties;
 
     public TaskRunner(IResourceServices IResourceServices,
       IRequestMetaFactory IRequestMetaFactory,
@@ -35,7 +37,8 @@ namespace Pyro.Engine.Services.FhirTasks
       IFhirSpecificationDefinitionLoader IFhirSpecificationDefinitionLoader,      
       Common.PyroHealthFhirResource.CodeSystems.IPyroTask IPyroTaskCodeSystem,
       Common.PyroHealthFhirResource.CodeSystems.IPyroFhirServer IPyroFhirServerCodeSystem,
-      IFhirTaskTool IFhirTaskTool)
+      IFhirTaskTool IFhirTaskTool,
+      IGlobalProperties IGlobalProperties)
     {      
       this.IResourceServices = IResourceServices;
       this.IRequestMetaFactory = IRequestMetaFactory;
@@ -45,6 +48,7 @@ namespace Pyro.Engine.Services.FhirTasks
       this.IPyroTaskCodeSystem = IPyroTaskCodeSystem;
       this.IPyroFhirServerCodeSystem = IPyroFhirServerCodeSystem;
       this.IFhirTaskTool = IFhirTaskTool;
+      this.IGlobalProperties = IGlobalProperties;
     }
     
     private IEnumerable<Common.PyroHealthFhirResource.CodeSystems.PyroFhirServer.Codes> _TaskIdentifierToRunList;
@@ -109,7 +113,8 @@ namespace Pyro.Engine.Services.FhirTasks
           var TaskTypeList = Task.Code?.Coding?.Where(x => x.System == IPyroTaskCodeSystem.GetSystem());
           if (TaskTypeList != null)
           {
-            if (TaskTypeList.Any(x => x.Code == IPyroTaskCodeSystem.GetCode(Common.PyroHealthFhirResource.CodeSystems.PyroTask.Codes.LoadFhirSpecResources)))
+            if (TaskTypeList.Any(x => x.Code == IPyroTaskCodeSystem.GetCode(Common.PyroHealthFhirResource.CodeSystems.PyroTask.Codes.LoadFhirSpecResources)) 
+              && IGlobalProperties.LoadFhirDefinitionResources)
             {
               //This Task Manages it's own Transaction within
               TaskStatus = IFhirSpecificationDefinitionLoader.Run(Task);              

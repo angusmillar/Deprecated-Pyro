@@ -11,21 +11,33 @@ namespace Pyro.Common.PyroHealthFhirResource.CodeSystems
 {
   public class PyroTask : IPyroTask
   {
-    private readonly CodeSystems.IPyroFhirServer IPyroFhirServerCodeSystem;
-
-    private Dictionary<Codes, FhirModel.CodeSystem.ConceptDefinitionComponent> _CodeDefinitionDictionary;
-
     public enum Codes
     {
       [EnumLiteral("LoadFhirSpecResources")]
       LoadFhirSpecResources,
     }
 
-    public PyroTask(CodeSystems.IPyroFhirServer IPyroFhirServerCodeSystem)
-    {
-      this.IPyroFhirServerCodeSystem = IPyroFhirServerCodeSystem;
+    private readonly CodeSystems.IPyroFhirServer IPyroFhirServerCodeSystem;
 
-      _CodeDefinitionDictionary = new Dictionary<Codes, FhirModel.CodeSystem.ConceptDefinitionComponent>()
+    private Dictionary<Codes, FhirModel.CodeSystem.ConceptDefinitionComponent> _Dictionary;
+    private Dictionary<Codes, FhirModel.CodeSystem.ConceptDefinitionComponent> _CodeDefinitionDictionary
+    {
+      get
+      {
+        if (_Dictionary == null)
+        {
+          BuildCodeDefinitionDictionary();
+        }
+        return _Dictionary;
+      }
+      set
+      {
+        _Dictionary = value;
+      }
+    }
+    private void BuildCodeDefinitionDictionary()
+    {
+      _Dictionary = new Dictionary<Codes, FhirModel.CodeSystem.ConceptDefinitionComponent>()
       {
         {
           Codes.LoadFhirSpecResources,
@@ -36,9 +48,12 @@ namespace Pyro.Common.PyroHealthFhirResource.CodeSystems
               Definition = "Fhir Task that Loads the FHIR specifications Resources into the Pyro FHIR Server on first start-up.",
           }
         },
-
       };
-
+    }
+    
+    public PyroTask(CodeSystems.IPyroFhirServer IPyroFhirServerCodeSystem)
+    {
+      this.IPyroFhirServerCodeSystem = IPyroFhirServerCodeSystem;      
     }
 
     private static string ResourceId = "pyro-task";
@@ -95,13 +110,15 @@ namespace Pyro.Common.PyroHealthFhirResource.CodeSystems
       }
     }
 
-    public FhirModel.CodeSystem GetCodeSystem()
+    public DateTimeOffset MasterLastUpdated => new DateTimeOffset(2018, 07, 24, 10, 00, 00, new TimeSpan(8, 0, 0));
+
+    public FhirModel.CodeSystem GetResource()
     {
       var CodeSystemUpdateDate = new DateTimeOffset(2018, 07, 24, 10, 00, 00, new TimeSpan(8, 0, 0));
       var Resource = new FhirModel.CodeSystem();
       Resource.Id = "pyro-task";
       IPyroFhirServerCodeSystem.SetProtectedMetaTag(Resource);
-      Resource.Meta.LastUpdated = CodeSystemUpdateDate;
+      Resource.Meta.LastUpdated = MasterLastUpdated;
       Resource.Url = this.GetSystem();
       Resource.Version = "1.00";
       Resource.Name = "PyroTaskCodeSystem";

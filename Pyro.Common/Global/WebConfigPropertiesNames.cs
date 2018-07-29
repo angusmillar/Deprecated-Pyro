@@ -14,6 +14,7 @@ namespace Pyro.Common.Global
     public static string ThisServersEntityCode { get; } = "ThisServersEntityCode";    
     public static string ThisServersEntitySystem { get; } = "ThisServersEntitySystem";    
     public static string ThisServersManagingOrganizationResource { get; } = "ThisServersManagingOrganizationResource";
+    public static string LoadFhirDefinitionResources { get; } = "LoadFhirDefinitionResources";    
     public static string ApplicationCacheServicesActive { get; } = "ApplicationCacheServicesActive";
     public static string FhirAuditEventLogRequestData { get; } = "FhirAuditEventLogRequestData";
     public static string FhirAuditEventLogResponseData { get; } = "FhirAuditEventLogResponseData";    

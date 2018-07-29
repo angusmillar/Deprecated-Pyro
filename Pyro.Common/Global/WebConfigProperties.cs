@@ -34,8 +34,7 @@ namespace Pyro.Common.Global
     {
       return WebConfigPropertiesNames.AuthenticationServerUrl
         .AppSettingAsStringOrDefault(WebConfigPropertiesDefaults.AuthenticationServerUrl);
-    }
-    
+    }    
 
     public static string ThisServersEntityCode()
     {
@@ -55,6 +54,11 @@ namespace Pyro.Common.Global
         .AppSettingAsStringOrDefault(WebConfigPropertiesDefaults.ThisServersManagingOrganizationResource);
     }
 
+    public static bool LoadFhirDefinitionResources()
+    {
+      return WebConfigPropertiesNames.LoadFhirDefinitionResources.AppSettingAsBoolOrDefault(WebConfigPropertiesDefaults.LoadFhirDefinitionResources);
+    }
+
     public static bool ApplicationCacheServicesActive()
     {
       return WebConfigPropertiesNames.ApplicationCacheServicesActive
@@ -72,7 +76,6 @@ namespace Pyro.Common.Global
       return WebConfigPropertiesNames.FhirAuditEventLogResponseData
         .AppSettingAsBoolOrDefault(WebConfigPropertiesDefaults.FhirAuditEventLogResponseData);      
     }
-
 
     /// <summary>
     /// This setting sets the default number of Resource returned for one page of search results. 

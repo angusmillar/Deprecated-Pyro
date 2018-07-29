@@ -2,10 +2,7 @@
 
 namespace Pyro.Common.PyroHealthFhirResource.Organizations
 {
-  public interface IPyroHealth
-  {
-    Hl7.Fhir.Model.Organization GetOrganization();
-    string GetResourceId();
-    string GetName();
+  public interface IPyroHealth : IPyroOrganization
+  {            
   }
 }

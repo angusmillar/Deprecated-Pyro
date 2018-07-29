@@ -18,6 +18,8 @@ namespace Pyro.Common.Global
     
     public static string ThisServersManagingOrganizationResource { get; } = string.Empty;
 
+    public static bool LoadFhirDefinitionResources { get; } = true;    
+
     public static bool ApplicationCacheServicesActive { get; } = true;
 
     public static string ApplicationVersionInfo { get; } = System.Diagnostics.FileVersionInfo.GetVersionInfo(typeof(GlobalProperties).Assembly.Location).ProductVersion;

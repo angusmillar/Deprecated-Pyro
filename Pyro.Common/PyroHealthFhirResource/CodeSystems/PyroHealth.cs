@@ -12,8 +12,6 @@ namespace Pyro.Common.PyroHealthFhirResource.CodeSystems
   public class PyroHealth : IPyroHealth
   {
     private readonly CodeSystems.IPyroFhirServer IPyroFhirServerCodeSystem;
-    
-    private Dictionary<Codes, FhirModel.CodeSystem.ConceptDefinitionComponent> _CodeDefinitionDictionary;
 
     public enum Codes
     {
@@ -23,30 +21,48 @@ namespace Pyro.Common.PyroHealthFhirResource.CodeSystems
       PyroFhirServer,
 
     }
-
+    private Dictionary<Codes, FhirModel.CodeSystem.ConceptDefinitionComponent> _Dictionary;
+    private Dictionary<Codes, FhirModel.CodeSystem.ConceptDefinitionComponent> _CodeDefinitionDictionary
+    {
+      get
+      {
+        if (_Dictionary == null)
+        {
+          BuildCodeDefinitionDictionary();
+        }
+        return _Dictionary;
+      }
+      set
+      {
+        _Dictionary = value;
+      }
+    }
+    private void BuildCodeDefinitionDictionary()
+    {
+      _Dictionary = new Dictionary<Codes, FhirModel.CodeSystem.ConceptDefinitionComponent>()
+      {
+        {
+          Codes.PyroHealth,
+          new FhirModel.CodeSystem.ConceptDefinitionComponent(){
+            Code = Codes.PyroHealth.GetPyroLiteral(),
+            Display = "Pyro Health",
+            Definition = "The Pyro Health Orginsation.",
+          }
+        },
+        {
+          Codes.PyroFhirServer,
+          new FhirModel.CodeSystem.ConceptDefinitionComponent(){
+            Code = Codes.PyroFhirServer.GetPyroLiteral(),
+            Display = "Pyro Fhir Server",
+            Definition = "A Pyro FHir Server Instance.",
+          }
+        },
+      };
+    }
+   
     public PyroHealth(CodeSystems.IPyroFhirServer IPyroFhirServer)
     {
-      this.IPyroFhirServerCodeSystem = IPyroFhirServer;
-      _CodeDefinitionDictionary = new Dictionary<Codes, FhirModel.CodeSystem.ConceptDefinitionComponent>()
-          {
-            {
-              Codes.PyroHealth,
-              new FhirModel.CodeSystem.ConceptDefinitionComponent(){
-                Code = Codes.PyroHealth.GetPyroLiteral(),
-                Display = "Pyro Health",
-                Definition = "The Pyro Health Orginsation.",
-              }
-            },
-            {
-              Codes.PyroFhirServer,
-              new FhirModel.CodeSystem.ConceptDefinitionComponent(){
-                Code = Codes.PyroFhirServer.GetPyroLiteral(),
-                Display = "Pyro Fhir Server",
-                Definition = "A Pyro FHir Server Instance.",
-              }
-            },
-          };
-
+      this.IPyroFhirServerCodeSystem = IPyroFhirServer;    
     }
 
     private static string ResourceId = "pyro-health";
@@ -71,7 +87,7 @@ namespace Pyro.Common.PyroHealthFhirResource.CodeSystems
     {
       return System;
     }
-
+    
     public FhirModel.Coding GetCoding(Codes Code)
     {
       if (_CodeDefinitionDictionary.ContainsKey(Code))
@@ -84,7 +100,7 @@ namespace Pyro.Common.PyroHealthFhirResource.CodeSystems
         throw new Exception($"Internal Server Error: Enum {Code.ToString()} is not registered in the _CodeDefinitionDictionary for {this.GetName()} CodeSystem");
       }
     }
-
+    
     public FhirModel.Identifier GetIdentifier(Codes Code)
     {
       if (_CodeDefinitionDictionary.ContainsKey(Code))
@@ -103,22 +119,21 @@ namespace Pyro.Common.PyroHealthFhirResource.CodeSystems
       }
     }
 
-    
+    public DateTimeOffset MasterLastUpdated => new DateTimeOffset(2018, 07, 26, 18, 00, 00, new TimeSpan(8, 0, 0));
 
-    public FhirModel.CodeSystem GetCodeSystem()
-    {
-      var LastUpdated = new DateTimeOffset(2018, 07, 26, 18, 00, 00, new TimeSpan(8, 0, 0));
+    public FhirModel.CodeSystem GetResource()
+    {      
       var Resource = new FhirModel.CodeSystem();
       Resource.Id = this.GetName();
       IPyroFhirServerCodeSystem.SetProtectedMetaTag(Resource);      
-      Resource.Meta.LastUpdated = LastUpdated;
+      Resource.Meta.LastUpdated = MasterLastUpdated;
       Resource.Url = this.GetSystem();
       Resource.Version = "1.00";
       Resource.Name = this.GetName();
       Resource.Title = "The Pyro Health Orginsation CodeSystem";
       Resource.Status = FhirModel.PublicationStatus.Active;
       Resource.Experimental = false;
-      Resource.DateElement = new FhirModel.FhirDateTime(LastUpdated);
+      Resource.DateElement = new FhirModel.FhirDateTime(MasterLastUpdated);
       Resource.Publisher = "Pyrohealth.net";
       var AngusContactDetail = Common.PyroHealthFhirResource.Elements.PyroHealthContactDetailAngusMillar.GetContactDetail();
       Resource.Contact = new List<FhirModel.ContactDetail>() { AngusContactDetail };
@@ -134,6 +149,8 @@ namespace Pyro.Common.PyroHealthFhirResource.CodeSystems
       }
       return Resource;
     }
+
+    
   }
 
 }

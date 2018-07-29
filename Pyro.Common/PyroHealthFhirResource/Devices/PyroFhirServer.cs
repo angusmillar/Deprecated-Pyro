@@ -26,25 +26,21 @@ namespace Pyro.Common.PyroHealthFhirResource.Devices
 
     private static string ResourceId = "Pyro-Fhir-Server";
     
-    public string GetName()
-    {
-      return ResourceId;
-    }
-
     public string GetResourceId()
     {
       return ResourceId;
     }
 
-    public FhirModel.Device GetDevice()
-    {      
-      var LastUpdatedDateTime = new DateTimeOffset(2018, 07, 26, 18, 00, 00, new TimeSpan(8, 0, 0));
+    public DateTimeOffset MasterLastUpdated => new DateTimeOffset(2018, 07, 26, 18, 00, 00, new TimeSpan(8, 0, 0));
+
+    public FhirModel.Device GetResource()
+    {            
       var ManufactureDate = new DateTimeOffset(2017, 10, 17, 6, 00, 00, new TimeSpan(8, 0, 0));
      
       var Resource = new FhirModel.Device();
       Resource.Id = GetResourceId();
       IPyroFhirServerCodeSystem.SetProtectedMetaTag(Resource);
-      Resource.Meta.LastUpdated = LastUpdatedDateTime;
+      Resource.Meta.LastUpdated = MasterLastUpdated;
       Resource.Identifier = new List<FhirModel.Identifier>()
       {
         IPyroHealthCodeSystem.GetIdentifier(CodeSystems.PyroHealth.Codes.PyroFhirServer)

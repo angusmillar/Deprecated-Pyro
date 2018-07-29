@@ -42,29 +42,15 @@ namespace Pyro.Engine.Services.ResourceSeed
     }
 
     public void Process()
-    {
-      var MasterResourceList = ObtainMasterResoureList();      
-      var ResourceToCommit = ResolveResourcesToLoad(MasterResourceList);
-      if (ResourceToCommit.Count > 0)
+    {      
+      var ResourceToCommit = ResolveResourcesToLoad(IPyroFhirResource.ResourceToLoadOnStartupList());
+      if (ResourceToCommit.Count() > 0)
         CommitResourceList(ResourceToCommit);
     }
-
-    private List<Resource> ObtainMasterResoureList()
+    
+    private IEnumerable<Resource> ResolveResourcesToLoad(IEnumerable<Resource> LoadList)
     {
-      List<Resource> MasterResourceList = new List<Resource>();
-      MasterResourceList.Add(IPyroFhirResource.CodeSystem.PyroHealthCodeSystem.GetCodeSystem());
-      MasterResourceList.Add(IPyroFhirResource.CodeSystem.PyroFhirServerCodeSystem.GetCodeSystem());      
-      MasterResourceList.Add(IPyroFhirResource.CodeSystem.PyroTaskCodeSystem.GetCodeSystem());
-      MasterResourceList.Add(IPyroFhirResource.Organization.PyroHealthOrganization.GetOrganization());
-      MasterResourceList.Add(IPyroFhirResource.Device.PyroFhirServerDevice.GetDevice());
-      MasterResourceList.Add(IPyroFhirResource.Task.LoadFhirSpecificationDefinitionsTask.GetTask());
-      return MasterResourceList;
-
-    }
-
-    private List<Resource> ResolveResourcesToLoad(List<Resource> LoadList)
-    {
-      List<Resource> UpdateOrCreateList = new List<Resource>();
+      List<Resource> UpdatePUTList = new List<Resource>();
       foreach (Resource NewResource in LoadList)
       {
         string ResourceId = NewResource.Id;
@@ -85,7 +71,7 @@ namespace Pyro.Engine.Services.ResourceSeed
             if (GetResourceServiceOutcome.HttpStatusCode == System.Net.HttpStatusCode.NotFound || GetResourceServiceOutcome.HttpStatusCode == System.Net.HttpStatusCode.Gone)
             {
               //If the resource is not found in the database then add
-              UpdateOrCreateList.Add(NewResource);
+              UpdatePUTList.Add(NewResource);
             }
             else if (GetResourceServiceOutcome.HttpStatusCode == System.Net.HttpStatusCode.OK && GetResourceServiceOutcome.ResourceResult != null)
             {
@@ -95,7 +81,7 @@ namespace Pyro.Engine.Services.ResourceSeed
               {
                 if (NewResource.Meta.LastUpdated.Value > DbResourceLastUpdated.Value)
                 {
-                  UpdateOrCreateList.Add(NewResource);
+                  UpdatePUTList.Add(NewResource);
                 }
               }
             }
@@ -108,10 +94,10 @@ namespace Pyro.Engine.Services.ResourceSeed
           }
         }
       }
-      return UpdateOrCreateList;
+      return UpdatePUTList;
     }
 
-    private void CommitResourceList(List<Resource> CommitList)
+    private void CommitResourceList(IEnumerable<Resource> CommitList)
     {      
       this.IResourceTriggerService.TriggersActive = false;
       using (DbContextTransaction Transaction = IUnitOfWork.BeginTransaction())

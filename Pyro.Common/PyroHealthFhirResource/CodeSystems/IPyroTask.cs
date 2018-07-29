@@ -2,14 +2,10 @@
 
 namespace Pyro.Common.PyroHealthFhirResource.CodeSystems
 {
-  public interface IPyroTask
+  public interface IPyroTask : IPyroCodeSystem
   {
-    string GetCode(PyroTask.Codes Code);
-    Hl7.Fhir.Model.CodeSystem GetCodeSystem();
+    string GetCode(PyroTask.Codes Code);    
     Coding GetCoding(PyroTask.Codes Code);
     Identifier GetIdentifier(PyroTask.Codes Code);
-    string GetSystem();
-    string GetResourceId();
-    string GetName();
   }
 }

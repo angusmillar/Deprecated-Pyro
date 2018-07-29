@@ -30,16 +30,15 @@ namespace Pyro.Common.PyroHealthFhirResource.Organizations
       return ResourceId;
     }
 
+    public DateTimeOffset MasterLastUpdated => new DateTimeOffset(2018, 07, 26, 18, 00, 00, new TimeSpan(8, 0, 0));
 
-    public FhirModel.Organization GetOrganization()
+    public FhirModel.Organization GetResource()
     {
-      var LastUpdated = new DateTimeOffset(2018, 07, 26, 18, 00, 00, new TimeSpan(8, 0, 0));
-
       var Resource = new FhirModel.Organization();
       Resource.Id = GetResourceId();
 
       IPyroFhirServerCodeSystem.SetProtectedMetaTag(Resource);
-      Resource.Meta.LastUpdated = LastUpdated;
+      Resource.Meta.LastUpdated = MasterLastUpdated;
       Resource.Identifier = new List<FhirModel.Identifier>()
       {
         IPyroHealthCodeSystem.GetIdentifier(CodeSystems.PyroHealth.Codes.PyroHealth)

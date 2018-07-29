@@ -2,16 +2,12 @@
 
 namespace Pyro.Common.PyroHealthFhirResource.CodeSystems
 {
-  public interface IPyroFhirServer
-  {
+  public interface IPyroFhirServer : IPyroCodeSystem
+  {    
     string GetCode(PyroFhirServer.Codes Code);
-    Hl7.Fhir.Model.CodeSystem GetCodeSystem();
     Coding GetCoding(PyroFhirServer.Codes Code);
     Identifier GetIdentifier(PyroFhirServer.Codes Code);
-    string GetSystem();
-    string GetResourceId();
-    string GetName();
     void SetProtectedMetaTag(Resource Resource);
-
+    
   }
 }

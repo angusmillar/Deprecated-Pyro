@@ -17,6 +17,7 @@ namespace Pyro.Common.Global
       _ThisServersEntityCode = WebConfigProperties.ThisServersEntityCode();
       _ThisServersEntitySystem = WebConfigProperties.ThisServersEntitySystem();
       _ThisServersManagingOrganizationResource = WebConfigProperties.ThisServersManagingOrganizationResource();
+      _LoadFhirDefinitionResources = WebConfigProperties.LoadFhirDefinitionResources();
       _ApplicationCacheServicesActive = WebConfigProperties.ApplicationCacheServicesActive();      
       _ApplicationVersionInfo = WebConfigPropertiesDefaults.ApplicationVersionInfo;
       _NumberOfRecordsPerPageDefault = WebConfigProperties.NumberOfRecordsPerPageDefault();
@@ -73,6 +74,15 @@ namespace Pyro.Common.Global
       get
       {
         return _ThisServersManagingOrganizationResource;
+      }
+    }
+    
+    private bool _LoadFhirDefinitionResources;
+    public bool LoadFhirDefinitionResources
+    {
+      get
+      {
+        return _LoadFhirDefinitionResources;
       }
     }
 

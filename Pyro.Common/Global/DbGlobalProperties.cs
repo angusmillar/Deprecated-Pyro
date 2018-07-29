@@ -31,6 +31,8 @@ namespace Pyro.Common.Global
     
     public string ThisServersManagingOrganizationResource { get { return GetStringPropertyValueOrDefault(WebConfigPropertiesNames.ThisServersManagingOrganizationResource, WebConfigPropertiesDefaults.ThisServersManagingOrganizationResource); } }
     
+    public bool LoadFhirDefinitionResources { get { return GetBoolPropertyValueOrDefault(WebConfigPropertiesNames.LoadFhirDefinitionResources, WebConfigPropertiesDefaults.LoadFhirDefinitionResources); } }
+
     public bool ApplicationCacheServicesActive { get { return GetBoolPropertyValueOrDefault(WebConfigPropertiesNames.ApplicationCacheServicesActive, WebConfigPropertiesDefaults.ApplicationCacheServicesActive); } }
     
     public string ApplicationVersionInfo { get { return WebConfigPropertiesDefaults.ApplicationVersionInfo; } }

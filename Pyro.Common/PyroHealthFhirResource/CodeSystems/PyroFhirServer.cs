@@ -10,12 +10,27 @@ using FhirModel = Hl7.Fhir.Model;
 namespace Pyro.Common.PyroHealthFhirResource.CodeSystems
 {
   public class PyroFhirServer : IPyroFhirServer
-  {    
-    private Dictionary<Codes, FhirModel.CodeSystem.ConceptDefinitionComponent> _CodeDefinitionDictionary;
-    
-    public PyroFhirServer()
+  {
+    private Dictionary<Codes, FhirModel.CodeSystem.ConceptDefinitionComponent> _Dictionary;
+    private Dictionary<Codes, FhirModel.CodeSystem.ConceptDefinitionComponent> _CodeDefinitionDictionary
     {
-      _CodeDefinitionDictionary = new Dictionary<Codes, FhirModel.CodeSystem.ConceptDefinitionComponent>()
+      get
+      {
+        if (_Dictionary == null)
+        {
+          BuildCodeDefinitionDictionary();
+        }
+        return _Dictionary;
+      }
+      set
+      {
+        _CodeDefinitionDictionary = value;
+      }
+    }
+    
+    private void BuildCodeDefinitionDictionary()
+    {
+      _Dictionary = new Dictionary<Codes, FhirModel.CodeSystem.ConceptDefinitionComponent>()
           {
             {
               Codes.ActiveCompartment,
@@ -71,8 +86,9 @@ namespace Pyro.Common.PyroHealthFhirResource.CodeSystems
               }
             },
           };
-
     }
+    
+    public PyroFhirServer(){ }
 
     public enum Codes
     {
@@ -93,6 +109,11 @@ namespace Pyro.Common.PyroHealthFhirResource.CodeSystems
     private static string ResourceId = "pyrofhirserver";
     public static string System = "https://pyrohealth.net/fhir/CodeSystem/pyrofhirserver";
 
+    public string GetSystem()
+    {
+      return System;
+    }
+
     public string GetName()
     {
       return ResourceId;
@@ -102,12 +123,7 @@ namespace Pyro.Common.PyroHealthFhirResource.CodeSystems
     {
       return ResourceId;
     }
-
-    public string GetSystem()
-    {
-      return System;
-    }
-
+    
     public FhirModel.Coding GetCoding(Codes Code)
     {
       if (_CodeDefinitionDictionary.ContainsKey(Code))
@@ -117,7 +133,7 @@ namespace Pyro.Common.PyroHealthFhirResource.CodeSystems
       }
       else
       {
-        throw new Exception($"Internal Server Error: Enum {Code.ToString()} is not registered in the _CodeDefinitionDictionary for PyroFhirServer CodeSystem");
+        throw new Exception($"Internal Server Error: Enum {Code.ToString()} is not registered in the CodeDefinitionDictionary for PyroFhirServer CodeSystem");
       }
     }
 
@@ -135,7 +151,7 @@ namespace Pyro.Common.PyroHealthFhirResource.CodeSystems
       }
       else
       {
-        throw new Exception($"Internal Server Error: Enum {Code.ToString()} is not registered in the _CodeDefinitionDictionary for PyroFhirServer CodeSystem");
+        throw new Exception($"Internal Server Error: Enum {Code.ToString()} is not registered in the CodeDefinitionDictionary for PyroFhirServer CodeSystem");
       }
     }
 
@@ -163,41 +179,38 @@ namespace Pyro.Common.PyroHealthFhirResource.CodeSystems
         Resource.Meta.Tag.Add(GetCoding(Codes.Protected));
       }      
     }
-    
 
-    public FhirModel.CodeSystem GetCodeSystem()
-    {
-      var CodeSystemUpdateDate = new DateTimeOffset(2018, 07, 06, 10, 00, 00, new TimeSpan(8, 0, 0));
-      var CodeSys = new FhirModel.CodeSystem();
-      CodeSys.Id = "pyrofhirserver";
-      CodeSys.Meta = new FhirModel.Meta();
-      //When the CodeSystem was last editied key to driving the update in prod servers
-      CodeSys.Meta.LastUpdated = CodeSystemUpdateDate;
-      CodeSys.Meta.Tag = new List<FhirModel.Coding>();
-      //Protected Resource
-      CodeSys.Meta.Tag.Add(GetCoding(Codes.Protected));
-      CodeSys.Url = this.GetSystem();
-      CodeSys.Version = "1.00";
-      CodeSys.Name = "PyroFHIRServerCodeSystem";
-      CodeSys.Title = "The Pyro Server CodeSystem";
-      CodeSys.Status = FhirModel.PublicationStatus.Active;
-      CodeSys.Experimental = false;
-      CodeSys.DateElement = new FhirModel.FhirDateTime(CodeSystemUpdateDate);
-      CodeSys.Publisher = "Pyrohealth.net";
+    public DateTimeOffset MasterLastUpdated => new DateTimeOffset(2018, 07, 06, 10, 00, 00, new TimeSpan(8, 0, 0));
+
+    public FhirModel.CodeSystem GetResource()
+    {      
+      var Resource = new FhirModel.CodeSystem();
+      Resource.Id = "pyrofhirserver";
+      SetProtectedMetaTag(Resource);
+      Resource.Meta.LastUpdated = MasterLastUpdated;           
+      Resource.Url = this.GetSystem();
+      Resource.Version = "1.00";
+      Resource.Name = "PyroFHIRServerCodeSystem";
+      Resource.Title = "The Pyro Server CodeSystem";
+      Resource.Status = FhirModel.PublicationStatus.Active;
+      Resource.Experimental = false;
+      Resource.DateElement = new FhirModel.FhirDateTime(MasterLastUpdated);
+      Resource.Publisher = "Pyrohealth.net";
       var AngusContactDetail = Common.PyroHealthFhirResource.Elements.PyroHealthContactDetailAngusMillar.GetContactDetail();
-      CodeSys.Contact = new List<FhirModel.ContactDetail>() { AngusContactDetail };
-      CodeSys.Description = new FhirModel.Markdown("List of codes used throughout the Pyro FHIR Server to identity concepts key to the operation of the server.");
-      CodeSys.CaseSensitive = true;
-      CodeSys.Compositional = false;
-      CodeSys.Count = CodeSys.Concept.Count;
-      CodeSys.Content = FhirModel.CodeSystem.CodeSystemContentMode.Complete;
-      CodeSys.Concept = new List<FhirModel.CodeSystem.ConceptDefinitionComponent>();
+      Resource.Contact = new List<FhirModel.ContactDetail>() { AngusContactDetail };
+      Resource.Description = new FhirModel.Markdown("List of codes used throughout the Pyro FHIR Server to identity concepts key to the operation of the server.");
+      Resource.CaseSensitive = true;
+      Resource.Compositional = false;
+      Resource.Count = Resource.Concept.Count;
+      Resource.Content = FhirModel.CodeSystem.CodeSystemContentMode.Complete;
+      Resource.Concept = new List<FhirModel.CodeSystem.ConceptDefinitionComponent>();
       foreach (var Definition in _CodeDefinitionDictionary.Values)
       {
-        CodeSys.Concept.Add(Definition);
+        Resource.Concept.Add(Definition);
       }
-      return CodeSys;
+      return Resource;
     }
+   
   }
 
 }
