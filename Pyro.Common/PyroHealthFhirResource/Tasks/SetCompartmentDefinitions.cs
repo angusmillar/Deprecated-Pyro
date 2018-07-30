@@ -10,40 +10,41 @@ using FhirModel = Hl7.Fhir.Model;
 
 namespace Pyro.Common.PyroHealthFhirResource.Tasks
 {
-  public class LoadFhirSpecificationDefinitions : ILoadFhirSpecificationDefinitions
+  public class SetCompartmentDefinitions : ISetCompartmentDefinitions
   {
     private readonly Devices.IPyroFhirServer IPyroFhirServerDevice;
     private readonly CodeSystems.IPyroFhirServer IPyroFhirServerCodeSystem;
     private readonly CodeSystems.IPyroTask IPyroTask;   
     private readonly Organizations.IPyroHealth IPyroHealthOrg;
     private readonly IGlobalProperties IGlobalProperties;
+    private readonly ICompartmentDefinition ICompartmentDefinition;
 
-    public LoadFhirSpecificationDefinitions(Devices.IPyroFhirServer IPyroFhirServerDevice, 
+    public SetCompartmentDefinitions(Devices.IPyroFhirServer IPyroFhirServerDevice, 
+      ICompartmentDefinition ICompartmentDefinition, 
       CodeSystems.IPyroFhirServer IPyroFhirServerCodeSystem, 
       CodeSystems.IPyroTask IPyroTask,      
       IGlobalProperties IGlobalProperties, 
       Organizations.IPyroHealth IPyroHealthOrg)
     {
       this.IPyroFhirServerDevice = IPyroFhirServerDevice;
+      this.ICompartmentDefinition = ICompartmentDefinition;
       this.IPyroFhirServerCodeSystem = IPyroFhirServerCodeSystem;
       this.IPyroTask = IPyroTask;      
       this.IGlobalProperties = IGlobalProperties;
       this.IPyroHealthOrg = IPyroHealthOrg;
     }
     
-    private static string ResourceId = "Load-Fhir-Definition-Resources";
+    private static string ResourceId = "set-compartment-definitions";
     
     public string GetResourceId()
     {
       return ResourceId;
     }
 
-    public DateTimeOffset MasterLastUpdated => new DateTimeOffset(2018, 07, 27, 16, 37, 00, new TimeSpan(8, 0, 0));
+    public DateTimeOffset MasterLastUpdated => new DateTimeOffset(2018, 07, 30, 18, 05, 00, new TimeSpan(8, 0, 0));
 
     public FhirModel.Task GetResource()
     {
-      var LastUpdated = new DateTimeOffset(2018, 07, 27, 16, 37, 00, new TimeSpan(8, 0, 0));
-
       var Resource = new FhirModel.Task();
       Resource.Id = GetResourceId();
       IPyroFhirServerCodeSystem.SetProtectedMetaTag(Resource);      
@@ -60,10 +61,10 @@ namespace Pyro.Common.PyroHealthFhirResource.Tasks
 
       Resource.Code = new FhirModel.CodeableConcept();
       
-      FhirModel.Coding LoadFhirSpecResourcesTaskCoding = new FhirModel.Coding(IPyroTask.GetSystem(), IPyroTask.GetCode(CodeSystems.PyroTask.Codes.LoadFhirDefinitionResources));
-      Resource.Code.Coding.Add(LoadFhirSpecResourcesTaskCoding);
+      FhirModel.Coding TaskCodingType = new FhirModel.Coding(IPyroTask.GetSystem(), IPyroTask.GetCode(CodeSystems.PyroTask.Codes.SetCompartmentDefinitions));
+      Resource.Code.Coding.Add(TaskCodingType);
 
-      Resource.Description = "This task is used by the Pyro FHIR Server to load all the FHIR specification definition resource into the FHIR server instance on the first ever startup.";
+      Resource.Description = "This task is used by the Pyro FHIR Server to load set CompartmentDefinition resource as active compartments in the FHIR server instance on the first ever startup.";
 
       Resource.Focus = new FhirModel.ResourceReference($"{FhirModel.ResourceType.Device.GetLiteral()}/{IPyroFhirServerDevice.GetResourceId()}");
       FhirModel.ResourceReference ServerManagingOrginationReferrence;
@@ -77,8 +78,8 @@ namespace Pyro.Common.PyroHealthFhirResource.Tasks
         ServerManagingOrginationReferrence = new FhirModel.ResourceReference(IGlobalProperties.ThisServersManagingOrganizationResource);
       }
       Resource.For = ServerManagingOrginationReferrence;
-      Resource.AuthoredOn = new FhirModel.FhirDateTime(LastUpdated).ToString();
-      Resource.LastModified = new FhirModel.FhirDateTime(LastUpdated).ToString();
+      Resource.AuthoredOn = new FhirModel.FhirDateTime(MasterLastUpdated).ToString();
+      Resource.LastModified = new FhirModel.FhirDateTime(MasterLastUpdated).ToString();
       Resource.Requester = new FhirModel.Task.RequesterComponent();
       Resource.Requester.OnBehalfOf = ServerManagingOrginationReferrence;
       Resource.Requester.Agent = PyroHealthOrgReference;
@@ -95,7 +96,7 @@ namespace Pyro.Common.PyroHealthFhirResource.Tasks
 
       Resource.Owner = PyroHealthOrgReference;
 
-      Resource.Reason = new FhirModel.CodeableConcept() { Text = "To Load the FHIR Specification base resources into the FHIR server instance" };
+      Resource.Reason = new FhirModel.CodeableConcept() { Text = "Set active compartments into the FHIR server instance" };
 
       Resource.Restriction = new FhirModel.Task.RestrictionComponent() { Repetitions = 0 };
       

@@ -14,6 +14,7 @@ namespace Pyro.Common.RequestMetadata
     IRequestMeta Set(Bundle.RequestComponent RequestComponent);
     IRequestMeta Set(HttpRequestMessage Request, SearchParams SearchParams);
     IRequestMeta Set(string RelativeUrlRequestString);
+    IRequestMeta Set(ResourceType ResourceType, string RequestString);
 
     IPyroRequestUri PyroRequestUri { get; set; }
     IRequestHeader RequestHeader { get; set; }

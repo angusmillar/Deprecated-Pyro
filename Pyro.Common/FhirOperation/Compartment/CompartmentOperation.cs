@@ -33,7 +33,8 @@ namespace Pyro.Common.FhirOperation.Compartment
 
     //Pyro url compartments will override the standard HL7 compatments
     private readonly string HL7OrgUrl = "http://hl7.org/fhir/CompartmentDefinition";
-    private string PyroOrgUrl = string.Empty;
+    private string PyroOrgUrl = "https://pyrohealth.net/fhir/CompartmentDefinition";
+    
 
     public CompartmentOperation(
       IRepositorySwitcher IRepositorySwitcher,
@@ -55,10 +56,6 @@ namespace Pyro.Common.FhirOperation.Compartment
       this.IServiceCompartmentCache = IServiceCompartmentCache;
       this.IResourceTriggerService = IResourceTriggerService;
       this.IPyroFhirResource = IPyroFhirResource;
-
-      //var PyroResource = new Common.PyroHealthFhirResource.PyroFhirResource();
-      var PyroHealthCodeSystem = IPyroFhirResource.CodeSystem.PyroFhirServerCodeSystem;
-      PyroOrgUrl = $"{PyroHealthCodeSystem.GetSystem()}/{PyroHealthCodeSystem.GetCode(PyroHealthFhirResource.CodeSystems.PyroFhirServer.Codes.CompartmentDefinition)}";
     }
 
     public IResourceServiceOutcome SetActive(OperationClass OperationClass, IRequestMeta RequestMeta, string FhirId)
@@ -78,7 +75,7 @@ namespace Pyro.Common.FhirOperation.Compartment
 
       ResourceServiceOutcome = IResourceServiceOutcomeFactory.CreateResourceServiceOutcome();
 
-      CompartmentDefinition CompartDef = GetCompartmentResource(FhirId);
+      Hl7.Fhir.Model.CompartmentDefinition CompartDef = GetCompartmentResource(FhirId);
 
       if (CompartDef != null)
       {
@@ -221,7 +218,7 @@ namespace Pyro.Common.FhirOperation.Compartment
       }
     }
 
-    private void AddCompartmentActiveTag(CompartmentDefinition CompartDef)
+    private void AddCompartmentActiveTag(Hl7.Fhir.Model.CompartmentDefinition CompartDef)
     {
       if (CompartDef.Meta == null)
         CompartDef.Meta = new Meta();
@@ -233,7 +230,7 @@ namespace Pyro.Common.FhirOperation.Compartment
     public IResourceServiceOutcome SetInActive(OperationClass OperationClass, IRequestMeta RequestMeta, string FhirId)
     {
       ResourceServiceOutcome = IResourceServiceOutcomeFactory.CreateResourceServiceOutcome();
-      CompartmentDefinition CompartDef = GetCompartmentResource(FhirId);
+      Hl7.Fhir.Model.CompartmentDefinition CompartDef = GetCompartmentResource(FhirId);
       if (CompartDef != null)
       {
         var DbServiceCompartment = IServiceCompartmentRepository.GetServiceCompartmentByFhirId(CompartDef.Id);
@@ -282,13 +279,13 @@ namespace Pyro.Common.FhirOperation.Compartment
       });
     }
 
-    private CompartmentDefinition GetCompartmentResource(string CompartmentDefintionFhirId)
+    private Hl7.Fhir.Model.CompartmentDefinition GetCompartmentResource(string CompartmentDefintionFhirId)
     {
       IResourceRepository IResourceRepository = IRepositorySwitcher.GetRepository(FHIRAllTypes.CompartmentDefinition);
       var DatabaseOperation = IResourceRepository.GetResourceByFhirID(CompartmentDefintionFhirId, true, false);
       if (DatabaseOperation.ReturnedResourceList.Count > 0)
       {
-        return Tools.FhirResourceSerializationSupport.DeSerializeFromGZip(DatabaseOperation.ReturnedResourceList[0].Resource) as CompartmentDefinition;        
+        return Tools.FhirResourceSerializationSupport.DeSerializeFromGZip(DatabaseOperation.ReturnedResourceList[0].Resource) as Hl7.Fhir.Model.CompartmentDefinition;        
       }
       return null;
     }

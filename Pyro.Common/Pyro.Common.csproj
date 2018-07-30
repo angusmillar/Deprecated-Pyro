@@ -142,16 +142,27 @@
     <Compile Include="Interfaces\Repositories\IServiceConfigurationRepository.cs" />
     <Compile Include="Interfaces\Service\IServiceConfigurationService.cs" />
     <Compile Include="ProductText\PyroWarmUpMessages.cs" />
+    <Compile Include="PyroHealthFhirResource\CompartmentDefinition.cs" />
     <Compile Include="PyroHealthFhirResource\CodeSystems\IPyroCodeSystem.cs" />
-    <Compile Include="PyroHealthFhirResource\CompartmentDefinitions\IPatientPyroCompartmentDefinition.cs" />
+    <Compile Include="PyroHealthFhirResource\CompartmentDefinitions\IPyroCompartmentDefinitionDevice.cs" />
+    <Compile Include="PyroHealthFhirResource\CompartmentDefinitions\IPyroCompartmentDefinitionEncounter.cs" />
+    <Compile Include="PyroHealthFhirResource\CompartmentDefinitions\IPyroCompartmentDefinitionPatient.cs" />
     <Compile Include="PyroHealthFhirResource\CompartmentDefinitions\IPyroCompartmentDefinition.cs" />
-    <Compile Include="PyroHealthFhirResource\CompartmentDefinitions\PatientPyroCompartmentDefinition.cs" />
+    <Compile Include="PyroHealthFhirResource\CompartmentDefinitions\IPyroCompartmentDefinitionPractitioner.cs" />
+    <Compile Include="PyroHealthFhirResource\CompartmentDefinitions\IPyroCompartmentDefinitionRelatedPerson.cs" />
+    <Compile Include="PyroHealthFhirResource\CompartmentDefinitions\PyroCompartmentDefinitionDevice.cs" />
+    <Compile Include="PyroHealthFhirResource\CompartmentDefinitions\PyroCompartmentDefinitionEncounter.cs" />
+    <Compile Include="PyroHealthFhirResource\CompartmentDefinitions\PyroCompartmentDefinitionRelatedPerson.cs" />
+    <Compile Include="PyroHealthFhirResource\CompartmentDefinitions\PyroCompartmentDefinitionPractitioner.cs" />
+    <Compile Include="PyroHealthFhirResource\CompartmentDefinitions\PyroCompartmentDefinitionPatient.cs" />
     <Compile Include="PyroHealthFhirResource\Device.cs" />
     <Compile Include="PyroHealthFhirResource\CodeSystems\IPyroHealth.cs" />
     <Compile Include="PyroHealthFhirResource\CodeSystems\PyroHealth.cs" />
     <Compile Include="PyroHealthFhirResource\Devices\IPyroDevice.cs" />
     <Compile Include="PyroHealthFhirResource\Devices\IPyroFhirServer.cs" />
     <Compile Include="PyroHealthFhirResource\Devices\PyroFhirServer.cs" />
+    <Compile Include="PyroHealthFhirResource\Elements\PyroHealthCanonicalUrl.cs" />
+    <Compile Include="PyroHealthFhirResource\ICompartmentDefinition.cs" />
     <Compile Include="PyroHealthFhirResource\IDevice.cs" />
     <Compile Include="PyroHealthFhirResource\IPyroResource.cs" />
     <Compile Include="PyroHealthFhirResource\ITask.cs" />
@@ -171,6 +182,8 @@
     <Compile Include="PyroHealthFhirResource\Organizations\PyroHealth.cs" />
     <Compile Include="PyroHealthFhirResource\Tasks\ILoadFhirSpecificationDefinitions.cs" />
     <Compile Include="PyroHealthFhirResource\Tasks\IPyroTask.cs" />
+    <Compile Include="PyroHealthFhirResource\Tasks\ISetCompartmentDefinitions.cs" />
+    <Compile Include="PyroHealthFhirResource\Tasks\SetCompartmentDefinitions.cs" />
     <Compile Include="PyroHealthFhirResource\Tasks\LoadFhirSpecificationDefinitions.cs" />
     <Compile Include="SearchIndexer\Indexer\ExpressionSupport\DateTimePeriodExpression.cs" />
     <Compile Include="SearchIndexer\Indexer\ExpressionSupport\DecimalExpression.cs" />
@@ -490,6 +503,21 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\PyroPatientCompartmentDefinition.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PyroCompartmentDefinitionRelatedPerson.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PyroCompartmentDefinitionPractitioner.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PyroCompartmentDefinitionPatient.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PyroCompartmentDefinitionEncounter.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PyroCompartmentDefinitionDevice.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

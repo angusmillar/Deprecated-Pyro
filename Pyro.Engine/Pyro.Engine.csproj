@@ -92,6 +92,8 @@
     <Compile Include="Operation\FhirBaseOperationService.cs" />
     <Compile Include="Operation\FhirResourceInstanceOperationService.cs" />
     <Compile Include="Operation\FhirResourceOperationService.cs" />
+    <Compile Include="Services\FhirTasks\SetCompartment\ISetCompartmentDefinitionTaskProcessor.cs" />
+    <Compile Include="Services\FhirTasks\SetCompartment\SetCompartmentDefinitionTaskProcessor.cs" />
     <Compile Include="Services\PyroServiceApi\IPyroService.cs" />
     <Compile Include="Services\FhirTasks\FhirSpecLoader\FhirSpecificationDefinitionLoaderParameters.cs" />
     <Compile Include="Services\FhirTasks\FhirSpecLoader\IFhirSpecificationDefinitionLoader.cs" />
@@ -107,11 +109,6 @@
     <Compile Include="Services\ServiceSearchParameter\ServiceSearchParameterService.cs" />
     <Compile Include="Services\FhirTasks\ITaskRunner.cs" />
     <Compile Include="Services\FhirTasks\TaskRunner.cs" />
-    <Compile Include="TriggerServices\CompartmentDefinitionResource\ITriggerCompartmentDefinition.cs" />
-    <Compile Include="TriggerServices\ITriggerOutcome.cs" />
-    <Compile Include="TriggerServices\ITriggerService.cs" />
-    <Compile Include="TriggerServices\CompartmentDefinitionResource\TriggerCompartmentDefinition.cs" />
-    <Compile Include="TriggerServices\TriggerOutcome.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Pyro.Common\Pyro.Common.csproj">

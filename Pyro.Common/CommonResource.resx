@@ -121,10 +121,19 @@
   <data name="definitions_xml" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\definitions.xml.zip;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="PyroPatientCompartmentDefinition" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\PyroPatientCompartmentDefinition.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  <data name="PyroCompartmentDefinitionDevice" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\PyroCompartmentDefinitionDevice.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
-  <data name="Tester" xml:space="preserve">
-    <value>Hello Angus</value>
+  <data name="PyroCompartmentDefinitionEncounter" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\PyroCompartmentDefinitionEncounter.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="PyroCompartmentDefinitionPatient" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\PyroCompartmentDefinitionPatient.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="PyroCompartmentDefinitionPractitioner" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\PyroCompartmentDefinitionPractitioner.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="PyroCompartmentDefinitionRelatedPerson" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\PyroCompartmentDefinitionRelatedPerson.xml;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
 </root>

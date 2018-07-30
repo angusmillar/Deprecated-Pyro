@@ -7,24 +7,25 @@ using Pyro.Common.Tools.UriSupport;
 using System.Net.Http;
 using Pyro.Common.Extentions;
 using Hl7.Fhir.Model;
+using Hl7.Fhir.Utility;
 
 namespace Pyro.Common.RequestMetadata
 {
   public class RequestMeta : IRequestMeta
-  {    
+  {
     private readonly IPyroRequestUriFactory IPyroRequestUriFactory;
     private readonly IRequestHeaderFactory IRequestHeaderFactory;
     private readonly ISearchParameterGenericFactory ISearchParameterGenericFactory;
 
     public RequestMeta(IPyroRequestUriFactory IPyroRequestUriFactory, IRequestHeaderFactory IRequestHeaderFactory, ISearchParameterGenericFactory ISearchParameterGenericFactory)
-    {      
+    {
       this.IPyroRequestUriFactory = IPyroRequestUriFactory;
       this.IRequestHeaderFactory = IRequestHeaderFactory;
       this.ISearchParameterGenericFactory = ISearchParameterGenericFactory;
     }
 
     public IRequestMeta Set(HttpRequestMessage Request)
-    {      
+    {
       this.PyroRequestUri = IPyroRequestUriFactory.CreateFhirRequestUri();
       this.PyroRequestUri.FhirRequestUri.Parse(Request.RequestUri.OriginalString);
       this.RequestHeader = IRequestHeaderFactory.CreateRequestHeader().Parse(Request.Headers);
@@ -42,6 +43,23 @@ namespace Pyro.Common.RequestMetadata
     }
 
     /// <summary>
+    /// Set the ResourceType i.e "Patient" and then ad a request string i.e "?family=Millar"
+    /// </summary>
+    /// <param name="ResourceType"></param>
+    /// <param name="RequestString"></param>
+    /// <returns></returns>
+    public IRequestMeta Set(ResourceType ResourceType, string RequestString)
+    {
+      if (RequestString.StartsWith("/"))
+        RequestString.TrimStart('/');
+      this.PyroRequestUri = IPyroRequestUriFactory.CreateFhirRequestUri();
+      CreateAndParsePyroRequestUri($"{ResourceType.GetLiteral()}/{RequestString}");
+      this.RequestHeader = IRequestHeaderFactory.CreateRequestHeader();
+      this.SearchParameterGeneric = ISearchParameterGenericFactory.CreateDtoSearchParameterGeneric().Parse(this.PyroRequestUri.FhirRequestUri.Query);
+      return this;
+    }
+
+    /// <summary>
     /// RelativeUrlRequestString can also contain search parameters and must be relative to the server:
     /// Relative: Patient?family=millar&given=angus
     /// </summary>
@@ -55,19 +73,19 @@ namespace Pyro.Common.RequestMetadata
       this.SearchParameterGeneric = ISearchParameterGenericFactory.CreateDtoSearchParameterGeneric().Parse(this.PyroRequestUri.FhirRequestUri.Query);
       return this;
     }
-    
+
     public IRequestMeta Set(Bundle.RequestComponent RequestComponent)
     {
       this.PyroRequestUri = IPyroRequestUriFactory.CreateFhirRequestUri();
-      CreateAndParsePyroRequestUri(ConstructAbsoluteRequestUrl(RequestComponent.Url, this.PyroRequestUri.PrimaryRootUrlStore.Url));      
+      CreateAndParsePyroRequestUri(ConstructAbsoluteRequestUrl(RequestComponent.Url, this.PyroRequestUri.PrimaryRootUrlStore.Url));
       this.RequestHeader = IRequestHeaderFactory.CreateRequestHeader().Parse(RequestComponent);
       this.SearchParameterGeneric = ISearchParameterGenericFactory.CreateDtoSearchParameterGeneric().Parse(this.PyroRequestUri.FhirRequestUri.Query);
       return this;
     }
-    
+
     public IRequestMeta Set(IPyroRequestUri PyroRequestUri, IRequestHeader RequestHeader, ISearchParameterGeneric SearchParameterGeneric)
     {
-      this.PyroRequestUri = PyroRequestUri;      
+      this.PyroRequestUri = PyroRequestUri;
       this.RequestHeader = RequestHeader;
       this.SearchParameterGeneric = SearchParameterGeneric;
       return this;
@@ -78,7 +96,7 @@ namespace Pyro.Common.RequestMetadata
     public ISearchParameterGeneric SearchParameterGeneric { get; set; }
 
     private void CreateAndParsePyroRequestUri(string RelativeUrlRequestString)
-    {      
+    {
       if (this.PyroRequestUri.FhirRequestUri.Parse(ConstructAbsoluteRequestUrl(RelativeUrlRequestString, this.PyroRequestUri.PrimaryRootUrlStore.Url)))
       {
         if (!this.PyroRequestUri.FhirRequestUri.IsRelativeToServer)

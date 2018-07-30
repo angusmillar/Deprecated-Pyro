@@ -295,14 +295,15 @@ namespace Pyro.WebApi.App_Start
       container.Register<Common.Tools.FhirTask.IFhirTaskTool, Common.Tools.FhirTask.FhirTaskTool>(Lifestyle.Scoped);
       container.Register<Pyro.Engine.Services.FhirTasks.FhirSpecLoader.IFhirSpecificationDefinitionLoader, Pyro.Engine.Services.FhirTasks.FhirSpecLoader.FhirSpecificationDefinitionLoader>(Lifestyle.Scoped);
       container.Register<Pyro.Engine.Services.FhirTasks.FhirSpecLoader.IFhirSpecificationDefinitionLoaderParameters, Pyro.Engine.Services.FhirTasks.FhirSpecLoader.FhirSpecificationDefinitionLoaderParameters>(Lifestyle.Scoped);
-
-
+      container.Register<Pyro.Engine.Services.FhirTasks.SetCompartment.ISetCompartmentDefinitionTaskProcessor, Pyro.Engine.Services.FhirTasks.SetCompartment.SetCompartmentDefinitionTaskProcessor>(Lifestyle.Scoped);
+      
       //Pyro FHIR Resources
       container.Register<Pyro.Common.PyroHealthFhirResource.IPyroFhirResource, Pyro.Common.PyroHealthFhirResource.PyroFhirResource>(Lifestyle.Scoped);
       container.Register<Pyro.Common.PyroHealthFhirResource.ICodeSystem, Pyro.Common.PyroHealthFhirResource.CodeSystem>(Lifestyle.Scoped);
       container.Register<Pyro.Common.PyroHealthFhirResource.IOrganization, Pyro.Common.PyroHealthFhirResource.Organization>(Lifestyle.Scoped);
       container.Register<Pyro.Common.PyroHealthFhirResource.ITask, Pyro.Common.PyroHealthFhirResource.Task>(Lifestyle.Scoped);
       container.Register<Pyro.Common.PyroHealthFhirResource.IDevice, Pyro.Common.PyroHealthFhirResource.Device>(Lifestyle.Scoped);
+      container.Register<Pyro.Common.PyroHealthFhirResource.ICompartmentDefinition, Pyro.Common.PyroHealthFhirResource.CompartmentDefinition>(Lifestyle.Scoped);
       //Pyro FHIR Resources: CodeSystems
       container.Register<Pyro.Common.PyroHealthFhirResource.CodeSystems.IPyroFhirServer, Pyro.Common.PyroHealthFhirResource.CodeSystems.PyroFhirServer>(Lifestyle.Scoped);
       container.Register<Pyro.Common.PyroHealthFhirResource.CodeSystems.IPyroTask, Pyro.Common.PyroHealthFhirResource.CodeSystems.PyroTask>(Lifestyle.Scoped);
@@ -311,8 +312,15 @@ namespace Pyro.WebApi.App_Start
       container.Register<Pyro.Common.PyroHealthFhirResource.Organizations.IPyroHealth, Pyro.Common.PyroHealthFhirResource.Organizations.PyroHealth>(Lifestyle.Scoped);
       //Pyro FHIR Resources: Tasks
       container.Register<Pyro.Common.PyroHealthFhirResource.Tasks.ILoadFhirSpecificationDefinitions, Pyro.Common.PyroHealthFhirResource.Tasks.LoadFhirSpecificationDefinitions>(Lifestyle.Scoped);
+      container.Register<Pyro.Common.PyroHealthFhirResource.Tasks.ISetCompartmentDefinitions, Pyro.Common.PyroHealthFhirResource.Tasks.SetCompartmentDefinitions>(Lifestyle.Scoped);
       //Pyro FHIR Resources: Device
       container.Register<Pyro.Common.PyroHealthFhirResource.Devices.IPyroFhirServer, Pyro.Common.PyroHealthFhirResource.Devices.PyroFhirServer>(Lifestyle.Scoped);
+      //Pyro Fhir Resources: CompartmentDefinition
+      container.Register<Pyro.Common.PyroHealthFhirResource.CompartmentDefinitions.IPyroCompartmentDefinitionDevice, Pyro.Common.PyroHealthFhirResource.CompartmentDefinitions.PyroCompartmentDefinitionDevice>(Lifestyle.Scoped);
+      container.Register<Pyro.Common.PyroHealthFhirResource.CompartmentDefinitions.IPyroCompartmentDefinitionEncounter, Pyro.Common.PyroHealthFhirResource.CompartmentDefinitions.PyroCompartmentDefinitionEncounter>(Lifestyle.Scoped);
+      container.Register<Pyro.Common.PyroHealthFhirResource.CompartmentDefinitions.IPyroCompartmentDefinitionPatient, Pyro.Common.PyroHealthFhirResource.CompartmentDefinitions.PyroCompartmentDefinitionPatient>(Lifestyle.Scoped);
+      container.Register<Pyro.Common.PyroHealthFhirResource.CompartmentDefinitions.IPyroCompartmentDefinitionPractitioner, Pyro.Common.PyroHealthFhirResource.CompartmentDefinitions.PyroCompartmentDefinitionPractitioner>(Lifestyle.Scoped);
+      container.Register<Pyro.Common.PyroHealthFhirResource.CompartmentDefinitions.IPyroCompartmentDefinitionRelatedPerson, Pyro.Common.PyroHealthFhirResource.CompartmentDefinitions.PyroCompartmentDefinitionRelatedPerson>(Lifestyle.Scoped);
 
     }
 

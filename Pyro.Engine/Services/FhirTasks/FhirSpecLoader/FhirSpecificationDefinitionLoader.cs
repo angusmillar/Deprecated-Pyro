@@ -65,7 +65,13 @@ namespace Pyro.Engine.Services.FhirTasks.FhirSpecLoader
         //Task.TaskStatus? LocalTaskStatus = null;
         Task.ExecutionPeriod = new Period();
         Task.ExecutionPeriod.StartElement = new FhirDateTime(DateTimeOffset.Now);
-        SetParametersBeforeRunningTaskLoad(Task);
+        //Update the status of the task so that no other processes (instances of the server) also try and process this task can start it.
+        //If this fails do nothing as we are to asume some other process is workng on this task, just return InProgress.
+        if (!IFhirTaskTool.UpdateTaskAsStatus(Task.TaskStatus.InProgress, Task))
+          return Task.TaskStatus.InProgress;
+
+        SetParametersBeforeRunningTaskLoad(Task);        
+
         Task.Output = new List<Task.OutputComponent>();
         //We process each file in the zip one at a time and commmit and update the Task each time.
         //Once the IFhirSpecificationDefinitionLoaderParameters.TaskStatus == Completed we then return, or return is the Load retunes false. 

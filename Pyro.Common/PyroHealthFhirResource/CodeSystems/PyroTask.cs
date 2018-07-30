@@ -12,9 +12,11 @@ namespace Pyro.Common.PyroHealthFhirResource.CodeSystems
   public class PyroTask : IPyroTask
   {
     public enum Codes
-    {
-      [EnumLiteral("LoadFhirSpecResources")]
-      LoadFhirSpecResources,
+    {      
+      [EnumLiteral("LoadFhirDefinitionResources")]
+      LoadFhirDefinitionResources,
+      [EnumLiteral("SetCompartmentDefinitions")]
+      SetCompartmentDefinitions,
     }
 
     private readonly CodeSystems.IPyroFhirServer IPyroFhirServerCodeSystem;
@@ -40,14 +42,24 @@ namespace Pyro.Common.PyroHealthFhirResource.CodeSystems
       _Dictionary = new Dictionary<Codes, FhirModel.CodeSystem.ConceptDefinitionComponent>()
       {
         {
-          Codes.LoadFhirSpecResources,
+          Codes.LoadFhirDefinitionResources,
           new FhirModel.CodeSystem.ConceptDefinitionComponent()
           {
-              Code = Codes.LoadFhirSpecResources.GetPyroLiteral(),
-              Display = "Load Fhir Spec Resources",
-              Definition = "Fhir Task that Loads the FHIR specifications Resources into the Pyro FHIR Server on first start-up.",
+              Code = Codes.LoadFhirDefinitionResources.GetPyroLiteral(),
+              Display = "Load Fhir Definition Resources",
+              Definition = "Fhir Task that loads the FHIR specifications definition resources into the Pyro FHIR Server on first start-up.",
+          }          
+        },
+        {
+          Codes.SetCompartmentDefinitions,
+          new FhirModel.CodeSystem.ConceptDefinitionComponent()
+          {
+              Code = Codes.SetCompartmentDefinitions.GetPyroLiteral(),
+              Display = "Set Compartment Definitions",
+              Definition = "Fhir Task that sets the all the CompartmentDefinitions as active compartments in the Pyro FHIR Server.",
           }
         },
+        
       };
     }
     

@@ -133,8 +133,8 @@ namespace Pyro.WebApi
       //Check seeded FHIR Resource and update if required      
       App_Start.StarupPyroResourceSeeding.RunTask(HttpConfiguration);
 
-
-      //Check for any FHIR task to process on startup      
+      //Check for any FHIR task to process on startup
+      //NOTE: This Task runs Asynch, it does not stop the server from starting. 
       App_Start.StarupPyroTaskRunner.RunTask(HttpConfiguration);      
 
       if (!Console.IsOutputRedirected)

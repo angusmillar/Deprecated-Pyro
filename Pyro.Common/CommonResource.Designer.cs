@@ -71,37 +71,87 @@ namespace Pyro.Common {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;CompartmentDefinition 
-        ///    xmlns=&quot;http://hl7.org/fhir&quot;&gt;
-        ///    &lt;id value=&quot;patient&quot; /&gt;
-        ///    &lt;meta&gt;
-        ///        &lt;versionId value=&quot;21&quot; /&gt;
-        ///        &lt;lastUpdated value=&quot;2018-05-03T12:19:31.693+08:00&quot; /&gt;
-        ///    &lt;/meta&gt;
-        ///    &lt;text&gt;
-        ///        &lt;status value=&quot;generated&quot; /&gt;
-        ///        &lt;div 
-        ///            xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;
-        ///            &lt;p&gt; 
-        ///The following resources may be in this compartment:
-        ///&lt;/p&gt;
-        ///            &lt;table class=&quot;grid&quot;&gt;
-        ///                &lt;tr&gt;
-        ///                    &lt;td&gt;
-        ///                        &lt;b&gt;  [rest of string was truncated]&quot;;.
+        ///   Looks up a localized string similar to &lt;CompartmentDefinition xmlns=&quot;http://hl7.org/fhir&quot;&gt;
+        ///    &lt;id value=&quot;pyro-device&quot;/&gt;
+        ///    &lt;url value=&quot;https://pyrohealth.net/fhir/CompartmentDefinition/pyro-device&quot;/&gt;      
+        ///    &lt;name value=&quot;Base FHIR compartment definition for Device&quot;/&gt;
+        ///    &lt;status value=&quot;active&quot;/&gt;
+        ///    &lt;experimental value=&quot;true&quot;/&gt;
+        ///    &lt;date value=&quot;2017-04-19T07:44:43+10:00&quot;/&gt;
+        ///    &lt;publisher value=&quot;PyroHealth&quot;/&gt;    
+        ///    &lt;description value=&quot;There is an instance of the practitioner compartment for each Device resource, and the identity of  [rest of string was truncated]&quot;;.
         /// </summary>
-        public static string PyroPatientCompartmentDefinition {
+        public static string PyroCompartmentDefinitionDevice {
             get {
-                return ResourceManager.GetString("PyroPatientCompartmentDefinition", resourceCulture);
+                return ResourceManager.GetString("PyroCompartmentDefinitionDevice", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Hello Angus.
+        ///   Looks up a localized string similar to &lt;CompartmentDefinition xmlns=&quot;http://hl7.org/fhir&quot;&gt;
+        ///    &lt;id value=&quot;pyro-encounter&quot;/&gt;
+        ///    &lt;url value=&quot;https://pyrohealth.net/fhir/CompartmentDefinition/pyro-encounter&quot;/&gt;       
+        ///    &lt;name value=&quot;Base FHIR compartment definition for Encounter&quot;/&gt;
+        ///    &lt;status value=&quot;active&quot;/&gt;
+        ///    &lt;experimental value=&quot;true&quot;/&gt;
+        ///    &lt;date value=&quot;2017-04-19T07:44:43+10:00&quot;/&gt;
+        ///    &lt;publisher value=&quot;PyroHealth&quot;/&gt;
+        ///    &lt;description value=&quot;There is an instance of the encounter compartment for each encounter resource, and the identi [rest of string was truncated]&quot;;.
         /// </summary>
-        public static string Tester {
+        public static string PyroCompartmentDefinitionEncounter {
             get {
-                return ResourceManager.GetString("Tester", resourceCulture);
+                return ResourceManager.GetString("PyroCompartmentDefinitionEncounter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;CompartmentDefinition xmlns=&quot;http://hl7.org/fhir&quot;&gt;
+        ///    &lt;id value=&quot;pyro=patient&quot; /&gt;   
+        ///    &lt;url value=&quot;https://pyrohealth.net/fhir/CompartmentDefinition/pyro-patient&quot;/&gt;    
+        ///    &lt;name value=&quot;Base FHIR compartment definition for Patient&quot; /&gt;
+        ///    &lt;status value=&quot;active&quot; /&gt;
+        ///    &lt;experimental value=&quot;true&quot; /&gt;
+        ///    &lt;date value=&quot;2018-07-29T07:10:00+08:00&quot; /&gt;
+        ///    &lt;publisher value=&quot;PyroHealth&quot; /&gt;    
+        ///    &lt;description value=&quot;There is an instance of the patient compartment for each patient resource, and the identi [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string PyroCompartmentDefinitionPatient {
+            get {
+                return ResourceManager.GetString("PyroCompartmentDefinitionPatient", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;CompartmentDefinition xmlns=&quot;http://hl7.org/fhir&quot;&gt;
+        ///    &lt;id value=&quot;pyro-practitioner&quot;/&gt;    
+        ///    &lt;url value=&quot;https://pyrohealth.net/fhir/CompartmentDefinition/pyro-practitioner&quot;/&gt;     
+        ///    &lt;name value=&quot;Base FHIR compartment definition for Practitioner&quot;/&gt;
+        ///    &lt;status value=&quot;active&quot;/&gt;
+        ///    &lt;experimental value=&quot;true&quot;/&gt;
+        ///    &lt;date value=&quot;2017-04-19T07:44:43+10:00&quot;/&gt;
+        ///    &lt;publisher value=&quot;PyroHealth&quot;/&gt;    
+        ///    &lt;description value=&quot;There is an instance of the practitioner compartment for each Practitioner res [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string PyroCompartmentDefinitionPractitioner {
+            get {
+                return ResourceManager.GetString("PyroCompartmentDefinitionPractitioner", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;CompartmentDefinition xmlns=&quot;http://hl7.org/fhir&quot;&gt;
+        ///    &lt;id value=&quot;pyro-relatedPerson&quot;/&gt;
+        ///    &lt;url value=&quot;https://pyrohealth.net/fhir/CompartmentDefinition/pyro-relatedPerson&quot;/&gt;    
+        ///    &lt;name value=&quot;Base FHIR compartment definition for RelatedPerson&quot;/&gt;
+        ///    &lt;status value=&quot;active&quot;/&gt;
+        ///    &lt;experimental value=&quot;true&quot;/&gt;
+        ///    &lt;date value=&quot;2017-04-19T07:44:43+10:00&quot;/&gt;
+        ///    &lt;publisher value=&quot;PyroHealth&quot;/&gt;    
+        ///    &lt;description value=&quot;There is an instance of the relatedPerson compartment for each relatedPerson res [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string PyroCompartmentDefinitionRelatedPerson {
+            get {
+                return ResourceManager.GetString("PyroCompartmentDefinitionRelatedPerson", resourceCulture);
             }
         }
     }

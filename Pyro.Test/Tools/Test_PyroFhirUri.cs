@@ -6,6 +6,7 @@ using NUnit.Framework.Constraints;
 using Pyro.Common.Tools.UriSupport;
 using Pyro.Common.Extentions;
 using Pyro.Common.ServiceRoot;
+using static Pyro.Common.Enum.FhirOperationEnum;
 
 namespace Pyro.Test.Tools
 {
@@ -474,6 +475,32 @@ namespace Pyro.Test.Tools
       Assert.AreEqual(Result.OperationType, null);
       Assert.AreEqual(Result.OperationName, null);
       Assert.AreEqual(Result.Query, "code:in=http://hspc.org/ValueSet/acute-concerns");
+    }
+
+    [Test]
+    public void Test_SetActiveCompartment_OperationUrl()
+    {
+      //Arrange
+      // URl : Http://localhost:50579/fhir/CompartmentDefinition/pyro-patient/$x-set-compartment-active
+      string HttpsPrimaryServiceRootLocal = "https://localhost:8888/fhir";
+      SetServiceRootMok(HttpsPrimaryServiceRootLocal);
+      string Request = HttpsPrimaryServiceRootLocal + "/CompartmentDefinition/pyro-patient/$x-set-compartment-active";
+
+      //Act      
+      var Result = new PyroFhirUri(MokPrimaryServiceRootCache.Object);
+
+      //Assert
+      Assert.IsTrue(Result.Parse(Request));
+      Assert.AreEqual(Result.PrimaryServiceRootServers.OriginalString, HttpsPrimaryServiceRootLocal);
+      Assert.AreEqual(Result.ResourseName, "CompartmentDefinition");
+      Assert.AreEqual(Result.ResourceId, "pyro-patient");
+      Assert.IsFalse(Result.IsCompartment);
+      //Assert.AreEqual(Result.CompartmentalisedResourseName, "Condition");
+      Assert.AreEqual(Result.IsRelativeToServer, true);
+      Assert.AreEqual(Result.IsOperation, true);
+      Assert.AreEqual(Result.OperationType, OperationScope.Instance);
+      Assert.AreEqual(Result.OperationName, "x-set-compartment-active");
+      //Assert.AreEqual(Result.Query, "code:in=http://hspc.org/ValueSet/acute-concerns");
     }
 
     [Test]

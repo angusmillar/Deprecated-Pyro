@@ -13,44 +13,48 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using Pyro.Engine.Services.FhirTasks.FhirSpecLoader;
+using Pyro.Engine.Services.FhirTasks.SetCompartment;
 using Pyro.Common.Tools.FhirTask;
 using Pyro.Common.Global;
 
 namespace Pyro.Engine.Services.FhirTasks
 {
   public class TaskRunner : ITaskRunner
-  {    
+  {
     private readonly IResourceServices IResourceServices;
     private readonly IRequestMetaFactory IRequestMetaFactory;
-    private readonly IRequestHeaderFactory IRequestHeaderFactory;    
-    private readonly IFhirSpecificationDefinitionLoader IFhirSpecificationDefinitionLoader;    
+    private readonly IRequestHeaderFactory IRequestHeaderFactory;
     private readonly ILog ILog;
     private readonly Common.PyroHealthFhirResource.CodeSystems.IPyroTask IPyroTaskCodeSystem;
     private readonly Common.PyroHealthFhirResource.CodeSystems.IPyroFhirServer IPyroFhirServerCodeSystem;
     private readonly IFhirTaskTool IFhirTaskTool;
     private readonly IGlobalProperties IGlobalProperties;
+    private readonly IFhirSpecificationDefinitionLoader IFhirSpecificationDefinitionLoader;
+    private readonly ISetCompartmentDefinitionTaskProcessor ISetCompartmentDefinitionTaskProcessor;
 
     public TaskRunner(IResourceServices IResourceServices,
       IRequestMetaFactory IRequestMetaFactory,
-      IRequestHeaderFactory IRequestHeaderFactory,      
+      IRequestHeaderFactory IRequestHeaderFactory,
       ILog ILog,
-      IFhirSpecificationDefinitionLoader IFhirSpecificationDefinitionLoader,      
       Common.PyroHealthFhirResource.CodeSystems.IPyroTask IPyroTaskCodeSystem,
       Common.PyroHealthFhirResource.CodeSystems.IPyroFhirServer IPyroFhirServerCodeSystem,
       IFhirTaskTool IFhirTaskTool,
-      IGlobalProperties IGlobalProperties)
-    {      
+      IGlobalProperties IGlobalProperties,
+      IFhirSpecificationDefinitionLoader IFhirSpecificationDefinitionLoader,
+      ISetCompartmentDefinitionTaskProcessor ISetCompartmentDefinitionTaskProcessor)
+    {
       this.IResourceServices = IResourceServices;
       this.IRequestMetaFactory = IRequestMetaFactory;
-      this.IRequestHeaderFactory = IRequestHeaderFactory;      
+      this.IRequestHeaderFactory = IRequestHeaderFactory;
       this.ILog = ILog;
-      this.IFhirSpecificationDefinitionLoader = IFhirSpecificationDefinitionLoader;
       this.IPyroTaskCodeSystem = IPyroTaskCodeSystem;
       this.IPyroFhirServerCodeSystem = IPyroFhirServerCodeSystem;
       this.IFhirTaskTool = IFhirTaskTool;
       this.IGlobalProperties = IGlobalProperties;
+      this.IFhirSpecificationDefinitionLoader = IFhirSpecificationDefinitionLoader;
+      this.ISetCompartmentDefinitionTaskProcessor = ISetCompartmentDefinitionTaskProcessor;
     }
-    
+
     private IEnumerable<Common.PyroHealthFhirResource.CodeSystems.PyroFhirServer.Codes> _TaskIdentifierToRunList;
 
     public void Run(IEnumerable<Common.PyroHealthFhirResource.CodeSystems.PyroFhirServer.Codes> TaskIdentifierToRunList)
@@ -105,25 +109,27 @@ namespace Pyro.Engine.Services.FhirTasks
     {
       foreach (Task Task in readyTaskOfTasksList)
       {
-        //Update the status of the task so no other processes (instance of the server) also try and process this task.
-        //If this fails do nothing as we are to asume some other process is workng on this task.
-        if (IFhirTaskTool.UpdateTaskAsStatus(Task.TaskStatus.InProgress, Task))
+        Task.TaskStatus? TaskStatus = null;
+        var TaskTypeList = Task.Code?.Coding?.Where(x => x.System == IPyroTaskCodeSystem.GetSystem());
+        if (TaskTypeList != null)
         {
-          Task.TaskStatus? TaskStatus = null;
-          var TaskTypeList = Task.Code?.Coding?.Where(x => x.System == IPyroTaskCodeSystem.GetSystem());
-          if (TaskTypeList != null)
+          //Task: LoadFhirDefinitionResources
+          if (TaskTypeList.Any(x => x.Code == IPyroTaskCodeSystem.GetCode(Common.PyroHealthFhirResource.CodeSystems.PyroTask.Codes.LoadFhirDefinitionResources))
+            && IGlobalProperties.LoadFhirDefinitionResources)
           {
-            if (TaskTypeList.Any(x => x.Code == IPyroTaskCodeSystem.GetCode(Common.PyroHealthFhirResource.CodeSystems.PyroTask.Codes.LoadFhirSpecResources)) 
-              && IGlobalProperties.LoadFhirDefinitionResources)
-            {
-              //This Task Manages it's own Transaction within
-              TaskStatus = IFhirSpecificationDefinitionLoader.Run(Task);              
-            }            
-            //Add new tasks  here.
+            //This Task Manages it's own Transaction within
+            TaskStatus = IFhirSpecificationDefinitionLoader.Run(Task);
           }
+
+          //Task: SetCompartmentDefinitions
+          if (TaskTypeList.Any(x => x.Code == IPyroTaskCodeSystem.GetCode(Common.PyroHealthFhirResource.CodeSystems.PyroTask.Codes.SetCompartmentDefinitions)))
+          {
+            //This Task Manages it's own Transaction within
+            TaskStatus = ISetCompartmentDefinitionTaskProcessor.Run(Task);
+          }
+          //Add new tasks  here.
         }
       }
     }
-    
   }
 }

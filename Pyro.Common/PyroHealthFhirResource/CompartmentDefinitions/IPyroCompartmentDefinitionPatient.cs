@@ -2,7 +2,7 @@
 
 namespace Pyro.Common.PyroHealthFhirResource.CompartmentDefinitions
 {
-  public interface IPatientPyroCompartmentDefinition : IPyroCompartmentDefinition
+  public interface IPyroCompartmentDefinitionPatient : IPyroCompartmentDefinition
   {
       
   }
