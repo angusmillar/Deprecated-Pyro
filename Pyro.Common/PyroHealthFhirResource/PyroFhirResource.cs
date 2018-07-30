@@ -46,10 +46,11 @@ namespace Pyro.Common.PyroHealthFhirResource
       
       //Device
       ResourceList.Add(IDevice.PyroFhirServerDevice.GetResource());
-      
+
       //Task
-      ResourceList.Add(ITask.LoadFhirSpecificationDefinitionsTask.GetResource());
       ResourceList.Add(ITask.SetCompartmentDefinitions.GetResource());
+      ResourceList.Add(ITask.LoadFhirSpecificationDefinitionsTask.GetResource());
+      
 
       //CompartmentDefinition
       ResourceList.Add(ICompartmentDefinition.PyroCompartmentDefinitionEncounter.GetResource());
