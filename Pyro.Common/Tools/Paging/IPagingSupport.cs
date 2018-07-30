@@ -11,8 +11,7 @@ namespace Pyro.Common.Tools.Paging
     int GetFirstPageNumber();
     int GetLastPageNumber(int PagesTotal);
     int? GetNextPageNumber(int PageCurrentlyRequired, int PagesTotal);
-    Uri GetPageNavigationUri(string RequestUriString, int? NewPageNumber);
-    Uri GetPageNavigationUriOLD(string RequestUriString, int NewPageNumber);
+    Uri GetPageNavigationUri(string RequestUriString, int? NewPageNumber);    
     int? GetPreviousPageNumber(int PageCurrentlyRequired, int PagesTotal);
     Uri GetSelfLink(PyroSearchParameters SearchParameters, string PrimaryServiceRoot, string Container = "", string ContainerId = "");
     void SetBundlePagnation(Bundle Bundle, string RequestUriString, int PagesTotal, int PageCurrentlyRequired, Uri SearchPerformedUri = null);

@@ -53,30 +53,7 @@ namespace Pyro.Common.Tools.Paging
         return PageCurrentlyRequired - 1;
       }
     }
-
-    public Uri GetPageNavigationUriOLD(string RequestUriString, int NewPageNumber)
-    {
-      Uri RequestUri = new Uri(RequestUriString);
-      if (RequestUri != null)
-      {
-        string PageParameterText = "page=";
-        string CurrentPageNumber = string.Empty;
-        int StartIndexOfPageParameter = RequestUri.Query.LastIndexOf(PageParameterText);
-        if (StartIndexOfPageParameter > -1)
-        {
-
-          StartIndexOfPageParameter = StartIndexOfPageParameter + PageParameterText.Length;
-          int EndIndexOfPageNumber = RequestUri.Query.IndexOf('&', StartIndexOfPageParameter, RequestUri.Query.Length - StartIndexOfPageParameter);
-          if (EndIndexOfPageNumber < 0)
-            EndIndexOfPageNumber = RequestUri.Query.Length;
-          CurrentPageNumber = RequestUri.Query.Substring(StartIndexOfPageParameter, EndIndexOfPageNumber - StartIndexOfPageParameter);
-          return new Uri(String.Format("{0}://{1}{2}{3}", RequestUri.Scheme, RequestUri.Authority, RequestUri.AbsolutePath, RequestUri.Query.Replace("page=" + CurrentPageNumber, "page=" + NewPageNumber.ToString())));
-        }
-        return new Uri(String.Format("{0}://{1}{2}{3}{4}{5}", RequestUri.Scheme, RequestUri.Authority, RequestUri.AbsolutePath, RequestUri.Query, "&", "page=" + NewPageNumber.ToString()));
-      }
-      return null;
-    }
-
+    
     public Uri GetPageNavigationUri(string RequestUriString, int? NewPageNumber)
     {
       //examples
@@ -149,6 +126,16 @@ namespace Pyro.Common.Tools.Paging
 
     public void SetBundlePagnation(Bundle Bundle, string RequestUriString, int PagesTotal, int PageCurrentlyRequired, Uri SearchPerformedUri = null)
     {
+      //Had Issue in prod where the Search fomred by RequestMeta in code did not have http:// or https:// which then faled here in PagingSupport
+      // yet only for non localhost urls. So failed in Prod but not in development enviroment.
+      //This if statment below prepends the WebConfig's ServiceBaseUrl's http:// or https://
+      string ServiceBaseUrlNoHttp = IGlobalProperties.ServiceBaseURL.StripHttp();
+      if (RequestUriString.StartsWith(ServiceBaseUrlNoHttp))
+      {
+        RequestUriString = RequestUriString.Substring(ServiceBaseUrlNoHttp.Length, RequestUriString.Length - ServiceBaseUrlNoHttp.Length);
+        RequestUriString = IGlobalProperties.ServiceBaseURL + RequestUriString;        
+      }
+
       int LastPageNumber = this.GetLastPageNumber(PagesTotal);
 
       Bundle.FirstLink = this.GetPageNavigationUri(RequestUriString, this.GetFirstPageNumber());
