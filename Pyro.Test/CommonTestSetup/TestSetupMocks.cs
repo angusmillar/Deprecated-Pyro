@@ -83,6 +83,7 @@ namespace Pyro.Test.CommonTestSetup
       MokIGlobalProperties.Setup(x => x.HIServiceConnectivityActive).Returns(true);
       MokIGlobalProperties.Setup(x => x.NumberOfRecordsPerPageDefault).Returns(50);
       MokIGlobalProperties.Setup(x => x.MaxNumberOfRecordsPerPage).Returns(100);
+      MokIGlobalProperties.Setup(x => x.ServiceBaseURL).Returns(StaticTestData.FhirEndpoint());
       return MokIGlobalProperties.Object;
     }
     

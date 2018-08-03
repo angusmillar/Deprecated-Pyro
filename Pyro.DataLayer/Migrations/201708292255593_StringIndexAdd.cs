@@ -1885,10 +1885,11 @@ namespace Pyro.DataLayer.Migrations
 
 
       //Manually added insert statements
-      foreach (string ResourceName in Hl7.Fhir.Model.ModelInfo.SupportedResources)
-      {
-        Sql($"INSERT INTO [dbo].[{ResourceName}ResIndexString] ([ServiceSearchParameterId], [String], [ResourceId]) SELECT [ServiceSearchParameterId], [String], [ResourceId] FROM [dbo].[{ResourceName}ResIndex] WHERE [String] IS NOT NULL");
-      }
+      //foreach (string ResourceName in Hl7.Fhir.Model.ModelInfo.SupportedResources)
+      //{
+      //  Sql($"INSERT INTO dbo.{ResourceName}ResIndexString (ServiceSearchParameterId, String, ResourceId) SELECT ServiceSearchParameterId, String, ResourceId FROM dbo.{ResourceName}ResIndex WHERE String IS NOT NULL");
+      //  //Sql($"INSERT INTO [dbo].[{ResourceName}ResIndexString] ([ServiceSearchParameterId], [String], [ResourceId]) SELECT [ServiceSearchParameterId], [String], [ResourceId] FROM [dbo].[{ResourceName}ResIndex] WHERE [String] IS NOT NULL");
+      //}
 
     }
 

@@ -11,7 +11,8 @@ namespace Pyro.DataLayer.Migrations
       var ResourceList = Hl7.Fhir.Model.ModelInfo.SupportedResources;
       foreach (var ResourceName in ResourceList)
       {
-        Sql($@"UPDATE dbo.{ResourceName}Res SET [FhirReleaseId] = (SELECT TOP 1 [Id] FROM [dbo].[_FhirRelease] where [FhirVersion] = '3.0.1') where [FhirReleaseId] IS NULL");
+        //Sql($@"UPDATE dbo.{ResourceName}Res SET FhirReleaseId = (SELECT TOP 1 Id FROM dbo._FhirRelease where FhirVersion = '3.0.1') where FhirReleaseId IS NULL");
+        Sql($"UPDATE dbo.\"{ResourceName}Res\" SET \"FhirReleaseId\" = (SELECT \"Id\" FROM dbo.\"_FhirRelease\" where \"FhirVersion\" = '3.0.1' LIMIT 1) where \"FhirReleaseId\" IS NULL");
       }
     }
 
@@ -21,7 +22,7 @@ namespace Pyro.DataLayer.Migrations
       var ResourceList = Hl7.Fhir.Model.ModelInfo.SupportedResources;
       foreach (var ResourceName in ResourceList)
       {
-        Sql($@"UPDATE dbo.{ResourceName}Res SET [FhirReleaseId] = NULL where [FhirReleaseId] = (SELECT TOP 1 [Id] FROM [dbo].[_FhirRelease] where [FhirVersion] = '3.0.1')");
+        Sql($@"UPDATE dbo.{ResourceName}Res SET FhirReleaseId = NULL where FhirReleaseId = (SELECT TOP 1 Id FROM dbo._FhirRelease where FhirVersion = '3.0.1')");
       }
     }
   }

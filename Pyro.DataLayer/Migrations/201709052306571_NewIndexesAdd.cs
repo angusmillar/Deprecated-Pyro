@@ -13240,58 +13240,58 @@ namespace Pyro.DataLayer.Migrations
       //ResIndexReference
       //ResIndexToken
       //ResIndeUri
-      foreach (string ResourceName in Hl7.Fhir.Model.ModelInfo.SupportedResources)
-      {
-        //DateTime = 1
-        string Query = string.Empty;
-        Query = $"INSERT INTO [dbo].[{ResourceName}ResIndexDateTime] ([ServiceSearchParameterId], [DateTimeOffsetLow], [DateTimeOffsetHigh], [ResourceId]) ";
-        Query += "SELECT [ServiceSearchParameterId] ,[DateTimeOffsetLow] ,[DateTimeOffsetHigh], [ResourceId] ";
-        Query += $"FROM [dbo].[{ResourceName}ResIndex] i ";
-        Query += "JOIN [dbo].[ServiceSearchParameter] s ";
-        Query += "ON i.ServiceSearchParameterId = s.Id ";
-        Query += "WHERE s.Type = 1";
-        Sql(Query);
+      //foreach (string ResourceName in Hl7.Fhir.Model.ModelInfo.SupportedResources)
+      //{
+      //  //DateTime = 1
+      //  string Query = string.Empty;
+      //  Query = $"INSERT INTO dbo.{ResourceName}ResIndexDateTime (ServiceSearchParameterId, DateTimeOffsetLow, DateTimeOffsetHigh, ResourceId) ";
+      //  Query += "SELECT ServiceSearchParameterId ,DateTimeOffsetLow ,DateTimeOffsetHigh, ResourceId ";
+      //  Query += $"FROM dbo.{ResourceName}ResIndex i ";
+      //  Query += "JOIN dbo.ServiceSearchParameter s ";
+      //  Query += "ON i.ServiceSearchParameterId = s.Id ";
+      //  Query += "WHERE s.Type = 1";
+      //  Sql(Query);
 
-        //Quantity = 6 or Number = 0
-        Query = string.Empty;
-        Query = $"INSERT INTO [dbo].[{ResourceName}ResIndexQuantity] ([ServiceSearchParameterId], [Comparator], [Quantity], [Code], [System], [Unit], [ComparatorHigh], [QuantityHigh], [CodeHigh], [SystemHigh], [UnitHigh], [ResourceId]) ";
-        Query += "SELECT [ServiceSearchParameterId], [Comparator], [Quantity], [Code], [System], [Unit], [ComparatorHigh], [QuantityHigh], [CodeHigh], [SystemHigh], [UnitHigh], [ResourceId] ";
-        Query += $"FROM [dbo].[{ResourceName}ResIndex] i ";
-        Query += "JOIN [dbo].[ServiceSearchParameter] s ";
-        Query += "ON i.ServiceSearchParameterId = s.Id ";
-        Query += "WHERE s.Type = 6 or s.Type = 0";
-        Sql(Query);
+      //  //Quantity = 6 or Number = 0
+      //  Query = string.Empty;
+      //  Query = $"INSERT INTO dbo.{ResourceName}ResIndexQuantity (ServiceSearchParameterId, Comparator, Quantity, Code, System, Unit, ComparatorHigh, QuantityHigh, CodeHigh, SystemHigh, UnitHigh, ResourceId) ";
+      //  Query += "SELECT ServiceSearchParameterId, Comparator, Quantity, Code, System, Unit, ComparatorHigh, QuantityHigh, CodeHigh, SystemHigh, UnitHigh, ResourceId ";
+      //  Query += $"FROM dbo.{ResourceName}ResIndex i ";
+      //  Query += "JOIN dbo.ServiceSearchParameter s ";
+      //  Query += "ON i.ServiceSearchParameterId = s.Id ";
+      //  Query += "WHERE s.Type = 6 or s.Type = 0";
+      //  Sql(Query);
 
-        //Reference = 4
-        Query = string.Empty;
-        Query = $"INSERT INTO [dbo].[{ResourceName}ResIndexReference] ([ServiceSearchParameterId], [ReferenceFhirId], [ReferenceResourceType], [ReferenceServiceBaseUrlId], [ReferenceVersionId], [ResourceId]) ";
-        Query += "SELECT [ServiceSearchParameterId], [ReferenceFhirId], [ReferenceResourceType], [ReferenceServiceBaseUrlId], [ReferenceVersionId], [ResourceId] ";
-        Query += $"FROM [dbo].[{ResourceName}ResIndex] i ";
-        Query += "JOIN [dbo].[ServiceSearchParameter] s ";
-        Query += "ON i.ServiceSearchParameterId = s.Id ";
-        Query += "WHERE s.Type = 4";
-        Sql(Query);
+      //  //Reference = 4
+      //  Query = string.Empty;
+      //  Query = $"INSERT INTO dbo.{ResourceName}ResIndexReference (ServiceSearchParameterId, ReferenceFhirId, ReferenceResourceType, ReferenceServiceBaseUrlId, ReferenceVersionId, ResourceId) ";
+      //  Query += "SELECT ServiceSearchParameterId, ReferenceFhirId, ReferenceResourceType, ReferenceServiceBaseUrlId, ReferenceVersionId, ResourceId ";
+      //  Query += $"FROM dbo.{ResourceName}ResIndex i ";
+      //  Query += "JOIN dbo.ServiceSearchParameter s ";
+      //  Query += "ON i.ServiceSearchParameterId = s.Id ";
+      //  Query += "WHERE s.Type = 4";
+      //  Sql(Query);
 
-        //Token = 3
-        Query = string.Empty;
-        Query = $"INSERT INTO [dbo].[{ResourceName}ResIndexToken] ([ServiceSearchParameterId], [Code], [System], [ResourceId]) ";
-        Query += "SELECT [ServiceSearchParameterId], [Code], [System], [ResourceId] ";
-        Query += $"FROM [dbo].[{ResourceName}ResIndex] i ";
-        Query += "JOIN [dbo].[ServiceSearchParameter] s ";
-        Query += "ON i.ServiceSearchParameterId = s.Id ";
-        Query += "WHERE s.Type = 3 ";
-        Sql(Query);
+      //  //Token = 3
+      //  Query = string.Empty;
+      //  Query = $"INSERT INTO dbo.{ResourceName}ResIndexToken (ServiceSearchParameterId, Code, System, ResourceId) ";
+      //  Query += "SELECT ServiceSearchParameterId, Code, System, ResourceId ";
+      //  Query += $"FROM dbo.{ResourceName}ResIndex i ";
+      //  Query += "JOIN dbo.ServiceSearchParameter s ";
+      //  Query += "ON i.ServiceSearchParameterId = s.Id ";
+      //  Query += "WHERE s.Type = 3 ";
+      //  Sql(Query);
 
-        //Uri = 7
-        Query = string.Empty;
-        Query = $"INSERT INTO [dbo].[{ResourceName}ResIndexUri] ([ServiceSearchParameterId], [Uri], [ResourceId]) ";
-        Query += "SELECT [ServiceSearchParameterId], [Uri], [ResourceId] ";
-        Query += $"FROM [dbo].[{ResourceName}ResIndex] i ";
-        Query += "JOIN [dbo].[ServiceSearchParameter] s ";
-        Query += "ON i.ServiceSearchParameterId = s.Id ";
-        Query += "WHERE s.Type = 7";
-        Sql(Query);
-      }
+      //  //Uri = 7
+      //  Query = string.Empty;
+      //  Query = $"INSERT INTO dbo.{ResourceName}ResIndexUri (ServiceSearchParameterId, Uri, ResourceId) ";
+      //  Query += "SELECT ServiceSearchParameterId, Uri, ResourceId ";
+      //  Query += $"FROM dbo.{ResourceName}ResIndex i ";
+      //  Query += "JOIN dbo.ServiceSearchParameter s ";
+      //  Query += "ON i.ServiceSearchParameterId = s.Id ";
+      //  Query += "WHERE s.Type = 7";
+      //  Sql(Query);
+      //}
 
 
 
