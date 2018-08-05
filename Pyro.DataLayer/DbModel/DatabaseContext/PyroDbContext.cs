@@ -1,6 +1,6 @@
 ﻿using Pyro.DataLayer.DbModel.Entity;
-using Pyro.DataLayer.Support;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 //This class's other partial is auto code generated
 
 namespace Pyro.DataLayer.DbModel.DatabaseContext
@@ -8,14 +8,9 @@ namespace Pyro.DataLayer.DbModel.DatabaseContext
   public partial class PyroDbContext : DbContext, IPyroDbContext
   {
     public PyroDbContext()
-      : base("PyroConnectionString")
-    {
-          
-      //Below is only commented out for LinqPad Debug testing
-      DbContextUtils<PyroDbContext>.SetInitializer(new MigrateDatabaseToLatestVersion<PyroDbContext, Migrations.Configuration>());
-    }
+      : base(Common.Global.DatabaseConnection.PyroConnectionStringName){ }
     
-    public new System.Data.Entity.Infrastructure.DbEntityEntry Entry(object entity)
+    public new DbEntityEntry Entry(object entity)
     {
       return base.Entry(entity);
     }
@@ -28,7 +23,7 @@ namespace Pyro.DataLayer.DbModel.DatabaseContext
     public new DbSet Set(System.Type entityType)
     {
       return base.Set(entityType);
-    }
+    }    
 
     public DbSet<_ServiceBaseUrl> ServiceBaseUrl { get; set; }
     public DbSet<_ServiceConfiguration> ServiceConfiguration { get; set; }    
@@ -37,4 +32,8 @@ namespace Pyro.DataLayer.DbModel.DatabaseContext
     public DbSet<_ServiceCompartmentResource> ServiceCompartmentResource { get; set; }
     public DbSet<_FhirRelease> FhirRelease { get; set; }
   }
+
+
+
+ 
 }

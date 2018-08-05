@@ -253,6 +253,8 @@ namespace Pyro.Common.Tools
       string OrginalFhirDateString = FhirDateTime;
       int OrginalFhirDateTimeLength = FhirDateTime.Length;
       FhirDateTime = CorrectByAddingSecondsToHourMinDateTimeWithNoSeconds(FhirDateTime);
+
+      //Remember that timezone's must have coloums i.e +08:00 not +0800
       if (!Hl7.Fhir.Model.Primitives.PartialDateTime.TryParse(FhirDateTime, out Hl7.Fhir.Model.Primitives.PartialDateTime PartialDateTime))
         return false;
 

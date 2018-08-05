@@ -16,12 +16,13 @@ namespace Pyro.DataLayer.DbModel.DatabaseContextConfig
   {
     public ServiceSearchParameterTargetResourceConfig()
     {
+      ToTable("_SParamResource");
       HasKey(x => x.Id).Property(x => x.Id).IsRequired();
       Property(x => x.ResourceType).IsRequired();
       Property(x => x.ServiceSearchParameterId)
         .IsRequired()
         .HasColumnAnnotation(IndexAnnotation.AnnotationName,
-        new IndexAnnotation(new IndexAttribute("ix_ServiceSearchParameterId") { IsUnique = false }));
+        new IndexAnnotation(new IndexAttribute("ix_SearchParamId") { IsUnique = false }));
     }
   }
 }

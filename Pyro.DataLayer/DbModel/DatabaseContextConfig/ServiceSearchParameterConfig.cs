@@ -12,6 +12,7 @@ namespace Pyro.DataLayer.DbModel.DatabaseContextConfig
   {
     public ServiceSearchParameterConfig()
     {
+      ToTable("_SearchParam");
       HasKey(x => x.Id).Property(x => x.Id).IsRequired();
       Property(x => x.Name).HasMaxLength(StaticDatabaseInfo.BaseDatabaseFieldLength.NameMaxLength)
         .IsRequired()

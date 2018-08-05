@@ -12,13 +12,14 @@ namespace Pyro.DataLayer.DbModel.DatabaseContextConfig
   {
     public ServiceCompartmentResourceContextConfig()
     {
+      ToTable("_CompartmentRes");
       HasKey(x => x.Id).Property(x => x.Id).IsRequired();
       Property(x => x.Code).IsRequired().HasMaxLength(StaticDatabaseInfo.BaseDatabaseFieldLength.ResourceTypeStringMaxLength); ;
       Property(x => x.Param).IsOptional();
       Property(x => x._ServiceCompartmentId)
         .IsRequired()
         .HasColumnAnnotation(IndexAnnotation.AnnotationName,
-        new IndexAnnotation(new IndexAttribute("ix_ServiceCompartmentId") { IsUnique = false }));
+        new IndexAnnotation(new IndexAttribute("ix_CompartmentId") { IsUnique = false }));
     }  
   }
 }

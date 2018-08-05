@@ -15,6 +15,7 @@ namespace Pyro.DataLayer.DbModel.DatabaseContextConfig
   {
     public ServiceCompartmentContextConfig()
     {
+      ToTable("_Compartment");
       HasKey(x => x.Id).Property(x => x.Id).IsRequired();
       Property(x => x.Url).IsRequired().HasMaxLength(StaticDatabaseInfo.BaseDatabaseFieldLength.StringMaxLength);
       Property(x => x.CompartmentDefinitionResourceId).IsRequired().HasMaxLength(StaticDatabaseInfo.BaseDatabaseFieldLength.FhirIdMaxLength);
@@ -26,7 +27,7 @@ namespace Pyro.DataLayer.DbModel.DatabaseContextConfig
        .IsRequired()
        .HasMaxLength(StaticDatabaseInfo.BaseDatabaseFieldLength.ResourceTypeStringMaxLength)
        .HasColumnAnnotation(IndexAnnotation.AnnotationName,
-       new IndexAnnotation(new IndexAttribute("ix_ServiceCompartmentCode") { IsUnique = true }));
+       new IndexAnnotation(new IndexAttribute("ix_CompartmentCode") { IsUnique = true }));
 
       Property(x => x.LastUpdated)
        .HasPrecision(StaticDatabaseInfo.BaseDatabaseFieldLength.DateTimeOffsetPrecision)

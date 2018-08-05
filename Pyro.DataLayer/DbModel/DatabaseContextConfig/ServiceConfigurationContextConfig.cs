@@ -17,6 +17,7 @@ namespace Pyro.DataLayer.DbModel.DatabaseContextConfig
   {
     public ServiceConfigurationContextConfig()
     {
+      ToTable("_ServConfig");
       HasKey(x => x.Id).Property(x => x.Id).IsRequired();
       Property(x => x.Parameter).IsRequired().HasMaxLength(StaticDatabaseInfo.BaseDatabaseFieldLength.StringMaxLength);
       Property(x => x.Value).IsRequired().HasMaxLength(StaticDatabaseInfo.BaseDatabaseFieldLength.StringMaxLength);

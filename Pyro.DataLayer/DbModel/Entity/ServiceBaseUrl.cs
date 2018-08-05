@@ -8,6 +8,7 @@ using Pyro.DataLayer.DbModel.EntityBase;
 
 namespace Pyro.DataLayer.DbModel.Entity
 {
+  
   public class _ServiceBaseUrl : ModelBase, IDtoRootUrlStore
   {
     public string Url { get; set; }

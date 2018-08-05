@@ -207,7 +207,9 @@ namespace Pyro.Backburner.App_Start
       container.Register<Pyro.Common.SearchIndexer.Setter.IQuantitySetter, Pyro.Common.SearchIndexer.Setter.QuantitySetter>(Lifestyle.Scoped);
       container.Register<Pyro.Common.SearchIndexer.Setter.IUriSetter, Pyro.Common.SearchIndexer.Setter.UriSetter>(Lifestyle.Scoped);
 
-      container.Register<IPyroDbContext, PyroDbContext>(Lifestyle.Scoped);
+      //Here we get the databse provider from the db connection string and then load the appropirate concrete dbContext.
+      RegisterDbContextForDbProvider(container);
+
       container.Register<IRequestServiceRootValidate, RequestServiceRootValidate>(Lifestyle.Scoped);
       container.Register<IUnitOfWork, UnitOfWork>(Lifestyle.Scoped);
       container.Register<Pyro.Common.CompositionRoot.IResourceServiceFactory, ResourceServiceFactory>(Lifestyle.Scoped);
@@ -300,6 +302,23 @@ namespace Pyro.Backburner.App_Start
       container.Register<Pyro.Common.PyroHealthFhirResource.CompartmentDefinitions.IPyroCompartmentDefinitionPractitioner, Pyro.Common.PyroHealthFhirResource.CompartmentDefinitions.PyroCompartmentDefinitionPractitioner>(Lifestyle.Scoped);
       container.Register<Pyro.Common.PyroHealthFhirResource.CompartmentDefinitions.IPyroCompartmentDefinitionRelatedPerson, Pyro.Common.PyroHealthFhirResource.CompartmentDefinitions.PyroCompartmentDefinitionRelatedPerson>(Lifestyle.Scoped);
 
+    }
+
+    private static void RegisterDbContextForDbProvider(Container container)
+    {
+      var ConnectionStringSetting = DatabaseConnection.GetConectionStringSettings();
+      if (ConnectionStringSetting.ProviderName == DatabaseConnection.MicrosoftSQLServerProvider)
+      {
+        container.Register<IPyroDbContext, MsSqlContext>(Lifestyle.Scoped);
+      }
+      else if (ConnectionStringSetting.ProviderName == DatabaseConnection.PostgreSQLProvider)
+      {
+        container.Register<IPyroDbContext, PostgreContext>(Lifestyle.Scoped);
+      }
+      else
+      {
+        throw new System.ApplicationException($"Unsupported database provider found in database connection string. Provider was : {ConnectionStringSetting.ProviderName}. The only supported provider names are '{DatabaseConnection.PostgreSQLProvider}' for PostgreSQL and '{DatabaseConnection.MicrosoftSQLServerProvider}' for Microsoft SQL Server.");
+      }
     }
   }
 }

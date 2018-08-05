@@ -17,6 +17,7 @@ namespace Pyro.DataLayer.DbModel.DatabaseContextConfig
   {
     public ServiceBaseUrlContextConfig()
     {
+      ToTable("_BaseUrl");
       HasKey(x => x.Id).Property(x => x.Id).IsRequired();
       Property(x => x.Url).IsRequired()
         .HasMaxLength(StaticDatabaseInfo.BaseDatabaseFieldLength.StringMaxLength)

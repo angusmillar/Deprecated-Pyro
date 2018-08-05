@@ -100,8 +100,8 @@ namespace Pyro.WebApi.App_Start
       //========================================================================================================
       //=================== Scoped =============================================================================            
       //========================================================================================================
-   
-      container.Register<IResourceSeedingService, ResourceSeedingService>(Lifestyle.Scoped);            
+
+      container.Register<IResourceSeedingService, ResourceSeedingService>(Lifestyle.Scoped);
     }
 
     /// <summary>
@@ -122,7 +122,7 @@ namespace Pyro.WebApi.App_Start
           }
           break;
         default:
-          throw new System.ComponentModel.InvalidEnumArgumentException(ProjectType.GetPyroLiteral(), (int)ProjectType, typeof(PyroProject.PyroProjectType));          
+          throw new System.ComponentModel.InvalidEnumArgumentException(ProjectType.GetPyroLiteral(), (int)ProjectType, typeof(PyroProject.PyroProjectType));
       }
     }
 
@@ -157,7 +157,7 @@ namespace Pyro.WebApi.App_Start
       container.Register<Pyro.Common.CompositionRoot.IFhirResourceInstanceOperationServiceFactory, FhirResourceInstanceOperationServiceFactory>(Lifestyle.Singleton);
       container.Register<Pyro.Common.CompositionRoot.IFhirResourceOperationServiceFactory, FhirResourceOperationServiceFactory>(Lifestyle.Singleton);
       container.Register<Pyro.Common.CompositionRoot.IServerSearchParameterServiceFactory, ServerSearchParameterServiceFactory>(Lifestyle.Singleton);
-      
+
 
       container.Register<Pyro.Identifiers.Australian.MedicareNumber.IMedicareNumberParser, Pyro.Identifiers.Australian.MedicareNumber.MedicareNumberParser>(Lifestyle.Singleton);
       container.Register<Pyro.Identifiers.Australian.DepartmentVeteransAffairs.IDVANumberParser, Pyro.Identifiers.Australian.DepartmentVeteransAffairs.DVANumberParser>(Lifestyle.Singleton);
@@ -199,7 +199,7 @@ namespace Pyro.WebApi.App_Start
 
       container.Register<Common.SearchIndexer.Indexer.IInMemoryResourceSearch, Common.SearchIndexer.Indexer.InMemoryResourceSearch>(Lifestyle.Transient);
       container.Register<Common.SearchIndexer.Indexer.IResourceIndexed, Common.SearchIndexer.Indexer.ResourceIndexed>(Lifestyle.Transient);
-      
+
 
       //========================================================================================================
       //=================== Scoped =============================================================================            
@@ -208,7 +208,7 @@ namespace Pyro.WebApi.App_Start
 
       //GenericInstanceFactory
       container.Register<Pyro.Common.CompositionRoot.IGenericInstanceFactory, Pyro.Common.CompositionRoot.Concrete.GenericInstanceFactory>(Lifestyle.Scoped);
-      
+
       //Database indexes
       container.RegisterConditional(typeof(IDbIndexSetterFactory<,,,,,,>), typeof(Pyro.WebApi.CompositionRoot.DbIndexSetterFactory<,,,,,,>), Lifestyle.Scoped, c => !c.Handled);
       container.RegisterConditional(typeof(IDbReferenceSetter<,,,,,,>), typeof(DbReferenceSetter<,,,,,,>), c => !c.Handled);
@@ -229,7 +229,9 @@ namespace Pyro.WebApi.App_Start
       container.Register<Pyro.Common.SearchIndexer.Setter.IQuantitySetter, Pyro.Common.SearchIndexer.Setter.QuantitySetter>(Lifestyle.Scoped);
       container.Register<Pyro.Common.SearchIndexer.Setter.IUriSetter, Pyro.Common.SearchIndexer.Setter.UriSetter>(Lifestyle.Scoped);
 
-      container.Register<IPyroDbContext, PyroDbContext>(Lifestyle.Scoped);
+      //Here we get the databse provider from the db connection string and then load the appropirate concrete dbContext.
+      RegisterDbContextForDbProvider(container);
+
       container.Register<IRequestServiceRootValidate, RequestServiceRootValidate>(Lifestyle.Scoped);
       container.Register<IUnitOfWork, UnitOfWork>(Lifestyle.Scoped);
       container.Register<Pyro.Common.CompositionRoot.IResourceServiceFactory, ResourceServiceFactory>(Lifestyle.Scoped);
@@ -240,7 +242,7 @@ namespace Pyro.WebApi.App_Start
       container.Register<IResourceServices, ResourceServices>(Lifestyle.Scoped);
       container.Register<ISmartScopeService, SmartScopeService>(Lifestyle.Scoped);
       container.Register<ISearchParameterFactory, SearchParameterFactory>(Lifestyle.Scoped);
-      container.Register<IIncludeService, IncludeService>(Lifestyle.Scoped);      
+      container.Register<IIncludeService, IncludeService>(Lifestyle.Scoped);
       container.Register<Pyro.ADHA.Api.IIhiSearchValidateConfig, Pyro.Common.ADHA.Api.IhiSearchValidateConfig>(Lifestyle.Scoped);
       container.Register<Pyro.ADHA.Api.IHiServiceApi, Pyro.ADHA.Api.HiServiceApi>(Lifestyle.Scoped);
 
@@ -279,7 +281,7 @@ namespace Pyro.WebApi.App_Start
       container.Register<IServiceCompartmentRepository, ServiceCompartmentRepository>(Lifestyle.Scoped);
       container.Register<ICompartmentSearchParameterService, CompartmentSearchParameterService>(Lifestyle.Scoped);
       container.Register<IFhirReleaseRepository, FhirReleaseRepository>(Lifestyle.Scoped);
-      
+
       //Scoped Trigger Services
       container.Register<IResourceTriggerService, ResourceTriggerService>(Lifestyle.Scoped);
       container.Register<ITriggerCompartmentDefinition, TriggerCompartmentDefinition>(Lifestyle.Scoped);
@@ -296,7 +298,7 @@ namespace Pyro.WebApi.App_Start
       container.Register<Pyro.Engine.Services.FhirTasks.FhirSpecLoader.IFhirSpecificationDefinitionLoader, Pyro.Engine.Services.FhirTasks.FhirSpecLoader.FhirSpecificationDefinitionLoader>(Lifestyle.Scoped);
       container.Register<Pyro.Engine.Services.FhirTasks.FhirSpecLoader.IFhirSpecificationDefinitionLoaderParameters, Pyro.Engine.Services.FhirTasks.FhirSpecLoader.FhirSpecificationDefinitionLoaderParameters>(Lifestyle.Scoped);
       container.Register<Pyro.Engine.Services.FhirTasks.SetCompartment.ISetCompartmentDefinitionTaskProcessor, Pyro.Engine.Services.FhirTasks.SetCompartment.SetCompartmentDefinitionTaskProcessor>(Lifestyle.Scoped);
-      
+
       //Pyro FHIR Resources
       container.Register<Pyro.Common.PyroHealthFhirResource.IPyroFhirResource, Pyro.Common.PyroHealthFhirResource.PyroFhirResource>(Lifestyle.Scoped);
       container.Register<Pyro.Common.PyroHealthFhirResource.ICodeSystem, Pyro.Common.PyroHealthFhirResource.CodeSystem>(Lifestyle.Scoped);
@@ -324,5 +326,21 @@ namespace Pyro.WebApi.App_Start
 
     }
 
+    private static void RegisterDbContextForDbProvider(Container container)
+    {
+      var ConnectionStringSetting = DatabaseConnection.GetConectionStringSettings();
+      if (ConnectionStringSetting.ProviderName == DatabaseConnection.MicrosoftSQLServerProvider)
+      {
+        container.Register<IPyroDbContext, MsSqlContext>(Lifestyle.Scoped);
+      }
+      else if (ConnectionStringSetting.ProviderName == DatabaseConnection.PostgreSQLProvider)
+      {
+        container.Register<IPyroDbContext, PostgreContext>(Lifestyle.Scoped);
+      }
+      else
+      {
+        throw new System.ApplicationException($"Unsupported database provider found in database connection string. Provider was : {ConnectionStringSetting.ProviderName}. The only supported provider names are '{DatabaseConnection.PostgreSQLProvider}' for PostgreSQL and '{DatabaseConnection.MicrosoftSQLServerProvider}' for Microsoft SQL Server.");
+      }
+    }
   }
 }

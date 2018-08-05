@@ -33,7 +33,7 @@ namespace Pyro.DataLayer.DbModel.DatabaseContextConfig
       Property(x => x.ServiceSearchParameterId)
         .IsRequired()
         .HasColumnAnnotation(IndexAnnotation.AnnotationName,
-        new IndexAnnotation(new IndexAttribute("ix_ServiceSearchParameterId") { IsUnique = false }));
+        new IndexAnnotation(new IndexAttribute("ix_SearchParamId") { IsUnique = false }));
 
       Property(x => x.ReferenceFhirId)
       .HasColumnAnnotation("CaseSensitive", true)
@@ -41,7 +41,7 @@ namespace Pyro.DataLayer.DbModel.DatabaseContextConfig
       .IsRequired()
       //.IsOptional()
       .HasColumnAnnotation(IndexAnnotation.AnnotationName,
-      new IndexAnnotation(new IndexAttribute("ix_ReferenceFhirId") { IsUnique = false }));
+      new IndexAnnotation(new IndexAttribute("ix_RefFhirId") { IsUnique = false }));
 
       Property(x => x.ReferenceResourceType).HasMaxLength(StaticDatabaseInfo.BaseDatabaseFieldLength.ResourceTypeStringMaxLength)
         .IsRequired();
@@ -57,8 +57,8 @@ namespace Pyro.DataLayer.DbModel.DatabaseContextConfig
       Property(x => x.ReferenceServiceBaseUrlId)
         .IsOptional()
         .HasColumnAnnotation(IndexAnnotation.AnnotationName,
-        new IndexAnnotation(new IndexAttribute("ix_ReferenceServiceBaseUrlId") { IsUnique = false }));
-
+        new IndexAnnotation(new IndexAttribute("ix_RefBaseUrlId") { IsUnique = false }));
+      
     }
   }
 }

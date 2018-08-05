@@ -7,6 +7,7 @@ using Microsoft.Owin.Hosting;
 using NUnit.Framework;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Rest;
+using Hl7.Fhir.Utility;
 
 namespace Pyro.Test.IntergrationTest
 {
@@ -207,6 +208,133 @@ namespace Pyro.Test.IntergrationTest
       catch (Exception Exec)
       {
         Assert.True(false, "Exception thrown on conditional delete of resource Patient: " + Exec.Message);
+      }
+
+    }
+
+    [Test]
+    public void Test_DateRanges()
+    {
+      CleanUpByIdentifier(ResourceType.Observation);
+
+      Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(StaticTestData.FhirEndpoint(), false);
+      clientFhir.Timeout = 1000 * 720; // give the call a while to execute (particularly while debugging).
+
+      //Add an Observation one with an Effective Period 10:00 AM to 11:00 AM 
+      FhirDateTime ObsOneEffectiveStart = new FhirDateTime(new DateTimeOffset(2018, 08, 5, 10, 00, 00, new TimeSpan(8, 0, 0)));
+      FhirDateTime ObsOneEffectiveEnd = new FhirDateTime(new DateTimeOffset(2018, 08, 5, 11, 00, 00, new TimeSpan(8, 0, 0)));
+      string ObsOneResourceId = string.Empty;
+      Observation ObsOne = new Observation();      
+      ObsOne.Identifier = new List<Identifier>(){
+         new Identifier()
+         {
+            System = StaticTestData.TestIdentiferSystem,
+            Value = Common.Tools.FhirGuid.FhirGuid.NewFhirGuid()
+         }
+      };
+      ObsOne.Code = new CodeableConcept();
+      ObsOne.Code.Coding = new List<Coding>();
+      ObsOne.Code.Coding.Add(new Coding()
+      {
+        System = "http:/mytestcodesystem.com/system",
+        Code = "ObsOne"
+      });
+      var EffectiveObsOnePeriod = new Period();
+      EffectiveObsOnePeriod.StartElement = ObsOneEffectiveStart;
+      EffectiveObsOnePeriod.EndElement = ObsOneEffectiveEnd;
+      ObsOne.Effective = EffectiveObsOnePeriod;
+
+      Observation ObsOneResult = null;
+      try
+      {
+        ObsOneResult = clientFhir.Create(ObsOne);
+      }
+      catch (Exception Exec)
+      {
+        Assert.True(false, "Exception thrown on resource Create: " + Exec.Message);
+      }
+      Assert.NotNull(ObsOneResult, "Resource create by Updated returned resource of null");
+      ObsOneResourceId = ObsOneResult.Id;
+      ObsOneResult = null;
+
+      //Add an Observation one with an Effective Period 10:30 AM to 11:30 AM 
+      FhirDateTime ObsTwoEffectiveStart = new FhirDateTime(new DateTimeOffset(2018, 08, 5, 10, 30, 00, new TimeSpan(8, 0, 0)));
+      FhirDateTime ObsTwoEffectiveEnd = new FhirDateTime(new DateTimeOffset(2018, 08, 5, 11, 30, 00, new TimeSpan(8, 0, 0)));
+      string ObsTwoResourceId = string.Empty;
+      Observation ObsTwo = new Observation();
+      ObsTwo.Identifier = new List<Identifier>(){
+         new Identifier()
+         {
+            System = StaticTestData.TestIdentiferSystem,
+            Value = Common.Tools.FhirGuid.FhirGuid.NewFhirGuid()
+         }
+      };
+      ObsTwo.Code = new CodeableConcept();
+      ObsTwo.Code.Coding = new List<Coding>();
+      ObsTwo.Code.Coding.Add(new Coding()
+      {
+        System = "http:/mytestcodesystem.com/system",
+        Code = "ObsTwo"
+      });
+      var EffectiveObsTwoPeriod = new Period();
+      EffectiveObsTwoPeriod.StartElement = ObsTwoEffectiveStart;
+      EffectiveObsTwoPeriod.EndElement = ObsTwoEffectiveEnd;
+      ObsTwo.Effective = EffectiveObsTwoPeriod;
+
+      Observation ObsTwoResult = null;
+      try
+      {
+        ObsTwoResult = clientFhir.Create(ObsTwo);
+      }
+      catch (Exception Exec)
+      {
+        Assert.True(false, "Exception thrown on resource Create: " + Exec.Message);
+      }
+      Assert.NotNull(ObsTwoResult, "Resource create by Updated returned resource of null");
+      ObsTwoResourceId = ObsTwoResult.Id;
+      ObsTwoResult = null;
+
+      //Assert
+      var SearchParam = new SearchParams();
+      try
+      {
+        SearchParam.Add("identifier", $"{StaticTestData.TestIdentiferSystem}|");
+        SearchParam.Add("date", "gt2018-08-05T11:00:00+08:00");
+        clientFhir.PreferredParameterHandling = SearchParameterHandling.Strict;
+        Bundle BundleResult = clientFhir.Search<Observation>(SearchParam);
+
+        Assert.IsNotNull(BundleResult);
+        Assert.IsNotNull(BundleResult.Entry);
+        Assert.AreEqual(1, BundleResult.Entry.Count);
+        Assert.AreEqual(ObsTwoResourceId, BundleResult.Entry[0].Resource.Id);
+      }
+      catch (Exception Exec)
+      {
+        Assert.True(false, "Exception thrown on resource Search: " + Exec.Message);
+      }
+
+
+      CleanUpByIdentifier(ResourceType.Observation);
+
+    }
+
+    private void CleanUpByIdentifier(ResourceType ResourceType)
+    {
+      // give the call a while to execute (particularly while debugging).
+      Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(StaticTestData.FhirEndpoint(), false);
+      clientFhir.Timeout = 1000 * 1000;
+
+      //--- Clean Up ---------------------------------------------------------
+      //Clean up by deleting all Test Patients
+
+      SearchParams sp = new SearchParams().Where($"identifier={StaticTestData.TestIdentiferSystem}|");
+      try
+      {
+        clientFhir.Delete(ResourceType.GetLiteral(), sp);
+      }
+      catch (Exception Exec)
+      {
+        Assert.True(false, $"Exception thrown on clean up delete of resource {ResourceType.GetLiteral()}: " + Exec.Message);
       }
 
     }

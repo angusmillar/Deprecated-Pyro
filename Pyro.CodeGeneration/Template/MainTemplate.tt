@@ -284,6 +284,7 @@ namespace Pyro.DataLayer.DbModel.DatabaseContext
       
       Mb.Configurations.Add(new ServiceBaseUrlContextConfig());
       Mb.Configurations.Add(new ServiceSearchParameterConfig());
+      Mb.Configurations.Add(new ServiceSearchParameterTargetResourceConfig());
 
       Mb.Configurations.Add(new ServiceCompartmentContextConfig());
       Mb.Configurations.Add(new ServiceCompartmentResourceContextConfig());
