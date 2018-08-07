@@ -176,9 +176,21 @@
     <Compile Include="IndexSetter\DbTokenSetter.cs" />
     <Compile Include="IndexSetter\DbQuantitySetter.cs" />
     <Compile Include="IndexSetter\DbStringSetter.cs" />
-    <Compile Include="MigrationsPostgre\201808040817117_First.cs" />
-    <Compile Include="MigrationsPostgre\201808040817117_First.Designer.cs">
-      <DependentUpon>201808040817117_First.cs</DependentUpon>
+    <Compile Include="MigrationsMicrosoftSQLServer\201808070908225_AddNewLowHighUtcDateTimeColoums.cs" />
+    <Compile Include="MigrationsMicrosoftSQLServer\201808070908225_AddNewLowHighUtcDateTimeColoums.Designer.cs">
+      <DependentUpon>201808070908225_AddNewLowHighUtcDateTimeColoums.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MigrationsMicrosoftSQLServer\201808070911372_PopulateNewLowHighUtcDateTimeColoums.cs" />
+    <Compile Include="MigrationsMicrosoftSQLServer\201808070911372_PopulateNewLowHighUtcDateTimeColoums.Designer.cs">
+      <DependentUpon>201808070911372_PopulateNewLowHighUtcDateTimeColoums.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MigrationsMicrosoftSQLServer\201808070917504_DropOldLowHighUtcDateTimeColoums.cs" />
+    <Compile Include="MigrationsMicrosoftSQLServer\201808070917504_DropOldLowHighUtcDateTimeColoums.Designer.cs">
+      <DependentUpon>201808070917504_DropOldLowHighUtcDateTimeColoums.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MigrationsPostgre\201808070701252_First.cs" />
+    <Compile Include="MigrationsPostgre\201808070701252_First.Designer.cs">
+      <DependentUpon>201808070701252_First.cs</DependentUpon>
     </Compile>
     <Compile Include="MigrationsPostgre\ConfigurationPostgre.cs" />
     <Compile Include="MigrationsMicrosoftSQLServer\201706130247261_First.cs" />
@@ -305,9 +317,6 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="MigrationsPostgre\201808040817117_First.resx">
-      <DependentUpon>201808040817117_First.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="MigrationsMicrosoftSQLServer\201706130247261_First.resx">
       <DependentUpon>201706130247261_First.cs</DependentUpon>
     </EmbeddedResource>
@@ -364,6 +373,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MigrationsMicrosoftSQLServer\201808041212043_AlignNamesForPostgreSQL.resx">
       <DependentUpon>201808041212043_AlignNamesForPostgreSQL.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MigrationsMicrosoftSQLServer\201808070908225_AddNewLowHighUtcDateTimeColoums.resx">
+      <DependentUpon>201808070908225_AddNewLowHighUtcDateTimeColoums.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MigrationsMicrosoftSQLServer\201808070911372_PopulateNewLowHighUtcDateTimeColoums.resx">
+      <DependentUpon>201808070911372_PopulateNewLowHighUtcDateTimeColoums.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MigrationsMicrosoftSQLServer\201808070917504_DropOldLowHighUtcDateTimeColoums.resx">
+      <DependentUpon>201808070917504_DropOldLowHighUtcDateTimeColoums.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MigrationsPostgre\201808070701252_First.resx">
+      <DependentUpon>201808070701252_First.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

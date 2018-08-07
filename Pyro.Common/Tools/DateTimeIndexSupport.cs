@@ -32,24 +32,29 @@ namespace Pyro.Common.Tools
 
     public static DateTimeIndex GetDateTimeIndex(Period value)
     {
+      DateTimeIndex DateTimeIndexStart = null;
+      DateTimeIndex DateTimeIndexEnd = null;
+
       var DateTimeIndex = new DateTimeIndex();
       PartialDateTime? PartialDateTimeLow = null;
       if (value.StartElement != null)
-      {
+      {        
         PartialDateTimeLow = value.StartElement.ToPartialDateTime();
+        DateTimeIndexStart = ParsePartialDateTime(PartialDateTimeLow);
       }
 
       PartialDateTime? PartialDateTimeHigh = null;
       if (value.EndElement != null)
       {
         PartialDateTimeHigh = value.EndElement.ToPartialDateTime();
+        DateTimeIndexEnd = ParsePartialDateTime(PartialDateTimeHigh);
       }
 
-      if (PartialDateTimeLow.HasValue)
-        DateTimeIndex.Low = PartialDateTimeLow.Value.ToUniversalTime().ToLocalTime();
-      if (PartialDateTimeHigh.HasValue)
-        DateTimeIndex.High = PartialDateTimeHigh.Value.ToUniversalTime().ToLocalTime();
-
+      if (DateTimeIndexStart != null)
+        DateTimeIndex.Low = DateTimeIndexStart.Low;
+      if (DateTimeIndexEnd != null)
+        DateTimeIndex.High = DateTimeIndexEnd.High;
+      
       return DateTimeIndex;
     }
 
@@ -59,7 +64,7 @@ namespace Pyro.Common.Tools
       if (Timing.Event != null)
       {
         DateTimeIndex.Low = ResolveTargetEventDateTime(Timing, true);
-        if (DateTimeIndex.Low != DateTimeOffset.MaxValue)
+        if (DateTimeIndex.Low != DateTimeOffset.MaxValue.ToUniversalTime())
         {
           decimal TargetDuration = ResolveTargetDurationValue(Timing);
           Timing.UnitsOfTime? TargetUnitsOfTime = null;
@@ -85,14 +90,6 @@ namespace Pyro.Common.Tools
       }
       return DateTimeIndex;
     }
-
-
-    //  FhirDateTimeSupport FhirDateTimeSupport = new FhirDateTimeSupport(PartialDateTimeType.Value.ToString());
-
-    //    if (FhirDateTimeSupport.IsValid)
-    //    {
-    //      FhirDateTimeSupport.Value
-    //}
 
     private static DateTimeIndex ParsePartialDateTime(PartialDateTime? PartialDateTimeType)
     {
@@ -132,85 +129,40 @@ namespace Pyro.Common.Tools
       }
       return null;
     }
-
-    private static DateTimeIndex ParsePartialDateTimeOLD(PartialDateTime? PartialDateTimeType)
-    {
-      //2012-12-01T12:00:00+01:00
-      //DateTimeOffset Low = PartialDateTimeType.Value.ToUniversalTime().ToLocalTime();
-      //Get the localTime offset (+8:00 is Perth Australia, will always be relevent to the server location, Sydney +10:00 for PyroHealth.net)
-      // var LocalTimeOffSet = DateTimeOffset.Now.Offset;
-      //Convert to DateTimeOffset, which is done by caling ToUniversalTime(), yet this converts to UniversalTime
-      // So we then set the timezone to the local timezone, which converts the time value to plus that timezone
-      // So then subtract that timezone hours from the final result 
-      //Now we have the original timezone and correct time.
-      //DateTimeOffset Low = PartialDateTimeType.Value.ToUniversalTime().ToOffset(LocalTimeOffSet).Subtract(LocalTimeOffSet);
-
-      DateTimeOffset? Low = FhirDateTimeSupport.ConvertToDateTimeOffSetLow(PartialDateTimeType.Value.ToString());
-
-      DateTimeOffset High = DateTimeOffset.MaxValue;
-      if (Low.HasValue)
-      {
-        int DateCharCount = PartialDateTimeType.Value.ToString().Count();
-        if (DateCharCount == 4)
-        {
-          High = Low.Value.AddYears(1).AddMilliseconds(-1);
-        }
-        else if (DateCharCount == 7)
-        {
-          High = Low.Value.AddMonths(1).AddMilliseconds(-1);
-        }
-        else if (DateCharCount == 10)
-        {
-          High = Low.Value.AddDays(1).AddMilliseconds(-1);
-        }
-        else if (DateCharCount == 25)
-        {
-          High = Low.Value.AddSeconds(1).AddMilliseconds(-1);
-        }
-        else if (DateCharCount == 27 || DateCharCount == 28 || DateCharCount == 29)
-        {
-          High = Low.Value.AddMilliseconds(1);
-        }
-        else if (DateCharCount > 29)
-        {
-          High = Low.Value.AddTicks(1);
-        }
-        return new DateTimeIndex(Low.Value, High);
-      }
-      return null;
-    }
-
+    
     //Check all DateTime values in the list and find the earliest value.        
     private static DateTimeOffset ResolveTargetEventDateTime(Timing Timing, bool TargetLowest)
     {
       DateTimeOffset TargetEventDateTime;
       if (TargetLowest)
-        TargetEventDateTime = DateTimeOffset.MaxValue;
+        TargetEventDateTime = DateTimeOffset.MaxValue.ToUniversalTime();
       else
-        TargetEventDateTime = DateTimeOffset.MinValue;
+        TargetEventDateTime = DateTimeOffset.MinValue.ToUniversalTime();
 
       foreach (var EventDateTime in Timing.EventElement)
       {
         if (!string.IsNullOrWhiteSpace(EventDateTime.Value))
         {
           if (FhirDateTime.IsValidValue(EventDateTime.Value))
-          {
+          {            
             PartialDateTime? PartialDateTimeType = EventDateTime.ToPartialDateTime();
             if (PartialDateTimeType.HasValue)
             {
+              DateTimeIndex DateTimeIndexOffSetValue = ParsePartialDateTime(PartialDateTimeType.Value);
+
               DateTimeOffset DateTimeOffSetValue = PartialDateTimeType.Value.ToUniversalTime().ToLocalTime();
               if (TargetLowest)
               {
-                if (TargetEventDateTime > DateTimeOffSetValue)
+                if (TargetEventDateTime > DateTimeIndexOffSetValue.Low.Value)
                 {
-                  TargetEventDateTime = DateTimeOffSetValue;
+                  TargetEventDateTime = DateTimeIndexOffSetValue.Low.Value;
                 }
               }
               else
               {
-                if (TargetEventDateTime < DateTimeOffSetValue)
+                if (TargetEventDateTime < DateTimeIndexOffSetValue.High.Value)
                 {
-                  TargetEventDateTime = DateTimeOffSetValue;
+                  TargetEventDateTime = DateTimeIndexOffSetValue.High.Value;
                 }
               }
             }

@@ -21,7 +21,8 @@ namespace Pyro.DataLayer.DbModel.EntityBase
   {
     public virtual ResCurrentType Resource { get; set; }
 
-    public DateTimeOffset? DateTimeOffsetHigh { get; set; }
-    public DateTimeOffset? DateTimeOffsetLow { get; set; }
+    public DateTime? LowUtcDateTime { get; set; }
+    public DateTime? HighUtcDateTime { get; set; }
+
   }
 }

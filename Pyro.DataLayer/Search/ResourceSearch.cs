@@ -142,20 +142,20 @@ namespace Pyro.DataLayer.Search
       return Expression.Lambda<Func<ResCurrentType, bool>>(BinaryExpression, new[] { MainParameter });
     }
 
-    ////---- DateTime Property Expressions ------------------------------------------------------
+    ////---- NEW DateTime Property Expressions ------------------------------------------------------
 
-    public Expression<Func<ResCurrentType, bool>> DateTimePeriodCollectionAnyEqualTo(int Id, DateTimeOffset SearchValueLow, DateTimeOffset SearchValueHigh)
+    public Expression<Func<ResCurrentType, bool>> DateTimePeriodCollectionAnyEqualTo(int Id, DateTimeOffset? SearchValueLow, DateTimeOffset? SearchValueHigh)
     {
       ParameterExpression InnerParameter = Expression.Parameter(typeof(ResIndexDateTimeType), "c");
       ParameterExpression IndexListParameter = Expression.Parameter(typeof(ResCurrentType), "x");
 
       BinaryExpression BinaryExpressionIdEquals = SearchParameterIdBinaryExpression(Id, InnerParameter);
 
-      MemberExpression propertyReferenceLow = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.DateTimeOffsetLow);
-      MemberExpression propertyReferenceHigh = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.DateTimeOffsetHigh);
+      MemberExpression propertyReferenceLow = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.LowUtcDateTime);
+      MemberExpression propertyReferenceHigh = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.HighUtcDateTime);
 
-      ConstantExpression SearchValueReferenceLow = Expression.Constant(SearchValueLow, typeof(DateTimeOffset?));
-      ConstantExpression SearchValueReferenceHigh = Expression.Constant(SearchValueHigh, typeof(DateTimeOffset?));
+      ConstantExpression SearchValueReferenceLow = Expression.Constant(SearchValueLow?.UtcDateTime, typeof(DateTime?));
+      ConstantExpression SearchValueReferenceHigh = Expression.Constant(SearchValueHigh?.UtcDateTime, typeof(DateTime?));
 
       //Build Inner Expression
       Expression EqualToExpression = DateTimePeriodExpression.EqualToExpression(propertyReferenceLow, SearchValueReferenceLow, propertyReferenceHigh, SearchValueReferenceHigh);
@@ -169,18 +169,18 @@ namespace Pyro.DataLayer.Search
       return Expression.Lambda<Func<ResCurrentType, bool>>(MethodAnyCall, IndexListParameter);
     }
 
-    public Expression<Func<ResCurrentType, bool>> DateTimePeriodCollectionAnyNotEqualTo(int Id, DateTimeOffset SearchValueLow, DateTimeOffset SearchValueHigh)
+    public Expression<Func<ResCurrentType, bool>> DateTimePeriodCollectionAnyNotEqualTo(int Id, DateTimeOffset? SearchValueLow, DateTimeOffset? SearchValueHigh)
     {
       ParameterExpression InnerParameter = Expression.Parameter(typeof(ResIndexDateTimeType), "c");
       ParameterExpression IndexListParameter = Expression.Parameter(typeof(ResCurrentType), "x");
 
       BinaryExpression BinaryExpressionIdEquals = SearchParameterIdBinaryExpression(Id, InnerParameter);
 
-      MemberExpression propertyReferenceLow = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.DateTimeOffsetLow);
-      MemberExpression propertyReferenceHigh = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.DateTimeOffsetHigh);
+      MemberExpression propertyReferenceLow = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.LowUtcDateTime);
+      MemberExpression propertyReferenceHigh = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.HighUtcDateTime);
 
-      ConstantExpression SearchValueReferenceLow = Expression.Constant(SearchValueLow, typeof(DateTimeOffset?));
-      ConstantExpression SearchValueReferenceHigh = Expression.Constant(SearchValueHigh, typeof(DateTimeOffset?));
+      ConstantExpression SearchValueReferenceLow = Expression.Constant(SearchValueLow?.UtcDateTime, typeof(DateTime?));
+      ConstantExpression SearchValueReferenceHigh = Expression.Constant(SearchValueHigh?.UtcDateTime, typeof(DateTime?));
 
       //Build Inner Expression
       Expression NotEqualToExpression = DateTimePeriodExpression.NotEqualToExpression(propertyReferenceLow, SearchValueReferenceLow, propertyReferenceHigh, SearchValueReferenceHigh);
@@ -194,18 +194,18 @@ namespace Pyro.DataLayer.Search
       return Expression.Lambda<Func<ResCurrentType, bool>>(MethodAnyCall, IndexListParameter);
     }
 
-    public Expression<Func<ResCurrentType, bool>> DateTimePeriodCollectionGreaterThanOrEqualTo(int Id, DateTimeOffset SearchValueLow, DateTimeOffset SearchValueHigh)
+    public Expression<Func<ResCurrentType, bool>> DateTimePeriodCollectionGreaterThanOrEqualTo(int Id, DateTimeOffset? SearchValueLow, DateTimeOffset? SearchValueHigh)
     {
       ParameterExpression InnerParameter = Expression.Parameter(typeof(ResIndexDateTimeType), "c");
       ParameterExpression IndexListParameter = Expression.Parameter(typeof(ResCurrentType), "x");
 
       BinaryExpression BinaryExpressionIdEquals = SearchParameterIdBinaryExpression(Id, InnerParameter);
 
-      MemberExpression propertyReferenceLow = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.DateTimeOffsetLow);
-      MemberExpression propertyReferenceHigh = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.DateTimeOffsetHigh);
+      MemberExpression propertyReferenceLow = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.LowUtcDateTime);
+      MemberExpression propertyReferenceHigh = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.HighUtcDateTime);
 
-      ConstantExpression SearchValueReferenceLow = Expression.Constant(SearchValueLow, typeof(DateTimeOffset?));
-      ConstantExpression SearchValueReferenceHigh = Expression.Constant(SearchValueHigh, typeof(DateTimeOffset?));
+      ConstantExpression SearchValueReferenceLow = Expression.Constant(SearchValueLow?.UtcDateTime, typeof(DateTime?));
+      ConstantExpression SearchValueReferenceHigh = Expression.Constant(SearchValueHigh?.UtcDateTime, typeof(DateTime?));
 
       //Build Inner Expression
       Expression GreaterThanOrEqualToExpression = DateTimePeriodExpression.GreaterThanOrEqualToExpression(propertyReferenceLow, SearchValueReferenceLow, propertyReferenceHigh, SearchValueReferenceHigh);
@@ -219,18 +219,18 @@ namespace Pyro.DataLayer.Search
       return Expression.Lambda<Func<ResCurrentType, bool>>(MethodAnyCall, IndexListParameter);
     }
 
-    public Expression<Func<ResCurrentType, bool>> DateTimePeriodCollectionGreaterThan(int Id, DateTimeOffset SearchValueLow, DateTimeOffset SearchValueHigh)
+    public Expression<Func<ResCurrentType, bool>> DateTimePeriodCollectionGreaterThan(int Id, DateTimeOffset? SearchValueLow, DateTimeOffset? SearchValueHigh)
     {
       ParameterExpression InnerParameter = Expression.Parameter(typeof(ResIndexDateTimeType), "c");
       ParameterExpression IndexListParameter = Expression.Parameter(typeof(ResCurrentType), "x");
 
       BinaryExpression BinaryExpressionIdEquals = SearchParameterIdBinaryExpression(Id, InnerParameter);
 
-      MemberExpression propertyReferenceLow = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.DateTimeOffsetLow);
-      MemberExpression propertyReferenceHigh = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.DateTimeOffsetHigh);
+      MemberExpression propertyReferenceLow = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.LowUtcDateTime);
+      MemberExpression propertyReferenceHigh = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.HighUtcDateTime);
 
-      ConstantExpression SearchValueReferenceLow = Expression.Constant(SearchValueLow, typeof(DateTimeOffset?));
-      ConstantExpression SearchValueReferenceHigh = Expression.Constant(SearchValueHigh, typeof(DateTimeOffset?));
+      ConstantExpression SearchValueReferenceLow = Expression.Constant(SearchValueLow?.UtcDateTime, typeof(DateTime?));
+      ConstantExpression SearchValueReferenceHigh = Expression.Constant(SearchValueHigh?.UtcDateTime, typeof(DateTime?));
 
       //Build Inner Expression
       Expression GreaterThanExpression = DateTimePeriodExpression.GreaterThanExpression(propertyReferenceLow, SearchValueReferenceLow, propertyReferenceHigh, SearchValueReferenceHigh);
@@ -244,18 +244,18 @@ namespace Pyro.DataLayer.Search
       return Expression.Lambda<Func<ResCurrentType, bool>>(MethodAnyCall, IndexListParameter);
     }
 
-    public Expression<Func<ResCurrentType, bool>> DateTimePeriodCollectionLessThan(int Id, DateTimeOffset SearchValueLow, DateTimeOffset SearchValueHigh)
+    public Expression<Func<ResCurrentType, bool>> DateTimePeriodCollectionLessThan(int Id, DateTimeOffset? SearchValueLow, DateTimeOffset? SearchValueHigh)
     {
       ParameterExpression InnerParameter = Expression.Parameter(typeof(ResIndexDateTimeType), "c");
       ParameterExpression IndexListParameter = Expression.Parameter(typeof(ResCurrentType), "x");
 
       BinaryExpression BinaryExpressionIdEquals = SearchParameterIdBinaryExpression(Id, InnerParameter);
 
-      MemberExpression propertyReferenceLow = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.DateTimeOffsetLow);
-      MemberExpression propertyReferenceHigh = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.DateTimeOffsetHigh);
+      MemberExpression propertyReferenceLow = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.LowUtcDateTime);
+      MemberExpression propertyReferenceHigh = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.HighUtcDateTime);
 
-      ConstantExpression SearchValueReferenceLow = Expression.Constant(SearchValueLow, typeof(DateTimeOffset?));
-      ConstantExpression SearchValueReferenceHigh = Expression.Constant(SearchValueHigh, typeof(DateTimeOffset?));
+      ConstantExpression SearchValueReferenceLow = Expression.Constant(SearchValueLow?.UtcDateTime, typeof(DateTime?));
+      ConstantExpression SearchValueReferenceHigh = Expression.Constant(SearchValueHigh?.UtcDateTime, typeof(DateTime?));
 
       //Build Inner Expression
       Expression LessThanExpression = DateTimePeriodExpression.LessThanExpression(propertyReferenceLow, SearchValueReferenceLow, propertyReferenceHigh, SearchValueReferenceHigh);
@@ -269,18 +269,18 @@ namespace Pyro.DataLayer.Search
       return Expression.Lambda<Func<ResCurrentType, bool>>(MethodAnyCall, IndexListParameter);
     }
 
-    public Expression<Func<ResCurrentType, bool>> DateTimePeriodCollectionLessThanOrEqualTo(int Id, DateTimeOffset SearchValueLow, DateTimeOffset SearchValueHigh)
+    public Expression<Func<ResCurrentType, bool>> DateTimePeriodCollectionLessThanOrEqualTo(int Id, DateTimeOffset? SearchValueLow, DateTimeOffset? SearchValueHigh)
     {
       ParameterExpression InnerParameter = Expression.Parameter(typeof(ResIndexDateTimeType), "c");
       ParameterExpression IndexListParameter = Expression.Parameter(typeof(ResCurrentType), "x");
 
       BinaryExpression BinaryExpressionIdEquals = SearchParameterIdBinaryExpression(Id, InnerParameter);
 
-      MemberExpression propertyReferenceLow = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.DateTimeOffsetLow);
-      MemberExpression propertyReferenceHigh = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.DateTimeOffsetHigh);
+      MemberExpression propertyReferenceLow = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.LowUtcDateTime);
+      MemberExpression propertyReferenceHigh = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.HighUtcDateTime);
 
-      ConstantExpression SearchValueReferenceLow = Expression.Constant(SearchValueLow, typeof(DateTimeOffset?));
-      ConstantExpression SearchValueReferenceHigh = Expression.Constant(SearchValueHigh, typeof(DateTimeOffset?));
+      ConstantExpression SearchValueReferenceLow = Expression.Constant(SearchValueLow?.UtcDateTime, typeof(DateTime?));
+      ConstantExpression SearchValueReferenceHigh = Expression.Constant(SearchValueHigh?.UtcDateTime, typeof(DateTime?));
 
       //Build Inner Expression
       Expression LessThanOrEqualToExpression = DateTimePeriodExpression.LessThanOrEqualToExpression(propertyReferenceLow, SearchValueReferenceLow, propertyReferenceHigh, SearchValueReferenceHigh);
@@ -294,16 +294,170 @@ namespace Pyro.DataLayer.Search
       return Expression.Lambda<Func<ResCurrentType, bool>>(MethodAnyCall, IndexListParameter);
     }
 
+
+
+    //////---- OLD DateTime Property Expressions ------------------------------------------------------
+
+    //public Expression<Func<ResCurrentType, bool>> DateTimePeriodCollectionAnyEqualTo(int Id, DateTimeOffset? SearchValueLow, DateTimeOffset? SearchValueHigh)
+    //{
+    //  ParameterExpression InnerParameter = Expression.Parameter(typeof(ResIndexDateTimeType), "c");
+    //  ParameterExpression IndexListParameter = Expression.Parameter(typeof(ResCurrentType), "x");
+
+    //  BinaryExpression BinaryExpressionIdEquals = SearchParameterIdBinaryExpression(Id, InnerParameter);
+
+    //  MemberExpression propertyReferenceLow = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.DateTimeOffsetLow);
+    //  MemberExpression propertyReferenceHigh = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.DateTimeOffsetHigh);
+
+    //  ConstantExpression SearchValueReferenceLow = Expression.Constant(SearchValueLow, typeof(DateTimeOffset?));
+    //  ConstantExpression SearchValueReferenceHigh = Expression.Constant(SearchValueHigh, typeof(DateTimeOffset?));
+
+    //  //Build Inner Expression
+    //  Expression EqualToExpression = DateTimePeriodExpression.EqualToExpression(propertyReferenceLow, SearchValueReferenceLow, propertyReferenceHigh, SearchValueReferenceHigh);
+
+    //  var IdAndExpression = Expression.And(BinaryExpressionIdEquals, EqualToExpression);
+
+    //  Expression<Func<ResIndexDateTimeType, bool>> InnerFunction = Expression.Lambda<Func<ResIndexDateTimeType, bool>>(IdAndExpression, InnerParameter);
+
+    //  MethodCallExpression MethodAnyCall = IndexListAnyMethodCallExpression(IndexListParameter, InnerFunction);
+    //  //MethodCallExpression MethodAnyCall = IndexDateTimeListAnyMethodCallExpression(IndexListParameter, InnerFunction);
+    //  return Expression.Lambda<Func<ResCurrentType, bool>>(MethodAnyCall, IndexListParameter);
+    //}
+
+    //public Expression<Func<ResCurrentType, bool>> DateTimePeriodCollectionAnyNotEqualTo(int Id, DateTimeOffset? SearchValueLow, DateTimeOffset? SearchValueHigh)
+    //{
+    //  ParameterExpression InnerParameter = Expression.Parameter(typeof(ResIndexDateTimeType), "c");
+    //  ParameterExpression IndexListParameter = Expression.Parameter(typeof(ResCurrentType), "x");
+
+    //  BinaryExpression BinaryExpressionIdEquals = SearchParameterIdBinaryExpression(Id, InnerParameter);
+
+    //  MemberExpression propertyReferenceLow = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.DateTimeOffsetLow);
+    //  MemberExpression propertyReferenceHigh = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.DateTimeOffsetHigh);
+
+    //  ConstantExpression SearchValueReferenceLow = Expression.Constant(SearchValueLow, typeof(DateTimeOffset?));
+    //  ConstantExpression SearchValueReferenceHigh = Expression.Constant(SearchValueHigh, typeof(DateTimeOffset?));
+
+    //  //Build Inner Expression
+    //  Expression NotEqualToExpression = DateTimePeriodExpression.NotEqualToExpression(propertyReferenceLow, SearchValueReferenceLow, propertyReferenceHigh, SearchValueReferenceHigh);
+
+    //  var IdAndExpression = Expression.And(BinaryExpressionIdEquals, NotEqualToExpression);
+
+    //  Expression<Func<ResIndexDateTimeType, bool>> InnerFunction = Expression.Lambda<Func<ResIndexDateTimeType, bool>>(IdAndExpression, InnerParameter);
+
+    //  MethodCallExpression MethodAnyCall = IndexListAnyMethodCallExpression(IndexListParameter, InnerFunction);
+    //  //MethodCallExpression MethodAnyCall = IndexDateTimeListAnyMethodCallExpression(IndexListParameter, InnerFunction);
+    //  return Expression.Lambda<Func<ResCurrentType, bool>>(MethodAnyCall, IndexListParameter);
+    //}
+
+    //public Expression<Func<ResCurrentType, bool>> DateTimePeriodCollectionGreaterThanOrEqualTo(int Id, DateTimeOffset? SearchValueLow, DateTimeOffset? SearchValueHigh)
+    //{
+    //  ParameterExpression InnerParameter = Expression.Parameter(typeof(ResIndexDateTimeType), "c");
+    //  ParameterExpression IndexListParameter = Expression.Parameter(typeof(ResCurrentType), "x");
+
+    //  BinaryExpression BinaryExpressionIdEquals = SearchParameterIdBinaryExpression(Id, InnerParameter);
+
+    //  MemberExpression propertyReferenceLow = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.DateTimeOffsetLow);
+    //  MemberExpression propertyReferenceHigh = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.DateTimeOffsetHigh);
+
+    //  ConstantExpression SearchValueReferenceLow = Expression.Constant(SearchValueLow, typeof(DateTimeOffset?));
+    //  ConstantExpression SearchValueReferenceHigh = Expression.Constant(SearchValueHigh, typeof(DateTimeOffset?));
+
+    //  //Build Inner Expression
+    //  Expression GreaterThanOrEqualToExpression = DateTimePeriodExpression.GreaterThanOrEqualToExpression(propertyReferenceLow, SearchValueReferenceLow, propertyReferenceHigh, SearchValueReferenceHigh);
+
+    //  var IdAndExpression = Expression.And(BinaryExpressionIdEquals, GreaterThanOrEqualToExpression);
+
+    //  Expression<Func<ResIndexDateTimeType, bool>> InnerFunction = Expression.Lambda<Func<ResIndexDateTimeType, bool>>(IdAndExpression, InnerParameter);
+
+    //  MethodCallExpression MethodAnyCall = IndexListAnyMethodCallExpression(IndexListParameter, InnerFunction);
+    //  //MethodCallExpression MethodAnyCall = IndexDateTimeListAnyMethodCallExpression(IndexListParameter, InnerFunction);
+    //  return Expression.Lambda<Func<ResCurrentType, bool>>(MethodAnyCall, IndexListParameter);
+    //}
+
+    //public Expression<Func<ResCurrentType, bool>> DateTimePeriodCollectionGreaterThan(int Id, DateTimeOffset? SearchValueLow, DateTimeOffset? SearchValueHigh)
+    //{
+    //  ParameterExpression InnerParameter = Expression.Parameter(typeof(ResIndexDateTimeType), "c");
+    //  ParameterExpression IndexListParameter = Expression.Parameter(typeof(ResCurrentType), "x");
+
+    //  BinaryExpression BinaryExpressionIdEquals = SearchParameterIdBinaryExpression(Id, InnerParameter);
+
+    //  MemberExpression propertyReferenceLow = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.DateTimeOffsetLow);
+    //  MemberExpression propertyReferenceHigh = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.DateTimeOffsetHigh);
+
+    //  ConstantExpression SearchValueReferenceLow = Expression.Constant(SearchValueLow, typeof(DateTimeOffset?));
+    //  ConstantExpression SearchValueReferenceHigh = Expression.Constant(SearchValueHigh, typeof(DateTimeOffset?));
+
+    //  //Build Inner Expression
+    //  Expression GreaterThanExpression = DateTimePeriodExpression.GreaterThanExpression(propertyReferenceLow, SearchValueReferenceLow, propertyReferenceHigh, SearchValueReferenceHigh);
+
+    //  var IdAndExpression = Expression.And(BinaryExpressionIdEquals, GreaterThanExpression);
+
+    //  Expression<Func<ResIndexDateTimeType, bool>> InnerFunction = Expression.Lambda<Func<ResIndexDateTimeType, bool>>(IdAndExpression, InnerParameter);
+
+    //  MethodCallExpression MethodAnyCall = IndexListAnyMethodCallExpression(IndexListParameter, InnerFunction);
+    //  //MethodCallExpression MethodAnyCall = IndexDateTimeListAnyMethodCallExpression(IndexListParameter, InnerFunction);
+    //  return Expression.Lambda<Func<ResCurrentType, bool>>(MethodAnyCall, IndexListParameter);
+    //}
+
+    //public Expression<Func<ResCurrentType, bool>> DateTimePeriodCollectionLessThan(int Id, DateTimeOffset? SearchValueLow, DateTimeOffset? SearchValueHigh)
+    //{
+    //  ParameterExpression InnerParameter = Expression.Parameter(typeof(ResIndexDateTimeType), "c");
+    //  ParameterExpression IndexListParameter = Expression.Parameter(typeof(ResCurrentType), "x");
+
+    //  BinaryExpression BinaryExpressionIdEquals = SearchParameterIdBinaryExpression(Id, InnerParameter);
+
+    //  MemberExpression propertyReferenceLow = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.DateTimeOffsetLow);
+    //  MemberExpression propertyReferenceHigh = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.DateTimeOffsetHigh);
+
+    //  ConstantExpression SearchValueReferenceLow = Expression.Constant(SearchValueLow, typeof(DateTimeOffset?));
+    //  ConstantExpression SearchValueReferenceHigh = Expression.Constant(SearchValueHigh, typeof(DateTimeOffset?));
+
+    //  //Build Inner Expression
+    //  Expression LessThanExpression = DateTimePeriodExpression.LessThanExpression(propertyReferenceLow, SearchValueReferenceLow, propertyReferenceHigh, SearchValueReferenceHigh);
+
+    //  var IdAndExpression = Expression.And(BinaryExpressionIdEquals, LessThanExpression);
+
+    //  Expression<Func<ResIndexDateTimeType, bool>> InnerFunction = Expression.Lambda<Func<ResIndexDateTimeType, bool>>(IdAndExpression, InnerParameter);
+
+    //  MethodCallExpression MethodAnyCall = IndexListAnyMethodCallExpression(IndexListParameter, InnerFunction);
+    //  //MethodCallExpression MethodAnyCall = IndexDateTimeListAnyMethodCallExpression(IndexListParameter, InnerFunction);
+    //  return Expression.Lambda<Func<ResCurrentType, bool>>(MethodAnyCall, IndexListParameter);
+    //}
+
+    //public Expression<Func<ResCurrentType, bool>> DateTimePeriodCollectionLessThanOrEqualTo(int Id, DateTimeOffset? SearchValueLow, DateTimeOffset? SearchValueHigh)
+    //{
+    //  ParameterExpression InnerParameter = Expression.Parameter(typeof(ResIndexDateTimeType), "c");
+    //  ParameterExpression IndexListParameter = Expression.Parameter(typeof(ResCurrentType), "x");
+
+    //  BinaryExpression BinaryExpressionIdEquals = SearchParameterIdBinaryExpression(Id, InnerParameter);
+
+    //  MemberExpression propertyReferenceLow = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.DateTimeOffsetLow);
+    //  MemberExpression propertyReferenceHigh = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.DateTimeOffsetHigh);
+
+    //  ConstantExpression SearchValueReferenceLow = Expression.Constant(SearchValueLow, typeof(DateTimeOffset?));
+    //  ConstantExpression SearchValueReferenceHigh = Expression.Constant(SearchValueHigh, typeof(DateTimeOffset?));
+
+    //  //Build Inner Expression
+    //  Expression LessThanOrEqualToExpression = DateTimePeriodExpression.LessThanOrEqualToExpression(propertyReferenceLow, SearchValueReferenceLow, propertyReferenceHigh, SearchValueReferenceHigh);
+
+    //  var IdAndExpression = Expression.And(BinaryExpressionIdEquals, LessThanOrEqualToExpression);
+
+    //  Expression<Func<ResIndexDateTimeType, bool>> InnerFunction = Expression.Lambda<Func<ResIndexDateTimeType, bool>>(IdAndExpression, InnerParameter);
+
+    //  MethodCallExpression MethodAnyCall = IndexListAnyMethodCallExpression(IndexListParameter, InnerFunction);
+    //  //MethodCallExpression MethodAnyCall = IndexDateTimeListAnyMethodCallExpression(IndexListParameter, InnerFunction);
+    //  return Expression.Lambda<Func<ResCurrentType, bool>>(MethodAnyCall, IndexListParameter);
+    //}
+
     ////---- Token Property Expressions ------------------------------------------------------
 
-    public Expression<Func<ResCurrentType, bool>> TokenMainAnyEqualTo(string Code)
+    public Expression<Func<ResCurrentType, bool>> MainResourceFhirIdAny(string FhirId)
     {
       ParameterExpression MainParameter = Expression.Parameter(typeof(ResCurrentType), "x");
 
       string DbPropertyName = StaticDatabaseInfo.BaseResourceConstatnts.FhirId;
       MemberExpression FhirIdProperty = Expression.Property(MainParameter, typeof(ResCurrentType).GetProperty(DbPropertyName));
 
-      ConstantExpression SearchValueReferenceCode = Expression.Constant(Code);
+      ConstantExpression SearchValueReferenceCode = Expression.Constant(FhirId);
       Expression E_InnerExpression = TokenExpression.MatchCodeOnlyExpression(FhirIdProperty, SearchValueReferenceCode);
 
       return Expression.Lambda<Func<ResCurrentType, bool>>(E_InnerExpression, new[] { MainParameter });
@@ -318,6 +472,15 @@ namespace Pyro.DataLayer.Search
 
       MemberExpression propertyReferenceCode = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.Code);
       MemberExpression propertyReferenceSystem = Expression.Property(InnerParameter, StaticDatabaseInfo.BaseResourceIndexConstatnts.System);
+
+      if (Code != null)
+      {
+        Code = StringSupport.ToLowerFast(Code);
+      }
+      if (System != null)
+      {
+        System = StringSupport.ToLowerFast(System);
+      }
       ConstantExpression SearchValueReferenceCode = Expression.Constant(Code);
       ConstantExpression SearchValueReferenceSystem = Expression.Constant(System);
 

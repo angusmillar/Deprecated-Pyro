@@ -61,9 +61,7 @@ namespace Pyro.Common.SearchIndexer.Setter
       Common.Tools.DateTimeIndex DateTimeIndex = Common.Tools.DateTimeIndexSupport.GetDateTimeIndex(Timing);
       if (DateTimeIndex.Low != null || DateTimeIndex.High != null)
       {
-        ResourceIndex.DateTimeOffsetLow = DateTimeIndex.Low;
-        ResourceIndex.DateTimeOffsetHigh = DateTimeIndex.High;
-        ResourceIndexList.Add(ResourceIndex);
+        ResourceIndexList.Add(SetDateTimeAsUTC(DateTimeIndex));        
       }
     }
 
@@ -75,9 +73,7 @@ namespace Pyro.Common.SearchIndexer.Setter
         Common.Tools.DateTimeIndex DateTimeIndex = Common.Tools.DateTimeIndexSupport.GetDateTimeIndex(Instant);
         if (DateTimeIndex.Low != null || DateTimeIndex.High != null)
         {
-          ResourceIndex.DateTimeOffsetLow = DateTimeIndex.Low;
-          ResourceIndex.DateTimeOffsetHigh = DateTimeIndex.High;
-          ResourceIndexList.Add(ResourceIndex);
+          ResourceIndexList.Add(SetDateTimeAsUTC(DateTimeIndex));         
         }
       }
     }
@@ -85,12 +81,15 @@ namespace Pyro.Common.SearchIndexer.Setter
     {
       if (Hl7.Fhir.Model.Date.IsValidValue(FhirString.Value) || FhirDateTime.IsValidValue(FhirString.Value))
       {
-        Common.Tools.FhirDateTimeSupport oFhirDateTimeTool = new Common.Tools.FhirDateTimeSupport(FhirString.Value);
+        Common.Tools.FhirDateTimeSupport oFhirDateTimeTool = new Common.Tools.FhirDateTimeSupport(FhirString.Value);        
         if (oFhirDateTimeTool.IsValid)
         {
-          var ResourceIndex = new DateTimeIndex(_SearchParameter);
-          ResourceIndex.DateTimeOffsetLow = oFhirDateTimeTool.Value.Value;
-          ResourceIndexList.Add(ResourceIndex);
+          if (oFhirDateTimeTool.Value.HasValue)
+          {
+            var FhirDateTime = new FhirDateTime(oFhirDateTimeTool.Value.Value);
+            Common.Tools.DateTimeIndex DateTimeIndex = Common.Tools.DateTimeIndexSupport.GetDateTimeIndex(FhirDateTime);
+            ResourceIndexList.Add(SetDateTimeAsUTC(DateTimeIndex));
+          }    
         }
       }
     }
@@ -102,9 +101,7 @@ namespace Pyro.Common.SearchIndexer.Setter
         Common.Tools.DateTimeIndex DateTimeIndex = Common.Tools.DateTimeIndexSupport.GetDateTimeIndex(FhirDateTime);
         if (DateTimeIndex.Low != null || DateTimeIndex.High != null)
         {
-          ResourceIndex.DateTimeOffsetLow = DateTimeIndex.Low;
-          ResourceIndex.DateTimeOffsetHigh = DateTimeIndex.High;
-          ResourceIndexList.Add(ResourceIndex);
+          ResourceIndexList.Add(SetDateTimeAsUTC(DateTimeIndex));
         }
       }
     }
@@ -114,9 +111,7 @@ namespace Pyro.Common.SearchIndexer.Setter
       Common.Tools.DateTimeIndex DateTimeIndex = Common.Tools.DateTimeIndexSupport.GetDateTimeIndex(Period);
       if (DateTimeIndex.Low != null || DateTimeIndex.High != null)
       {
-        ResourceIndex.DateTimeOffsetLow = DateTimeIndex.Low;
-        ResourceIndex.DateTimeOffsetHigh = DateTimeIndex.High;
-        ResourceIndexList.Add(ResourceIndex);
+        ResourceIndexList.Add(SetDateTimeAsUTC(DateTimeIndex));
       }
     }
     private void SetDate(Date Date, IList<IDateTimeIndex> ResourceIndexList)
@@ -126,12 +121,18 @@ namespace Pyro.Common.SearchIndexer.Setter
         var ResourceIndex = new DateTimeIndex(_SearchParameter);
         Common.Tools.DateTimeIndex DateTimeIndex = Common.Tools.DateTimeIndexSupport.GetDateTimeIndex(Date);
         if (DateTimeIndex.Low != null || DateTimeIndex.High != null)
-        {
-          ResourceIndex.DateTimeOffsetLow = DateTimeIndex.Low;
-          ResourceIndex.DateTimeOffsetHigh = DateTimeIndex.High;
-          ResourceIndexList.Add(ResourceIndex);
+        {          
+          ResourceIndexList.Add(SetDateTimeAsUTC(DateTimeIndex));
         }
       }
+    }
+
+    private Index.DateTimeIndex SetDateTimeAsUTC(Tools.DateTimeIndex item)
+    {
+      var ResourceIndex = new Index.DateTimeIndex(_SearchParameter);
+      ResourceIndex.LowUtcDateTime = item.Low?.UtcDateTime;
+      ResourceIndex.HighUtcDateTime = item.High?.UtcDateTime;
+      return ResourceIndex;
     }
 
   }

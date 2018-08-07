@@ -13,5 +13,10 @@ namespace Pyro.DataLayer.DbModel.DatabaseContext
       DbContextUtils<MsSqlContext>.SetInitializer(new MigrateDatabaseToLatestVersion<MsSqlContext, MigrationsMicrosoftSQLServer.ConfigurationMsSql>());
     }
 
+    protected override void OnModelCreating(DbModelBuilder Mb)
+    {
+      Mb.Properties<System.DateTime>().Configure(c => c.HasColumnType("datetime2"));
+      base.OnModelCreating(Mb);
+    }
   }
 }

@@ -35,18 +35,19 @@ namespace Pyro.DataLayer.DbModel.DatabaseContextConfig
         .IsRequired()
         .HasColumnAnnotation(IndexAnnotation.AnnotationName,
         new IndexAnnotation(new IndexAttribute("ix_SearchParamId") { IsUnique = false }));
+     
+      Property(x => x.LowUtcDateTime)
+     .HasPrecision(StaticDatabaseInfo.BaseDatabaseFieldLength.DateTimeOffsetPrecision)
+     .IsOptional()
+     .HasColumnAnnotation(IndexAnnotation.AnnotationName,
+     new IndexAnnotation(new IndexAttribute("ix_LowUtcDateTime") { IsUnique = false }));
 
-      Property(x => x.DateTimeOffsetLow)
-      .HasPrecision(StaticDatabaseInfo.BaseDatabaseFieldLength.DateTimeOffsetPrecision)
-      .IsOptional()
-      .HasColumnAnnotation(IndexAnnotation.AnnotationName,
-      new IndexAnnotation(new IndexAttribute("ix_DateTimeOffsetLow") { IsUnique = false }));
-
-      Property(x => x.DateTimeOffsetHigh)
+      Property(x => x.HighUtcDateTime)
         .HasPrecision(StaticDatabaseInfo.BaseDatabaseFieldLength.DateTimeOffsetPrecision)
         .IsOptional()
         .HasColumnAnnotation(IndexAnnotation.AnnotationName,
-        new IndexAnnotation(new IndexAttribute("ix_DateTimeOffsetHigh") { IsUnique = false }));
+        new IndexAnnotation(new IndexAttribute("ix_HighUtcDateTime") { IsUnique = false }));
+
     }
   }
 }

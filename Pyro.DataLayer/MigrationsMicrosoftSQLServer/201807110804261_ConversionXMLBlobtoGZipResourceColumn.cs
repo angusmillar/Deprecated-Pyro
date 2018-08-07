@@ -149,7 +149,7 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
         bool Running = true;
         while (Running)
         {
-          IPyroDbContext context = new PostgreContext();
+          IPyroDbContext context = new MsSqlContext();
           var Query = context.Set<ResCurrentType>().Where(x => x.XmlBlob != null && x.IsDeleted == false && x.Resource == null).Take(200).ToList();
           if (Query == null || Query.Count == 0)
           {

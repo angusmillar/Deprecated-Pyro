@@ -7,7 +7,10 @@ namespace Pyro.Common.SearchIndexer.Index
   {
     new int ServiceSearchParameterId { get; }
 
-    DateTimeOffset? DateTimeOffsetHigh { get; set; }
-    DateTimeOffset? DateTimeOffsetLow { get; set; }    
+    //DateTimeOffset? DateTimeOffsetHigh { get; set; }
+    //DateTimeOffset? DateTimeOffsetLow { get; set; }
+
+    DateTime? HighUtcDateTime { get; set; }
+    DateTime? LowUtcDateTime { get; set; }    
   }
 }

@@ -53,9 +53,12 @@ namespace Pyro.Common.Database
 
       public static string String { get { return "String"; } }      
 
-      public static string DateTimeOffsetLow { get { return "DateTimeOffsetLow"; } }
-      public static string DateTimeOffsetHigh { get { return "DateTimeOffsetHigh"; } }
-      
+      //public static string DateTimeOffsetLow { get { return "DateTimeOffsetLow"; } }
+      //public static string DateTimeOffsetHigh { get { return "DateTimeOffsetHigh"; } }
+
+      public static string LowUtcDateTime { get { return "LowUtcDateTime"; } }
+      public static string HighUtcDateTime { get { return "HighUtcDateTime"; } }
+
 
       public static string Uri { get { return "Uri"; } }      
 

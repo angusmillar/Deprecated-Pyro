@@ -290,7 +290,7 @@ namespace Pyro.DataLayer.Repository
             {
               if (!SearchTypeToken.Modifier.HasValue)
               {
-                var Expression = Search.TokenMainAnyEqualTo(SearchValue.Code);
+                var Expression = Search.MainResourceFhirIdAny(SearchValue.Code);
                 NewIdPredicate = NewIdPredicate.Or(Expression);
               }
             }

@@ -134,8 +134,8 @@ namespace Pyro.Test.IndexSetters
       //Arrange
       var Period = new Period(new FhirDateTime("1974-02-01T12:38:10+10:00"), new FhirDateTime("1974-02-01T12:38:20+10:00"));
 
-      DateTimeOffset? ExpectedLow = new DateTimeOffset(1974, 02, 01, 12, 38, 10, new TimeSpan(10, 0, 0)).ToUniversalTime();
-      DateTimeOffset? ExpectedHigh = new DateTimeOffset(1974, 02, 01, 12, 38, 20, new TimeSpan(10, 0, 0)).ToUniversalTime();
+      DateTimeOffset? ExpectedLow = new DateTimeOffset(1974, 02, 01, 12, 38, 10, 000, new TimeSpan(10, 0, 0)).ToUniversalTime();
+      DateTimeOffset? ExpectedHigh = new DateTimeOffset(1974, 02, 01, 12, 38, 20, 999, new TimeSpan(10, 0, 0)).ToUniversalTime();
 
       //Act
       DateTimeIndex Result = DateTimeIndexSupport.GetDateTimeIndex(Period);
@@ -171,7 +171,7 @@ namespace Pyro.Test.IndexSetters
       Period.EndElement = new FhirDateTime("1974-02-01T12:38:20+10:00");
 
       DateTimeOffset? ExpectedLow = null;
-      DateTimeOffset? ExpectedHigh = new DateTimeOffset(1974, 02, 01, 12, 38, 20, new TimeSpan(10, 0, 0)).ToUniversalTime();
+      DateTimeOffset? ExpectedHigh = new DateTimeOffset(1974, 02, 01, 12, 38, 20, 999, new TimeSpan(10, 0, 0)).ToUniversalTime();
 
       //Act
       DateTimeIndex Result = DateTimeIndexSupport.GetDateTimeIndex(Period);
@@ -204,8 +204,8 @@ namespace Pyro.Test.IndexSetters
       //Arrange
       var Timing = new Timing();
 
-      DateTimeOffset? ExpectedLow = new DateTimeOffset(1974, 12, 25, 10, 00, 00, new TimeSpan(-5, 00, 00)).ToUniversalTime();
-      DateTimeOffset? ExpectedHigh = new DateTimeOffset(1974, 12, 26, 11, 10, 00, new TimeSpan(-5, 00, 00)).ToUniversalTime();
+      DateTimeOffset? ExpectedLow = new DateTimeOffset(1974, 12, 25, 10, 00, 00, 000, new TimeSpan(-5, 00, 00)).ToUniversalTime();
+      DateTimeOffset? ExpectedHigh = new DateTimeOffset(1974, 12, 26, 11, 10, 00, 999, new TimeSpan(-5, 00, 00)).ToUniversalTime();
 
       Timing.EventElement = new System.Collections.Generic.List<FhirDateTime>();
       var EventStart1 = new FhirDateTime(new DateTimeOffset(1974, 12, 26, 11, 00, 00, new TimeSpan(-5, 00, 00)));

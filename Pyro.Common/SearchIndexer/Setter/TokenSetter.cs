@@ -104,34 +104,26 @@ namespace Pyro.Common.SearchIndexer.Setter
     private void SetCodeTypeT(string CodeValue, IList<ITokenIndex> ResourceIndexList)
     {
       if (!string.IsNullOrWhiteSpace(CodeValue))
-      {
-        var ResourceIndex = new TokenIndex(_SearchParameter);
-        ResourceIndex.Code = CodeValue;
-        ResourceIndexList.Add(ResourceIndex);
+      {        
+        ResourceIndexList.Add(SetTokenIndexToLowerCaseTrim(null, CodeValue));       
       }
     }
     private void SePositionComponent(Location.PositionComponent PositionComponent, IList<ITokenIndex> ResourceIndexList)
     {
       if (PositionComponent.Latitude != null && PositionComponent.Latitude.HasValue && PositionComponent.Longitude != null && PositionComponent.Longitude.HasValue)
       {
-        var ResourceIndex = new TokenIndex(_SearchParameter);
-        ResourceIndex.Code = string.Join(":", PositionComponent.Latitude.Value, PositionComponent.Longitude.Value);
-        ResourceIndex.System = null;
-        ResourceIndexList.Add(ResourceIndex);
+        string Code = string.Join(":", PositionComponent.Latitude.Value, PositionComponent.Longitude.Value);
+        ResourceIndexList.Add(SetTokenIndexToLowerCaseTrim(null, Code));       
       }
       else if (PositionComponent.Latitude != null && PositionComponent.Latitude.HasValue)
       {
-        var ResourceIndex = new TokenIndex(_SearchParameter);
-        ResourceIndex.Code = string.Join(":", PositionComponent.Latitude.Value, string.Empty);
-        ResourceIndex.System = null;
-        ResourceIndexList.Add(ResourceIndex);
+        string Code = string.Join(":", PositionComponent.Latitude.Value, string.Empty);
+        ResourceIndexList.Add(SetTokenIndexToLowerCaseTrim(null, Code));       
       }
       else if (PositionComponent.Longitude != null && PositionComponent.Longitude.HasValue)
       {
-        var ResourceIndex = new TokenIndex(_SearchParameter);
-        ResourceIndex.Code = string.Join(":", string.Empty, PositionComponent.Longitude.Value);
-        ResourceIndex.System = null;
-        ResourceIndexList.Add(ResourceIndex);
+        string Code = string.Join(":", string.Empty, PositionComponent.Longitude.Value);        
+        ResourceIndexList.Add(SetTokenIndexToLowerCaseTrim(null, Code));       
       }
     }
     private void SetRange(Range range, IList<ITokenIndex> ResourceIndexList)
@@ -145,78 +137,51 @@ namespace Pyro.Common.SearchIndexer.Setter
     {
       if (Quantity.Value.HasValue && !string.IsNullOrWhiteSpace(Quantity.Unit))
       {
-        var ResourceIndex = new TokenIndex(_SearchParameter);
-        ResourceIndex.Code = Convert.ToString(Quantity.Value.Value);
-        ResourceIndex.System = Quantity.Unit.Trim();
-        ResourceIndexList.Add(ResourceIndex);
+        ResourceIndexList.Add(SetTokenIndexToLowerCaseTrim(Quantity.Unit, Convert.ToString(Quantity.Value.Value)));
       }
       else if (Quantity.Value.HasValue)
       {
-        var ResourceIndex = new TokenIndex(_SearchParameter);
-        ResourceIndex.Code = Convert.ToString(Quantity.Value.Value);
-        ResourceIndex.System = null;
-        ResourceIndexList.Add(ResourceIndex);
+        ResourceIndexList.Add(SetTokenIndexToLowerCaseTrim(null, Convert.ToString(Quantity.Value.Value)));
       }
       else if (!string.IsNullOrWhiteSpace(Quantity.Unit))
       {
-        var ResourceIndex = new TokenIndex(_SearchParameter);
-        ResourceIndex.Code = null;
-        ResourceIndex.System = Quantity.Unit.Trim();
-        ResourceIndexList.Add(ResourceIndex);
+        ResourceIndexList.Add(SetTokenIndexToLowerCaseTrim(Quantity.Unit, null));       
       }
     }
     private void SetPositiveInt(PositiveInt PositiveInt, IList<ITokenIndex> ResourceIndexList)
     {
       if (PositiveInt.Value.HasValue)
       {
-        var ResourceIndex = new TokenIndex(_SearchParameter);
-        ResourceIndex.Code = Convert.ToString(PositiveInt.Value);
-        ResourceIndex.System = null;
-        ResourceIndexList.Add(ResourceIndex);
+        ResourceIndexList.Add(SetTokenIndexToLowerCaseTrim(null, Convert.ToString(PositiveInt.Value)));
       }
     }
     private void SetIdentifier(Identifier Identifier, IList<ITokenIndex> ResourceIndexList)
     {
       if (!string.IsNullOrWhiteSpace(Identifier.Value) && !string.IsNullOrWhiteSpace(Identifier.System))
       {
-        var ResourceIndex = new TokenIndex(_SearchParameter);
-        ResourceIndex.Code = Identifier.Value.Trim();
-        ResourceIndex.System = Identifier.System.Trim();
-        ResourceIndexList.Add(ResourceIndex);
+        ResourceIndexList.Add(SetTokenIndexToLowerCaseTrim(Identifier.System, Identifier.Value));      
       }
       else if (!string.IsNullOrWhiteSpace(Identifier.Value))
       {
-        var ResourceIndex = new TokenIndex(_SearchParameter);
-        ResourceIndex.Code = Identifier.Value.Trim();
-        ResourceIndex.System = null;
-        ResourceIndexList.Add(ResourceIndex);
+        ResourceIndexList.Add(SetTokenIndexToLowerCaseTrim(null, Identifier.Value));
       }
       else if (!string.IsNullOrWhiteSpace(Identifier.System))
       {
-        var ResourceIndex = new TokenIndex(_SearchParameter);
-        ResourceIndex.Code = null;
-        ResourceIndex.System = Identifier.System.Trim();
-        ResourceIndexList.Add(ResourceIndex);
+        ResourceIndexList.Add(SetTokenIndexToLowerCaseTrim(Identifier.System, null));       
       }
     }
     private void SetId(Id Id, IList<ITokenIndex> ResourceIndexList)
     {
       if (!string.IsNullOrWhiteSpace(Id.Value))
       {
-        var ResourceIndex = new TokenIndex(_SearchParameter);
-        ResourceIndex.Code = Id.Value.Trim();
-        ResourceIndex.System = null;
-        ResourceIndexList.Add(ResourceIndex);
+        ResourceIndexList.Add(SetTokenIndexToLowerCaseTrim(null, Id.Value));       
       }
     }
     private void SetFhirString(FhirString FhirString, IList<ITokenIndex> ResourceIndexList)
     {
       if (!string.IsNullOrWhiteSpace(FhirString.Value))
       {
-        var ResourceIndex = new TokenIndex(_SearchParameter);
-        ResourceIndex.Code = FhirString.Value;
-        ResourceIndex.System = null;
-        ResourceIndexList.Add(ResourceIndex);
+        ResourceIndexList.Add(SetTokenIndexToLowerCaseTrim(null, FhirString.Value));        
       }
     }
     private void SetFhirDateTime(FhirDateTime FhirDateTime, IList<ITokenIndex> ResourceIndexList)
@@ -225,10 +190,7 @@ namespace Pyro.Common.SearchIndexer.Setter
       {
         if (Hl7.Fhir.Model.FhirDateTime.IsValidValue(FhirDateTime.Value))
         {
-          var ResourceIndex = new TokenIndex(_SearchParameter);
-          ResourceIndex.Code = FhirDateTime.Value;
-          ResourceIndex.System = null;
-          ResourceIndexList.Add(ResourceIndex);
+          ResourceIndexList.Add(SetTokenIndexToLowerCaseTrim(null, FhirDateTime.Value));          
         }
       }
     }
@@ -236,58 +198,37 @@ namespace Pyro.Common.SearchIndexer.Setter
     {
       if (FhirBoolean.Value != null)
       {
-        var ResourceIndex = new TokenIndex(_SearchParameter);
-        ResourceIndex.Code = FhirBoolean.Value.ToString().ToLower();
-        ResourceIndex.System = null;
-        ResourceIndexList.Add(ResourceIndex);
+        ResourceIndexList.Add(SetTokenIndexToLowerCaseTrim(null, FhirBoolean.Value.ToString()));        
       }
     }
     private void SetContactPoint(ContactPoint ContactPoint, IList<ITokenIndex> ResourceIndexList)
     {
       if (!string.IsNullOrWhiteSpace(ContactPoint.Value) && (ContactPoint.System != null))
       {
-        var ResourceIndex = new TokenIndex(_SearchParameter);
-        ResourceIndex.Code = ContactPoint.Value.Trim();
-        ResourceIndex.System = ContactPoint.System.GetLiteral();
-        ResourceIndexList.Add(ResourceIndex);
+        ResourceIndexList.Add(SetTokenIndexToLowerCaseTrim(ContactPoint.System.GetLiteral(), ContactPoint.Value));       
       }
       else if (!string.IsNullOrWhiteSpace(ContactPoint.Value))
       {
-        var ResourceIndex = new TokenIndex(_SearchParameter);
-        ResourceIndex.Code = ContactPoint.Value.Trim();
-        ResourceIndex.System = null;
-        ResourceIndexList.Add(ResourceIndex);
+        ResourceIndexList.Add(SetTokenIndexToLowerCaseTrim(null, ContactPoint.Value));       
       }
       else if (ContactPoint.System != null)
       {
-        var ResourceIndex = new TokenIndex(_SearchParameter);
-        ResourceIndex.Code = null;
-        ResourceIndex.System = ContactPoint.System.GetLiteral();
-        ResourceIndexList.Add(ResourceIndex);
+        ResourceIndexList.Add(SetTokenIndexToLowerCaseTrim(ContactPoint.System.GetLiteral(), null));       
       }
     }
     private void SetCoding(Coding Coding, IList<ITokenIndex> ResourceIndexList)
     {
       if (!string.IsNullOrWhiteSpace(Coding.Code) && !string.IsNullOrWhiteSpace(Coding.System))
       {
-        var ResourceIndex = new TokenIndex(_SearchParameter);
-        ResourceIndex.Code = Coding.Code.Trim();
-        ResourceIndex.System = Coding.System.Trim();
-        ResourceIndexList.Add(ResourceIndex);
+        ResourceIndexList.Add(SetTokenIndexToLowerCaseTrim(Coding.System, Coding.Code));       
       }
       else if (!string.IsNullOrWhiteSpace(Coding.Code))
       {
-        var ResourceIndex = new TokenIndex(_SearchParameter);
-        ResourceIndex.Code = Coding.Code.Trim();
-        ResourceIndex.System = null;
-        ResourceIndexList.Add(ResourceIndex);
+        ResourceIndexList.Add(SetTokenIndexToLowerCaseTrim(null, Coding.Code));       
       }
       else if (!string.IsNullOrWhiteSpace(Coding.System))
       {
-        var ResourceIndex = new TokenIndex(_SearchParameter);
-        ResourceIndex.Code = null;
-        ResourceIndex.System = Coding.System.Trim();
-        ResourceIndexList.Add(ResourceIndex);
+        ResourceIndexList.Add(SetTokenIndexToLowerCaseTrim(Coding.System, null));       
       }
     }
     private void SetCodeableConcept(CodeableConcept CodeableConcept, IList<ITokenIndex> ResourceIndexList)
@@ -296,9 +237,7 @@ namespace Pyro.Common.SearchIndexer.Setter
       {
         if (!string.IsNullOrWhiteSpace(CodeableConcept.Text))
         {
-          var ResourceIndex = new TokenIndex(_SearchParameter);
-          ResourceIndex.Code = CodeableConcept.Text;
-          ResourceIndexList.Add(ResourceIndex);
+          ResourceIndexList.Add(SetTokenIndexToLowerCaseTrim(null, CodeableConcept.Text));          
         }
       }
       else
@@ -313,11 +252,21 @@ namespace Pyro.Common.SearchIndexer.Setter
     {
       if (!string.IsNullOrWhiteSpace(Code.Value))
       {
-        var ResourceIndex = new TokenIndex(_SearchParameter);
-        ResourceIndex.Code = Code.Value.Trim();
-        ResourceIndex.System = null;
-        ResourceIndexList.Add(ResourceIndex);
+        ResourceIndexList.Add(SetTokenIndexToLowerCaseTrim(null, Code.Value));
       }
+    }
+
+
+    private TokenIndex SetTokenIndexToLowerCaseTrim(string System, string Code)
+    {
+      var ResourceIndex = new TokenIndex(_SearchParameter);
+      if (!string.IsNullOrWhiteSpace(System))
+        ResourceIndex.System = Tools.StringSupport.ToLowerFast(System.Trim());
+
+      if (!string.IsNullOrWhiteSpace(Code))
+        ResourceIndex.Code = Tools.StringSupport.ToLowerFast(Code.Trim());
+
+      return ResourceIndex;
     }
   }
 }

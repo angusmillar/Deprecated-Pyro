@@ -124,6 +124,8 @@ namespace Pyro.Test.IntergrationTest
     [Test]
     public void Test_CaseSensitive_FHIR_Id()
     {
+      CleanUpByIdentifier(ResourceType.Patient);
+
       Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(StaticTestData.FhirEndpoint(), false);
       clientFhir.Timeout = 1000 * 720; // give the call a while to execute (particularly while debugging).
       
@@ -213,7 +215,7 @@ namespace Pyro.Test.IntergrationTest
     }
 
     [Test]
-    public void Test_DateRanges()
+    public void Test_DateRangeGreaterThan()
     {
       CleanUpByIdentifier(ResourceType.Observation);
 
@@ -298,6 +300,8 @@ namespace Pyro.Test.IntergrationTest
       var SearchParam = new SearchParams();
       try
       {
+        //ObsOne = 10:00 to 11:00
+        //ObsTwo = 10:30 to 11:30
         SearchParam.Add("identifier", $"{StaticTestData.TestIdentiferSystem}|");
         SearchParam.Add("date", "gt2018-08-05T11:00:00+08:00");
         clientFhir.PreferredParameterHandling = SearchParameterHandling.Strict;
@@ -313,9 +317,550 @@ namespace Pyro.Test.IntergrationTest
         Assert.True(false, "Exception thrown on resource Search: " + Exec.Message);
       }
 
+      CleanUpByIdentifier(ResourceType.Observation);
+    }
 
+    [Test]
+    public void Test_DateRangeLessThan()
+    {
       CleanUpByIdentifier(ResourceType.Observation);
 
+      Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(StaticTestData.FhirEndpoint(), false);
+      clientFhir.Timeout = 1000 * 720; // give the call a while to execute (particularly while debugging).
+
+      //Add an Observation one with an Effective Period 10:00 AM to 11:00 AM 
+      FhirDateTime ObsOneEffectiveStart = new FhirDateTime(new DateTimeOffset(2018, 08, 5, 10, 00, 00, new TimeSpan(8, 0, 0)));
+      FhirDateTime ObsOneEffectiveEnd = new FhirDateTime(new DateTimeOffset(2018, 08, 5, 11, 00, 00, new TimeSpan(8, 0, 0)));
+      string ObsOneResourceId = string.Empty;
+      Observation ObsOne = new Observation();
+      ObsOne.Identifier = new List<Identifier>(){
+         new Identifier()
+         {
+            System = StaticTestData.TestIdentiferSystem,
+            Value = Common.Tools.FhirGuid.FhirGuid.NewFhirGuid()
+         }
+      };
+      ObsOne.Code = new CodeableConcept();
+      ObsOne.Code.Coding = new List<Coding>();
+      ObsOne.Code.Coding.Add(new Coding()
+      {
+        System = "http:/mytestcodesystem.com/system",
+        Code = "ObsOne"
+      });
+      var EffectiveObsOnePeriod = new Period();
+      EffectiveObsOnePeriod.StartElement = ObsOneEffectiveStart;
+      EffectiveObsOnePeriod.EndElement = ObsOneEffectiveEnd;
+      ObsOne.Effective = EffectiveObsOnePeriod;
+
+      Observation ObsOneResult = null;
+      try
+      {
+        ObsOneResult = clientFhir.Create(ObsOne);
+      }
+      catch (Exception Exec)
+      {
+        Assert.True(false, "Exception thrown on resource Create: " + Exec.Message);
+      }
+      Assert.NotNull(ObsOneResult, "Resource create by Updated returned resource of null");
+      ObsOneResourceId = ObsOneResult.Id;
+      ObsOneResult = null;
+
+      //Add an Observation one with an Effective Period 10:30 AM to 11:30 AM 
+      FhirDateTime ObsTwoEffectiveStart = new FhirDateTime(new DateTimeOffset(2018, 08, 5, 10, 30, 00, new TimeSpan(8, 0, 0)));
+      FhirDateTime ObsTwoEffectiveEnd = new FhirDateTime(new DateTimeOffset(2018, 08, 5, 11, 30, 00, new TimeSpan(8, 0, 0)));
+      string ObsTwoResourceId = string.Empty;
+      Observation ObsTwo = new Observation();
+      ObsTwo.Identifier = new List<Identifier>(){
+         new Identifier()
+         {
+            System = StaticTestData.TestIdentiferSystem,
+            Value = Common.Tools.FhirGuid.FhirGuid.NewFhirGuid()
+         }
+      };
+      ObsTwo.Code = new CodeableConcept();
+      ObsTwo.Code.Coding = new List<Coding>();
+      ObsTwo.Code.Coding.Add(new Coding()
+      {
+        System = "http:/mytestcodesystem.com/system",
+        Code = "ObsTwo"
+      });
+      var EffectiveObsTwoPeriod = new Period();
+      EffectiveObsTwoPeriod.StartElement = ObsTwoEffectiveStart;
+      EffectiveObsTwoPeriod.EndElement = ObsTwoEffectiveEnd;
+      ObsTwo.Effective = EffectiveObsTwoPeriod;
+
+      Observation ObsTwoResult = null;
+      try
+      {
+        ObsTwoResult = clientFhir.Create(ObsTwo);
+      }
+      catch (Exception Exec)
+      {
+        Assert.True(false, "Exception thrown on resource Create: " + Exec.Message);
+      }
+      Assert.NotNull(ObsTwoResult, "Resource create by Updated returned resource of null");
+      ObsTwoResourceId = ObsTwoResult.Id;
+      ObsTwoResult = null;
+
+      //Assert
+      var SearchParam = new SearchParams();
+      try
+      {
+        //ObsOne = 10:00 to 11:00
+        //ObsTwo = 10:30 to 11:30
+        SearchParam.Add("identifier", $"{StaticTestData.TestIdentiferSystem}|");
+        SearchParam.Add("date", "lt2018-08-05T11:01:00+08:00");
+        clientFhir.PreferredParameterHandling = SearchParameterHandling.Strict;
+        Bundle BundleResult = clientFhir.Search<Observation>(SearchParam);
+
+        Assert.IsNotNull(BundleResult);
+        Assert.IsNotNull(BundleResult.Entry);
+        Assert.AreEqual(1, BundleResult.Entry.Count);
+        Assert.AreEqual(ObsOneResourceId, BundleResult.Entry[0].Resource.Id);
+      }
+      catch (Exception Exec)
+      {
+        Assert.True(false, "Exception thrown on resource Search: " + Exec.Message);
+      }
+
+      CleanUpByIdentifier(ResourceType.Observation);
+    }
+
+    [Test]
+    public void Test_DateRangeGreaterThanEqualTo()
+    {
+      CleanUpByIdentifier(ResourceType.Observation);
+
+      Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(StaticTestData.FhirEndpoint(), false);
+      clientFhir.Timeout = 1000 * 720; // give the call a while to execute (particularly while debugging).
+
+      //Add an Observation one with an Effective Period 10:00 AM to 11:00 AM 
+      FhirDateTime ObsOneEffectiveStart = new FhirDateTime(new DateTimeOffset(2018, 08, 5, 10, 00, 00, new TimeSpan(8, 0, 0)));
+      FhirDateTime ObsOneEffectiveEnd = new FhirDateTime(new DateTimeOffset(2018, 08, 5, 11, 00, 00, new TimeSpan(8, 0, 0)));
+      string ObsOneResourceId = string.Empty;
+      Observation ObsOne = new Observation();
+      ObsOne.Identifier = new List<Identifier>(){
+         new Identifier()
+         {
+            System = StaticTestData.TestIdentiferSystem,
+            Value = Common.Tools.FhirGuid.FhirGuid.NewFhirGuid()
+         }
+      };
+      ObsOne.Code = new CodeableConcept();
+      ObsOne.Code.Coding = new List<Coding>();
+      ObsOne.Code.Coding.Add(new Coding()
+      {
+        System = "http:/mytestcodesystem.com/system",
+        Code = "ObsOne"
+      });
+      var EffectiveObsOnePeriod = new Period();
+      EffectiveObsOnePeriod.StartElement = ObsOneEffectiveStart;
+      EffectiveObsOnePeriod.EndElement = ObsOneEffectiveEnd;
+      ObsOne.Effective = EffectiveObsOnePeriod;
+
+      Observation ObsOneResult = null;
+      try
+      {
+        ObsOneResult = clientFhir.Create(ObsOne);
+      }
+      catch (Exception Exec)
+      {
+        Assert.True(false, "Exception thrown on resource Create: " + Exec.Message);
+      }
+      Assert.NotNull(ObsOneResult, "Resource create by Updated returned resource of null");
+      ObsOneResourceId = ObsOneResult.Id;
+      ObsOneResult = null;
+
+      //Add an Observation one with an Effective Period 10:30 AM to 11:30 AM 
+      FhirDateTime ObsTwoEffectiveStart = new FhirDateTime(new DateTimeOffset(2018, 08, 5, 10, 30, 00, new TimeSpan(8, 0, 0)));
+      FhirDateTime ObsTwoEffectiveEnd = new FhirDateTime(new DateTimeOffset(2018, 08, 5, 11, 30, 00, new TimeSpan(8, 0, 0)));
+      string ObsTwoResourceId = string.Empty;
+      Observation ObsTwo = new Observation();
+      ObsTwo.Identifier = new List<Identifier>(){
+         new Identifier()
+         {
+            System = StaticTestData.TestIdentiferSystem,
+            Value = Common.Tools.FhirGuid.FhirGuid.NewFhirGuid()
+         }
+      };
+      ObsTwo.Code = new CodeableConcept();
+      ObsTwo.Code.Coding = new List<Coding>();
+      ObsTwo.Code.Coding.Add(new Coding()
+      {
+        System = "http:/mytestcodesystem.com/system",
+        Code = "ObsTwo"
+      });
+      var EffectiveObsTwoPeriod = new Period();
+      EffectiveObsTwoPeriod.StartElement = ObsTwoEffectiveStart;
+      EffectiveObsTwoPeriod.EndElement = ObsTwoEffectiveEnd;
+      ObsTwo.Effective = EffectiveObsTwoPeriod;
+
+      Observation ObsTwoResult = null;
+      try
+      {
+        ObsTwoResult = clientFhir.Create(ObsTwo);
+      }
+      catch (Exception Exec)
+      {
+        Assert.True(false, "Exception thrown on resource Create: " + Exec.Message);
+      }
+      Assert.NotNull(ObsTwoResult, "Resource create by Updated returned resource of null");
+      ObsTwoResourceId = ObsTwoResult.Id;
+      ObsTwoResult = null;
+
+      //Assert
+      var SearchParam = new SearchParams();
+      try
+      {
+        //ObsOne = 10:00 to 11:00
+        //ObsTwo = 10:30 to 11:30
+        SearchParam.Add("identifier", $"{StaticTestData.TestIdentiferSystem}|");
+        SearchParam.Add("date", "ge2018-08-05T11:00:00+08:00");
+        clientFhir.PreferredParameterHandling = SearchParameterHandling.Strict;
+        Bundle BundleResult = clientFhir.Search<Observation>(SearchParam);
+
+        Assert.IsNotNull(BundleResult);
+        Assert.IsNotNull(BundleResult.Entry);
+        Assert.AreEqual(2, BundleResult.Entry.Count);
+        Assert.AreEqual(ObsOneResourceId, BundleResult.Entry[0].Resource.Id);
+        Assert.AreEqual(ObsTwoResourceId, BundleResult.Entry[1].Resource.Id);
+      }
+      catch (Exception Exec)
+      {
+        Assert.True(false, "Exception thrown on resource Search: " + Exec.Message);
+      }
+
+      CleanUpByIdentifier(ResourceType.Observation);
+    }
+
+    [Test]
+    public void Test_DateRangeLessThanEqualTo()
+    {
+      CleanUpByIdentifier(ResourceType.Observation);
+
+      Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(StaticTestData.FhirEndpoint(), false);
+      clientFhir.Timeout = 1000 * 720; // give the call a while to execute (particularly while debugging).
+
+      //Add an Observation one with an Effective Period 10:00 AM to 11:00 AM 
+      FhirDateTime ObsOneEffectiveStart = new FhirDateTime(new DateTimeOffset(2018, 08, 5, 10, 00, 00, new TimeSpan(8, 0, 0)));
+      FhirDateTime ObsOneEffectiveEnd = new FhirDateTime(new DateTimeOffset(2018, 08, 5, 11, 00, 00, new TimeSpan(8, 0, 0)));
+      string ObsOneResourceId = string.Empty;
+      Observation ObsOne = new Observation();
+      ObsOne.Identifier = new List<Identifier>(){
+         new Identifier()
+         {
+            System = StaticTestData.TestIdentiferSystem,
+            Value = Common.Tools.FhirGuid.FhirGuid.NewFhirGuid()
+         }
+      };
+      ObsOne.Code = new CodeableConcept();
+      ObsOne.Code.Coding = new List<Coding>();
+      ObsOne.Code.Coding.Add(new Coding()
+      {
+        System = "http:/mytestcodesystem.com/system",
+        Code = "ObsOne"
+      });
+      var EffectiveObsOnePeriod = new Period();
+      EffectiveObsOnePeriod.StartElement = ObsOneEffectiveStart;
+      EffectiveObsOnePeriod.EndElement = ObsOneEffectiveEnd;
+      ObsOne.Effective = EffectiveObsOnePeriod;
+
+      Observation ObsOneResult = null;
+      try
+      {
+        ObsOneResult = clientFhir.Create(ObsOne);
+      }
+      catch (Exception Exec)
+      {
+        Assert.True(false, "Exception thrown on resource Create: " + Exec.Message);
+      }
+      Assert.NotNull(ObsOneResult, "Resource create by Updated returned resource of null");
+      ObsOneResourceId = ObsOneResult.Id;
+      ObsOneResult = null;
+
+      //Add an Observation one with an Effective Period 10:30 AM to 11:30 AM 
+      FhirDateTime ObsTwoEffectiveStart = new FhirDateTime(new DateTimeOffset(2018, 08, 5, 10, 30, 00, new TimeSpan(8, 0, 0)));
+      FhirDateTime ObsTwoEffectiveEnd = new FhirDateTime(new DateTimeOffset(2018, 08, 5, 11, 30, 00, new TimeSpan(8, 0, 0)));
+      string ObsTwoResourceId = string.Empty;
+      Observation ObsTwo = new Observation();
+      ObsTwo.Identifier = new List<Identifier>(){
+         new Identifier()
+         {
+            System = StaticTestData.TestIdentiferSystem,
+            Value = Common.Tools.FhirGuid.FhirGuid.NewFhirGuid()
+         }
+      };
+      ObsTwo.Code = new CodeableConcept();
+      ObsTwo.Code.Coding = new List<Coding>();
+      ObsTwo.Code.Coding.Add(new Coding()
+      {
+        System = "http:/mytestcodesystem.com/system",
+        Code = "ObsTwo"
+      });
+      var EffectiveObsTwoPeriod = new Period();
+      EffectiveObsTwoPeriod.StartElement = ObsTwoEffectiveStart;
+      EffectiveObsTwoPeriod.EndElement = ObsTwoEffectiveEnd;
+      ObsTwo.Effective = EffectiveObsTwoPeriod;
+
+      Observation ObsTwoResult = null;
+      try
+      {
+        ObsTwoResult = clientFhir.Create(ObsTwo);
+      }
+      catch (Exception Exec)
+      {
+        Assert.True(false, "Exception thrown on resource Create: " + Exec.Message);
+      }
+      Assert.NotNull(ObsTwoResult, "Resource create by Updated returned resource of null");
+      ObsTwoResourceId = ObsTwoResult.Id;
+      ObsTwoResult = null;
+
+      //Assert
+      var SearchParam = new SearchParams();
+      try
+      {
+        //ObsOne = 10:00 to 11:00
+        //ObsTwo = 10:30 to 11:30
+        SearchParam.Add("identifier", $"{StaticTestData.TestIdentiferSystem}|");
+        SearchParam.Add("date", "le2018-08-05T11:00:00+08:00");
+        clientFhir.PreferredParameterHandling = SearchParameterHandling.Strict;
+        Bundle BundleResult = clientFhir.Search<Observation>(SearchParam);
+
+        Assert.IsNotNull(BundleResult);
+        Assert.IsNotNull(BundleResult.Entry);
+        Assert.AreEqual(2, BundleResult.Entry.Count);
+        Assert.AreEqual(ObsOneResourceId, BundleResult.Entry[0].Resource.Id);
+        Assert.AreEqual(ObsTwoResourceId, BundleResult.Entry[1].Resource.Id);
+      }
+      catch (Exception Exec)
+      {
+        Assert.True(false, "Exception thrown on resource Search: " + Exec.Message);
+      }
+
+      CleanUpByIdentifier(ResourceType.Observation);
+    }
+
+
+    [Test]
+    public void Test_TokenCaseCorrect()
+    {
+      CleanUpByIdentifier(ResourceType.Observation);
+
+      Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(StaticTestData.FhirEndpoint(), false);
+      clientFhir.Timeout = 1000 * 720; // give the call a while to execute (particularly while debugging).
+
+      //Add an Observation one with an Effective Period 10:00 AM to 11:00 AM 
+      FhirDateTime ObsOneEffectiveStart = new FhirDateTime(new DateTimeOffset(2018, 08, 5, 10, 00, 00, new TimeSpan(8, 0, 0)));
+      FhirDateTime ObsOneEffectiveEnd = new FhirDateTime(new DateTimeOffset(2018, 08, 5, 11, 00, 00, new TimeSpan(8, 0, 0)));
+      string ObsOneResourceId = string.Empty;
+      Observation ObsOne = new Observation();
+      ObsOne.Identifier = new List<Identifier>(){
+         new Identifier()
+         {
+            System = StaticTestData.TestIdentiferSystem,
+            Value = Common.Tools.FhirGuid.FhirGuid.NewFhirGuid()
+         }
+      };
+      ObsOne.Code = new CodeableConcept();
+      ObsOne.Code.Coding = new List<Coding>();
+      ObsOne.Code.Coding.Add(new Coding()
+      {
+        System = "http:/mytestcodesystem.com/system",
+        Code = "ObsOne"
+      });
+      var EffectiveObsOnePeriod = new Period();
+      EffectiveObsOnePeriod.StartElement = ObsOneEffectiveStart;
+      EffectiveObsOnePeriod.EndElement = ObsOneEffectiveEnd;
+      ObsOne.Effective = EffectiveObsOnePeriod;
+
+      Observation ObsOneResult = null;
+      try
+      {
+        ObsOneResult = clientFhir.Create(ObsOne);
+      }
+      catch (Exception Exec)
+      {
+        Assert.True(false, "Exception thrown on resource Create: " + Exec.Message);
+      }
+      Assert.NotNull(ObsOneResult, "Resource create by Updated returned resource of null");
+      ObsOneResourceId = ObsOneResult.Id;
+      ObsOneResult = null;
+
+      //Add an Observation one with an Effective Period 10:30 AM to 11:30 AM 
+      FhirDateTime ObsTwoEffectiveStart = new FhirDateTime(new DateTimeOffset(2018, 08, 5, 10, 30, 00, new TimeSpan(8, 0, 0)));
+      FhirDateTime ObsTwoEffectiveEnd = new FhirDateTime(new DateTimeOffset(2018, 08, 5, 11, 30, 00, new TimeSpan(8, 0, 0)));
+      string ObsTwoResourceId = string.Empty;
+      Observation ObsTwo = new Observation();
+      ObsTwo.Identifier = new List<Identifier>(){
+         new Identifier()
+         {
+            System = StaticTestData.TestIdentiferSystem,
+            Value = Common.Tools.FhirGuid.FhirGuid.NewFhirGuid()
+         }
+      };
+      ObsTwo.Code = new CodeableConcept();
+      ObsTwo.Code.Coding = new List<Coding>();
+      ObsTwo.Code.Coding.Add(new Coding()
+      {
+        System = "http:/mytestcodesystem.com/system",
+        Code = "ObsTwo"
+      });
+      var EffectiveObsTwoPeriod = new Period();
+      EffectiveObsTwoPeriod.StartElement = ObsTwoEffectiveStart;
+      EffectiveObsTwoPeriod.EndElement = ObsTwoEffectiveEnd;
+      ObsTwo.Effective = EffectiveObsTwoPeriod;
+
+      Observation ObsTwoResult = null;
+      try
+      {
+        ObsTwoResult = clientFhir.Create(ObsTwo);
+      }
+      catch (Exception Exec)
+      {
+        Assert.True(false, "Exception thrown on resource Create: " + Exec.Message);
+      }
+      Assert.NotNull(ObsTwoResult, "Resource create by Updated returned resource of null");
+      ObsTwoResourceId = ObsTwoResult.Id;
+      ObsTwoResult = null;
+
+      //Assert
+      var SearchParam = new SearchParams();
+      try
+      {
+        //ObsOne = 10:00 to 11:00
+        //ObsTwo = 10:30 to 11:30
+        SearchParam.Add("identifier", $"{StaticTestData.TestIdentiferSystem}|");
+        SearchParam.Add("code", "http:/mytestcodesystem.com/system|ObsOne");
+        clientFhir.PreferredParameterHandling = SearchParameterHandling.Strict;
+        Bundle BundleResult = clientFhir.Search<Observation>(SearchParam);
+
+        Assert.IsNotNull(BundleResult);
+        Assert.IsNotNull(BundleResult.Entry);
+        Assert.AreEqual(1, BundleResult.Entry.Count);
+        Assert.AreEqual(ObsOneResourceId, BundleResult.Entry[0].Resource.Id);        
+      }
+      catch (Exception Exec)
+      {
+        Assert.True(false, "Exception thrown on resource Search: " + Exec.Message);
+      }
+
+      CleanUpByIdentifier(ResourceType.Observation);
+    }
+
+    [Test]
+    public void Test_TokenCaseInCorrect()
+    {
+      CleanUpByIdentifier(ResourceType.Observation);
+
+      Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(StaticTestData.FhirEndpoint(), false);
+      clientFhir.Timeout = 1000 * 720; // give the call a while to execute (particularly while debugging).
+
+      //Add an Observation one with an Effective Period 10:00 AM to 11:00 AM 
+      FhirDateTime ObsOneEffectiveStart = new FhirDateTime(new DateTimeOffset(2018, 08, 5, 10, 00, 00, new TimeSpan(8, 0, 0)));
+      FhirDateTime ObsOneEffectiveEnd = new FhirDateTime(new DateTimeOffset(2018, 08, 5, 11, 00, 00, new TimeSpan(8, 0, 0)));
+      string ObsOneResourceId = string.Empty;
+      Observation ObsOne = new Observation();
+      ObsOne.Identifier = new List<Identifier>(){
+         new Identifier()
+         {
+            System = StaticTestData.TestIdentiferSystem,
+            Value = Common.Tools.FhirGuid.FhirGuid.NewFhirGuid()
+         }
+      };
+      ObsOne.Code = new CodeableConcept();
+      ObsOne.Code.Coding = new List<Coding>();
+      ObsOne.Code.Coding.Add(new Coding()
+      {
+        System = "http:/mytestcodesystem.com/system",
+        Code = "ObsOne"
+      });
+      var EffectiveObsOnePeriod = new Period();
+      EffectiveObsOnePeriod.StartElement = ObsOneEffectiveStart;
+      EffectiveObsOnePeriod.EndElement = ObsOneEffectiveEnd;
+      ObsOne.Effective = EffectiveObsOnePeriod;
+
+      Observation ObsOneResult = null;
+      try
+      {
+        ObsOneResult = clientFhir.Create(ObsOne);
+      }
+      catch (Exception Exec)
+      {
+        Assert.True(false, "Exception thrown on resource Create: " + Exec.Message);
+      }
+      Assert.NotNull(ObsOneResult, "Resource create by Updated returned resource of null");
+      ObsOneResourceId = ObsOneResult.Id;
+      ObsOneResult = null;
+
+      //Add an Observation one with an Effective Period 10:30 AM to 11:30 AM 
+      FhirDateTime ObsTwoEffectiveStart = new FhirDateTime(new DateTimeOffset(2018, 08, 5, 10, 30, 00, new TimeSpan(8, 0, 0)));
+      FhirDateTime ObsTwoEffectiveEnd = new FhirDateTime(new DateTimeOffset(2018, 08, 5, 11, 30, 00, new TimeSpan(8, 0, 0)));
+      string ObsTwoResourceId = string.Empty;
+      Observation ObsTwo = new Observation();
+      ObsTwo.Identifier = new List<Identifier>(){
+         new Identifier()
+         {
+            System = StaticTestData.TestIdentiferSystem,
+            Value = Common.Tools.FhirGuid.FhirGuid.NewFhirGuid()
+         }
+      };
+      ObsTwo.Code = new CodeableConcept();
+      ObsTwo.Code.Coding = new List<Coding>();
+      ObsTwo.Code.Coding.Add(new Coding()
+      {
+        System = "http:/mytestcodesystem.com/system",
+        Code = "ObsTwo"
+      });
+      var EffectiveObsTwoPeriod = new Period();
+      EffectiveObsTwoPeriod.StartElement = ObsTwoEffectiveStart;
+      EffectiveObsTwoPeriod.EndElement = ObsTwoEffectiveEnd;
+      ObsTwo.Effective = EffectiveObsTwoPeriod;
+
+      Observation ObsTwoResult = null;
+      try
+      {
+        ObsTwoResult = clientFhir.Create(ObsTwo);
+      }
+      catch (Exception Exec)
+      {
+        Assert.True(false, "Exception thrown on resource Create: " + Exec.Message);
+      }
+      Assert.NotNull(ObsTwoResult, "Resource create by Updated returned resource of null");
+      ObsTwoResourceId = ObsTwoResult.Id;
+      ObsTwoResult = null;
+
+      //Assert
+      var SearchParam = new SearchParams();
+      try
+      {
+        //ObsOne = 10:00 to 11:00
+        //ObsTwo = 10:30 to 11:30
+        SearchParam.Add("identifier", $"{StaticTestData.TestIdentiferSystem}|");
+        SearchParam.Add("code", "http:/mytestcodesystem.com/system|obsone");
+        clientFhir.PreferredParameterHandling = SearchParameterHandling.Strict;
+        Bundle BundleResult = clientFhir.Search<Observation>(SearchParam);
+
+        //From thr R4 FHIR Spec
+        //Note: There are many challenging issues around case senstivity and token searches. 
+        //Some code systems are case sensitive(e.g.UCUM) while others are known not to be.For many 
+        //code systems, it's ambiguous. Other kinds of values are also ambiguous. When in doubt, servers
+        //SHOULD treat tokens in a case-insensitive manner, on the grounds that including undesired data 
+        //has less safety implications than excluding desired behavior. Clients SHOULD always use the 
+        //correct case when possible, and allow for the server to perform case-insensitive matching.
+
+        //STU3 was a little vage on this point. Trying to conclude case sesativity based on CodeSystem is 
+        //a more difficult goal and would slow down searches, do not plan on doing that any time soon.
+        Assert.IsNotNull(BundleResult);
+        Assert.IsNotNull(BundleResult.Entry);
+        Assert.AreEqual(1, BundleResult.Entry.Count);
+        Assert.AreEqual(ObsOneResourceId, BundleResult.Entry[0].Resource.Id);
+      }
+      catch (Exception Exec)
+      {
+        Assert.True(false, "Exception thrown on resource Search: " + Exec.Message);
+      }
+
+      CleanUpByIdentifier(ResourceType.Observation);
     }
 
     private void CleanUpByIdentifier(ResourceType ResourceType)

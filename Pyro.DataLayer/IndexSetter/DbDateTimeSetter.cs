@@ -39,8 +39,10 @@ namespace Pyro.DataLayer.IndexSetter
       foreach (IDateTimeIndex Index in DateTimeIndexList)
       {
         var DbResourceIndex = new ResIndexDateTimeType();
-        DbResourceIndex.DateTimeOffsetHigh = Index.DateTimeOffsetHigh;
-        DbResourceIndex.DateTimeOffsetLow = Index.DateTimeOffsetLow;
+
+        DbResourceIndex.HighUtcDateTime = Index.HighUtcDateTime;
+        DbResourceIndex.LowUtcDateTime = Index.LowUtcDateTime;
+
         DbResourceIndex.ServiceSearchParameterId = Index.ServiceSearchParameterLight.Id;
         DbReferenceIndexList.Add(DbResourceIndex);
       }

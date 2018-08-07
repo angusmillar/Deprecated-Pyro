@@ -103,16 +103,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.ActivityDefinitionRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -315,16 +315,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.AdverseEventRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -481,16 +481,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.AllergyIntoleranceRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -647,16 +647,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.AppointmentRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -813,16 +813,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.AppointmentResponseRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -979,16 +979,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.AuditEventRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -1145,16 +1145,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.BasicRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -1311,16 +1311,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.BinaryRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -1477,16 +1477,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.BodySiteRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -1643,16 +1643,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.BundleRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -1809,16 +1809,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.CapabilityStatementRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -1975,16 +1975,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.CarePlanRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -2141,16 +2141,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.CareTeamRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -2307,16 +2307,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.ChargeItemRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -2473,16 +2473,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.ClaimRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -2639,16 +2639,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.ClaimResponseRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -2805,16 +2805,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.ClinicalImpressionRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -2971,16 +2971,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.CodeSystemRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -3137,16 +3137,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.CommunicationRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -3303,16 +3303,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.CommunicationRequestRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -3469,16 +3469,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.CompartmentDefinitionRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -3635,16 +3635,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.CompositionRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -3801,16 +3801,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.ConceptMapRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -3967,16 +3967,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.ConditionRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -4133,16 +4133,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.ConsentRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -4299,16 +4299,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.ContractRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -4465,16 +4465,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.CoverageRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -4631,16 +4631,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.DataElementRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -4797,16 +4797,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.DetectedIssueRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -4963,16 +4963,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.DeviceComponentRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -5129,16 +5129,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.DeviceRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -5295,16 +5295,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.DeviceMetricRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -5461,16 +5461,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.DeviceRequestRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -5627,16 +5627,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.DeviceUseStatementRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -5793,16 +5793,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.DiagnosticReportRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -5959,16 +5959,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.DocumentManifestRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -6125,16 +6125,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.DocumentReferenceRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -6291,16 +6291,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.EligibilityRequestRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -6457,16 +6457,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.EligibilityResponseRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -6623,16 +6623,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.EncounterRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -6789,16 +6789,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.EndpointRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -6955,16 +6955,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.EnrollmentRequestRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -7121,16 +7121,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.EnrollmentResponseRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -7287,16 +7287,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.EpisodeOfCareRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -7453,16 +7453,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.ExpansionProfileRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -7619,16 +7619,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.ExplanationOfBenefitRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -7785,16 +7785,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.FamilyMemberHistoryRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -7951,16 +7951,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.FlagRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -8117,16 +8117,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.GoalRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -8283,16 +8283,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.GraphDefinitionRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -8449,16 +8449,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.GroupRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -8615,16 +8615,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.GuidanceResponseRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -8781,16 +8781,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.HealthcareServiceRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -8947,16 +8947,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.ImagingManifestRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -9113,16 +9113,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.ImagingStudyRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -9279,16 +9279,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.ImmunizationRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -9445,16 +9445,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.ImmunizationRecommendationRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -9611,16 +9611,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.ImplementationGuideRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -9777,16 +9777,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.LibraryRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -9943,16 +9943,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.LinkageRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -10109,16 +10109,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.ListRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -10275,16 +10275,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.LocationRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -10441,16 +10441,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.MeasureRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -10607,16 +10607,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.MeasureReportRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -10773,16 +10773,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.MediaRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -10939,16 +10939,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.MedicationAdministrationRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -11105,16 +11105,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.MedicationDispenseRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -11271,16 +11271,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.MedicationRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -11437,16 +11437,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.MedicationRequestRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -11603,16 +11603,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.MedicationStatementRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -11769,16 +11769,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.MessageDefinitionRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -11935,16 +11935,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.MessageHeaderRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -12101,16 +12101,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.NamingSystemRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -12267,16 +12267,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.NutritionOrderRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -12433,16 +12433,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.ObservationRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -12599,16 +12599,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.OperationDefinitionRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -12765,16 +12765,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.OperationOutcomeRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -12931,16 +12931,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.OrganizationRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -13097,16 +13097,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.ParametersRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -13263,16 +13263,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.PatientRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -13429,16 +13429,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.PaymentNoticeRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -13595,16 +13595,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.PaymentReconciliationRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -13761,16 +13761,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.PersonRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -13927,16 +13927,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.PlanDefinitionRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -14093,16 +14093,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.PractitionerRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -14259,16 +14259,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.PractitionerRoleRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -14425,16 +14425,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.ProcedureRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -14591,16 +14591,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.ProcedureRequestRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -14757,16 +14757,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.ProcessRequestRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -14923,16 +14923,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.ProcessResponseRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -15089,16 +15089,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.ProvenanceRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -15255,16 +15255,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.QuestionnaireRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -15421,16 +15421,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.QuestionnaireResponseRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -15587,16 +15587,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.ReferralRequestRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -15753,16 +15753,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.RelatedPersonRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -15919,16 +15919,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.RequestGroupRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -16085,16 +16085,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.ResearchStudyRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -16251,16 +16251,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.ResearchSubjectRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -16417,16 +16417,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.RiskAssessmentRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -16583,16 +16583,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.ScheduleRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -16749,16 +16749,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.SearchParameterRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -16915,16 +16915,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.SequenceRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -17081,16 +17081,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.ServiceDefinitionRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -17247,16 +17247,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.SlotRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -17413,16 +17413,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.SpecimenRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -17579,16 +17579,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.StructureDefinitionRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -17745,16 +17745,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.StructureMapRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -17911,16 +17911,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.SubscriptionRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -18077,16 +18077,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.SubstanceRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -18243,16 +18243,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.SupplyDeliveryRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -18409,16 +18409,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.SupplyRequestRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -18575,16 +18575,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.TaskRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -18741,16 +18741,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.TestReportRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -18907,16 +18907,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.TestScriptRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -19073,16 +19073,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.ValueSetRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -19239,16 +19239,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.VisionPrescriptionRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -19368,16 +19368,16 @@ namespace Pyro.DataLayer.MigrationsPostgre
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        DateTimeOffsetHigh = c.DateTimeOffset(precision: 3),
-                        DateTimeOffsetLow = c.DateTimeOffset(precision: 3),
+                        LowUtcDateTime = c.DateTime(),
+                        HighUtcDateTime = c.DateTime(),
                         ServiceSearchParameterId = c.Int(nullable: false),
                         ResourceId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("public._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("public.AccountRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.DateTimeOffsetHigh, name: "ix_DateTimeOffsetHigh")
-                .Index(t => t.DateTimeOffsetLow, name: "ix_DateTimeOffsetLow")
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
             
@@ -21201,8 +21201,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.AccountResIndexQuantity", "ix_Code");
             DropIndex("public.AccountResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.AccountResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.AccountResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.AccountResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.AccountResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.AccountResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.VisionPrescriptionResIndexUri", new[] { "ResourceId" });
             DropIndex("public.VisionPrescriptionResIndexUri", "ix_SearchParamId");
             DropIndex("public.VisionPrescriptionResIndexUri", "ix_Uri");
@@ -21223,8 +21223,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.VisionPrescriptionResIndexQuantity", "ix_Code");
             DropIndex("public.VisionPrescriptionResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.VisionPrescriptionResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.VisionPrescriptionResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.VisionPrescriptionResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.VisionPrescriptionResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.VisionPrescriptionResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.VisionPrescriptionRes", new[] { "FhirReleaseId" });
             DropIndex("public.VisionPrescriptionRes", "ix_LastUpdated");
             DropIndex("public.VisionPrescriptionRes", "ix_IsDeleted");
@@ -21250,8 +21250,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.ValueSetResIndexQuantity", "ix_Code");
             DropIndex("public.ValueSetResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.ValueSetResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.ValueSetResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.ValueSetResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.ValueSetResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.ValueSetResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.ValueSetRes", new[] { "FhirReleaseId" });
             DropIndex("public.ValueSetRes", "ix_LastUpdated");
             DropIndex("public.ValueSetRes", "ix_IsDeleted");
@@ -21277,8 +21277,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.TestScriptResIndexQuantity", "ix_Code");
             DropIndex("public.TestScriptResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.TestScriptResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.TestScriptResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.TestScriptResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.TestScriptResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.TestScriptResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.TestScriptRes", new[] { "FhirReleaseId" });
             DropIndex("public.TestScriptRes", "ix_LastUpdated");
             DropIndex("public.TestScriptRes", "ix_IsDeleted");
@@ -21304,8 +21304,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.TestReportResIndexQuantity", "ix_Code");
             DropIndex("public.TestReportResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.TestReportResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.TestReportResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.TestReportResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.TestReportResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.TestReportResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.TestReportRes", new[] { "FhirReleaseId" });
             DropIndex("public.TestReportRes", "ix_LastUpdated");
             DropIndex("public.TestReportRes", "ix_IsDeleted");
@@ -21331,8 +21331,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.TaskResIndexQuantity", "ix_Code");
             DropIndex("public.TaskResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.TaskResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.TaskResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.TaskResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.TaskResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.TaskResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.TaskRes", new[] { "FhirReleaseId" });
             DropIndex("public.TaskRes", "ix_LastUpdated");
             DropIndex("public.TaskRes", "ix_IsDeleted");
@@ -21358,8 +21358,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.SupplyRequestResIndexQuantity", "ix_Code");
             DropIndex("public.SupplyRequestResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.SupplyRequestResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.SupplyRequestResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.SupplyRequestResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.SupplyRequestResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.SupplyRequestResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.SupplyRequestRes", new[] { "FhirReleaseId" });
             DropIndex("public.SupplyRequestRes", "ix_LastUpdated");
             DropIndex("public.SupplyRequestRes", "ix_IsDeleted");
@@ -21385,8 +21385,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.SupplyDeliveryResIndexQuantity", "ix_Code");
             DropIndex("public.SupplyDeliveryResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.SupplyDeliveryResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.SupplyDeliveryResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.SupplyDeliveryResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.SupplyDeliveryResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.SupplyDeliveryResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.SupplyDeliveryRes", new[] { "FhirReleaseId" });
             DropIndex("public.SupplyDeliveryRes", "ix_LastUpdated");
             DropIndex("public.SupplyDeliveryRes", "ix_IsDeleted");
@@ -21412,8 +21412,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.SubstanceResIndexQuantity", "ix_Code");
             DropIndex("public.SubstanceResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.SubstanceResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.SubstanceResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.SubstanceResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.SubstanceResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.SubstanceResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.SubstanceRes", new[] { "FhirReleaseId" });
             DropIndex("public.SubstanceRes", "ix_LastUpdated");
             DropIndex("public.SubstanceRes", "ix_IsDeleted");
@@ -21439,8 +21439,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.SubscriptionResIndexQuantity", "ix_Code");
             DropIndex("public.SubscriptionResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.SubscriptionResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.SubscriptionResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.SubscriptionResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.SubscriptionResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.SubscriptionResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.SubscriptionRes", new[] { "FhirReleaseId" });
             DropIndex("public.SubscriptionRes", "ix_LastUpdated");
             DropIndex("public.SubscriptionRes", "ix_IsDeleted");
@@ -21466,8 +21466,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.StructureMapResIndexQuantity", "ix_Code");
             DropIndex("public.StructureMapResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.StructureMapResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.StructureMapResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.StructureMapResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.StructureMapResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.StructureMapResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.StructureMapRes", new[] { "FhirReleaseId" });
             DropIndex("public.StructureMapRes", "ix_LastUpdated");
             DropIndex("public.StructureMapRes", "ix_IsDeleted");
@@ -21493,8 +21493,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.StructureDefinitionResIndexQuantity", "ix_Code");
             DropIndex("public.StructureDefinitionResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.StructureDefinitionResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.StructureDefinitionResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.StructureDefinitionResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.StructureDefinitionResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.StructureDefinitionResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.StructureDefinitionRes", new[] { "FhirReleaseId" });
             DropIndex("public.StructureDefinitionRes", "ix_LastUpdated");
             DropIndex("public.StructureDefinitionRes", "ix_IsDeleted");
@@ -21520,8 +21520,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.SpecimenResIndexQuantity", "ix_Code");
             DropIndex("public.SpecimenResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.SpecimenResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.SpecimenResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.SpecimenResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.SpecimenResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.SpecimenResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.SpecimenRes", new[] { "FhirReleaseId" });
             DropIndex("public.SpecimenRes", "ix_LastUpdated");
             DropIndex("public.SpecimenRes", "ix_IsDeleted");
@@ -21547,8 +21547,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.SlotResIndexQuantity", "ix_Code");
             DropIndex("public.SlotResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.SlotResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.SlotResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.SlotResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.SlotResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.SlotResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.SlotRes", new[] { "FhirReleaseId" });
             DropIndex("public.SlotRes", "ix_LastUpdated");
             DropIndex("public.SlotRes", "ix_IsDeleted");
@@ -21574,8 +21574,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.ServiceDefinitionResIndexQuantity", "ix_Code");
             DropIndex("public.ServiceDefinitionResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.ServiceDefinitionResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.ServiceDefinitionResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.ServiceDefinitionResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.ServiceDefinitionResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.ServiceDefinitionResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.ServiceDefinitionRes", new[] { "FhirReleaseId" });
             DropIndex("public.ServiceDefinitionRes", "ix_LastUpdated");
             DropIndex("public.ServiceDefinitionRes", "ix_IsDeleted");
@@ -21601,8 +21601,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.SequenceResIndexQuantity", "ix_Code");
             DropIndex("public.SequenceResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.SequenceResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.SequenceResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.SequenceResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.SequenceResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.SequenceResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.SequenceRes", new[] { "FhirReleaseId" });
             DropIndex("public.SequenceRes", "ix_LastUpdated");
             DropIndex("public.SequenceRes", "ix_IsDeleted");
@@ -21628,8 +21628,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.SearchParameterResIndexQuantity", "ix_Code");
             DropIndex("public.SearchParameterResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.SearchParameterResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.SearchParameterResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.SearchParameterResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.SearchParameterResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.SearchParameterResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.SearchParameterRes", new[] { "FhirReleaseId" });
             DropIndex("public.SearchParameterRes", "ix_LastUpdated");
             DropIndex("public.SearchParameterRes", "ix_IsDeleted");
@@ -21655,8 +21655,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.ScheduleResIndexQuantity", "ix_Code");
             DropIndex("public.ScheduleResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.ScheduleResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.ScheduleResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.ScheduleResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.ScheduleResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.ScheduleResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.ScheduleRes", new[] { "FhirReleaseId" });
             DropIndex("public.ScheduleRes", "ix_LastUpdated");
             DropIndex("public.ScheduleRes", "ix_IsDeleted");
@@ -21682,8 +21682,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.RiskAssessmentResIndexQuantity", "ix_Code");
             DropIndex("public.RiskAssessmentResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.RiskAssessmentResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.RiskAssessmentResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.RiskAssessmentResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.RiskAssessmentResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.RiskAssessmentResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.RiskAssessmentRes", new[] { "FhirReleaseId" });
             DropIndex("public.RiskAssessmentRes", "ix_LastUpdated");
             DropIndex("public.RiskAssessmentRes", "ix_IsDeleted");
@@ -21709,8 +21709,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.ResearchSubjectResIndexQuantity", "ix_Code");
             DropIndex("public.ResearchSubjectResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.ResearchSubjectResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.ResearchSubjectResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.ResearchSubjectResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.ResearchSubjectResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.ResearchSubjectResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.ResearchSubjectRes", new[] { "FhirReleaseId" });
             DropIndex("public.ResearchSubjectRes", "ix_LastUpdated");
             DropIndex("public.ResearchSubjectRes", "ix_IsDeleted");
@@ -21736,8 +21736,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.ResearchStudyResIndexQuantity", "ix_Code");
             DropIndex("public.ResearchStudyResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.ResearchStudyResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.ResearchStudyResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.ResearchStudyResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.ResearchStudyResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.ResearchStudyResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.ResearchStudyRes", new[] { "FhirReleaseId" });
             DropIndex("public.ResearchStudyRes", "ix_LastUpdated");
             DropIndex("public.ResearchStudyRes", "ix_IsDeleted");
@@ -21763,8 +21763,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.RequestGroupResIndexQuantity", "ix_Code");
             DropIndex("public.RequestGroupResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.RequestGroupResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.RequestGroupResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.RequestGroupResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.RequestGroupResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.RequestGroupResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.RequestGroupRes", new[] { "FhirReleaseId" });
             DropIndex("public.RequestGroupRes", "ix_LastUpdated");
             DropIndex("public.RequestGroupRes", "ix_IsDeleted");
@@ -21790,8 +21790,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.RelatedPersonResIndexQuantity", "ix_Code");
             DropIndex("public.RelatedPersonResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.RelatedPersonResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.RelatedPersonResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.RelatedPersonResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.RelatedPersonResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.RelatedPersonResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.RelatedPersonRes", new[] { "FhirReleaseId" });
             DropIndex("public.RelatedPersonRes", "ix_LastUpdated");
             DropIndex("public.RelatedPersonRes", "ix_IsDeleted");
@@ -21817,8 +21817,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.ReferralRequestResIndexQuantity", "ix_Code");
             DropIndex("public.ReferralRequestResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.ReferralRequestResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.ReferralRequestResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.ReferralRequestResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.ReferralRequestResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.ReferralRequestResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.ReferralRequestRes", new[] { "FhirReleaseId" });
             DropIndex("public.ReferralRequestRes", "ix_LastUpdated");
             DropIndex("public.ReferralRequestRes", "ix_IsDeleted");
@@ -21844,8 +21844,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.QuestionnaireResponseResIndexQuantity", "ix_Code");
             DropIndex("public.QuestionnaireResponseResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.QuestionnaireResponseResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.QuestionnaireResponseResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.QuestionnaireResponseResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.QuestionnaireResponseResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.QuestionnaireResponseResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.QuestionnaireResponseRes", new[] { "FhirReleaseId" });
             DropIndex("public.QuestionnaireResponseRes", "ix_LastUpdated");
             DropIndex("public.QuestionnaireResponseRes", "ix_IsDeleted");
@@ -21871,8 +21871,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.QuestionnaireResIndexQuantity", "ix_Code");
             DropIndex("public.QuestionnaireResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.QuestionnaireResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.QuestionnaireResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.QuestionnaireResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.QuestionnaireResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.QuestionnaireResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.QuestionnaireRes", new[] { "FhirReleaseId" });
             DropIndex("public.QuestionnaireRes", "ix_LastUpdated");
             DropIndex("public.QuestionnaireRes", "ix_IsDeleted");
@@ -21898,8 +21898,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.ProvenanceResIndexQuantity", "ix_Code");
             DropIndex("public.ProvenanceResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.ProvenanceResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.ProvenanceResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.ProvenanceResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.ProvenanceResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.ProvenanceResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.ProvenanceRes", new[] { "FhirReleaseId" });
             DropIndex("public.ProvenanceRes", "ix_LastUpdated");
             DropIndex("public.ProvenanceRes", "ix_IsDeleted");
@@ -21925,8 +21925,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.ProcessResponseResIndexQuantity", "ix_Code");
             DropIndex("public.ProcessResponseResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.ProcessResponseResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.ProcessResponseResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.ProcessResponseResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.ProcessResponseResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.ProcessResponseResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.ProcessResponseRes", new[] { "FhirReleaseId" });
             DropIndex("public.ProcessResponseRes", "ix_LastUpdated");
             DropIndex("public.ProcessResponseRes", "ix_IsDeleted");
@@ -21952,8 +21952,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.ProcessRequestResIndexQuantity", "ix_Code");
             DropIndex("public.ProcessRequestResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.ProcessRequestResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.ProcessRequestResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.ProcessRequestResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.ProcessRequestResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.ProcessRequestResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.ProcessRequestRes", new[] { "FhirReleaseId" });
             DropIndex("public.ProcessRequestRes", "ix_LastUpdated");
             DropIndex("public.ProcessRequestRes", "ix_IsDeleted");
@@ -21979,8 +21979,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.ProcedureRequestResIndexQuantity", "ix_Code");
             DropIndex("public.ProcedureRequestResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.ProcedureRequestResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.ProcedureRequestResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.ProcedureRequestResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.ProcedureRequestResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.ProcedureRequestResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.ProcedureRequestRes", new[] { "FhirReleaseId" });
             DropIndex("public.ProcedureRequestRes", "ix_LastUpdated");
             DropIndex("public.ProcedureRequestRes", "ix_IsDeleted");
@@ -22006,8 +22006,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.ProcedureResIndexQuantity", "ix_Code");
             DropIndex("public.ProcedureResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.ProcedureResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.ProcedureResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.ProcedureResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.ProcedureResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.ProcedureResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.ProcedureRes", new[] { "FhirReleaseId" });
             DropIndex("public.ProcedureRes", "ix_LastUpdated");
             DropIndex("public.ProcedureRes", "ix_IsDeleted");
@@ -22033,8 +22033,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.PractitionerRoleResIndexQuantity", "ix_Code");
             DropIndex("public.PractitionerRoleResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.PractitionerRoleResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.PractitionerRoleResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.PractitionerRoleResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.PractitionerRoleResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.PractitionerRoleResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.PractitionerRoleRes", new[] { "FhirReleaseId" });
             DropIndex("public.PractitionerRoleRes", "ix_LastUpdated");
             DropIndex("public.PractitionerRoleRes", "ix_IsDeleted");
@@ -22060,8 +22060,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.PractitionerResIndexQuantity", "ix_Code");
             DropIndex("public.PractitionerResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.PractitionerResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.PractitionerResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.PractitionerResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.PractitionerResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.PractitionerResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.PractitionerRes", new[] { "FhirReleaseId" });
             DropIndex("public.PractitionerRes", "ix_LastUpdated");
             DropIndex("public.PractitionerRes", "ix_IsDeleted");
@@ -22087,8 +22087,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.PlanDefinitionResIndexQuantity", "ix_Code");
             DropIndex("public.PlanDefinitionResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.PlanDefinitionResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.PlanDefinitionResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.PlanDefinitionResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.PlanDefinitionResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.PlanDefinitionResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.PlanDefinitionRes", new[] { "FhirReleaseId" });
             DropIndex("public.PlanDefinitionRes", "ix_LastUpdated");
             DropIndex("public.PlanDefinitionRes", "ix_IsDeleted");
@@ -22114,8 +22114,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.PersonResIndexQuantity", "ix_Code");
             DropIndex("public.PersonResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.PersonResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.PersonResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.PersonResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.PersonResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.PersonResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.PersonRes", new[] { "FhirReleaseId" });
             DropIndex("public.PersonRes", "ix_LastUpdated");
             DropIndex("public.PersonRes", "ix_IsDeleted");
@@ -22141,8 +22141,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.PaymentReconciliationResIndexQuantity", "ix_Code");
             DropIndex("public.PaymentReconciliationResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.PaymentReconciliationResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.PaymentReconciliationResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.PaymentReconciliationResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.PaymentReconciliationResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.PaymentReconciliationResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.PaymentReconciliationRes", new[] { "FhirReleaseId" });
             DropIndex("public.PaymentReconciliationRes", "ix_LastUpdated");
             DropIndex("public.PaymentReconciliationRes", "ix_IsDeleted");
@@ -22168,8 +22168,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.PaymentNoticeResIndexQuantity", "ix_Code");
             DropIndex("public.PaymentNoticeResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.PaymentNoticeResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.PaymentNoticeResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.PaymentNoticeResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.PaymentNoticeResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.PaymentNoticeResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.PaymentNoticeRes", new[] { "FhirReleaseId" });
             DropIndex("public.PaymentNoticeRes", "ix_LastUpdated");
             DropIndex("public.PaymentNoticeRes", "ix_IsDeleted");
@@ -22195,8 +22195,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.PatientResIndexQuantity", "ix_Code");
             DropIndex("public.PatientResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.PatientResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.PatientResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.PatientResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.PatientResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.PatientResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.PatientRes", new[] { "FhirReleaseId" });
             DropIndex("public.PatientRes", "ix_LastUpdated");
             DropIndex("public.PatientRes", "ix_IsDeleted");
@@ -22222,8 +22222,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.ParametersResIndexQuantity", "ix_Code");
             DropIndex("public.ParametersResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.ParametersResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.ParametersResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.ParametersResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.ParametersResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.ParametersResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.ParametersRes", new[] { "FhirReleaseId" });
             DropIndex("public.ParametersRes", "ix_LastUpdated");
             DropIndex("public.ParametersRes", "ix_IsDeleted");
@@ -22249,8 +22249,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.OrganizationResIndexQuantity", "ix_Code");
             DropIndex("public.OrganizationResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.OrganizationResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.OrganizationResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.OrganizationResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.OrganizationResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.OrganizationResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.OrganizationRes", new[] { "FhirReleaseId" });
             DropIndex("public.OrganizationRes", "ix_LastUpdated");
             DropIndex("public.OrganizationRes", "ix_IsDeleted");
@@ -22276,8 +22276,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.OperationOutcomeResIndexQuantity", "ix_Code");
             DropIndex("public.OperationOutcomeResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.OperationOutcomeResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.OperationOutcomeResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.OperationOutcomeResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.OperationOutcomeResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.OperationOutcomeResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.OperationOutcomeRes", new[] { "FhirReleaseId" });
             DropIndex("public.OperationOutcomeRes", "ix_LastUpdated");
             DropIndex("public.OperationOutcomeRes", "ix_IsDeleted");
@@ -22303,8 +22303,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.OperationDefinitionResIndexQuantity", "ix_Code");
             DropIndex("public.OperationDefinitionResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.OperationDefinitionResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.OperationDefinitionResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.OperationDefinitionResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.OperationDefinitionResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.OperationDefinitionResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.OperationDefinitionRes", new[] { "FhirReleaseId" });
             DropIndex("public.OperationDefinitionRes", "ix_LastUpdated");
             DropIndex("public.OperationDefinitionRes", "ix_IsDeleted");
@@ -22330,8 +22330,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.ObservationResIndexQuantity", "ix_Code");
             DropIndex("public.ObservationResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.ObservationResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.ObservationResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.ObservationResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.ObservationResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.ObservationResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.ObservationRes", new[] { "FhirReleaseId" });
             DropIndex("public.ObservationRes", "ix_LastUpdated");
             DropIndex("public.ObservationRes", "ix_IsDeleted");
@@ -22357,8 +22357,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.NutritionOrderResIndexQuantity", "ix_Code");
             DropIndex("public.NutritionOrderResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.NutritionOrderResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.NutritionOrderResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.NutritionOrderResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.NutritionOrderResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.NutritionOrderResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.NutritionOrderRes", new[] { "FhirReleaseId" });
             DropIndex("public.NutritionOrderRes", "ix_LastUpdated");
             DropIndex("public.NutritionOrderRes", "ix_IsDeleted");
@@ -22384,8 +22384,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.NamingSystemResIndexQuantity", "ix_Code");
             DropIndex("public.NamingSystemResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.NamingSystemResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.NamingSystemResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.NamingSystemResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.NamingSystemResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.NamingSystemResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.NamingSystemRes", new[] { "FhirReleaseId" });
             DropIndex("public.NamingSystemRes", "ix_LastUpdated");
             DropIndex("public.NamingSystemRes", "ix_IsDeleted");
@@ -22411,8 +22411,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.MessageHeaderResIndexQuantity", "ix_Code");
             DropIndex("public.MessageHeaderResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.MessageHeaderResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.MessageHeaderResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.MessageHeaderResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.MessageHeaderResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.MessageHeaderResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.MessageHeaderRes", new[] { "FhirReleaseId" });
             DropIndex("public.MessageHeaderRes", "ix_LastUpdated");
             DropIndex("public.MessageHeaderRes", "ix_IsDeleted");
@@ -22438,8 +22438,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.MessageDefinitionResIndexQuantity", "ix_Code");
             DropIndex("public.MessageDefinitionResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.MessageDefinitionResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.MessageDefinitionResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.MessageDefinitionResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.MessageDefinitionResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.MessageDefinitionResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.MessageDefinitionRes", new[] { "FhirReleaseId" });
             DropIndex("public.MessageDefinitionRes", "ix_LastUpdated");
             DropIndex("public.MessageDefinitionRes", "ix_IsDeleted");
@@ -22465,8 +22465,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.MedicationStatementResIndexQuantity", "ix_Code");
             DropIndex("public.MedicationStatementResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.MedicationStatementResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.MedicationStatementResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.MedicationStatementResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.MedicationStatementResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.MedicationStatementResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.MedicationStatementRes", new[] { "FhirReleaseId" });
             DropIndex("public.MedicationStatementRes", "ix_LastUpdated");
             DropIndex("public.MedicationStatementRes", "ix_IsDeleted");
@@ -22492,8 +22492,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.MedicationRequestResIndexQuantity", "ix_Code");
             DropIndex("public.MedicationRequestResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.MedicationRequestResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.MedicationRequestResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.MedicationRequestResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.MedicationRequestResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.MedicationRequestResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.MedicationRequestRes", new[] { "FhirReleaseId" });
             DropIndex("public.MedicationRequestRes", "ix_LastUpdated");
             DropIndex("public.MedicationRequestRes", "ix_IsDeleted");
@@ -22519,8 +22519,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.MedicationResIndexQuantity", "ix_Code");
             DropIndex("public.MedicationResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.MedicationResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.MedicationResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.MedicationResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.MedicationResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.MedicationResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.MedicationRes", new[] { "FhirReleaseId" });
             DropIndex("public.MedicationRes", "ix_LastUpdated");
             DropIndex("public.MedicationRes", "ix_IsDeleted");
@@ -22546,8 +22546,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.MedicationDispenseResIndexQuantity", "ix_Code");
             DropIndex("public.MedicationDispenseResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.MedicationDispenseResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.MedicationDispenseResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.MedicationDispenseResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.MedicationDispenseResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.MedicationDispenseResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.MedicationDispenseRes", new[] { "FhirReleaseId" });
             DropIndex("public.MedicationDispenseRes", "ix_LastUpdated");
             DropIndex("public.MedicationDispenseRes", "ix_IsDeleted");
@@ -22573,8 +22573,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.MedicationAdministrationResIndexQuantity", "ix_Code");
             DropIndex("public.MedicationAdministrationResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.MedicationAdministrationResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.MedicationAdministrationResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.MedicationAdministrationResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.MedicationAdministrationResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.MedicationAdministrationResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.MedicationAdministrationRes", new[] { "FhirReleaseId" });
             DropIndex("public.MedicationAdministrationRes", "ix_LastUpdated");
             DropIndex("public.MedicationAdministrationRes", "ix_IsDeleted");
@@ -22600,8 +22600,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.MediaResIndexQuantity", "ix_Code");
             DropIndex("public.MediaResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.MediaResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.MediaResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.MediaResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.MediaResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.MediaResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.MediaRes", new[] { "FhirReleaseId" });
             DropIndex("public.MediaRes", "ix_LastUpdated");
             DropIndex("public.MediaRes", "ix_IsDeleted");
@@ -22627,8 +22627,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.MeasureReportResIndexQuantity", "ix_Code");
             DropIndex("public.MeasureReportResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.MeasureReportResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.MeasureReportResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.MeasureReportResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.MeasureReportResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.MeasureReportResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.MeasureReportRes", new[] { "FhirReleaseId" });
             DropIndex("public.MeasureReportRes", "ix_LastUpdated");
             DropIndex("public.MeasureReportRes", "ix_IsDeleted");
@@ -22654,8 +22654,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.MeasureResIndexQuantity", "ix_Code");
             DropIndex("public.MeasureResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.MeasureResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.MeasureResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.MeasureResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.MeasureResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.MeasureResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.MeasureRes", new[] { "FhirReleaseId" });
             DropIndex("public.MeasureRes", "ix_LastUpdated");
             DropIndex("public.MeasureRes", "ix_IsDeleted");
@@ -22681,8 +22681,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.LocationResIndexQuantity", "ix_Code");
             DropIndex("public.LocationResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.LocationResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.LocationResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.LocationResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.LocationResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.LocationResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.LocationRes", new[] { "FhirReleaseId" });
             DropIndex("public.LocationRes", "ix_LastUpdated");
             DropIndex("public.LocationRes", "ix_IsDeleted");
@@ -22708,8 +22708,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.ListResIndexQuantity", "ix_Code");
             DropIndex("public.ListResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.ListResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.ListResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.ListResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.ListResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.ListResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.ListRes", new[] { "FhirReleaseId" });
             DropIndex("public.ListRes", "ix_LastUpdated");
             DropIndex("public.ListRes", "ix_IsDeleted");
@@ -22735,8 +22735,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.LinkageResIndexQuantity", "ix_Code");
             DropIndex("public.LinkageResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.LinkageResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.LinkageResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.LinkageResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.LinkageResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.LinkageResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.LinkageRes", new[] { "FhirReleaseId" });
             DropIndex("public.LinkageRes", "ix_LastUpdated");
             DropIndex("public.LinkageRes", "ix_IsDeleted");
@@ -22762,8 +22762,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.LibraryResIndexQuantity", "ix_Code");
             DropIndex("public.LibraryResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.LibraryResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.LibraryResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.LibraryResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.LibraryResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.LibraryResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.LibraryRes", new[] { "FhirReleaseId" });
             DropIndex("public.LibraryRes", "ix_LastUpdated");
             DropIndex("public.LibraryRes", "ix_IsDeleted");
@@ -22789,8 +22789,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.ImplementationGuideResIndexQuantity", "ix_Code");
             DropIndex("public.ImplementationGuideResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.ImplementationGuideResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.ImplementationGuideResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.ImplementationGuideResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.ImplementationGuideResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.ImplementationGuideResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.ImplementationGuideRes", new[] { "FhirReleaseId" });
             DropIndex("public.ImplementationGuideRes", "ix_LastUpdated");
             DropIndex("public.ImplementationGuideRes", "ix_IsDeleted");
@@ -22816,8 +22816,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.ImmunizationRecommendationResIndexQuantity", "ix_Code");
             DropIndex("public.ImmunizationRecommendationResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.ImmunizationRecommendationResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.ImmunizationRecommendationResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.ImmunizationRecommendationResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.ImmunizationRecommendationResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.ImmunizationRecommendationResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.ImmunizationRecommendationRes", new[] { "FhirReleaseId" });
             DropIndex("public.ImmunizationRecommendationRes", "ix_LastUpdated");
             DropIndex("public.ImmunizationRecommendationRes", "ix_IsDeleted");
@@ -22843,8 +22843,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.ImmunizationResIndexQuantity", "ix_Code");
             DropIndex("public.ImmunizationResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.ImmunizationResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.ImmunizationResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.ImmunizationResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.ImmunizationResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.ImmunizationResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.ImmunizationRes", new[] { "FhirReleaseId" });
             DropIndex("public.ImmunizationRes", "ix_LastUpdated");
             DropIndex("public.ImmunizationRes", "ix_IsDeleted");
@@ -22870,8 +22870,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.ImagingStudyResIndexQuantity", "ix_Code");
             DropIndex("public.ImagingStudyResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.ImagingStudyResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.ImagingStudyResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.ImagingStudyResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.ImagingStudyResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.ImagingStudyResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.ImagingStudyRes", new[] { "FhirReleaseId" });
             DropIndex("public.ImagingStudyRes", "ix_LastUpdated");
             DropIndex("public.ImagingStudyRes", "ix_IsDeleted");
@@ -22897,8 +22897,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.ImagingManifestResIndexQuantity", "ix_Code");
             DropIndex("public.ImagingManifestResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.ImagingManifestResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.ImagingManifestResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.ImagingManifestResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.ImagingManifestResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.ImagingManifestResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.ImagingManifestRes", new[] { "FhirReleaseId" });
             DropIndex("public.ImagingManifestRes", "ix_LastUpdated");
             DropIndex("public.ImagingManifestRes", "ix_IsDeleted");
@@ -22924,8 +22924,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.HealthcareServiceResIndexQuantity", "ix_Code");
             DropIndex("public.HealthcareServiceResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.HealthcareServiceResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.HealthcareServiceResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.HealthcareServiceResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.HealthcareServiceResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.HealthcareServiceResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.HealthcareServiceRes", new[] { "FhirReleaseId" });
             DropIndex("public.HealthcareServiceRes", "ix_LastUpdated");
             DropIndex("public.HealthcareServiceRes", "ix_IsDeleted");
@@ -22951,8 +22951,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.GuidanceResponseResIndexQuantity", "ix_Code");
             DropIndex("public.GuidanceResponseResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.GuidanceResponseResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.GuidanceResponseResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.GuidanceResponseResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.GuidanceResponseResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.GuidanceResponseResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.GuidanceResponseRes", new[] { "FhirReleaseId" });
             DropIndex("public.GuidanceResponseRes", "ix_LastUpdated");
             DropIndex("public.GuidanceResponseRes", "ix_IsDeleted");
@@ -22978,8 +22978,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.GroupResIndexQuantity", "ix_Code");
             DropIndex("public.GroupResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.GroupResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.GroupResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.GroupResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.GroupResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.GroupResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.GroupRes", new[] { "FhirReleaseId" });
             DropIndex("public.GroupRes", "ix_LastUpdated");
             DropIndex("public.GroupRes", "ix_IsDeleted");
@@ -23005,8 +23005,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.GraphDefinitionResIndexQuantity", "ix_Code");
             DropIndex("public.GraphDefinitionResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.GraphDefinitionResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.GraphDefinitionResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.GraphDefinitionResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.GraphDefinitionResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.GraphDefinitionResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.GraphDefinitionRes", new[] { "FhirReleaseId" });
             DropIndex("public.GraphDefinitionRes", "ix_LastUpdated");
             DropIndex("public.GraphDefinitionRes", "ix_IsDeleted");
@@ -23032,8 +23032,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.GoalResIndexQuantity", "ix_Code");
             DropIndex("public.GoalResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.GoalResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.GoalResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.GoalResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.GoalResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.GoalResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.GoalRes", new[] { "FhirReleaseId" });
             DropIndex("public.GoalRes", "ix_LastUpdated");
             DropIndex("public.GoalRes", "ix_IsDeleted");
@@ -23059,8 +23059,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.FlagResIndexQuantity", "ix_Code");
             DropIndex("public.FlagResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.FlagResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.FlagResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.FlagResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.FlagResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.FlagResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.FlagRes", new[] { "FhirReleaseId" });
             DropIndex("public.FlagRes", "ix_LastUpdated");
             DropIndex("public.FlagRes", "ix_IsDeleted");
@@ -23086,8 +23086,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.FamilyMemberHistoryResIndexQuantity", "ix_Code");
             DropIndex("public.FamilyMemberHistoryResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.FamilyMemberHistoryResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.FamilyMemberHistoryResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.FamilyMemberHistoryResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.FamilyMemberHistoryResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.FamilyMemberHistoryResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.FamilyMemberHistoryRes", new[] { "FhirReleaseId" });
             DropIndex("public.FamilyMemberHistoryRes", "ix_LastUpdated");
             DropIndex("public.FamilyMemberHistoryRes", "ix_IsDeleted");
@@ -23113,8 +23113,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.ExplanationOfBenefitResIndexQuantity", "ix_Code");
             DropIndex("public.ExplanationOfBenefitResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.ExplanationOfBenefitResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.ExplanationOfBenefitResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.ExplanationOfBenefitResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.ExplanationOfBenefitResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.ExplanationOfBenefitResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.ExplanationOfBenefitRes", new[] { "FhirReleaseId" });
             DropIndex("public.ExplanationOfBenefitRes", "ix_LastUpdated");
             DropIndex("public.ExplanationOfBenefitRes", "ix_IsDeleted");
@@ -23140,8 +23140,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.ExpansionProfileResIndexQuantity", "ix_Code");
             DropIndex("public.ExpansionProfileResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.ExpansionProfileResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.ExpansionProfileResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.ExpansionProfileResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.ExpansionProfileResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.ExpansionProfileResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.ExpansionProfileRes", new[] { "FhirReleaseId" });
             DropIndex("public.ExpansionProfileRes", "ix_LastUpdated");
             DropIndex("public.ExpansionProfileRes", "ix_IsDeleted");
@@ -23167,8 +23167,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.EpisodeOfCareResIndexQuantity", "ix_Code");
             DropIndex("public.EpisodeOfCareResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.EpisodeOfCareResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.EpisodeOfCareResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.EpisodeOfCareResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.EpisodeOfCareResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.EpisodeOfCareResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.EpisodeOfCareRes", new[] { "FhirReleaseId" });
             DropIndex("public.EpisodeOfCareRes", "ix_LastUpdated");
             DropIndex("public.EpisodeOfCareRes", "ix_IsDeleted");
@@ -23194,8 +23194,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.EnrollmentResponseResIndexQuantity", "ix_Code");
             DropIndex("public.EnrollmentResponseResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.EnrollmentResponseResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.EnrollmentResponseResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.EnrollmentResponseResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.EnrollmentResponseResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.EnrollmentResponseResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.EnrollmentResponseRes", new[] { "FhirReleaseId" });
             DropIndex("public.EnrollmentResponseRes", "ix_LastUpdated");
             DropIndex("public.EnrollmentResponseRes", "ix_IsDeleted");
@@ -23221,8 +23221,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.EnrollmentRequestResIndexQuantity", "ix_Code");
             DropIndex("public.EnrollmentRequestResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.EnrollmentRequestResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.EnrollmentRequestResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.EnrollmentRequestResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.EnrollmentRequestResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.EnrollmentRequestResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.EnrollmentRequestRes", new[] { "FhirReleaseId" });
             DropIndex("public.EnrollmentRequestRes", "ix_LastUpdated");
             DropIndex("public.EnrollmentRequestRes", "ix_IsDeleted");
@@ -23248,8 +23248,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.EndpointResIndexQuantity", "ix_Code");
             DropIndex("public.EndpointResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.EndpointResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.EndpointResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.EndpointResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.EndpointResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.EndpointResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.EndpointRes", new[] { "FhirReleaseId" });
             DropIndex("public.EndpointRes", "ix_LastUpdated");
             DropIndex("public.EndpointRes", "ix_IsDeleted");
@@ -23275,8 +23275,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.EncounterResIndexQuantity", "ix_Code");
             DropIndex("public.EncounterResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.EncounterResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.EncounterResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.EncounterResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.EncounterResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.EncounterResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.EncounterRes", new[] { "FhirReleaseId" });
             DropIndex("public.EncounterRes", "ix_LastUpdated");
             DropIndex("public.EncounterRes", "ix_IsDeleted");
@@ -23302,8 +23302,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.EligibilityResponseResIndexQuantity", "ix_Code");
             DropIndex("public.EligibilityResponseResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.EligibilityResponseResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.EligibilityResponseResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.EligibilityResponseResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.EligibilityResponseResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.EligibilityResponseResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.EligibilityResponseRes", new[] { "FhirReleaseId" });
             DropIndex("public.EligibilityResponseRes", "ix_LastUpdated");
             DropIndex("public.EligibilityResponseRes", "ix_IsDeleted");
@@ -23329,8 +23329,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.EligibilityRequestResIndexQuantity", "ix_Code");
             DropIndex("public.EligibilityRequestResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.EligibilityRequestResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.EligibilityRequestResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.EligibilityRequestResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.EligibilityRequestResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.EligibilityRequestResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.EligibilityRequestRes", new[] { "FhirReleaseId" });
             DropIndex("public.EligibilityRequestRes", "ix_LastUpdated");
             DropIndex("public.EligibilityRequestRes", "ix_IsDeleted");
@@ -23356,8 +23356,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.DocumentReferenceResIndexQuantity", "ix_Code");
             DropIndex("public.DocumentReferenceResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.DocumentReferenceResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.DocumentReferenceResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.DocumentReferenceResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.DocumentReferenceResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.DocumentReferenceResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.DocumentReferenceRes", new[] { "FhirReleaseId" });
             DropIndex("public.DocumentReferenceRes", "ix_LastUpdated");
             DropIndex("public.DocumentReferenceRes", "ix_IsDeleted");
@@ -23383,8 +23383,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.DocumentManifestResIndexQuantity", "ix_Code");
             DropIndex("public.DocumentManifestResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.DocumentManifestResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.DocumentManifestResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.DocumentManifestResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.DocumentManifestResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.DocumentManifestResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.DocumentManifestRes", new[] { "FhirReleaseId" });
             DropIndex("public.DocumentManifestRes", "ix_LastUpdated");
             DropIndex("public.DocumentManifestRes", "ix_IsDeleted");
@@ -23410,8 +23410,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.DiagnosticReportResIndexQuantity", "ix_Code");
             DropIndex("public.DiagnosticReportResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.DiagnosticReportResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.DiagnosticReportResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.DiagnosticReportResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.DiagnosticReportResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.DiagnosticReportResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.DiagnosticReportRes", new[] { "FhirReleaseId" });
             DropIndex("public.DiagnosticReportRes", "ix_LastUpdated");
             DropIndex("public.DiagnosticReportRes", "ix_IsDeleted");
@@ -23437,8 +23437,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.DeviceUseStatementResIndexQuantity", "ix_Code");
             DropIndex("public.DeviceUseStatementResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.DeviceUseStatementResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.DeviceUseStatementResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.DeviceUseStatementResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.DeviceUseStatementResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.DeviceUseStatementResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.DeviceUseStatementRes", new[] { "FhirReleaseId" });
             DropIndex("public.DeviceUseStatementRes", "ix_LastUpdated");
             DropIndex("public.DeviceUseStatementRes", "ix_IsDeleted");
@@ -23464,8 +23464,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.DeviceRequestResIndexQuantity", "ix_Code");
             DropIndex("public.DeviceRequestResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.DeviceRequestResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.DeviceRequestResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.DeviceRequestResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.DeviceRequestResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.DeviceRequestResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.DeviceRequestRes", new[] { "FhirReleaseId" });
             DropIndex("public.DeviceRequestRes", "ix_LastUpdated");
             DropIndex("public.DeviceRequestRes", "ix_IsDeleted");
@@ -23491,8 +23491,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.DeviceMetricResIndexQuantity", "ix_Code");
             DropIndex("public.DeviceMetricResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.DeviceMetricResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.DeviceMetricResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.DeviceMetricResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.DeviceMetricResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.DeviceMetricResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.DeviceMetricRes", new[] { "FhirReleaseId" });
             DropIndex("public.DeviceMetricRes", "ix_LastUpdated");
             DropIndex("public.DeviceMetricRes", "ix_IsDeleted");
@@ -23518,8 +23518,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.DeviceResIndexQuantity", "ix_Code");
             DropIndex("public.DeviceResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.DeviceResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.DeviceResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.DeviceResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.DeviceResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.DeviceResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.DeviceRes", new[] { "FhirReleaseId" });
             DropIndex("public.DeviceRes", "ix_LastUpdated");
             DropIndex("public.DeviceRes", "ix_IsDeleted");
@@ -23545,8 +23545,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.DeviceComponentResIndexQuantity", "ix_Code");
             DropIndex("public.DeviceComponentResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.DeviceComponentResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.DeviceComponentResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.DeviceComponentResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.DeviceComponentResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.DeviceComponentResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.DeviceComponentRes", new[] { "FhirReleaseId" });
             DropIndex("public.DeviceComponentRes", "ix_LastUpdated");
             DropIndex("public.DeviceComponentRes", "ix_IsDeleted");
@@ -23572,8 +23572,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.DetectedIssueResIndexQuantity", "ix_Code");
             DropIndex("public.DetectedIssueResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.DetectedIssueResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.DetectedIssueResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.DetectedIssueResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.DetectedIssueResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.DetectedIssueResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.DetectedIssueRes", new[] { "FhirReleaseId" });
             DropIndex("public.DetectedIssueRes", "ix_LastUpdated");
             DropIndex("public.DetectedIssueRes", "ix_IsDeleted");
@@ -23599,8 +23599,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.DataElementResIndexQuantity", "ix_Code");
             DropIndex("public.DataElementResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.DataElementResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.DataElementResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.DataElementResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.DataElementResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.DataElementResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.DataElementRes", new[] { "FhirReleaseId" });
             DropIndex("public.DataElementRes", "ix_LastUpdated");
             DropIndex("public.DataElementRes", "ix_IsDeleted");
@@ -23626,8 +23626,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.CoverageResIndexQuantity", "ix_Code");
             DropIndex("public.CoverageResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.CoverageResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.CoverageResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.CoverageResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.CoverageResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.CoverageResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.CoverageRes", new[] { "FhirReleaseId" });
             DropIndex("public.CoverageRes", "ix_LastUpdated");
             DropIndex("public.CoverageRes", "ix_IsDeleted");
@@ -23653,8 +23653,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.ContractResIndexQuantity", "ix_Code");
             DropIndex("public.ContractResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.ContractResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.ContractResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.ContractResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.ContractResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.ContractResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.ContractRes", new[] { "FhirReleaseId" });
             DropIndex("public.ContractRes", "ix_LastUpdated");
             DropIndex("public.ContractRes", "ix_IsDeleted");
@@ -23680,8 +23680,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.ConsentResIndexQuantity", "ix_Code");
             DropIndex("public.ConsentResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.ConsentResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.ConsentResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.ConsentResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.ConsentResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.ConsentResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.ConsentRes", new[] { "FhirReleaseId" });
             DropIndex("public.ConsentRes", "ix_LastUpdated");
             DropIndex("public.ConsentRes", "ix_IsDeleted");
@@ -23707,8 +23707,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.ConditionResIndexQuantity", "ix_Code");
             DropIndex("public.ConditionResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.ConditionResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.ConditionResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.ConditionResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.ConditionResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.ConditionResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.ConditionRes", new[] { "FhirReleaseId" });
             DropIndex("public.ConditionRes", "ix_LastUpdated");
             DropIndex("public.ConditionRes", "ix_IsDeleted");
@@ -23734,8 +23734,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.ConceptMapResIndexQuantity", "ix_Code");
             DropIndex("public.ConceptMapResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.ConceptMapResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.ConceptMapResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.ConceptMapResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.ConceptMapResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.ConceptMapResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.ConceptMapRes", new[] { "FhirReleaseId" });
             DropIndex("public.ConceptMapRes", "ix_LastUpdated");
             DropIndex("public.ConceptMapRes", "ix_IsDeleted");
@@ -23761,8 +23761,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.CompositionResIndexQuantity", "ix_Code");
             DropIndex("public.CompositionResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.CompositionResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.CompositionResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.CompositionResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.CompositionResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.CompositionResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.CompositionRes", new[] { "FhirReleaseId" });
             DropIndex("public.CompositionRes", "ix_LastUpdated");
             DropIndex("public.CompositionRes", "ix_IsDeleted");
@@ -23788,8 +23788,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.CompartmentDefinitionResIndexQuantity", "ix_Code");
             DropIndex("public.CompartmentDefinitionResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.CompartmentDefinitionResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.CompartmentDefinitionResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.CompartmentDefinitionResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.CompartmentDefinitionResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.CompartmentDefinitionResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.CompartmentDefinitionRes", new[] { "FhirReleaseId" });
             DropIndex("public.CompartmentDefinitionRes", "ix_LastUpdated");
             DropIndex("public.CompartmentDefinitionRes", "ix_IsDeleted");
@@ -23815,8 +23815,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.CommunicationRequestResIndexQuantity", "ix_Code");
             DropIndex("public.CommunicationRequestResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.CommunicationRequestResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.CommunicationRequestResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.CommunicationRequestResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.CommunicationRequestResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.CommunicationRequestResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.CommunicationRequestRes", new[] { "FhirReleaseId" });
             DropIndex("public.CommunicationRequestRes", "ix_LastUpdated");
             DropIndex("public.CommunicationRequestRes", "ix_IsDeleted");
@@ -23842,8 +23842,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.CommunicationResIndexQuantity", "ix_Code");
             DropIndex("public.CommunicationResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.CommunicationResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.CommunicationResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.CommunicationResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.CommunicationResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.CommunicationResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.CommunicationRes", new[] { "FhirReleaseId" });
             DropIndex("public.CommunicationRes", "ix_LastUpdated");
             DropIndex("public.CommunicationRes", "ix_IsDeleted");
@@ -23869,8 +23869,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.CodeSystemResIndexQuantity", "ix_Code");
             DropIndex("public.CodeSystemResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.CodeSystemResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.CodeSystemResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.CodeSystemResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.CodeSystemResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.CodeSystemResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.CodeSystemRes", new[] { "FhirReleaseId" });
             DropIndex("public.CodeSystemRes", "ix_LastUpdated");
             DropIndex("public.CodeSystemRes", "ix_IsDeleted");
@@ -23896,8 +23896,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.ClinicalImpressionResIndexQuantity", "ix_Code");
             DropIndex("public.ClinicalImpressionResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.ClinicalImpressionResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.ClinicalImpressionResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.ClinicalImpressionResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.ClinicalImpressionResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.ClinicalImpressionResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.ClinicalImpressionRes", new[] { "FhirReleaseId" });
             DropIndex("public.ClinicalImpressionRes", "ix_LastUpdated");
             DropIndex("public.ClinicalImpressionRes", "ix_IsDeleted");
@@ -23923,8 +23923,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.ClaimResponseResIndexQuantity", "ix_Code");
             DropIndex("public.ClaimResponseResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.ClaimResponseResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.ClaimResponseResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.ClaimResponseResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.ClaimResponseResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.ClaimResponseResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.ClaimResponseRes", new[] { "FhirReleaseId" });
             DropIndex("public.ClaimResponseRes", "ix_LastUpdated");
             DropIndex("public.ClaimResponseRes", "ix_IsDeleted");
@@ -23950,8 +23950,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.ClaimResIndexQuantity", "ix_Code");
             DropIndex("public.ClaimResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.ClaimResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.ClaimResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.ClaimResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.ClaimResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.ClaimResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.ClaimRes", new[] { "FhirReleaseId" });
             DropIndex("public.ClaimRes", "ix_LastUpdated");
             DropIndex("public.ClaimRes", "ix_IsDeleted");
@@ -23977,8 +23977,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.ChargeItemResIndexQuantity", "ix_Code");
             DropIndex("public.ChargeItemResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.ChargeItemResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.ChargeItemResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.ChargeItemResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.ChargeItemResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.ChargeItemResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.ChargeItemRes", new[] { "FhirReleaseId" });
             DropIndex("public.ChargeItemRes", "ix_LastUpdated");
             DropIndex("public.ChargeItemRes", "ix_IsDeleted");
@@ -24004,8 +24004,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.CareTeamResIndexQuantity", "ix_Code");
             DropIndex("public.CareTeamResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.CareTeamResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.CareTeamResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.CareTeamResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.CareTeamResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.CareTeamResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.CareTeamRes", new[] { "FhirReleaseId" });
             DropIndex("public.CareTeamRes", "ix_LastUpdated");
             DropIndex("public.CareTeamRes", "ix_IsDeleted");
@@ -24031,8 +24031,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.CarePlanResIndexQuantity", "ix_Code");
             DropIndex("public.CarePlanResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.CarePlanResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.CarePlanResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.CarePlanResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.CarePlanResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.CarePlanResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.CarePlanRes", new[] { "FhirReleaseId" });
             DropIndex("public.CarePlanRes", "ix_LastUpdated");
             DropIndex("public.CarePlanRes", "ix_IsDeleted");
@@ -24058,8 +24058,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.CapabilityStatementResIndexQuantity", "ix_Code");
             DropIndex("public.CapabilityStatementResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.CapabilityStatementResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.CapabilityStatementResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.CapabilityStatementResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.CapabilityStatementResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.CapabilityStatementResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.CapabilityStatementRes", new[] { "FhirReleaseId" });
             DropIndex("public.CapabilityStatementRes", "ix_LastUpdated");
             DropIndex("public.CapabilityStatementRes", "ix_IsDeleted");
@@ -24085,8 +24085,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.BundleResIndexQuantity", "ix_Code");
             DropIndex("public.BundleResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.BundleResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.BundleResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.BundleResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.BundleResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.BundleResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.BundleRes", new[] { "FhirReleaseId" });
             DropIndex("public.BundleRes", "ix_LastUpdated");
             DropIndex("public.BundleRes", "ix_IsDeleted");
@@ -24112,8 +24112,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.BodySiteResIndexQuantity", "ix_Code");
             DropIndex("public.BodySiteResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.BodySiteResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.BodySiteResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.BodySiteResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.BodySiteResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.BodySiteResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.BodySiteRes", new[] { "FhirReleaseId" });
             DropIndex("public.BodySiteRes", "ix_LastUpdated");
             DropIndex("public.BodySiteRes", "ix_IsDeleted");
@@ -24139,8 +24139,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.BinaryResIndexQuantity", "ix_Code");
             DropIndex("public.BinaryResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.BinaryResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.BinaryResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.BinaryResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.BinaryResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.BinaryResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.BinaryRes", new[] { "FhirReleaseId" });
             DropIndex("public.BinaryRes", "ix_LastUpdated");
             DropIndex("public.BinaryRes", "ix_IsDeleted");
@@ -24166,8 +24166,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.BasicResIndexQuantity", "ix_Code");
             DropIndex("public.BasicResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.BasicResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.BasicResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.BasicResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.BasicResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.BasicResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.BasicRes", new[] { "FhirReleaseId" });
             DropIndex("public.BasicRes", "ix_LastUpdated");
             DropIndex("public.BasicRes", "ix_IsDeleted");
@@ -24193,8 +24193,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.AuditEventResIndexQuantity", "ix_Code");
             DropIndex("public.AuditEventResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.AuditEventResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.AuditEventResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.AuditEventResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.AuditEventResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.AuditEventResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.AuditEventRes", new[] { "FhirReleaseId" });
             DropIndex("public.AuditEventRes", "ix_LastUpdated");
             DropIndex("public.AuditEventRes", "ix_IsDeleted");
@@ -24220,8 +24220,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.AppointmentResponseResIndexQuantity", "ix_Code");
             DropIndex("public.AppointmentResponseResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.AppointmentResponseResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.AppointmentResponseResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.AppointmentResponseResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.AppointmentResponseResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.AppointmentResponseResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.AppointmentResponseRes", new[] { "FhirReleaseId" });
             DropIndex("public.AppointmentResponseRes", "ix_LastUpdated");
             DropIndex("public.AppointmentResponseRes", "ix_IsDeleted");
@@ -24247,8 +24247,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.AppointmentResIndexQuantity", "ix_Code");
             DropIndex("public.AppointmentResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.AppointmentResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.AppointmentResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.AppointmentResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.AppointmentResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.AppointmentResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.AppointmentRes", new[] { "FhirReleaseId" });
             DropIndex("public.AppointmentRes", "ix_LastUpdated");
             DropIndex("public.AppointmentRes", "ix_IsDeleted");
@@ -24274,8 +24274,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.AllergyIntoleranceResIndexQuantity", "ix_Code");
             DropIndex("public.AllergyIntoleranceResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.AllergyIntoleranceResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.AllergyIntoleranceResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.AllergyIntoleranceResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.AllergyIntoleranceResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.AllergyIntoleranceResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.AllergyIntoleranceRes", new[] { "FhirReleaseId" });
             DropIndex("public.AllergyIntoleranceRes", "ix_LastUpdated");
             DropIndex("public.AllergyIntoleranceRes", "ix_IsDeleted");
@@ -24301,8 +24301,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public.AdverseEventResIndexQuantity", "ix_Code");
             DropIndex("public.AdverseEventResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.AdverseEventResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.AdverseEventResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.AdverseEventResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.AdverseEventResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.AdverseEventResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.AdverseEventRes", new[] { "FhirReleaseId" });
             DropIndex("public.AdverseEventRes", "ix_LastUpdated");
             DropIndex("public.AdverseEventRes", "ix_IsDeleted");
@@ -24333,8 +24333,8 @@ namespace Pyro.DataLayer.MigrationsPostgre
             DropIndex("public._SearchParam", "uq_ResourceAndName");
             DropIndex("public.ActivityDefinitionResIndexDateTime", new[] { "ResourceId" });
             DropIndex("public.ActivityDefinitionResIndexDateTime", "ix_SearchParamId");
-            DropIndex("public.ActivityDefinitionResIndexDateTime", "ix_DateTimeOffsetLow");
-            DropIndex("public.ActivityDefinitionResIndexDateTime", "ix_DateTimeOffsetHigh");
+            DropIndex("public.ActivityDefinitionResIndexDateTime", "ix_HighUtcDateTime");
+            DropIndex("public.ActivityDefinitionResIndexDateTime", "ix_LowUtcDateTime");
             DropIndex("public.ActivityDefinitionRes", new[] { "FhirReleaseId" });
             DropIndex("public.ActivityDefinitionRes", "ix_LastUpdated");
             DropIndex("public.ActivityDefinitionRes", "ix_IsDeleted");

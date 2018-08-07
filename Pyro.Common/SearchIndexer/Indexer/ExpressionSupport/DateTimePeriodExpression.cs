@@ -140,31 +140,27 @@ namespace Pyro.Common.SearchIndexer.Indexer.ExpressionSupport
       //(x.date_DateTimeOffsetLow == Null)
       var BinaryExpression_ResourceLow_IsNull = Expression.Equal(propertyReferenceLow, ConstantReferenceNull);
 
-
       //(x.date_DateTimeOffsetHigh >= ValueLow)
       var BinaryExpression_ResourceHigh_IsHigherThanOrEqualTo_SearchLow = Expression.GreaterThanOrEqual(propertyReferenceHigh, SearchValueReferenceLow);
 
       //(x.date_DateTimeOffsetLow != Null)
-      var BinaryExpression_ResourceLow_IsNotNull = Expression.NotEqual(propertyReferenceLow, ConstantReferenceNull);
-
-      //(x.date_DateTimeOffsetLow >= ValueLow)
-      var BinaryExpression_ResourceLow_IsHigherThanOrEqualTo_SearchLow = Expression.GreaterThanOrEqual(propertyReferenceLow, SearchValueReferenceLow);
-
+      var BinaryExpression_ResourceLow_IsNotNull = Expression.NotEqual(propertyReferenceLow, ConstantReferenceNull);     
 
       //BinaryExpression_A
       //(x.date_DateTimeOffsetLow == Null && x.date_DateTimeOffsetHigh >= ValueLow)
-      var BinaryExpression_A = Expression.And(BinaryExpression_ResourceLow_IsNull, BinaryExpression_ResourceHigh_IsHigherThanOrEqualTo_SearchLow);
+      var BinaryExpression_A = Expression.And(BinaryExpression_ResourceLow_IsNull, BinaryExpression_ResourceHigh_IsHigherThanOrEqualTo_SearchLow);  //// One
 
-      //BinaryExpression_B
-      //(x.date_DateTimeOffsetHigh == Null && x.date_DateTimeOffsetLow != Null)
-      var BinaryExpression_B = Expression.And(BinaryExpression_ResourceHigh_IsNull, BinaryExpression_ResourceLow_IsNotNull);
+      //(x.date_DateTimeOffsetLow != Null && x.date_DateTimeOffsetHigh >= ValueLow)
+      var BinaryExpression_B = Expression.And(BinaryExpression_ResourceLow_IsNotNull, BinaryExpression_ResourceHigh_IsHigherThanOrEqualTo_SearchLow);  //// two
 
-      //BinaryExpression_C
-      //(x.date_DateTimeOffsetHigh >= ValueHigh)
-
+      //(x.date_DateTimeOffsetLow != Null && x.date_DateTimeOffsetHigh == Null)
+      var BinaryExpression_C = Expression.And(BinaryExpression_ResourceLow_IsNotNull, BinaryExpression_ResourceHigh_IsNull);  //// three
+      
       //(BinaryExpression_A Or BinaryExpression_B) 
       var BinaryExpression_AA = Expression.Or(BinaryExpression_A, BinaryExpression_B);
-      var BinaryExpression_Final = Expression.Or(BinaryExpression_AA, BinaryExpression_ResourceLow_IsHigherThanOrEqualTo_SearchLow);
+
+      //(BinaryExpression_AA Or BinaryExpression_C) 
+      var BinaryExpression_Final = Expression.Or(BinaryExpression_AA, BinaryExpression_C);      
 
       return BinaryExpression_Final;
     }
@@ -188,7 +184,6 @@ namespace Pyro.Common.SearchIndexer.Indexer.ExpressionSupport
 
       //(x.date_DateTimeOffsetHigh >= ValueHigh)
       var BinaryExpression_ResourceHigh_IsHigherThan_SearchHigh = Expression.GreaterThan(propertyReferenceHigh, SearchValueReferenceHigh);
-
 
       //BinaryExpression_A
       //(x.date_DateTimeOffsetLow == Null && x.date_DateTimeOffsetHigh > ValueHigh)
@@ -231,7 +226,6 @@ namespace Pyro.Common.SearchIndexer.Indexer.ExpressionSupport
       //(x.date_DateTimeOffsetLow <= ValueLow)
       var BinaryExpression_ResourceLow_IsLowerThanOrEqual_SearchLow = Expression.LessThanOrEqual(propertyReferenceLow, SearchValueReferenceLow);
 
-
       //BinaryExpression_A
       //(x.date_DateTimeOffsetLow == Null && x.date_DateTimeOffsetHigh <= ValueHigh)
       var BinaryExpression_A = Expression.And(BinaryExpression_ResourceLow_IsNull, BinaryExpression_ResourceHigh_IsLowerThanOrEqualTo_SearchHigh);
@@ -242,7 +236,6 @@ namespace Pyro.Common.SearchIndexer.Indexer.ExpressionSupport
 
       //BinaryExpression_C
       //(x.date_DateTimeOffsetLow <= ValueLow)
-
 
       //(BinaryExpression_A Or BinaryExpression_B) 
       var BinaryExpression_AA = Expression.Or(BinaryExpression_A, BinaryExpression_B);
@@ -261,7 +254,7 @@ namespace Pyro.Common.SearchIndexer.Indexer.ExpressionSupport
       var ConstantReferenceNull = Expression.Constant(null);
 
       //(x.date_DateTimeOffsetHigh == Null)
-      var BinaryExpression_ResourceHigh_IsNull = Expression.Equal(propertyReferenceHigh, ConstantReferenceNull);
+      //var BinaryExpression_ResourceHigh_IsNull = Expression.Equal(propertyReferenceHigh, ConstantReferenceNull);
 
       //(x.date_DateTimeOffsetLow == Null)
       var BinaryExpression_ResourceLow_IsNull = Expression.Equal(propertyReferenceLow, ConstantReferenceNull);
@@ -272,19 +265,16 @@ namespace Pyro.Common.SearchIndexer.Indexer.ExpressionSupport
       //(x.date_DateTimeOffsetHigh < ValueLow)
       var BinaryExpression_ResourceHigh_IsLowerThan_SearchLow = Expression.LessThan(propertyReferenceHigh, SearchValueReferenceLow);
 
-
       //BinaryExpression_A
       //(x.date_DateTimeOffsetLow == Null && x.date_DateTimeOffsetHigh < ValueLow)
       var BinaryExpression_A = Expression.And(BinaryExpression_ResourceLow_IsNull, BinaryExpression_ResourceHigh_IsLowerThan_SearchLow);
 
-      //BinaryExpression_B
-      //(x.date_DateTimeOffsetHigh < ValueLow)
-      var BinaryExpression_B = Expression.And(BinaryExpression_ResourceHigh_IsNull, BinaryExpression_ResourceLow_IsNotNull);
-
+      //(x.date_DateTimeOffsetLow != Null && x.date_DateTimeOffsetHigh < ValueLow)
+      var BinaryExpression_B = Expression.And(BinaryExpression_ResourceLow_IsNotNull, BinaryExpression_ResourceHigh_IsLowerThan_SearchLow);
 
       //(BinaryExpression_A Or BinaryExpression_B) 
-      var BinaryExpression_Final = Expression.Or(BinaryExpression_A, BinaryExpression_ResourceHigh_IsLowerThan_SearchLow);
-
+      //var BinaryExpression_Final = Expression.Or(BinaryExpression_A, BinaryExpression_ResourceHigh_IsLowerThan_SearchLow);
+      var BinaryExpression_Final = Expression.Or(BinaryExpression_A, BinaryExpression_B);
       return BinaryExpression_Final;
     }
 
