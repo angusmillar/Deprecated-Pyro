@@ -1,6 +1,3 @@
-
-# README #
-
 ## Pyro FHIR Server ##
 
 This is a C# .NET Framework 4.6, MSSQL or PostgreSQL, FHIR server implementing FHIR Version STU-3.0.1 
@@ -226,6 +223,6 @@ This is the project used when hosting in a production IIS instance. It is this p
 **SMART on FHIR and Authentication**
 I am slowly progressing to an Authentication system for the server with key elements beginning to fall in place to finally implement. I now have a SMART parser and FHIR compartments. Need to start work on the OAuth component possibly using Identity server: https://www.nuget.org/packages/IdentityServer4/
 
-## Repo owner or admin ##
+## Repo owner ##
 
 Angus Millar: angusbmillar@gmail.com
