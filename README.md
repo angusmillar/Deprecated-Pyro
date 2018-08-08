@@ -1,8 +1,10 @@
+
+[[https://github.com/angusmillar/PyroWeb/blob/master/src/Images/SiteIcon/NewPyroLogo-100.png|alt=octocat]]
 # README #
 
 ## Pyro FHIR Server ##
 
-This is a C# .NET Framework 4.6, MSSQL, FHIR server implementing FHIR Version STU-3.0.1 
+This is a C# .NET Framework 4.6, MSSQL or PostgreSQL, FHIR server implementing FHIR Version STU-3.0.1 
 
 See the official FHIR specification page here: [FHIR specification STU-3.0.1](http://hl7.org/fhir/STU3/index.html)
 
@@ -57,6 +59,8 @@ Visual Studio 2017
 .NET Framework 4.6
   
 Microsoft SQL Server 2016 or higher
+or
+PostgreSQL (Version 10)
 
 ## How do I get this solution up and running fast ##
 
