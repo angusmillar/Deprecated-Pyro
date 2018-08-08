@@ -102,24 +102,33 @@ namespace Pyro.Common.Tools
       }
       return true;
     }
-
+    
     public static string GetFhirMediaTypeString(string value)
     {
-      foreach (var mediaType in Hl7.Fhir.Rest.ContentType.XML_CONTENT_HEADERS)
+      //Change 'fhir xml' or 'fhir json' to 'fhir+xml' or 'fhir+json' as people oftern do not realise
+      //they need to escape the '+' with a '%2B' in a URL, and if they use '+' then you get a space ' ';
+      value = LenientFormatType(value);
+      if (Hl7.Fhir.Rest.ContentType.XML_CONTENT_HEADERS.Contains(value))
       {
-        if (value == System.Net.WebUtility.UrlDecode(mediaType))
-        {
-          return Hl7.Fhir.Rest.ContentType.XML_CONTENT_HEADER;
-        }
+        return Hl7.Fhir.Rest.ContentType.XML_CONTENT_HEADER;
       }
-      foreach (var mediaType in Hl7.Fhir.Rest.ContentType.JSON_CONTENT_HEADERS)
+      else if (Hl7.Fhir.Rest.ContentType.JSON_CONTENT_HEADERS.Contains(value))
       {
-        if (value == System.Net.WebUtility.UrlDecode(mediaType))
-        {
-          return Hl7.Fhir.Rest.ContentType.JSON_CONTENT_HEADER;
-        }
+        return Hl7.Fhir.Rest.ContentType.JSON_CONTENT_HEADER;
       }
-      return string.Empty;
+      else
+      {
+        return string.Empty;
+      }      
+    }
+
+    private static string LenientFormatType(string FormatType)
+    {
+      FormatType = FormatType.Replace("fhir xml", "fhir+xml");
+      FormatType = FormatType.Replace("xml fhir", "xml+fhir");
+      FormatType = FormatType.Replace("json fhir", "json+fhir");
+      FormatType = FormatType.Replace("fhir json", "fhir+json");
+      return FormatType;
     }
 
     public static bool IsModifiedOrNoneMatch(string ifNoneMatch, string ifModifiedSince, string resourceVersionNumber, DateTimeOffset? lastModified)

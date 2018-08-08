@@ -135,14 +135,14 @@ namespace Pyro.Test.IndexSetters
     {
       //Arrange
       string Expected = "application/fhir+xml";
-      //Remeber that the '+' you seen in mediaype strings is an escape for the space, i.e application/fhir+xml = application/fhir xml
+      //Remeber that the '+' you seen in mediaype strings is an escaped as '%2B' , i.e application/fhir%2Bxml = application/fhir%2Bjson
       List<string> MediaTypeList = new List<string>()
       {
         "text/xml",
-        "application/fhir xml",
-        "text/xml fhir",
+        "application/fhir+xml",
+        "text/xml+fhir",
         "application/xml",
-        "application/xml fhir",
+        "application/xml+fhir",
       };
 
       foreach (string MediaType in MediaTypeList)
@@ -163,10 +163,10 @@ namespace Pyro.Test.IndexSetters
       string Expected = "application/fhir+json";
       List<string> MediaTypeList = new List<string>()
       {
-        "application/fhir json",
+        "application/fhir+json",
         "text/json",
         "application/json",
-        "application/json fhir",
+        "application/json+fhir",
       };
 
       foreach (string MediaType in MediaTypeList)
