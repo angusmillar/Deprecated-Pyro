@@ -58,7 +58,9 @@ Visual Studio 2017
 .NET Framework 4.6
   
 Microsoft SQL Server 2016 or higher
+
 or
+
 PostgreSQL (Version 10)
 
 ## How do I get this solution up and running fast ##
