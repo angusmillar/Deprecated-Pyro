@@ -98,7 +98,6 @@ namespace Pyro.Engine.Services.Resources
       // GET URL/FhirApi/Patient/5          
       ISearchParameterService SearchService = ISearchParameterServiceFactory.CreateSearchParameterService();
       ISearchParametersServiceOutcome SearchParametersServiceOutcome = SearchService.ProcessBaseSearchParameters(RequestMeta.SearchParameterGeneric);
-
       if (SearchParametersServiceOutcome.FhirOperationOutcome != null)
       {
         oServiceOperationOutcome.ResourceResult = SearchParametersServiceOutcome.FhirOperationOutcome;
@@ -194,7 +193,11 @@ namespace Pyro.Engine.Services.Resources
       // GET by Search
       // GET: URL//FhirApi/Patient?family=Smith&given=John           
       ISearchParameterService SearchService = ISearchParameterServiceFactory.CreateSearchParameterService();
-      ISearchParametersServiceOutcome SearchParametersServiceOutcome = SearchService.ProcessSearchParameters(RequestMeta.SearchParameterGeneric, SearchParameterService.SearchParameterServiceType.Base | SearchParameterService.SearchParameterServiceType.Bundle | SearchParameterService.SearchParameterServiceType.Resource, ServiceResourceType, null);
+      ISearchParametersServiceOutcome SearchParametersServiceOutcome = SearchService.ProcessSearchParameters(RequestMeta.SearchParameterGeneric, 
+                                                                                                              SearchParameterService.SearchParameterServiceType.Base | 
+                                                                                                              SearchParameterService.SearchParameterServiceType.Bundle | 
+                                                                                                              SearchParameterService.SearchParameterServiceType.Resource, 
+                                                                                                              ServiceResourceType, null);
       if (SearchParametersServiceOutcome.FhirOperationOutcome != null)
       {
         oServiceOperationOutcome.ResourceResult = SearchParametersServiceOutcome.FhirOperationOutcome;
@@ -221,37 +224,20 @@ namespace Pyro.Engine.Services.Resources
         return oServiceOperationOutcome;
       }
 
-
       //Must get the SelfLink here because GetResourcesBySearch can call the database and in there SearchParametersServiceOutcome is modified
       //as the all resource search parameters e.g _id, _lastModified are removed from the list.      
       Uri SelfLink = IPagingSupport.GetSelfLink(SearchParametersServiceOutcome.SearchParameters, RequestMeta.PyroRequestUri.FhirRequestUri.UriPrimaryServiceRoot.OriginalString);
-      IDatabaseOperationOutcome DatabaseOperationOutcome = GetResourcesBySearch(SearchParametersServiceOutcome.SearchParameters);
-      if (DatabaseOperationOutcome != null)
-      {
-        oServiceOperationOutcome.ResourceResult = Common.Tools.Bundles.FhirBundleSupport.CreateBundle(DatabaseOperationOutcome.ReturnedResourceList,
-                                                                                               Bundle.BundleType.Searchset,
-                                                                                               RequestMeta.PyroRequestUri,
-                                                                                               DatabaseOperationOutcome.SearchTotal,
-                                                                                               DatabaseOperationOutcome.PagesTotal,
-                                                                                               DatabaseOperationOutcome.PageRequested,
-                                                                                               IPagingSupport,
-                                                                                               SelfLink);
-      }
-      else
-      {
 
-        //if DatabaseOperationOutcome is null then there was a chain search parameter which resolved to no resources.
-        //so return empty search bundle.
-        oServiceOperationOutcome.ResourceResult = Common.Tools.Bundles.FhirBundleSupport.CreateBundle(new List<DtoResource>(),
-                                                                                             Bundle.BundleType.Searchset,
-                                                                                             RequestMeta.PyroRequestUri,
-                                                                                             0, //SearchTotal
-                                                                                             0, //PagesTotal
-                                                                                             SearchParametersServiceOutcome.SearchParameters.RequiredPageNumber,
-                                                                                             IPagingSupport,
-                                                                                             SelfLink);
-      }
-
+      IDatabaseOperationOutcome DatabaseOperationOutcome = GetResourcesBySearch(SearchParametersServiceOutcome.SearchParameters);      
+      oServiceOperationOutcome.ResourceResult = Common.Tools.Bundles.FhirBundleSupport.CreateBundle(DatabaseOperationOutcome.ReturnedResourceList,
+                                                                                                    Bundle.BundleType.Searchset,
+                                                                                                    RequestMeta.PyroRequestUri,
+                                                                                                    DatabaseOperationOutcome.SearchTotal,
+                                                                                                    DatabaseOperationOutcome.PagesTotal,
+                                                                                                    DatabaseOperationOutcome.PageRequested,
+                                                                                                    IPagingSupport,
+                                                                                                    SelfLink);
+      
       oServiceOperationOutcome.FhirResourceId = string.Empty;
       oServiceOperationOutcome.LastModified = null;
       oServiceOperationOutcome.IsDeleted = null;
@@ -264,7 +250,6 @@ namespace Pyro.Engine.Services.Resources
       oServiceOperationOutcome.SuccessfulTransaction = true;
       return oServiceOperationOutcome;
     }
-
 
     // GET by Compartment Search
     // GET: URL/FhirApi/Patient/123456/Observation?code=http://loinc.org|LA20343-2          
@@ -288,6 +273,7 @@ namespace Pyro.Engine.Services.Resources
         throw new NullReferenceException("id can not be null.");
       if (string.IsNullOrWhiteSpace(ResourceName))
         throw new NullReferenceException("ResourceName can not be null.");
+      
 
       SetCurrentResourceType(ResourceNameResolutionSupport.GetResourceFhirAllType(ResourceName));
 
@@ -323,33 +309,15 @@ namespace Pyro.Engine.Services.Resources
       //as the all resource search parameters e.g _id, _lastModified are removed from the list.      
       Uri SelfLink = IPagingSupport.GetSelfLink(SearchParametersServiceOutcome.SearchParameters, RequestMeta.PyroRequestUri.FhirRequestUri.UriPrimaryServiceRoot.OriginalString, Compartment, CompartmentId);
 
-      IDatabaseOperationOutcome DatabaseOperationOutcome = GetResourcesByCompartmentSearch(CompartmentSearchParameters, SearchParametersServiceOutcome.SearchParameters, Compartment, CompartmentId);
-      if (DatabaseOperationOutcome != null)
-      {
-        oServiceOperationOutcome.ResourceResult = Common.Tools.Bundles.FhirBundleSupport.CreateBundle(DatabaseOperationOutcome.ReturnedResourceList,
-                                                                                               Bundle.BundleType.Searchset,
-                                                                                               RequestMeta.PyroRequestUri,
-                                                                                               DatabaseOperationOutcome.SearchTotal,
-                                                                                               DatabaseOperationOutcome.PagesTotal,
-                                                                                               DatabaseOperationOutcome.PageRequested,
-                                                                                               IPagingSupport,
-                                                                                               SelfLink);
-
-      }
-      else
-      {
-
-        //if DatabaseOperationOutcome is null then there was a chain search parameter which resolved to no resources.
-        //so return empty search bundle.
-        oServiceOperationOutcome.ResourceResult = Common.Tools.Bundles.FhirBundleSupport.CreateBundle(new List<DtoResource>(),
-                                                                                             Bundle.BundleType.Searchset,
-                                                                                             RequestMeta.PyroRequestUri,
-                                                                                             0, //SearchTotal
-                                                                                             0, //PagesTotal
-                                                                                             SearchParametersServiceOutcome.SearchParameters.RequiredPageNumber,
-                                                                                             IPagingSupport,
-                                                                                             SelfLink);
-      }
+      IDatabaseOperationOutcome DatabaseOperationOutcome = GetResourcesByCompartmentSearch(CompartmentSearchParameters, SearchParametersServiceOutcome.SearchParameters, Compartment, CompartmentId);      
+      oServiceOperationOutcome.ResourceResult = Common.Tools.Bundles.FhirBundleSupport.CreateBundle(DatabaseOperationOutcome.ReturnedResourceList,
+                                                                                                    Bundle.BundleType.Searchset,
+                                                                                                    RequestMeta.PyroRequestUri,
+                                                                                                    DatabaseOperationOutcome.SearchTotal,
+                                                                                                    DatabaseOperationOutcome.PagesTotal,
+                                                                                                    DatabaseOperationOutcome.PageRequested,
+                                                                                                    IPagingSupport,
+                                                                                                    SelfLink);     
 
       oServiceOperationOutcome.FhirResourceId = string.Empty;
       oServiceOperationOutcome.LastModified = null;
@@ -369,7 +337,6 @@ namespace Pyro.Engine.Services.Resources
     //Read all history
     public virtual IResourceServiceOutcome GetHistory(string ResourceId, string VersionId, IRequestMeta RequestMeta)
     {
-
       if (string.IsNullOrEmpty(ResourceId))
         throw new NullReferenceException("ResourceId can not be null or empty string.");
       //VersionId can be null
@@ -395,10 +362,8 @@ namespace Pyro.Engine.Services.Resources
         // GET All history for Id
         // GET URL/FhirApi/Patient/5/_history
         //Read all history
-
         ISearchParameterService SearchService = ISearchParameterServiceFactory.CreateSearchParameterService();
         ISearchParametersServiceOutcome SearchParametersServiceOutcome = SearchService.ProcessBundleSearchParameters(RequestMeta.SearchParameterGeneric);
-
         oServiceOperationOutcome.FormatMimeType = SearchParametersServiceOutcome.SearchParameters.Format;
 
         if (SearchParametersServiceOutcome.FhirOperationOutcome != null)
