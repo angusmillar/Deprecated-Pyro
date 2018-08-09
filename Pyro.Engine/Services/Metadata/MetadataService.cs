@@ -63,7 +63,7 @@ namespace Pyro.Engine.Services.Metadata
       string Https = "https://";
 
       Conformance.Id = "metadata";
-      Conformance.Url = $"{Https}{IPrimaryServiceRootCache.GetPrimaryRootUrlFromDatabase().Url}/metadata";
+      Conformance.Url = $"{Https}{IPrimaryServiceRootCache.GetPrimaryRootUrlStoreFromDatabase().Url}/metadata";
       Conformance.Version = $"V{IGlobalProperties.ApplicationVersionInfo}";
       Conformance.Meta = new Meta();
       Conformance.Meta.LastUpdated = ApplicationReleaseDate;
@@ -92,7 +92,7 @@ namespace Pyro.Engine.Services.Metadata
 
       Conformance.Implementation = new CapabilityStatement.ImplementationComponent();
       Conformance.Implementation.Description = $"{ServerName} is an implementation of a FHIR server supporting V{Hl7.Fhir.Model.ModelInfo.Version} of the specification. This instance is a publicly available testing server and its resource may be cleared at any time.";
-      Conformance.Implementation.Url = $"{Https}{IPrimaryServiceRootCache.GetPrimaryRootUrlFromDatabase().Url}";
+      Conformance.Implementation.Url = $"{Https}{IPrimaryServiceRootCache.GetPrimaryRootUrlStoreFromDatabase().Url}";
 
       Conformance.FhirVersion = Hl7.Fhir.Model.ModelInfo.Version; //Must be formated as just the number '3.0.1' as touchstone does not like the V3.0.1
       Conformance.AcceptUnknown = CapabilityStatement.UnknownContentCode.Extensions;

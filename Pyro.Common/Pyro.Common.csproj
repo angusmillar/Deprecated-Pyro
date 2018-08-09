@@ -138,6 +138,7 @@
     <Compile Include="CompositionRoot\Concrete\IndexSetterFactory.cs" />
     <Compile Include="DtoEntity\DtoDatabaseOperationOutcome.cs" />
     <Compile Include="DtoEntity\DtoIncludeResource.cs" />
+    <Compile Include="DtoEntity\DtoIndexTypeForDelete.cs" />
     <Compile Include="DtoEntity\DtoResource.cs" />
     <Compile Include="DtoEntity\DtoTokenIndex.cs" />
     <Compile Include="Enum\PyroProject.cs" />

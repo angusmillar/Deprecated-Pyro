@@ -44,7 +44,7 @@ namespace Pyro.Test.CommonTestSetup
     public static IPrimaryServiceRootCache GetIPrimaryServiceRootCache()
     {      
       Mock<IPrimaryServiceRootCache> MokIPrimaryServiceRootCache = new Mock<IPrimaryServiceRootCache>();
-      MokIPrimaryServiceRootCache.Setup(x => x.GetPrimaryRootUrlFromDatabase()).Returns(TestSetupMocks.GetIDtoRootUrlStore());
+      MokIPrimaryServiceRootCache.Setup(x => x.GetPrimaryRootUrlStoreFromDatabase()).Returns(TestSetupMocks.GetIDtoRootUrlStore());
       MokIPrimaryServiceRootCache.Setup(x => x.GetPrimaryRootUrlFromWebConfig()).Returns(StaticTestData.FhirEndpoint());
       return MokIPrimaryServiceRootCache.Object;
     }

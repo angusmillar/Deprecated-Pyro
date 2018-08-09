@@ -4,8 +4,9 @@ namespace Pyro.Common.ServiceRoot
 {
   public interface IPrimaryServiceRootCache
   {
-    IDtoRootUrlStore GetPrimaryRootUrlFromDatabase();
+    IDtoRootUrlStore GetPrimaryRootUrlStoreFromDatabase();
     string GetPrimaryRootUrlFromWebConfig();
     void ClearPrimaryRootUrlFromCache();
+    void ClearPrimaryRootUrlStoreFromCache();
   }
 }

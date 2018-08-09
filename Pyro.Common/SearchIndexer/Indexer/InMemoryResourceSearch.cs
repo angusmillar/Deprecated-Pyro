@@ -142,7 +142,7 @@ namespace Pyro.Common.SearchIndexer.Indexer
           Predicate = QuantityPredicateBuilder<IResourceIndexed>.Build(Search, Predicate, SearchItem);
           break;
         case SearchParamType.Reference:
-          Predicate = ReferancePredicateBuilder<IResourceIndexed>.Build(Search, Predicate, SearchItem, IPrimaryServiceRootCache.GetPrimaryRootUrlFromDatabase());
+          Predicate = ReferancePredicateBuilder<IResourceIndexed>.Build(Search, Predicate, SearchItem, IPrimaryServiceRootCache.GetPrimaryRootUrlStoreFromDatabase());
           break;
         case SearchParamType.String:
           Predicate = StringPredicateBuilder<IResourceIndexed>.Build(Search, Predicate, SearchItem);

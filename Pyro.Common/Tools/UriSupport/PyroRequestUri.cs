@@ -22,7 +22,7 @@ namespace Pyro.Common.Tools.UriSupport
     {
       get
       {
-        return IPrimaryServiceRootCache.GetPrimaryRootUrlFromDatabase();
+        return IPrimaryServiceRootCache.GetPrimaryRootUrlStoreFromDatabase();
       }
       set
       {

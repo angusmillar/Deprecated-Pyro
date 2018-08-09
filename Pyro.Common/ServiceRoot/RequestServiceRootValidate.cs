@@ -30,7 +30,7 @@ namespace Pyro.Common.ServiceRoot
       string ErrorMsg = "Error message not set in PrimaryServiceRootFactory";
 
       string WebConfigServiceBase = IPrimaryServiceRootCache.GetPrimaryRootUrlFromWebConfig().ToLower();
-      IDtoRootUrlStore IDtoPrimaryRootUrlStore = IPrimaryServiceRootCache.GetPrimaryRootUrlFromDatabase();
+      IDtoRootUrlStore IDtoPrimaryRootUrlStore = IPrimaryServiceRootCache.GetPrimaryRootUrlStoreFromDatabase();
 
       if (IDtoPrimaryRootUrlStore != null &&
         RequestRoot.IsEqualUri(IDtoPrimaryRootUrlStore.Url) &&
@@ -51,6 +51,7 @@ namespace Pyro.Common.ServiceRoot
         IDtoRootUrlStore DtoRootUrlStore = IServicePrimaryBaseUrlService.SetPrimaryRootUrlStore(WebConfigServiceBase.StripHttp().ToLower());
         //Clear the cache as we just added the ServiceRoot to the database as the cache will have null cached.
         IPrimaryServiceRootCache.ClearPrimaryRootUrlFromCache();
+        IPrimaryServiceRootCache.ClearPrimaryRootUrlStoreFromCache();
         return DtoRootUrlStore;
       }
 
@@ -65,6 +66,7 @@ namespace Pyro.Common.ServiceRoot
         ILog.Info($"The incoming request's Service Base URL equals the App_Data\\PyroApp.config file entry 'ServiceBaseURL' yet does not equal the Primary Service Base URL found in the database. The server will assume someone knows what they are doing if they are capable of changing the App_Data\\PyroApp.config setting and will update the database primary Service Base URL to match the App_Data\\PyroApp.config and request. ");
         //Clear the cache as we just added the ServiceRoot to the database as the cache will have null cached.
         IPrimaryServiceRootCache.ClearPrimaryRootUrlFromCache();
+        IPrimaryServiceRootCache.ClearPrimaryRootUrlStoreFromCache();
         IDtoRootUrlStore DtoRootUrlStore = IServicePrimaryBaseUrlService.SetPrimaryRootUrlStore(WebConfigServiceBase.StripHttp().ToLower());
         return DtoRootUrlStore;
       }

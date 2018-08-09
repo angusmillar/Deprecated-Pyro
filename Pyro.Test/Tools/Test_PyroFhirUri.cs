@@ -30,7 +30,7 @@ namespace Pyro.Test.Tools
       MokDtoRootUrlStore.Setup(x => x.IsServersPrimaryUrlRoot).Returns(true);
 
       MokPrimaryServiceRootCache = new Moq.Mock<IPrimaryServiceRootCache>();
-      MokPrimaryServiceRootCache.Setup(x => x.GetPrimaryRootUrlFromDatabase()).Returns(MokDtoRootUrlStore.Object);
+      MokPrimaryServiceRootCache.Setup(x => x.GetPrimaryRootUrlStoreFromDatabase()).Returns(MokDtoRootUrlStore.Object);
       MokPrimaryServiceRootCache.Setup(x => x.GetPrimaryRootUrlFromWebConfig()).Returns(PrimaryServiceRoot);
     }
 

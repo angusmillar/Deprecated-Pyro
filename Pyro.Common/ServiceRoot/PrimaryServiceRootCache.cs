@@ -10,7 +10,8 @@ namespace Pyro.Common.ServiceRoot
     private readonly IServicePrimaryBaseUrlService IServiceBaseUrlService;
     private readonly IGlobalProperties GlobalProperties;
     private readonly IApplicationCacheSupport IApplicationCacheSupport;
-    private readonly string CacheKey = "PrimaryServiceRootUrl";
+    private readonly string CacheKeyString = "PrimaryServiceRootUrlString";
+    private readonly string CacheKeyStore = "PrimaryServiceRootUrlStore";
 
     public PrimaryServiceRootCache(IServicePrimaryBaseUrlService IServiceBaseUrlService, IGlobalProperties GlobalProperties, IApplicationCacheSupport ApplicationCacheSupport)
     {
@@ -19,7 +20,7 @@ namespace Pyro.Common.ServiceRoot
       this.IApplicationCacheSupport = ApplicationCacheSupport;
     }
 
-    public IDtoRootUrlStore GetPrimaryRootUrlFromDatabase()
+    public IDtoRootUrlStore GetPrimaryRootUrlStoreFromDatabase()
     {
       //At Runtime get the URL from the database and then Cache it
       if (!GlobalProperties.ApplicationCacheServicesActive)
@@ -28,7 +29,7 @@ namespace Pyro.Common.ServiceRoot
       }
       else
       {
-        return IApplicationCacheSupport.GetOrSet(CacheKey, () => IServiceBaseUrlService.GetPrimaryServiceRootUrl());        
+        return IApplicationCacheSupport.GetOrSet(CacheKeyStore, () => IServiceBaseUrlService.GetPrimaryServiceRootUrl());        
       }
     }
 
@@ -40,7 +41,7 @@ namespace Pyro.Common.ServiceRoot
       }
       else
       {
-        return IApplicationCacheSupport.GetOrSet(CacheKey, () => GlobalProperties.ServiceBaseURL);        
+        return IApplicationCacheSupport.GetOrSet(CacheKeyString, () => GlobalProperties.ServiceBaseURL);        
       }
     }
 
@@ -48,7 +49,15 @@ namespace Pyro.Common.ServiceRoot
     {
       if (GlobalProperties.ApplicationCacheServicesActive)
       {
-        IApplicationCacheSupport.RemoveKey(CacheKey);
+        IApplicationCacheSupport.RemoveKey(CacheKeyString);
+      }
+    }
+
+    public void ClearPrimaryRootUrlStoreFromCache()
+    {
+      if (GlobalProperties.ApplicationCacheServicesActive)
+      {
+        IApplicationCacheSupport.RemoveKey(CacheKeyStore);
       }
     }
 

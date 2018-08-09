@@ -19,6 +19,7 @@ using Pyro.DataLayer.DbModel.DatabaseContext;
 using Pyro.Common.CompositionRoot;
 using Pyro.Common.Global;
 using Pyro.Common.Search.SearchParameterEntity;
+using System.Data;
 
 namespace Pyro.DataLayer.Repository
 {
@@ -149,7 +150,7 @@ namespace Pyro.DataLayer.Repository
           Predicate = QuantityPredicateBuilder<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>.Build(Search, Predicate, SearchItem);
           break;
         case SearchParamType.Reference:
-          Predicate = ReferancePredicateBuilder<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>.Build(Search, Predicate, SearchItem, IPrimaryServiceRootCache.GetPrimaryRootUrlFromDatabase());
+          Predicate = ReferancePredicateBuilder<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>.Build(Search, Predicate, SearchItem, IPrimaryServiceRootCache.GetPrimaryRootUrlStoreFromDatabase());
           break;
         case SearchParamType.String:
           Predicate = StringPredicateBuilder<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>.Build(Search, Predicate, SearchItem);
@@ -254,8 +255,15 @@ namespace Pyro.DataLayer.Repository
       return ResourceEntity.Count();
     }
 
-    public void DbAddEntity(ResCurrentType Entity)
+    public void AttachAndUpdateIsCurrent(ResCurrentType Entity)
     {
+      IPyroDbContext.Set<ResCurrentType>().Attach(Entity);
+      IPyroDbContext.Entry(Entity).Property("IsCurrent").IsModified = true;
+      //this.Save();
+    }
+
+    public void DbAddEntity(ResCurrentType Entity)
+    {      
       IPyroDbContext.Set<ResCurrentType>().Add(Entity);
       this.Save();
     }
@@ -275,7 +283,41 @@ namespace Pyro.DataLayer.Repository
 
     }
 
-    private static void IdSearchParameterPredicateProcessing(List<ISearchParameterBase> SearchParametersList, ResourceSearch<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType> Search, ExpressionStarter<ResCurrentType> MainPredicate)
+    public ResCurrentType DbQueryForEntityUpdateWithInclude(string FhirId, List<Expression<Func<ResCurrentType, object>>> IncludeList)
+    {
+      ResCurrentType ResourceEntity = new ResCurrentType();
+      IQueryable<ResCurrentType> query = IPyroDbContext.Set<ResCurrentType>();
+      
+      //Apply includes
+      foreach (Expression<Func<ResCurrentType, object>> include in IncludeList)
+        query = query.Include<ResCurrentType, object>(include);
+
+      var AnonymousResourceEntity = query.Select(v => new {
+        v.Id,
+        v.FhirId,
+        v.VersionId,
+        v.IsCurrent,
+        v.IndexTokenList
+      }).SingleOrDefault(x => x.FhirId == FhirId & x.IsCurrent == true);
+
+      if (AnonymousResourceEntity == null)
+      {
+        return null;
+      }
+      else
+      {
+        ResourceEntity.Id = AnonymousResourceEntity.Id;
+        ResourceEntity.FhirId = AnonymousResourceEntity.FhirId;
+        ResourceEntity.VersionId = AnonymousResourceEntity.VersionId;
+        ResourceEntity.IsCurrent = AnonymousResourceEntity.IsCurrent;
+        ResourceEntity.IndexTokenList = AnonymousResourceEntity.IndexTokenList;
+        return ResourceEntity;
+      }
+
+    }
+    
+
+  private static void IdSearchParameterPredicateProcessing(List<ISearchParameterBase> SearchParametersList, ResourceSearch<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType> Search, ExpressionStarter<ResCurrentType> MainPredicate)
     {
       var IdSearchParamerterList = SearchParametersList.Where(x => x.Resource == FHIRAllTypes.Resource.GetLiteral() && x.Name == "_id");
       if (IdSearchParamerterList != null)
