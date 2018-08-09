@@ -128,6 +128,10 @@ namespace Pyro.Common.Tools
       FormatType = FormatType.Replace("xml fhir", "xml+fhir");
       FormatType = FormatType.Replace("json fhir", "json+fhir");
       FormatType = FormatType.Replace("fhir json", "fhir+json");
+      if (FormatType == "xml")
+        FormatType = "text/xml";
+      if (FormatType == "json")
+        FormatType = "text/json";
       return FormatType;
     }
 
