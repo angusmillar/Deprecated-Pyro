@@ -45,7 +45,14 @@ namespace Pyro.Engine.Services.ResourceSeed
     {      
       var ResourceToCommit = ResolveResourcesToLoad(IPyroFhirResource.ResourceToLoadOnStartupList());
       if (ResourceToCommit.Count() > 0)
+      {
+        ILog.Info($"Resource seeding startup task, {ResourceToCommit.Count()} resources to be seeded.");
         CommitResourceList(ResourceToCommit);
+      }        
+      else
+      {
+        ILog.Info($"Resource seeding startup task, no new resources to seed.");
+      }
     }
     
     private IEnumerable<Resource> ResolveResourcesToLoad(IEnumerable<Resource> LoadList)
@@ -111,10 +118,18 @@ namespace Pyro.Engine.Services.ResourceSeed
             string ResourceName = NewResource.ResourceType.GetLiteral();
             var RequestMeta = IRequestMetaFactory.CreateRequestMeta().Set($"{ResourceName}/{ResourceId}");
             IResourceServiceOutcome PutResourceServiceOutcome = IResourceServices.Put(ResourceId, NewResource, RequestMeta);
-            if ((int)PutResourceServiceOutcome.HttpStatusCode > 201) //OK == 200 and Created == 201 so greater than 201 is and error, like 400.
+            if (PutResourceServiceOutcome.HttpStatusCode == System.Net.HttpStatusCode.Created)
+            {
+              ILog.Info($"Resource seeding startup task, Created {ResourceName} with id of {ResourceId}.");
+            }
+            else if (PutResourceServiceOutcome.HttpStatusCode == System.Net.HttpStatusCode.OK)
+            {
+              ILog.Info($"Resource seeding startup task, Updated {ResourceName} with id of {ResourceId}.");
+            }
+            else
             {
               Transaction.Rollback();
-              ILog.Error($"ResourceSeeding on Startup, failed to PUT {ResourceName} with id of {ResourceId}. The entire seeding operation has been rolled back.");
+              ILog.Error($"ResourceSeeding on Startup, failed to Create or Update the resource {ResourceName} with the id of {ResourceId}. The entire seeding operation has been rolled back.");
               ErrorDetected = true;
               break;
             }

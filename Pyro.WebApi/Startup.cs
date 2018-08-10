@@ -128,13 +128,16 @@ namespace Pyro.WebApi
       //(Note: this call takes significate time as it is the very first database call made on startup. 
       //       This is slow due to Entity Framework (EF). EF on the first call loads the entire database schema into memory
       //       and it is this loas that takes the time. Rougly just over 1 min on my machine. All later database calls are fast.
+      Pyro.Common.Logging.Logger.Log.Info("Running server startup process to synchonise the web.config file with the database table ServiceConfiguration.");
       App_Start.StartupPyroConfirgrationSynch.RunTask(HttpConfiguration);
 
       //Check seeded FHIR Resource and update if required      
+      Pyro.Common.Logging.Logger.Log.Info("Running server startup process to seed any referance FHIR resources.");
       App_Start.StarupPyroResourceSeeding.RunTask(HttpConfiguration);
 
       //Check for any FHIR task to process on startup
       //NOTE: This Task runs Asynch, it does not stop the server from starting. 
+      Pyro.Common.Logging.Logger.Log.Info("Running server startup process to manage pending FHIR Tasks.");
       App_Start.StarupPyroTaskRunner.RunTask(HttpConfiguration);      
 
       if (!Console.IsOutputRedirected)

@@ -9,7 +9,7 @@ namespace Pyro.WebApi.App_Start
   public static class StartupPyroConfirgrationSynch
   {
     public static void RunTask(HttpConfiguration HttpConfiguration)
-    {
+    {      
       System.Threading.Tasks.Task<bool> SynchronizeTaskResults = System.Threading.Tasks.Task<bool>.Factory.StartNew(() =>
       {
         try
@@ -27,7 +27,7 @@ namespace Pyro.WebApi.App_Start
                 WasUpdated = ServiceConfigurationService.SynchronizeServiceConfigrationWithGlobalProperties(GlobalProperties);
                 if (WasUpdated)
                 {
-                  Pyro.Common.Logging.Logger.Log.Info("GlobalProperties were updated in ServiceConfiguration db table");
+                  Pyro.Common.Logging.Logger.Log.Info("GlobalProperties from web.config file were updated in the database table ServiceConfiguration.");
                 }
                 Transaction.Commit();
                 return WasUpdated;
