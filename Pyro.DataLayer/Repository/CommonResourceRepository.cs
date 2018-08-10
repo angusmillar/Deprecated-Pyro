@@ -567,15 +567,16 @@ namespace Pyro.DataLayer.Repository
     {
       IDatabaseOperationOutcome DatabaseOperationOutcome = IDatabaseOperationOutcomeFactory.CreateDatabaseOperationOutcome();
       ResCurrentType NewResourceEntity = new ResCurrentType();
-      ResCurrentType AnonymousResourceHistoryEntity = LoadCurrentResourceEntityForUpdate(Resource.Id, new SearchParamType[] { SearchParamType.Token });
-
+      //Also specifity which Includes to also load, only need token in this case;
+      ResCurrentType ResourceHistoryEntity = LoadCurrentResourceEntity(Resource.Id, new SearchParamType[] { SearchParamType.Token });
+      
       ITriggerInput TriggerInput = IResourceTriggerService.TriggerInputFactory();
       TriggerInput.CrudOperationType = Common.Enum.RestEnum.CrudOperationType.Update;
       TriggerInput.InboundResource = Resource;
       TriggerInput.InboundResourceId = Resource.Id;
       TriggerInput.ResourceType = Resource.ResourceType;
       TriggerInput.DbTokenIndexList = new List<DtoTokenIndex>();
-      foreach (var Token in AnonymousResourceHistoryEntity.IndexTokenList)
+      foreach (var Token in ResourceHistoryEntity.IndexTokenList)
       {
         TriggerInput.DbTokenIndexList.Add(new DtoTokenIndex() { ServiceSearchParameterId = Token.ServiceSearchParameterId, Code = Token.Code, System = Token.System });
       }
@@ -586,15 +587,13 @@ namespace Pyro.DataLayer.Repository
         return DatabaseOperationOutcome;
       }
       else
-      {        
-        AnonymousResourceHistoryEntity.IsCurrent = false;
-        this.CommonRepository.AttachAndUpdateIsCurrent(AnonymousResourceHistoryEntity);        
+      {
+        ResourceHistoryEntity.IsCurrent = false;        
         DtoFhirRelease DtoFhirRelease = IFhirReleaseCache.GetFhirReleaseByFhirVersion(Hl7.Fhir.Model.ModelInfo.Version);
         IndexSettingSupport.SetResourceBaseAddOrUpdate(Resource, NewResourceEntity, ResourceVersion, false, Bundle.HTTPVerb.PUT, DtoFhirRelease.Id);
         this.PopulateResourceEntity(NewResourceEntity, Resource, FhirRequestUri);
         NewResourceEntity.IsCurrent = true;
-        this.CommonRepository.DbAddEntity(NewResourceEntity);
-        //this.Save();        
+        this.CommonRepository.DbAddEntity(NewResourceEntity);        
         DatabaseOperationOutcome.ReturnedResourceList.Add(IndexSettingSupport.SetDtoResource(NewResourceEntity, this.RepositoryResourceType));
         DatabaseOperationOutcome.SingleResourceRead = true;
         return DatabaseOperationOutcome;
@@ -687,61 +686,55 @@ namespace Pyro.DataLayer.Repository
       return DatabaseOperationOutcome;
     }
 
-    public ResCurrentType LoadCurrentResourceEntityForUpdate(string FhirId, SearchParamType[] IncludeSearchParamType)
+    public ResCurrentType LoadCurrentResourceEntity(string FhirId, SearchParamType[] IncludeSearchParamType = null)
     {
       var IncludeList = new List<Expression<Func<ResCurrentType, object>>>();
-      foreach (var Type in IncludeSearchParamType)
+      if (IncludeSearchParamType != null)
       {
-        switch (Type)
+        foreach (var Type in IncludeSearchParamType)
         {
-          case SearchParamType.Number | SearchParamType.Quantity:
-            IncludeList.Add(x => x.IndexTokenList);
-            break;
-          case SearchParamType.Date:
-            IncludeList.Add(x => x.IndexDateTimeList);
-            break;
-          case SearchParamType.String:
-            IncludeList.Add(x => x.IndexStringList);
-            break;
-          case SearchParamType.Token:
-            IncludeList.Add(x => x.IndexTokenList);
-            break;
-          case SearchParamType.Reference:
-            IncludeList.Add(x => x.IndexReferenceList);
-            break;
-          case SearchParamType.Composite:
-            break;
-          case SearchParamType.Uri:
-            IncludeList.Add(x => x.IndexUriList);
-            break;
-          default:
-            throw new System.ComponentModel.InvalidEnumArgumentException(Type.ToString(), (int)Type, typeof(SearchParamType));
+          switch (Type)
+          {
+            case SearchParamType.Number | SearchParamType.Quantity:
+              IncludeList.Add(x => x.IndexTokenList);
+              break;
+            case SearchParamType.Date:
+              IncludeList.Add(x => x.IndexDateTimeList);
+              break;
+            case SearchParamType.String:
+              IncludeList.Add(x => x.IndexStringList);
+              break;
+            case SearchParamType.Token:
+              IncludeList.Add(x => x.IndexTokenList);
+              break;
+            case SearchParamType.Reference:
+              IncludeList.Add(x => x.IndexReferenceList);
+              break;
+            case SearchParamType.Composite:
+              break;
+            case SearchParamType.Uri:
+              IncludeList.Add(x => x.IndexUriList);
+              break;
+            default:
+              throw new System.ComponentModel.InvalidEnumArgumentException(Type.ToString(), (int)Type, typeof(SearchParamType));
+          }
         }
       }
-      return this.CommonRepository.DbQueryForEntityUpdateWithInclude(FhirId, IncludeList);
-    }
+      else
+      {
+        IncludeList.Add(x => x.IndexQuantityList);
+        IncludeList.Add(x => x.IndexDateTimeList);
+        IncludeList.Add(x => x.IndexReferenceList);
+        IncludeList.Add(x => x.IndexStringList);
+        IncludeList.Add(x => x.IndexTokenList);
+        IncludeList.Add(x => x.IndexUriList);
 
-
-    public ResCurrentType LoadCurrentResourceEntity2(string FhirId)
-    {
-   
-      ResCurrentType ResourceEntity = null;
-
-      IQueryable<ResCurrentType> query = IPyroDbContext.Set<ResCurrentType>();
-      
-      ResourceEntity = query.Include(s => s.IndexQuantityList.Select(b => b.Id))
-                            .Include(s => s.IndexDateTimeList.Select(b => b.Id))
-                            .Include(s => s.IndexReferenceList.Select(b => b.Id))
-                            .Include(s => s.IndexStringList.Select(b => b.Id))
-                            .Include(s => s.IndexTokenList)
-                            .Include(s => s.IndexUriList.Select(b => b.Id))
-                            .SingleOrDefault(x => x.FhirId == FhirId & x.IsCurrent == true);
+      }
+      var ResourceEntity = this.CommonRepository.DbQueryEntityWithInclude(x => x.FhirId == FhirId & x.IsCurrent == true, IncludeList);
       return ResourceEntity;
-
     }
 
-
-    public ResCurrentType LoadCurrentResourceEntity(string FhirId)
+    public ResCurrentType LoadCurrentResourceEntityOLD(string FhirId)
     {
       var IncludeList = new List<Expression<Func<ResCurrentType, object>>>();
       IncludeList.Add(x => x.IndexQuantityList);
