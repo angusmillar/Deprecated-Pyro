@@ -71,3 +71,19 @@ Update-Database -TargetMigration [Migration Name] -Script -ConfigurationTypeName
   ## named [Source Migration Name] to a specified target migration named [Target Migration Name]
 Update-Database -SourceMigration [Source Migration Name] -TargetMigration [Target Migration Name] -Script -ConfigurationTypeName ConfigurationPostgre 
 
+
+###############################################################################################
+###### Using the Migrate.exe for running migrations ###########################################
+###############################################################################################
+
+Automatical running migrations on server statup can throw an statckoverflow exception as we try
+to run these on startup in a seperate thread. If that thred excceds 1MB then we get statckoverflow 
+exception. Unfortunatly this happens on the initial databse creation and migration First.
+The command below is another way to run the migrations
+
+//Microsoft SQL Server
+Migrate.exe Pyro.DataLayer.dll ConfigurationMsSql /startupConfigurationFile="..\\Web.config"
+
+//PostgreSQL
+Migrate.exe Pyro.DataLayer.dll ConfigurationPostgre /startupConfigurationFile="..\\Web.config"
+
