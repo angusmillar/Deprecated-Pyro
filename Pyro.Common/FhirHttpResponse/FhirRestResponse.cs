@@ -14,6 +14,7 @@ namespace Pyro.Common.FhirHttpResponse
   {
     private readonly IFhirResourceNarrative IFhirResourceNarrative;
     private Formatters.FhirMediaTypeFormatter _FhirMediaTypeFormatter = null;
+    private HttpStatusCode _HttpStatusCode;
     public FhirRestResponse(IFhirResourceNarrative IFhirResourceNarrative)
     {
       this.IFhirResourceNarrative = IFhirResourceNarrative;
@@ -21,20 +22,24 @@ namespace Pyro.Common.FhirHttpResponse
 
     public HttpResponseMessage GetHttpResponseMessage(IResourceServiceOutcome ResourceServiceOutcome, HttpRequestMessage Request, Hl7.Fhir.Rest.SummaryType? SummaryType)
     {
-      HttpStatusCode HttpStatusCode = ResourceServiceOutcome.HttpStatusCode;
+      _HttpStatusCode = ResourceServiceOutcome.HttpStatusCode;
       Resource Resource = ResourceServiceOutcome.ResourceResult;      
-      HttpResponseMessage Response = Request.CreateResponse(HttpStatusCode);
+      HttpResponseMessage Response = Request.CreateResponse(_HttpStatusCode);
 
       if (Resource != null)
       {
+        //If the Resource is an OperationOutcome then we auto generate its narrative here
+        if (Resource.ResourceType == ResourceType.OperationOutcome)
+          IFhirResourceNarrative.CreateNarrative(Resource as OperationOutcome);
+
         //Set the media formatter as per search parameter _format
-        Response = ResolveReturnAcceptTypeJsonOrXml(ResourceServiceOutcome.FormatMimeType, Request, HttpStatusCode, Resource);
+        Response = ResolveReturnAcceptTypeJsonOrXml(ResourceServiceOutcome.FormatMimeType, Request, Resource);
 
         //Annotate the Resource with the _summary, will get the annotation in MediaTypeFormatter XML or JSON
         AnnotateResourceWithSummaryType(SummaryType, Resource);
       }
 
-      switch (HttpStatusCode)
+      switch (_HttpStatusCode)
       {        
         case HttpStatusCode.OK:
           {
@@ -217,6 +222,10 @@ namespace Pyro.Common.FhirHttpResponse
           {
             return Response;
           }
+        case HttpStatusCode.UnsupportedMediaType:
+          {
+            return Response;
+          }
         default:
           {
             if (Resource != null)
@@ -238,7 +247,7 @@ namespace Pyro.Common.FhirHttpResponse
               if (_FhirMediaTypeFormatter != null)
                 Response.Content = new ObjectContent(typeof(Resource), OpOutCome, _FhirMediaTypeFormatter);
               else
-                Response = Request.CreateResponse(HttpStatusCode, OpOutCome);
+                Response = Request.CreateResponse(_HttpStatusCode, OpOutCome);
               return Response;
             }
           }       
@@ -256,40 +265,74 @@ namespace Pyro.Common.FhirHttpResponse
       }
     }
 
-    private HttpResponseMessage ResolveReturnAcceptTypeJsonOrXml(string _FormatMimeType, HttpRequestMessage Request, HttpStatusCode HttpStatusCode, Resource Resource)
+    private HttpResponseMessage ResolveReturnAcceptTypeJsonOrXml(string _FormatMimeType, HttpRequestMessage Request, Resource Resource)
     {
-      HttpResponseMessage Response;
-      if (Resource.ResourceType == ResourceType.OperationOutcome)
-        IFhirResourceNarrative.CreateNarrative(Resource as OperationOutcome);
-
+      HttpResponseMessage Response;      
       //If no _format=application/fhir%2Bjson parameter
       if (_FormatMimeType == null)
       {
-        //Then send the Accept type as specified by the Accept Header, or the default of JSON if no header at all
-        Response = Request.CreateResponse(HttpStatusCode, Resource);
+        //below returns Null if ok or an Operationoutcome if not ok
+        OperationOutcome FailedAcceptHeaderOperationOutcome = null;
+        FailedAcceptHeaderOperationOutcome = CheckAcceptHeaderValid(Request);
+        if (FailedAcceptHeaderOperationOutcome != null)
+        {
+          IFhirResourceNarrative.CreateNarrative(FailedAcceptHeaderOperationOutcome);
+          _HttpStatusCode = HttpStatusCode.UnsupportedMediaType;
+          Response = Request.CreateResponse(_HttpStatusCode, FailedAcceptHeaderOperationOutcome);
+        }
+        else
+        {
+          //Then send the Accept type as specified by the Accept Header, or the default of JSON if no header at all
+          Response = Request.CreateResponse(_HttpStatusCode, Resource);
+        }        
       }
       else
       {
         //Parse the _format=application/fhir%2Bjson parameter and switch formater if valid.
-        _FhirMediaTypeFormatter = GetFhirMediaFormatter(Request, _FormatMimeType);
+        _FhirMediaTypeFormatter = GetFhirMediaFormatter(_FormatMimeType);
         if (_FhirMediaTypeFormatter != null)
         {          
-          Response = new HttpResponseMessage(HttpStatusCode)
+          Response = new HttpResponseMessage(_HttpStatusCode)
           {
             Content = new ObjectContent(typeof(Resource), Resource, _FhirMediaTypeFormatter)
           };
         }
         else
         {
-          //Unable to parse so send the Accept type as specified by the Accept Header, or the default of JSON if no header at all
-          Response = Request.CreateResponse(HttpStatusCode, Resource);
+          string Message = $"The _format search parameter value was {_FormatMimeType} which is not a supported media type. The simplest supported meda types to use are _format=xml or _format=json";
+          var FaledFormatParameterOperationOutcome = FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.NotSupported, Message);
+          IFhirResourceNarrative.CreateNarrative(FaledFormatParameterOperationOutcome);
+          _HttpStatusCode = HttpStatusCode.UnsupportedMediaType;
+          Response = Request.CreateResponse(_HttpStatusCode, FaledFormatParameterOperationOutcome);
         }
       }
-
       return Response;
     }
 
-    private Pyro.Common.Formatters.FhirMediaTypeFormatter GetFhirMediaFormatter(HttpRequestMessage request, string format)
+    private static OperationOutcome CheckAcceptHeaderValid(HttpRequestMessage Request)
+    {
+      //first test the Accept header is valid
+      if (Request?.Headers?.Accept?.Count > 0)
+      {
+        bool IsOk = false;        
+        foreach (var AcceptHeaderValue in Request.Headers.Accept)
+        {
+          if (!string.IsNullOrWhiteSpace(Common.Tools.HttpHeaderSupport.GetFhirMediaTypeString(AcceptHeaderValue.MediaType)))
+          {
+            IsOk = true;
+            break;
+          }          
+        }
+        if (!IsOk)
+        {
+          string Message = $"None of the Http Accept header values are suported by the server. The primary values that are supported are {Hl7.Fhir.Rest.ContentType.JSON_CONTENT_HEADER} and {Hl7.Fhir.Rest.ContentType.XML_CONTENT_HEADER}";
+          return FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.NotSupported, Message);
+        }
+      }
+      return null;
+    }
+
+    private Pyro.Common.Formatters.FhirMediaTypeFormatter GetFhirMediaFormatter(string format)
     {
       if (!string.IsNullOrWhiteSpace(format))
       {
