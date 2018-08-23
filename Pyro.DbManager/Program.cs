@@ -159,7 +159,7 @@ namespace Pyro.DbManager
           Console.WriteLine("###############################################################################");
           Console.WriteLine("");
           Console.ForegroundColor = ConsoleColor.Magenta;
-          Console.WriteLine("Do you wish to perform the the upgrade against the database ?");
+          Console.WriteLine("Do you wish to perform the upgrade against the database ?");
           Console.Write("Answer (Y/N)?: ");           
           bool Run = false;
           if (UnattendedMode)
