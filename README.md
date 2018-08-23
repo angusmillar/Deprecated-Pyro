@@ -83,7 +83,7 @@ There are three key projects you will need to understand:
 
 **Database Management**
 
-The Pyro.DbManager project is a console application that will connect to the database and create or upgrade the database as required. This project MUST be run before the others as it will set up the database which the other projects depend upon. 
+The `Pyro.DbManager` project is a console application that will connect to the database and create or upgrade the database as required. This project MUST be run before the others as it will set up the database which the other projects depend upon. 
 
 When running in the debugger (Visual Studio) it uses the connection string found in the `Pyro.ConsoleServer` project e.g `Pyro.ConsoleServer\App_Data\Connectons.config`. 
 
@@ -124,9 +124,8 @@ You will also need to set the `ServiceBaseURL` property in the file below (See t
 `Pyro.WebApi\App_Data\PyroApp.config`
 
 
-Both projects `Pyro.WebApi` and `Pyro.ConsoleServer`, requires that you first run the `Pyro.DbManager` first to initialise the database.
-If you do not do this and start either `Pyro.WebApi` or `Pyro.ConsoleServer` first, they will create a database for themselves yet that database will not 
-be seeded with the required reference data. Once you attempt to commit (PUT or POST) a FHIR resource you will receive a FHIR OperationOutcome error in response that reads:
+Both projects `Pyro.WebApi` and `Pyro.ConsoleServer`, require that you first run the `Pyro.DbManager` to initialise the database.
+If you do not do this, and start either `Pyro.WebApi` or `Pyro.ConsoleServer` first, they will create a database for themselves yet that database will not be seeded with the required reference data. Once you attempt to commit (PUT or POST) a FHIR resource via the API you will receive a FHIR OperationOutcome error in response which reads:
 
 `The _FhirRelease database table returned no entry for the fhir Version '{Hl7.Fhir.Model.ModelInfo.Version}', this typically occurs when the table was never seeded at the time of database creation. You must create the database using the Pyro.DbManager application and not rely on the service creating it on startup as the service will not seed the initial data required.` If this is true for you then drop your database and start again by running the Pyro.DbManager application first.`
 
