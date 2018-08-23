@@ -1006,7 +1006,7 @@ namespace Pyro.DataLayer.Repository
     {
       if (DtoFhirRelease == null)
       {
-        string Message = $"The _FhirRelease database table returned no entry for the fhir Version '{Hl7.Fhir.Model.ModelInfo.Version}', this can typical occur that table was never seeded at the time of the database creation. You must create the database using the Pyro.DbManager application and not rely on the service creating it on startup as the service will nmot seed the inital data required.";
+        string Message = $"The _FhirRelease database table returned no entry for the fhir Version '{Hl7.Fhir.Model.ModelInfo.Version}', this typically occurs when the table was never seeded at the time of database creation. You must create the database using the Pyro.DbManager application and not rely on the service creating it on startup as the service will not seed the initial data required.` If this is true for you then drop your database and start again by running the Pyro.DbManager application first.";        
         ILog.Fatal(Message);
         var OptOut = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Exception, Message);
         throw new Common.Exceptions.PyroException(System.Net.HttpStatusCode.InternalServerError, OptOut, Message);
