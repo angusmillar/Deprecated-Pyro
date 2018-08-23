@@ -76,18 +76,14 @@ PostgreSQL (Version 10)
 
 There are three key projects you will need to understand:
 
-* Pyro.DbManager for database management  
-* Pyro.ConsoleServer as the development environment 
-* Pyro.WebApi as the production environment
+* `Pyro.DbManager` for database management  
+* `Pyro.ConsoleServer` as the development environment 
+* `Pyro.WebApi` as the production environment
 
 
 **Database Management**
 
-The `Pyro.DbManager` project is a console application that will connect to the databse and create or upgrade the database as required.
-This project MUST be run before the others as it will setup the database which the other projects depend upon.
-When run in the debugger (Visual Studio) it uses the connection string found in the `Pyro.ConsoleServer` project e.g `Pyro.ConsoleServer\App_Data\Connectons.config`. 
-When run outside of the debugger it expects to find a web.config file in the parent directory from where it is run, it will use the connection string referanced from this web.config file which will typlicaly be the Connectons.config file found in the App_Data directory of the same pareent directory. 
-This is true when deployed in IIS and the Pyro.DbManager.exe is found in the bin folder, so in this case you just need to run the Pyro.DbManager.exe stright from the bin folder to create or update the production database.   
+The Pyro.DbManager project is a console application that will connect to the database and create or upgrade the database as required. This project MUST be run before the others as it will set up the database which the other projects depend upon. When running in the debugger (Visual Studio) it uses the connection string found in the Pyro.ConsoleServer project e.g Pyro.ConsoleServer\App_Data\Connectons.config. When running outside of the debugger it expects to find a web.config file in the parent directory from where it is run, it will use the connection string referenced from this web.config file which will typically be the Connectons.config file found in the App_Data directory of the same parent directory. This is true when deployed in IIS and the Pyro.DbManager.exe is found in the bin folder, so in this case, you just need to run the Pyro.DbManager.exe straight from the bin folder to create or update the production database.
 
 **Development Environment**
 
