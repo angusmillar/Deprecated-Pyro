@@ -9,7 +9,7 @@ namespace Pyro.DataLayer.DbModel.DatabaseContext
   public class PostgreContext : PyroDbContext, IPyroDbContext
   {
     public PostgreContext()
-      : base()
+      : base("PyroConnectionString")
     {
       //Below is only commented out for LinqPad Debug testing
       DbContextUtils<PostgreContext>.SetInitializer(new MigrateDatabaseToLatestVersion<PostgreContext, MigrationsPostgre.ConfigurationPostgre>());

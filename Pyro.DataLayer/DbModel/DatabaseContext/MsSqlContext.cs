@@ -7,9 +7,8 @@ namespace Pyro.DataLayer.DbModel.DatabaseContext
   public class MsSqlContext : PyroDbContext, IPyroDbContext
   {
     public MsSqlContext()
-      : base()
+      : base("PyroConnectionString")
     {
-      //Below is only commented out for LinqPad Debug testing
       DbContextUtils<MsSqlContext>.SetInitializer(new MigrateDatabaseToLatestVersion<MsSqlContext, MigrationsMicrosoftSQLServer.ConfigurationMsSql>());
     }
 
@@ -19,4 +18,5 @@ namespace Pyro.DataLayer.DbModel.DatabaseContext
       base.OnModelCreating(Mb);
     }
   }
+
 }

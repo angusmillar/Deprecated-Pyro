@@ -256,7 +256,6 @@
     </Content>
     <None Include="packages.config" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
-    <None Include="Properties\PublishProfiles\PyroWebApiPublishFolder.pubxml" />
     <Content Include="specification.zip">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -279,6 +278,10 @@
     <ProjectReference Include="..\Pyro.DataLayer\Pyro.DataLayer.csproj">
       <Project>{ed443624-3bca-44a2-ad32-cea9cd47e9a7}</Project>
       <Name>Pyro.DataLayer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Pyro.DbManager\Pyro.DbManager.csproj">
+      <Project>{e4d0544a-3e7b-43ce-99e8-479436e85175}</Project>
+      <Name>Pyro.DbManager</Name>
     </ProjectReference>
     <ProjectReference Include="..\Pyro.Engine\Pyro.Engine.csproj">
       <Project>{7cdc3e7f-1823-497e-802d-1feb4d0d0caa}</Project>
@@ -328,6 +331,10 @@
     <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.8\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.8\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
     <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.2.8.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.2.8.0\build\Microsoft.Net.Compilers.props'))" />
   </Target>
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

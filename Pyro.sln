@@ -31,6 +31,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pyro.Smart_Test", "Pyro.Smart_Test\Pyro.Smart_Test.csproj", "{F44594DB-AE1D-42B6-8CCE-DAF8319E4B68}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pyro.WebApi", "Pyro.WebApi\Pyro.WebApi.csproj", "{77A13DAD-7097-4A6C-AD52-613F8816CC82}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E4D0544A-3E7B-43CE-99E8-479436E85175} = {E4D0544A-3E7B-43CE-99E8-479436E85175}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pyro.Identifiers", "Pyro.Identifiers\Pyro.Identifiers.csproj", "{FA3F0878-CCC9-410B-8BDA-6C4645EB60CB}"
 EndProject
@@ -41,6 +44,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pyro.ADHA_Test", "Pyro.ADHA_Test\Pyro.ADHA_Test.csproj", "{67662B60-8C55-4955-92EF-DACE657B68E7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pyro.Backburner", "Pyro.Backburner\Pyro.Backburner.csproj", "{FFE2C801-DFAD-4E95-A25E-289DF324477A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pyro.DbManager", "Pyro.DbManager\Pyro.DbManager.csproj", "{E4D0544A-3E7B-43CE-99E8-479436E85175}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -104,6 +109,10 @@ Global
 		{FFE2C801-DFAD-4E95-A25E-289DF324477A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FFE2C801-DFAD-4E95-A25E-289DF324477A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FFE2C801-DFAD-4E95-A25E-289DF324477A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E4D0544A-3E7B-43CE-99E8-479436E85175}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4D0544A-3E7B-43CE-99E8-479436E85175}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4D0544A-3E7B-43CE-99E8-479436E85175}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4D0544A-3E7B-43CE-99E8-479436E85175}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

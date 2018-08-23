@@ -31,6 +31,7 @@ using Pyro.Common.Search.SearchParameterEntity;
 using Pyro.Common.Service.Trigger;
 using Pyro.Common.SearchIndexer;
 using Pyro.Common.SearchIndexer.Index;
+using Pyro.Common.Logging;
 
 namespace Pyro.DataLayer.Repository
 {
@@ -57,6 +58,7 @@ namespace Pyro.DataLayer.Repository
     private readonly IPagingSupport IPagingSupport;
     private readonly IRepositorySwitcher IRepositorySwitcher;
     private readonly IResourceTriggerService IResourceTriggerService;
+    private readonly ILog ILog;
 
     private readonly CommonRepository<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType> CommonRepository;
 
@@ -68,7 +70,8 @@ namespace Pyro.DataLayer.Repository
       IDatabaseOperationOutcomeFactory IDatabaseOperationOutcomeFactory,
       IPagingSupport IPagingSupport,
       IRepositorySwitcher IRepositorySwitcher,
-      IResourceTriggerService IResourceTriggerService)
+      IResourceTriggerService IResourceTriggerService,
+      ILog ILog)
       : base(IPyroDbContext)
     {
       this.IPrimaryServiceRootCache = IPrimaryServiceRootCache;
@@ -79,6 +82,7 @@ namespace Pyro.DataLayer.Repository
       this.IPagingSupport = IPagingSupport;
       this.IRepositorySwitcher = IRepositorySwitcher;
       this.IResourceTriggerService = IResourceTriggerService;
+      this.ILog = ILog;
       this.CommonRepository = new CommonRepository<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>(IPyroDbContext, IPrimaryServiceRootCache);
     }
 
@@ -553,6 +557,7 @@ namespace Pyro.DataLayer.Repository
       {
         var ResourceEntity = new ResCurrentType();
         DtoFhirRelease DtoFhirRelease = IFhirReleaseCache.GetFhirReleaseByFhirVersion(Hl7.Fhir.Model.ModelInfo.Version);
+        CheckFhirReleaseSeedIssue(DtoFhirRelease);        
         IndexSettingSupport.SetResourceBaseAddOrUpdate(Resource, ResourceEntity, Common.Tools.ResourceVersionNumber.FirstVersion(), false, Bundle.HTTPVerb.POST, DtoFhirRelease.Id);
         this.PopulateResourceEntity(ResourceEntity, Resource, FhirRequestUri);
         ResourceEntity.IsCurrent = true;
@@ -590,6 +595,7 @@ namespace Pyro.DataLayer.Repository
       {
         ResourceHistoryEntity.IsCurrent = false;        
         DtoFhirRelease DtoFhirRelease = IFhirReleaseCache.GetFhirReleaseByFhirVersion(Hl7.Fhir.Model.ModelInfo.Version);
+        CheckFhirReleaseSeedIssue(DtoFhirRelease);
         IndexSettingSupport.SetResourceBaseAddOrUpdate(Resource, NewResourceEntity, ResourceVersion, false, Bundle.HTTPVerb.PUT, DtoFhirRelease.Id);
         this.PopulateResourceEntity(NewResourceEntity, Resource, FhirRequestUri);
         NewResourceEntity.IsCurrent = true;
@@ -994,6 +1000,17 @@ namespace Pyro.DataLayer.Repository
     public LinqKit.ExpressionStarter<ResCurrentType> Predicate()
     {
       return this.CommonRepository.PredicateCurrentNotDeleted();
+    }
+
+    private void CheckFhirReleaseSeedIssue(DtoFhirRelease DtoFhirRelease)
+    {
+      if (DtoFhirRelease == null)
+      {
+        string Message = $"The _FhirRelease database table returned no entry for the fhir Version '{Hl7.Fhir.Model.ModelInfo.Version}', this can typical occur that table was never seeded at the time of the database creation. You must create the database using the Pyro.DbManager application and not rely on the service creating it on startup as the service will nmot seed the inital data required.";
+        ILog.Fatal(Message);
+        var OptOut = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Exception, Message);
+        throw new Common.Exceptions.PyroException(System.Net.HttpStatusCode.InternalServerError, OptOut, Message);
+      }
     }
   }
 }

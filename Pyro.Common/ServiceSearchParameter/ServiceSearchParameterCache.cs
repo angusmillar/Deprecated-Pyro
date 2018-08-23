@@ -28,15 +28,18 @@ namespace Pyro.Common.ServiceSearchParameter
       {
         //Add the general Resource search parameters as well          
         DtoServiceSearchParameterLightList.AddRange(IServiceSearchParameterService.GetServiceSearchParametersForResource(Resource_ResourceName));
-        //Get all for the Resource Asked for       
-        DtoServiceSearchParameterLightList.AddRange(IServiceSearchParameterService.GetServiceSearchParametersForResource(ResourceType));
+        //Get all for the Resource Asked for, unless it was just resource type 'Resource'  
+        if (ResourceType != Resource_ResourceName)
+          DtoServiceSearchParameterLightList.AddRange(IServiceSearchParameterService.GetServiceSearchParametersForResource(ResourceType));
       }
       else
       {
         //Add the general Resource search parameters as well
         DtoServiceSearchParameterLightList.AddRange(IApplicationCacheSupport.GetOrSet($"GetServiceSearchParametersForResource.{Resource_ResourceName}", () => IServiceSearchParameterService.GetServiceSearchParametersForResource(Resource_ResourceName)));
 
-        DtoServiceSearchParameterLightList.AddRange(IApplicationCacheSupport.GetOrSet($"GetServiceSearchParametersForResource.{ResourceType}", () => IServiceSearchParameterService.GetServiceSearchParametersForResource(ResourceType)));
+        //Get all for the Resource Asked for, unless it was just resource type 'Resource'  
+        if (ResourceType != Resource_ResourceName)
+          DtoServiceSearchParameterLightList.AddRange(IApplicationCacheSupport.GetOrSet($"GetServiceSearchParametersForResource.{ResourceType}", () => IServiceSearchParameterService.GetServiceSearchParametersForResource(ResourceType)));
       }
 
       return DtoServiceSearchParameterLightList;

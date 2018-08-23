@@ -53,7 +53,7 @@ namespace Pyro.Common.Search
       return ServiceSearchParameterList;
     }
 
-    public static IList<DtoServiceSearchParameter> BaseResourceSearchParameters()
+    private static IList<DtoServiceSearchParameter> BaseResourceSearchParameters()
     {
       IList<DtoServiceSearchParameter> ServiceSearchParameterList = new List<DtoServiceSearchParameter>();
 

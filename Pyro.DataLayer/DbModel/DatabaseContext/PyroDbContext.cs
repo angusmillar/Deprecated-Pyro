@@ -7,8 +7,8 @@ namespace Pyro.DataLayer.DbModel.DatabaseContext
 {
   public partial class PyroDbContext : DbContext, IPyroDbContext
   {
-    public PyroDbContext()
-      : base(Common.Global.DatabaseConnection.PyroConnectionStringName){ }
+    public PyroDbContext(string ConnectionString)
+      : base(ConnectionString){ }
     
     public new DbEntityEntry Entry(object entity)
     {

@@ -1,18 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Pyro.Common.ServiceRoot;
 using Pyro.DataLayer.DbModel.EntityBase;
 using Hl7.Fhir.Model;
+using Pyro.Common.Interfaces.DataLayer;
 
 namespace Pyro.DataLayer.DbModel.Entity
 {
   /// <summary>
   /// This class is a one-to-one match to the FHIR API SearchParamDefinition yet some have been excluded, commented out below
   /// </summary>
-  public class _ServiceSearchParameter : ModelBase
+  public class _ServiceSearchParameter : ModelBase, I_ServiceSearchParameter
   {
     public string Resource { get; set; }
     public string Name { get; set; }

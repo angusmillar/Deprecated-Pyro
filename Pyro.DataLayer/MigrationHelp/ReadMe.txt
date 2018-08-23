@@ -3,18 +3,18 @@
 ###############################################################################################
 This file contains Entity Framework Migration command help for creating and running 
 Entity Franework Migrations. As we have many database providers 'Microsoft SQL Server' and 
-'PostgreSQL' each needs a migration created when there are any databse changes. 
-Below are helper examples for creating these commands.
+'PostgreSQL' each needs a migration created when there are any database changes. 
+Below are helper examples of these commands.
 
 Note: If you uses the '-ConfigurationTypeName ConfigurationMsSql' and yet have the PostgreSQL
 connection string active in the Pyro.ConsoleServer.App_Data/Connctions.config file, becuase 
-you forgot to align the migration database you wanted to migrate with the connection string 
-you have set. The you will see an error:
+you forgot to align the migration type to the database in your connection string. The you will 
+see the folowing error:
 
 'Unable to generate an explicit migration because the following explicit migrations are 
  pending:...etc'
 
-This is because the migration it is attempting to hit the wrong database and if it succeeds in 
+This is because the migration is attempting to hit the wrong database and if it succeeds in 
 connectiong it will read that database's __MigrationHistory table, yet that table will have the 
 wrong ContextKey property in this table. It will therefore belive it needs to perform all migration 
 from the beginging. When you see this you should first check that you have the correct 

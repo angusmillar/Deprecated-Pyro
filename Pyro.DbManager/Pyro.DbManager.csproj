@@ -1,0 +1,162 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{E4D0544A-3E7B-43CE-99E8-479436E85175}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Pyro.DbManager</RootNamespace>
+    <AssemblyName>Pyro.DbManager</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="dbup-core, Version=4.1.0.0, Culture=neutral, PublicKeyToken=4b419c53bdfd4cbf, processorArchitecture=MSIL">
+      <HintPath>..\packages\dbup-core.4.1.0\lib\net45\dbup-core.dll</HintPath>
+    </Reference>
+    <Reference Include="dbup-postgresql, Version=4.1.0.0, Culture=neutral, PublicKeyToken=4b419c53bdfd4cbf, processorArchitecture=MSIL">
+      <HintPath>..\packages\dbup-postgresql.4.1.0\lib\net45\dbup-postgresql.dll</HintPath>
+    </Reference>
+    <Reference Include="dbup-sqlserver, Version=4.1.0.0, Culture=neutral, PublicKeyToken=4b419c53bdfd4cbf, processorArchitecture=MSIL">
+      <HintPath>..\packages\dbup-sqlserver.4.1.0\lib\net35\dbup-sqlserver.dll</HintPath>
+    </Reference>
+    <Reference Include="Hl7.Fhir.STU3.Core, Version=0.94.0.0, Culture=neutral, PublicKeyToken=d706911480550fc3, processorArchitecture=MSIL">
+      <HintPath>..\packages\Hl7.Fhir.STU3.0.94.0\lib\net45\Hl7.Fhir.STU3.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Hl7.Fhir.Support, Version=0.94.0.0, Culture=neutral, PublicKeyToken=d706911480550fc3, processorArchitecture=MSIL">
+      <HintPath>..\packages\Hl7.Fhir.Support.0.94.0\lib\net45\Hl7.Fhir.Support.dll</HintPath>
+    </Reference>
+    <Reference Include="Hl7.FhirPath, Version=0.94.0.0, Culture=neutral, PublicKeyToken=d706911480550fc3, processorArchitecture=MSIL">
+      <HintPath>..\packages\Hl7.FhirPath.0.94.0\lib\net45\Hl7.FhirPath.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Npgsql, Version=4.0.2.0, Culture=neutral, PublicKeyToken=5d8b90d52f46fda7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Npgsql.4.0.2\lib\net451\Npgsql.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.0\lib\netstandard1.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.0\lib\portable-net45+win8+wp8+wpa81\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Custom\MsSql\TestPyroSqlTableJournal.cs" />
+    <Compile Include="DbConnection\DbConnectionInfo.cs" />
+    <Compile Include="DbConnection\WebConfigReader.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ResourceStore.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ResourceStore.resx</DependentUpon>
+    </Compile>
+    <Compile Include="SqlScripts\PostgreSql\201808171251000_SeedFhirSearchParametersTargetResources.cs" />
+    <Compile Include="SqlScripts\PostgreSql\201808171250000_SeedFhirSearchParameters.cs" />
+    <Compile Include="Tools\ScriptFileDrop.cs" />
+    <Compile Include="Tools\StringStore.cs" />
+    <Compile Include="Tools\StringSupport.cs" />
+    <Compile Include="Tools\SynchToDbUp.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ResourceStore.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ResourceStore.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SqlScripts\MsSQL\201706130828061_CaseSensativeFhirId.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="SqlScripts\MsSQL\201706130247261_First.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Pyro.Common\Pyro.Common.csproj">
+      <Project>{7458636f-b6a9-4f11-8921-1f70f717e1a9}</Project>
+      <Name>Pyro.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="SqlScripts\PostgreSql\201808070701252_First.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="SqlScripts\MsSQL\201707250621340_CodeMax128.sql" />
+    <EmbeddedResource Include="SqlScripts\MsSQL\201708292255593_StringIndexAdd.sql" />
+    <EmbeddedResource Include="SqlScripts\MsSQL\201708300021437_OldStringIndexDrop.sql" />
+    <EmbeddedResource Include="SqlScripts\MsSQL\201709052306571_NewIndexesAdd.sql" />
+    <EmbeddedResource Include="SqlScripts\MsSQL\201709122345167_OldIndexesDrop.sql" />
+    <EmbeddedResource Include="SqlScripts\MsSQL\201712120810582_RenameServiceTables.sql" />
+    <EmbeddedResource Include="SqlScripts\MsSQL\201804210403261_ServiceCompartment.sql" />
+    <EmbeddedResource Include="SqlScripts\MsSQL\201805080344516_AddTable_FhirRelease.sql" />
+    <EmbeddedResource Include="SqlScripts\MsSQL\201805100414292_AddFhirReleaseIdToResources.sql" />
+    <EmbeddedResource Include="SqlScripts\MsSQL\201805100418177_PopulateFhirReleaseIdWithFhirRelease301.sql" />
+    <EmbeddedResource Include="SqlScripts\MsSQL\201805100431553_SetForgienKeyToFhirReleaseForResource.sql" />
+    <EmbeddedResource Include="SqlScripts\MsSQL\201806080859237_ServiceConfigurationTable.sql" />
+    <EmbeddedResource Include="SqlScripts\MsSQL\201806280910008_ReferenceIndexCaseSensitiveDrop.sql" />
+    <EmbeddedResource Include="SqlScripts\MsSQL\201806280918213_ReferenceIndexCaseSensitiveReinstate.sql" />
+    <EmbeddedResource Include="SqlScripts\MsSQL\201807110801161_AddGZipResourceColumn.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="SqlScripts\MsSQL\201807110804261_ConversionXMLBlobtoGZipResourceColumn.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="SqlScripts\MsSQL\201808041212043_AlignNamesForPostgreSQL.sql" />
+    <EmbeddedResource Include="SqlScripts\MsSQL\201808070908225_AddNewLowHighUtcDateTimeColoums.sql" />
+    <EmbeddedResource Include="SqlScripts\MsSQL\201808070911372_PopulateNewLowHighUtcDateTimeColoums.sql" />
+    <EmbeddedResource Include="SqlScripts\MsSQL\201808070917504_DropOldLowHighUtcDateTimeColoums.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Seeding\FhirSearchParamters.cs" />
+    <Compile Include="Seeding\SParamResource.cs" />
+    <Compile Include="Seeding\SearchParam.cs" />
+    <Compile Include="SqlScripts\PostgreSql\201808150740000_FhirReleaseSeed.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="SqlScripts\MsSQL\201808171250000_SeedFhirSearchParameters.sql" />
+    <EmbeddedResource Include="SqlScripts\MsSQL\201808171251000_SeedFhirSearchParametersTargetResources.sql" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+</Project>

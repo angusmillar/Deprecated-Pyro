@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Pyro.Common.Search.SearchParameterEntity;
+using Pyro.Common.ServiceSearchParameter;
 
 namespace Pyro.Common.Service.Include
 {
@@ -19,22 +20,20 @@ namespace Pyro.Common.Service.Include
     private readonly IRepositorySwitcher IRepositorySwitcher;
     private readonly ICommonFactory ICommonFactory;
     private readonly ISearchParameterFactory ISearchParameterFactory;
-    //private readonly ISearchParameterGenericFactory ISearchParameterGenericFactory;
-    //private readonly ISearchParameterServiceFactory ISearchParameterServiceFactory;
+    private readonly IServiceSearchParameterCache IServiceSearchParameterCache;
     private readonly ICompartmentSearchParameterService ICompartmentSearchParameterService;
 
     private readonly int MaxRecursionDepth = 20; //This should really be in the Server config e.g (GlobalProperties)?
     private string _Compartment = string.Empty;
     private string _CompartmentId = string.Empty;
     //Constructor for dependency injection
-    public IncludeService(IRepositorySwitcher IRepositorySwitcher, ICommonFactory ICommonFactory, ISearchParameterFactory ISearchParameterFactory, ICompartmentSearchParameterService ICompartmentSearchParameterService)
+    public IncludeService(IRepositorySwitcher IRepositorySwitcher, ICommonFactory ICommonFactory, ISearchParameterFactory ISearchParameterFactory, ICompartmentSearchParameterService ICompartmentSearchParameterService, IServiceSearchParameterCache IServiceSearchParameterCache)
     {
       this.IRepositorySwitcher = IRepositorySwitcher;
       this.ICommonFactory = ICommonFactory;
-      this.ISearchParameterFactory = ISearchParameterFactory;
-      //this.ISearchParameterGenericFactory = ISearchParameterGenericFactory;
+      this.ISearchParameterFactory = ISearchParameterFactory;      
       this.ICompartmentSearchParameterService = ICompartmentSearchParameterService;
-      //this.ISearchParameterServiceFactory = ISearchParameterServiceFactory;
+      this.IServiceSearchParameterCache = IServiceSearchParameterCache;
     }
 
     public List<DtoResource> ResolveIncludeResourceList(List<SearchParameterInclude> IncludeList, List<DtoResource> SourceInputResourceList, string Compartment = "", string CompartmentId = "")
@@ -245,9 +244,15 @@ namespace Pyro.Common.Service.Include
         if (!string.IsNullOrWhiteSpace(this._Compartment) && !string.IsNullOrWhiteSpace(this._CompartmentId))
         {
           //Here we need create a search parameter for _id={FhirId)
-          var IdSearchParameter = ServiceSearchParameterFactory.BaseResourceSearchParameters().SingleOrDefault(x => x.Name == "_id");
-          var IdParameterString = new Tuple<string, string>(IdSearchParameter.Name, FhirId);
-          ISearchParameterBase SearchParam = ISearchParameterFactory.CreateSearchParameter(IdSearchParameter, IdParameterString);
+
+          DtoServiceSearchParameterLight _IdSearchParamLight = IServiceSearchParameterCache.GetSearchParameterForResource(Hl7.Fhir.Model.ResourceType.Resource.GetLiteral()).SingleOrDefault(x => x.Name == "_id");
+          //var IdSearchParameter = ServiceSearchParameterFactory.BaseResourceSearchParameters().SingleOrDefault(x => x.Name == "_id");
+          var IdParameterString = new Tuple<string, string>(_IdSearchParamLight.Name, FhirId);
+          //var IdParameterString = new Tuple<string, string>(IdSearchParameter.Name, FhirId);
+
+          ISearchParameterBase SearchParam = ISearchParameterFactory.CreateSearchParameter(_IdSearchParamLight, IdParameterString);
+          //ISearchParameterBase SearchParam = ISearchParameterFactory.CreateSearchParameter(IdSearchParameter, IdParameterString);
+
           PyroSearchParameters FhirIdSearchParameter = new PyroSearchParameters();
           FhirIdSearchParameter.SearchParametersList = new List<ISearchParameterBase>();          
           FhirIdSearchParameter.SearchParametersList.Add(SearchParam);

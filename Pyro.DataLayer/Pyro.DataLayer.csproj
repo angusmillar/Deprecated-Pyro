@@ -299,7 +299,9 @@
     <Compile Include="Support\DbContextUtils.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="DbModel\DatabaseContextConfig\MainTemplate.txt4" />
     <None Include="DbModel\DatabaseContext\MainTemplate.txt4" />
     <None Include="DbModel\EntityGenerated\MainTemplate.txt4" />
@@ -313,9 +315,7 @@
       <Name>Pyro.Common</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <EmbeddedResource Include="MigrationsMicrosoftSQLServer\201706130247261_First.resx">
       <DependentUpon>201706130247261_First.cs</DependentUpon>

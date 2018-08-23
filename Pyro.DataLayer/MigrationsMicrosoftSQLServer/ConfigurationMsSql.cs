@@ -13,7 +13,13 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
   {
     public ConfigurationMsSql()
     {
-      AutomaticMigrationsEnabled = true;
+      //To obtain a new SQL script for an upgrade change the 'AutomaticMigrationsEnabled' to equal True and run
+      //Update-Database -Script -ConfigurationTypeName ConfigurationMsSql
+      //Remember to then set back to False after the SQL script is obtained.
+      //Also remember that you must haved the Pyro.ConsoleServer project selected as the start-up project for 
+      //it to pick up that projects Web.config settings
+      AutomaticMigrationsEnabled = false;
+      //AutomaticMigrationDataLossAllowed = true;
       MigrationsDirectory = "MigrationsMicrosoftSQLServer";
       //We must set the ContextKey to the older name of this class as 
       //older databases out there will have this ContextKey set in their __MigrationHistory table
@@ -21,12 +27,12 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
       
     }
 
-    protected override void Seed(MsSqlContext context)
-    {
-      DbSeeding.SeedPyroDatabase PyroSeed = new DbSeeding.SeedPyroDatabase(context);
-      PyroSeed.Seed();
-      base.Seed(context);
-    }
+    //protected override void Seed(MsSqlContext context)
+    //{
+    //  DbSeeding.SeedPyroDatabase PyroSeed = new DbSeeding.SeedPyroDatabase(context);
+    //  PyroSeed.Seed();
+    //  base.Seed(context);
+    //}
 
   }
 }
