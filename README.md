@@ -79,6 +79,7 @@ There are three key projects you will need to understand:
 * `Pyro.DbManager` for database management  
 * `Pyro.ConsoleServer` as the development environment 
 * `Pyro.WebApi` as the production environment
+*  General Information about running the environments
 
 
 **Database Management**
@@ -123,6 +124,7 @@ You will also need to set the `ServiceBaseURL` property in the file below (See t
 
 `Pyro.WebApi\App_Data\PyroApp.config`
 
+**General Information**
 
 Both projects `Pyro.WebApi` and `Pyro.ConsoleServer`, require that you first run the `Pyro.DbManager` to initialise the database.
 If you do not do this, and start either `Pyro.WebApi` or `Pyro.ConsoleServer` first, they will create a database for themselves yet that database will not be seeded with the required reference data. Once you attempt to commit (PUT or POST) a FHIR resource via the API you will receive a FHIR OperationOutcome error in response which reads:
