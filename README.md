@@ -213,7 +213,7 @@ When run, it will first list the SQL scripts that it has detected as required to
 
 If you answer No it will abort if you answer Yes the scripts will be executed against the database. It will eventually finish with the word "Success!" in green, or a red "Failed!" and some error messages.
 
-If you wished to automate this task you can provide the switch parameter '-UnattendedMode True' to the launch and it will run without requiring any user interactions, it will just attempt to run the scripts against the database and nothing else. This is a console application that managed the databse initaliseation and migrations or upgrades
+If you wished to automate this task you can provide the switch parameter '-UnattendedMode True' to the launch and it will run without requiring any user interactions, it will just attempt to run the scripts against the database and nothing else.
 
 **Pyro.Engine (Project)**
 
