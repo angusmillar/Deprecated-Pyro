@@ -11,7 +11,6 @@
 // by using the '*' as shown below:
 [assembly: AssemblyVersion("3.0.0.0")]
 //This  is the PyroServer version mark that is manulay incremented.
-//The Major is to stay wiht the Major FHIR Spec version STU3 = 3, STU4 = 4
-//The rest is for our use and a Build inrement means DB chnage
-// I do want  to align this with the EF Migration history in future.
-[assembly: AssemblyFileVersion("3.0.2.9")]
+//The Major is to stay with the Major FHIR Spec version STU3 = 3, STU4 = 4
+//The rest is for our use and a Build inrement means DB chnage/
+[assembly: AssemblyFileVersion("3.0.2.10")]
