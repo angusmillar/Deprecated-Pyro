@@ -63,10 +63,10 @@ PostgreSQL (Version 10)
 ## How do I get this solution up and running fast ##
 
 1. First clone from the GitHub repository: https://github.com/angusmillar/Pyro.git and then open in Visual Studio 2017.
-2. Right click the main Solution 'Pyro' and select 'Restore Nuget packages' and then 'F6' to Build Solution.
+2. Right click the main solution 'Pyro' and select 'Restore Nuget packages' and then 'F6' to build the solution.
 3. You will then need to configure to your development environment database connection string by editing this file: `Pyro.ConsoleServer\App_Data\Connectons.config`
 4. Then right click the project named 'Pyro.DbManager' and select 'Set as StartUp Project'
-5. Hit 'F5' to start 'Pyro.DbManager' console application project and follow the prompts to create the intial database.
+5. Hit 'F5' to start the 'Pyro.DbManager' console application project and follow the prompts to create the intial database.
 6. Then right click the project named 'Pyro.ConsoleServer' and select 'Set as StartUp Project'
 7. Hit 'F5' to start the 'Pyro.ConsoleServer' project.
 8. A console window opens with the Pyro logo in yellow and the message "Please wait while database schema loads", this will take about 1 min.     
@@ -76,15 +76,15 @@ PostgreSQL (Version 10)
 
 There are three key projects you will need to understand:
 
-*Pyro.DbManager for database management  
-*Pyro.ConsoleServer as the development environment 
-*Pyro.WebApi as the production environment
+* Pyro.DbManager for database management  
+* Pyro.ConsoleServer as the development environment 
+* Pyro.WebApi as the production environment
 
 
 **Database Management**
 
-The `Pyro.DbManager` project will is a console application that will connect to the databse and create or upgrade the database as required.
-This project MUST be run before any other inorder to setup the database.
+The `Pyro.DbManager` project is a console application that will connect to the databse and create or upgrade the database as required.
+This project MUST be run before the others as it will setup the database which the other projects depend upon.
 When run in the debugger (Visual Studio) it uses the connection string found in the `Pyro.ConsoleServer` project e.g `Pyro.ConsoleServer\App_Data\Connectons.config`. 
 When run outside of the debugger it expects to find a web.config file in the parent directory from where it is run, it will use the connection string referanced from this web.config file which will typlicaly be the Connectons.config file found in the App_Data directory of the same pareent directory. 
 This is true when deployed in IIS and the Pyro.DbManager.exe is found in the bin folder, so in this case you just need to run the Pyro.DbManager.exe stright from the bin folder to create or update the production database.   
