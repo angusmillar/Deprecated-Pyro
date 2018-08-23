@@ -133,7 +133,7 @@ In general, you would only use `Pyro.Console` in your development environment an
 
 _Logging:_
 The solution uses the [NLog](http://nlog-project.org/) logging framework. By default, this is configured to log to the console and to AWS Cloudwatch logs.
-You may wish to reconfigure this for your needs. There is already a commented out config to have it log to the file system.
+You may wish to reconfigure this for your needs. There is a commented out config to have it log to the file system.
 
 All configuration lives in the file below and the [NLog Configuration Documentation](https://github.com/nlog/NLog/wiki/Configuration-file) is at this link. 
 
@@ -208,9 +208,12 @@ This is the data layer project which handles all database access
 **Pyro.DbManager (Project)**
 
 This is a console application that manages the Pyro server database initialization and migrations/upgrades. You must run this before running either the `Pyro.ConsoleServer` or the `Pyro.WebApi` and it should be run after any code updates to apply any database changes that may be required.  It is safe to run at any time and multiple times as it tracks what it has done within the database table `__SchemaVersions`. 
+
 When run, it will first list the SQL scripts that it has detected as required to be run. It will then ask whether you would like these SQL scripts written to a folder for your own inspection or review. It will warn you to back up your database and then finally will ask: "Do you wish to perform the upgrade against the database?"  
-If you answer No it will abort if you answer yes the scripts will be executed against the database. It will eventually finish with the word "Success!" in green, or a red "Failed!" and some error messages, if it was not successful.
-Also, if you wished to automate this task you can provide the switch parameter '-UnattendedMode True' to the launch and it will run without requiring any user interactions, it will just attempt to run the scripts against the database and nothing else. This is a console application that managed the databse initaliseation and migrations or upgrades
+
+If you answer No it will abort if you answer Yes the scripts will be executed against the database. It will eventually finish with the word "Success!" in green, or a red "Failed!" and some error messages.
+
+If you wished to automate this task you can provide the switch parameter '-UnattendedMode True' to the launch and it will run without requiring any user interactions, it will just attempt to run the scripts against the database and nothing else. This is a console application that managed the databse initaliseation and migrations or upgrades
 
 **Pyro.Engine (Project)**
 
