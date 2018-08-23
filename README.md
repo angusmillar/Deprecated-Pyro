@@ -65,25 +65,38 @@ PostgreSQL (Version 10)
 1. First clone from the GitHub repository: https://github.com/angusmillar/Pyro.git and then open in Visual Studio 2017.
 2. Right click the main Solution 'Pyro' and select 'Restore Nuget packages' and then 'F6' to Build Solution.
 3. You will then need to configure to your development environment database connection string by editing this file: `Pyro.ConsoleServer\App_Data\Connectons.config`
-4. The right click the project named 'Pyro.ConsoleServer' and select 'Set as StartUp Project'
-5. Hit 'F5' to start the project.
-6. A console window open with the Pyro logo in yellow and the message "Please wait while database schema loads". If this is the first time running the application the database will be created at this stage and seeded with referance data. This may take take 4 to 5 min to complete. On all subsequent starts only the database schema is loaded which takes just over 1 minute to complete.     
-7. Once the load is completed the console will change from yellow to blue and the server is ready for calls to its FHRI API. The console will state the FHIR API endpoint. The default is `http://localhost:8888/fhir` 
+4. Then right click the project named 'Pyro.DbManager' and select 'Set as StartUp Project'
+5. Hit 'F5' to start 'Pyro.DbManager' console application project and follow the prompts to create the intial database.
+6. Then right click the project named 'Pyro.ConsoleServer' and select 'Set as StartUp Project'
+7. Hit 'F5' to start the 'Pyro.ConsoleServer' project.
+8. A console window opens with the Pyro logo in yellow and the message "Please wait while database schema loads", this will take about 1 min.     
+9. Once the load is completed the console will change from yellow to blue and the server is ready for calls to its FHRI API. The console will state the FHIR API endpoint. The default is `http://localhost:8888/fhir` 
 
 ## Understanding the solution a little deeper ##
 
-There are two key projects you will need to understand, the development environment and the production environment. They are as follows:
+There are three key projects you will need to understand:
+
+*Pyro.DbManager for database management  
+*Pyro.ConsoleServer as the development environment 
+*Pyro.WebApi as the production environment
+
+
+**Database Management**
+
+The `Pyro.DbManager` project will is a console application that will connect to the databse and create or upgrade the database as required.
+This project MUST be run before any other inorder to setup the database.
+When run in the debugger (Visual Studio) it uses the connection string found in the `Pyro.ConsoleServer` project e.g `Pyro.ConsoleServer\App_Data\Connectons.config`. 
+When run outside of the debugger it expects to find a web.config file in the parent directory from where it is run, it will use the connection string referanced from this web.config file which will typlicaly be the Connectons.config file found in the App_Data directory of the same pareent directory. 
+This is true when deployed in IIS and the Pyro.DbManager.exe is found in the bin folder, so in this case you just need to run the Pyro.DbManager.exe stright from the bin folder to create or update the production database.   
 
 **Development Environment**
 
 The `Pyro.ConsoleServer` project will run the server in console mode and is the primary way to use the server if in a development environment. It's quicker to start and logs on screen the HTTP request coming in. The FHIR server is fully functional run this way.
-Before you run this project you will need to change the connection string for the `Pyro.ConsoleServer` project. This can be found in the file:
+Before you run this project you will need to have configured the connection string as showen below and you must have first run the `Pyro.DbManager` project which will have initalised your database. 
 
 `Pyro.ConsoleServer\App_Data\Connectons.config`
 
-Just change the `connectionString` element to meet your database.
-
-You may also like to change the `ServiceBaseURL` property, the endpoint the fhir server will run from. this can be done in the file:
+You may also like to change the `ServiceBaseURL` property which is the endpoint the FHIR server will run from. This can be done in the file:
 
 `Pyro.ConsoleServer\App_Data\PyroApp.config`
 
@@ -102,17 +115,20 @@ The `Pyro.WebApi` project will run the server in Internet Information Services (
 
 There is a separate independent Javascript React SPA website project named PyroWeb that provide a website landing page for the Pyro Server found here: [PyroWeb WebSite](https://github.com/angusmillar/PyroWeb).
 
-Before you run the `Pyro.WebApi` project you will need to change the connection string for the Pyro.WebApi. This can be found in the file:
+Before you run this project you will need to have configured the connection string as showen below and you must have first run the `Pyro.DbManager` project which will have initalised your database. 
 
 `Pyro.WebApi\App_Data\Connectons.config`
 
-Just change the `ConnectionString` element to meet your database.
 You will also need to set the `ServiceBaseURL` property in the file below (See the same documentation above in "Development Environment" for this property)
 
 `Pyro.WebApi\App_Data\PyroApp.config`
 
-Both projects `Pyro.WebApi` and `Pyro.ConsoleServer`, when first run will create a database at the given ConnectionString.
-Be patient as the first time the application is run it must create all the database tables and populate them with seed data before it is ready to be used. This will take roughly 4 to 5 min. All subsequent startups still need to load the database schema which takes roughly 1 min.
+
+Both projects `Pyro.WebApi` and `Pyro.ConsoleServer`, requires that you first run the `Pyro.DbManager` first to initialise the database.
+If you do not do this and start either `Pyro.WebApi` or `Pyro.ConsoleServer` first, they will create a database for themselves yet that database will not 
+be seeded with the required reference data. Once you attempt to commit (PUT or POST) a FHIR resource you will receive a FHIR OperationOutcome error in response that reads:
+
+`The _FhirRelease database table returned no entry for the fhir Version '{Hl7.Fhir.Model.ModelInfo.Version}', this typically occurs when the table was never seeded at the time of database creation. You must create the database using the Pyro.DbManager application and not rely on the service creating it on startup as the service will not seed the initial data required.` If this is true for you then drop your database and start again by running the Pyro.DbManager application first.`
 
 In general, you would only use `Pyro.Console` in your development environment and configure its connection strings and ServiceBaseURL to suit. You would then only configure the `Pyro.WebApi` connection strings and ServiceBaseURL to be for your production instance ready for deployment. 
 
@@ -189,6 +205,13 @@ This is the project to set as start-up when running in Visual Studio.
 **Pyro.DataLayer (Project)**
 
 This is the data layer project which handles all database access
+
+**Pyro.DbManager (Project)**
+
+This is a console application that manages the Pyro server database initialization and migrations/upgrades. You must run this before running either the `Pyro.ConsoleServer` or the `Pyro.WebApi` and it should be run after any code updates to apply any database changes that may be required.  It is safe to run at any time and multiple times as it tracks what it has done within the database table `__SchemaVersions`. 
+When run, it will first list the SQL scripts that it has detected as required to be run. It will then ask whether you would like these SQL scripts written to a folder for your own inspection or review. It will warn you to back up your database and then finally will ask: "Do you wish to perform the upgrade against the database?"  
+If you answer No it will abort if you answer yes the scripts will be executed against the database. It will eventually finish with the word "Success!" in green, or a red "Failed!" and some error messages, if it was not successful.
+Also, if you wished to automate this task you can provide the switch parameter '-UnattendedMode True' to the launch and it will run without requiring any user interactions, it will just attempt to run the scripts against the database and nothing else. This is a console application that managed the databse initaliseation and migrations or upgrades
 
 **Pyro.Engine (Project)**
 
