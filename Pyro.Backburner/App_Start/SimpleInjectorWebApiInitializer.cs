@@ -245,8 +245,8 @@ namespace Pyro.Backburner.App_Start
       container.Register<Common.Compartment.IServiceCompartmentCache, Common.Compartment.ServiceCompartmentCache>(Lifestyle.Scoped);
       container.Register<Common.FhirRelease.IFhirReleaseCache, Common.FhirRelease.FhirReleaseCache>(Lifestyle.Scoped);
 
-      //Scoped: Load all the FHIR Validation Resolvers 
-      container.RegisterCollection<IResourceResolver>(new[] { typeof(InternalServerProfileResolver), typeof(AustralianFhirProfileResolver), typeof(ZipSourceResolver) });
+      //Scoped: Load all the FHIR Validation Resolvers       
+      container.Collection.Register<IResourceResolver>(new[] { typeof(InternalServerProfileResolver), typeof(AustralianFhirProfileResolver), typeof(ZipSourceResolver) });
 
       //Scoped: Bellow returns all CommonResourceRepository types to be registered in contaioner
       var CommonResourceRepositoryTypeList = Pyro.DataLayer.DbModel.EntityGenerated.CommonResourceRepositoryTypeList.GetTypeList();
