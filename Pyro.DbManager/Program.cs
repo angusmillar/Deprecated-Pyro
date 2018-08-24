@@ -154,6 +154,7 @@ namespace Pyro.DbManager
           
           Console.ForegroundColor = ConsoleColor.Red;
           Console.WriteLine("");
+          Console.WriteLine("");
           Console.WriteLine("###############################################################################");
           Console.WriteLine("################### Have you backed up your database? #########################");
           Console.WriteLine("###############################################################################");

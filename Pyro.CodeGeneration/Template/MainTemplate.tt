@@ -5,9 +5,9 @@
 
 <#@ Assembly Name="System.Core" #>
 <#@ Assembly Name="$(SolutionDir)packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll"#>
-<#@ Assembly Name="$(SolutionDir)packages\Hl7.Fhir.STU3.0.94.0\lib\net45\Hl7.Fhir.STU3.Core.dll"#>
-<#@ Assembly Name="$(SolutionDir)packages\Hl7.Fhir.Support.0.94.0\lib\net45\Hl7.Fhir.Support.dll"#>
-<#@ Assembly Name="$(SolutionDir)packages\Hl7.FhirPath.0.94.0\lib\net45\Hl7.FhirPath.dll"#>
+<#@ Assembly Name="$(SolutionDir)packages\Hl7.Fhir.STU3.0.96.0\lib\net45\Hl7.Fhir.STU3.Core.dll"#>
+<#@ Assembly Name="$(SolutionDir)packages\Hl7.Fhir.Support.0.96.0\lib\net45\Hl7.Fhir.Support.dll"#>
+<#@ Assembly Name="$(SolutionDir)packages\Hl7.FhirPath.0.96.0\lib\net45\Hl7.FhirPath.dll"#>
 <#@ Assembly Name="$(SolutionDir)Pyro.CodeGeneration\bin\Debug\Pyro.CodeGeneration.dll"#>
 
 <#@ import namespace="System" #>
