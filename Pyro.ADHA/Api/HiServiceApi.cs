@@ -180,13 +180,27 @@ namespace Pyro.ADHA.Api
           {
             Pyro.ADHA.mcaR3.ConsumerSearchIHI.ServiceMessagesType error = fault.GetDetail<Pyro.ADHA.mcaR3.ConsumerSearchIHI.ServiceMessagesType>();
             // Look at error details in here
-            if (error.serviceMessage.Length > 0)
+            if (error?.serviceMessage?.Length > 0)
             {
               string returnMessage = error.serviceMessage[0].code + ": " + error.serviceMessage[0].reason;
               IhiSearchValidateOutcome.QueryMetadata.ErrorMessge = returnMessage;
             }
+            else if (fault?.Reason?.Translations != null)
+            {
+              StringBuilder sb = new StringBuilder();
+              sb.AppendLine("Service requested is temporarily unavailable.");
+              foreach(var FaultReasonText in fault.Reason.Translations)
+              {
+                sb.AppendLine(FaultReasonText.Text);
+              }
+              string returnMessage = sb.ToString();
+              IhiSearchValidateOutcome.QueryMetadata.ErrorMessge = returnMessage;
+            }
+            else
+            {
+              IhiSearchValidateOutcome.QueryMetadata.ErrorMessge = "Service requested is temporarily unavailable.";
+            }
           }
-
         }
         catch (Exception Exec)
         {
