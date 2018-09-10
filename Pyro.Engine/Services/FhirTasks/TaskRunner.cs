@@ -7,7 +7,7 @@ using Pyro.Common.Interfaces.Service;
 using Pyro.Common.Logging;
 using Pyro.Common.Service.ResourceService;
 using Pyro.Common.Service.Trigger;
-//using Pyro.Common.PyroHealthFhirResource;
+using Pyro.Common.PyroHealthFhirResource.CodeSystems;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -16,6 +16,7 @@ using Pyro.Engine.Services.FhirTasks.FhirSpecLoader;
 using Pyro.Engine.Services.FhirTasks.SetCompartment;
 using Pyro.Common.Tools.FhirTask;
 using Pyro.Common.Global;
+using Pyro.Engine.Services.FhirTasks.SearchParameterLoader;
 
 namespace Pyro.Engine.Services.FhirTasks
 {
@@ -25,23 +26,25 @@ namespace Pyro.Engine.Services.FhirTasks
     private readonly IRequestMetaFactory IRequestMetaFactory;
     private readonly IRequestHeaderFactory IRequestHeaderFactory;
     private readonly ILog ILog;
-    private readonly Common.PyroHealthFhirResource.CodeSystems.IPyroTask IPyroTaskCodeSystem;
-    private readonly Common.PyroHealthFhirResource.CodeSystems.IPyroFhirServer IPyroFhirServerCodeSystem;
+    private readonly IPyroTask IPyroTaskCodeSystem;
+    private readonly IPyroFhirServer IPyroFhirServerCodeSystem;
     private readonly IFhirTaskTool IFhirTaskTool;
     private readonly IGlobalProperties IGlobalProperties;
     private readonly IFhirSpecificationDefinitionLoader IFhirSpecificationDefinitionLoader;
     private readonly ISetCompartmentDefinitionTaskProcessor ISetCompartmentDefinitionTaskProcessor;
+    private readonly ISearchParameterResourceLoader ISearchParameterResourceLoader;
 
     public TaskRunner(IResourceServices IResourceServices,
       IRequestMetaFactory IRequestMetaFactory,
       IRequestHeaderFactory IRequestHeaderFactory,
       ILog ILog,
-      Common.PyroHealthFhirResource.CodeSystems.IPyroTask IPyroTaskCodeSystem,
-      Common.PyroHealthFhirResource.CodeSystems.IPyroFhirServer IPyroFhirServerCodeSystem,
+      IPyroTask IPyroTaskCodeSystem,
+      IPyroFhirServer IPyroFhirServerCodeSystem,
       IFhirTaskTool IFhirTaskTool,
       IGlobalProperties IGlobalProperties,
       IFhirSpecificationDefinitionLoader IFhirSpecificationDefinitionLoader,
-      ISetCompartmentDefinitionTaskProcessor ISetCompartmentDefinitionTaskProcessor)
+      ISetCompartmentDefinitionTaskProcessor ISetCompartmentDefinitionTaskProcessor,
+      ISearchParameterResourceLoader ISearchParameterResourceLoader)
     {
       this.IResourceServices = IResourceServices;
       this.IRequestMetaFactory = IRequestMetaFactory;
@@ -53,11 +56,12 @@ namespace Pyro.Engine.Services.FhirTasks
       this.IGlobalProperties = IGlobalProperties;
       this.IFhirSpecificationDefinitionLoader = IFhirSpecificationDefinitionLoader;
       this.ISetCompartmentDefinitionTaskProcessor = ISetCompartmentDefinitionTaskProcessor;
+      this.ISearchParameterResourceLoader = ISearchParameterResourceLoader;
     }
 
-    private IEnumerable<Common.PyroHealthFhirResource.CodeSystems.PyroFhirServer.Codes> _TaskIdentifierToRunList;
+    private IEnumerable<PyroFhirServer.Codes> _TaskIdentifierToRunList;
 
-    public void Run(IEnumerable<Common.PyroHealthFhirResource.CodeSystems.PyroFhirServer.Codes> TaskIdentifierToRunList)
+    public void Run(IEnumerable<PyroFhirServer.Codes> TaskIdentifierToRunList)
     {
       _TaskIdentifierToRunList = TaskIdentifierToRunList;
       if (_TaskIdentifierToRunList.Count() > 0)
@@ -100,36 +104,62 @@ namespace Pyro.Engine.Services.FhirTasks
       }
       catch (Exception Exec)
       {
-        ILog.Error(Exec, $"Internal Server Error: Unable to load the list of Tasks of Tasks to process on Pyro Server Startup. Search Query was: {ResourceType.Task.GetLiteral()}?{SearchQuery}");
+        ILog.Error(Exec, $"Internal Server Error: Unable to load the list of Tasks of Tasks to process on Pyro Server Start-up. Search Query was: {ResourceType.Task.GetLiteral()}?{SearchQuery}");
       }
       return TaskResultList;
     }
 
     private void ProcessServerStartupTaskList(List<Task> readyTaskOfTasksList)
     {
-      foreach (Task Task in readyTaskOfTasksList)
-      {
-        Task.TaskStatus? TaskStatus = null;
-        var TaskTypeList = Task.Code?.Coding?.Where(x => x.System == IPyroTaskCodeSystem.GetSystem());
-        if (TaskTypeList != null)
-        {
-          //Task: LoadFhirDefinitionResources
-          if (TaskTypeList.Any(x => x.Code == IPyroTaskCodeSystem.GetCode(Common.PyroHealthFhirResource.CodeSystems.PyroTask.Codes.LoadFhirDefinitionResources))
-            && IGlobalProperties.LoadFhirDefinitionResources)
-          {
-            //This Task Manages it's own Transaction within
-            TaskStatus = IFhirSpecificationDefinitionLoader.Run(Task);
-          }
+      //Below managed the order that the Task are run. They are sourced from a search on the server so there is
+      //little guarantee of order, so they are selected specificaly as below.
 
-          //Task: SetCompartmentDefinitions
-          if (TaskTypeList.Any(x => x.Code == IPyroTaskCodeSystem.GetCode(Common.PyroHealthFhirResource.CodeSystems.PyroTask.Codes.SetCompartmentDefinitions)))
-          {
-            //This Task Manages it's own Transaction within
-            TaskStatus = ISetCompartmentDefinitionTaskProcessor.Run(Task);
-          }
-          //Add new tasks  here.
-        }
+      //1. Task: SetSearchDefinitions and Indexes
+      Task SetSearchParameterDefinitions = GetTaskByCode(readyTaskOfTasksList, PyroTask.Codes.SetSearchParameterDefinitions);
+      if (SetSearchParameterDefinitions != null)
+      {
+        ISearchParameterResourceLoader.Run(SetSearchParameterDefinitions);
+        readyTaskOfTasksList.Remove(SetSearchParameterDefinitions);
       }
+
+      //2. Task: SetCompartmentDefinitions
+      Task SetCompartmentDefinitions = GetTaskByCode(readyTaskOfTasksList, PyroTask.Codes.SetCompartmentDefinitions);
+      if (SetCompartmentDefinitions != null)
+      {
+        ISetCompartmentDefinitionTaskProcessor.Run(SetCompartmentDefinitions);
+        readyTaskOfTasksList.Remove(SetCompartmentDefinitions);
+      }
+
+      //3. Task: LoadFhirDefinitionResources
+      Task LoadFhirDefinitionResources = GetTaskByCode(readyTaskOfTasksList, PyroTask.Codes.LoadFhirDefinitionResources);
+      if (LoadFhirDefinitionResources != null)
+      {
+        IFhirSpecificationDefinitionLoader.Run(LoadFhirDefinitionResources);
+        readyTaskOfTasksList.Remove(LoadFhirDefinitionResources);
+      }
+
+      
+      if (readyTaskOfTasksList.Count != 0)
+      {
+        string TaskIds = string.Empty;
+        readyTaskOfTasksList.ForEach(x => TaskIds = TaskIds + x.Id + ", ");
+        throw new ApplicationException($"Internal Server Error: Detected server start-up Task that did not have a matching service to process it. The Task Resource id list was: {TaskIds}");
+      }
+      
+    }
+
+    private Task GetTaskByCode(List<Task> readyTaskOfTasksList, PyroTask.Codes Code)
+    {
+      try
+      {
+        var Task = readyTaskOfTasksList.SingleOrDefault(y => y.Code.Coding.Any(a => a.Code == IPyroTaskCodeSystem.GetCode(Code)));
+        return Task;
+      }
+      catch (Exception Exec)
+      {
+        throw new ApplicationException($"Server start-up Task Resource did not contain a Task.code to identify the Task Type by.", Exec);
+      }
+           
     }
   }
 }

@@ -25,6 +25,8 @@ namespace Pyro.Common.Service.Trigger.TriggerServices
       this.IPyroFhirResource = IPyroFhirResource;
     }
 
+    public ResourceType ResourceTypeToTriggerFor => ResourceType.CompartmentDefinition;
+
     public ITriggerOutcome ProcessTrigger(ITriggerInput TriggerInput)
     {
       if (TriggerInput.CrudOperationType == RestEnum.CrudOperationType.Update || TriggerInput.CrudOperationType == RestEnum.CrudOperationType.Delete) 

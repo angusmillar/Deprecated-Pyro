@@ -7,7 +7,7 @@ namespace Pyro.Common.FhirOperation.ServerSearchParameter
 {
   public interface IServerSearchParameterOperation
   {
-    IResourceServiceOutcome ProcessSet(IPyroRequestUri RequestUri, ISearchParameterGeneric SearchParameterGeneric, Resource Resource);
+    IResourceServiceOutcome ProcessSet(IPyroRequestUri RequestUri, ISearchParameterGeneric SearchParameterGeneric, Resource Resource, bool BaseParameterOveride = false);
     IResourceServiceOutcome ProcessReport(IPyroRequestUri RequestUri, ISearchParameterGeneric SearchParameterGeneric, Resource Resource);
     IResourceServiceOutcome ProcessIndex(IPyroRequestUri RequestUri, ISearchParameterGeneric SearchParameterGeneric, Resource Resource);
   }

@@ -66,14 +66,14 @@ namespace Pyro.Engine.Services.FhirTasks.FhirSpecLoader
         Task.ExecutionPeriod = new Period();
         Task.ExecutionPeriod.StartElement = new FhirDateTime(DateTimeOffset.Now);
         //Update the status of the task so that no other processes (instances of the server) also try and process this task can start it.
-        //If this fails do nothing as we are to asume some other process is workng on this task, just return InProgress.
+        //If this fails do nothing as we are to assume some other process is working on this task, just return InProgress.
         if (!IFhirTaskTool.UpdateTaskAsStatus(Task.TaskStatus.InProgress, Task))
           return Task.TaskStatus.InProgress;
 
         SetParametersBeforeRunningTaskLoad(Task);        
 
         Task.Output = new List<Task.OutputComponent>();
-        //We process each file in the zip one at a time and commmit and update the Task each time.
+        //We process each file in the zip one at a time and commit and update the Task each time.
         //Once the IFhirSpecificationDefinitionLoaderParameters.TaskStatus == Completed we then return, or return is the Load retunes false. 
         while (IFhirSpecificationDefinitionLoaderParameters.TaskStatus == Task.TaskStatus.InProgress)
         {
@@ -94,7 +94,7 @@ namespace Pyro.Engine.Services.FhirTasks.FhirSpecLoader
               else if (IFhirSpecificationDefinitionLoaderParameters.TaskStatus == Task.TaskStatus.Completed)
               {
                 //AllOk was True so IFhirSpecificationDefinitionLoaderParameters.TaskStatus == Completed
-                //All finshed set the Whole Task to Completed and set the Completed end timestamp to the Tasl and Commit
+                //All finished set the Whole Task to Completed and set the Completed end timestamps to the Task and Commit
                 //The Break out of loop
                 SetParametersOnCompletedTaskLoad(Task);
                 IFhirTaskTool.UpdateTaskAsStatus(IFhirSpecificationDefinitionLoaderParameters.TaskStatus.Value, Task);
@@ -103,14 +103,14 @@ namespace Pyro.Engine.Services.FhirTasks.FhirSpecLoader
               }
               else
               {
-                //What went wrong, when SetParametersInProgressTaskLoad(Task) retuns True the TaskStatus must always be Completed
+                //What went wrong, when SetParametersInProgressTaskLoad(Task) retunes True the TaskStatus must always be Completed
                 throw new Exception("Internal Server Error: SetParametersInProgressTaskLoad(Task) returned True yet TaskStatus was not Completed.");
               }
             }
             else
             {
-              //Rollback the failed transaction, we will update the Task as failed 
-              //in a seperate transaction below
+              //Roll-back the failed transaction, we will update the Task as failed 
+              //in a separate transaction below
               Transaction.Rollback();              
             }
           }
@@ -141,7 +141,6 @@ namespace Pyro.Engine.Services.FhirTasks.FhirSpecLoader
     private bool LoadFromZip(IFhirSpecificationDefinitionLoaderParameters Parameters)
     {
       bool OneFileCompleted = false;
-      string ZipFilePath = GetZipFilePath();
       Stream FileStream = new MemoryStream(Common.CommonResource.definitions_xml);
               
       try
@@ -152,68 +151,71 @@ namespace Pyro.Engine.Services.FhirTasks.FhirSpecLoader
           {
             if (Entry.FullName.EndsWith(".xml", StringComparison.OrdinalIgnoreCase))
             {
-              //Pick processing from where it was last left off
-              if (!Parameters.FileCompletedList.Contains(Entry.FullName) || Parameters.FileCompletedList.Count == 0)
+              //Skip loading the search-parameters as they are always loaded by a separate task, see : SearchParameterResourceLoader
+              if (!Entry.FullName.Equals("search-parameters.xml", StringComparison.OrdinalIgnoreCase))
               {
-                Parameters.FileInProgress = Entry.FullName;
-                if (OneFileCompleted)
+                //Pick processing from where it was last left off
+                if (!Parameters.FileCompletedList.Contains(Entry.FullName) || Parameters.FileCompletedList.Count == 0)
                 {
-                  //We only want to do one file in the ZIP package at a time but we want the name of the next file to process
-                  //This is why this is here.
-                  //Yes I know we are unzipping the file many times but this is better that staring all over again each time we don not get to finish the entire set.
                   Parameters.FileInProgress = Entry.FullName;
-                  return true;
-                }
-
-                Stream StreamItem = Entry.Open();
-                using (StreamItem)
-                {
-                  try
+                  if (OneFileCompleted)
                   {
-                    var buffer = new MemoryStream();
-                    StreamItem.CopyTo(buffer);
-                    buffer.Seek(0, SeekOrigin.Begin);
-                    System.Xml.XmlReader XmlReader = SerializationUtil.XmlReaderFromStream(buffer);
-                    Resource Resource = Common.Tools.FhirResourceSerializationSupport.DeSerializeFromXml(XmlReader);
-                    if (Resource is Bundle Bundle)
+                    //We only want to do one file in the ZIP package at a time but we want the name of the next file to process
+                    //This is why this is here.
+                    //Yes I know we are unzipping the file many times but this is better that staring all over again each time we don not get to finish the entire set.
+                    Parameters.FileInProgress = Entry.FullName;
+                    return true;
+                  }
+
+                  Stream StreamItem = Entry.Open();
+                  using (StreamItem)
+                  {
+                    try
                     {
-                      if (ConvertToTransactionBundle(Bundle, Entry.FullName))
+                      var buffer = new MemoryStream();
+                      StreamItem.CopyTo(buffer);
+                      buffer.Seek(0, SeekOrigin.Begin);
+                      System.Xml.XmlReader XmlReader = SerializationUtil.XmlReaderFromStream(buffer);
+                      Resource Resource = Common.Tools.FhirResourceSerializationSupport.DeSerializeFromXml(XmlReader);
+                      if (Resource is Bundle Bundle)
                       {
-                        if (CommitTransactionBundle(Bundle, Entry.FullName))
+                        if (ConvertToTransactionBundle(Bundle, Entry.FullName))
                         {
-                          Parameters.FileCompletedList.Add(Entry.FullName);
-                          Parameters.TaskStatus = Hl7.Fhir.Model.Task.TaskStatus.InProgress;
-                          OneFileCompleted = true; ;
+                          if (CommitTransactionBundle(Bundle, Entry.FullName))
+                          {
+                            Parameters.FileCompletedList.Add(Entry.FullName);
+                            Parameters.TaskStatus = Hl7.Fhir.Model.Task.TaskStatus.InProgress;
+                            OneFileCompleted = true; ;
+                          }
+                          else
+                          {
+                            string ErrorMessage = $"Internal Server Error: FHIR specification resource bundle named {Entry.FullName} from the FHIR specification zip file named: {_ZipFileName} was unable to be committed as a transaction bundle. See server logs for more info.";
+                            ILog.Error(ErrorMessage);
+                            Parameters.FileInError = Entry.FullName;
+                            Parameters.ErrorMessage = ErrorMessage;
+                            return false;
+                          }
                         }
                         else
                         {
-                          string ErrorMessage = $"Internal Server Error: FHIR specification resource bundle named {Entry.FullName} from the FHIR specification zip file named: {_ZipFileName} was unable to be commited as a transaction bundle. See server logs for more info.";
+                          string ErrorMessage = $"Internal Server Error: Unable to convert the FHIR specification resource bundle named {Entry.FullName} from the FHIR specification zip file named: {_ZipFileName}. See server logs for more info.";
                           ILog.Error(ErrorMessage);
                           Parameters.FileInError = Entry.FullName;
                           Parameters.ErrorMessage = ErrorMessage;
                           return false;
                         }
                       }
-                      else
-                      {
-                        string ErrorMessage = $"Internal Server Error: Unable to convert the FHIR specification resource bundle named {Entry.FullName} from the FHIR specification zip file named: {_ZipFileName}. See server logs for more info.";
-                        ILog.Error(ErrorMessage);
-                        Parameters.FileInError = Entry.FullName;
-                        Parameters.ErrorMessage = ErrorMessage;
-                        return false;
-                      }
+                    }
+                    catch (PyroException PyroExec)
+                    {
+                      string ErrorMessage = $"Internal Server Error: Exception thrown when DeSerializing FHIR resources from the FHIR specification zip file named: {_ZipFileName}. See server logs for more info.";
+                      ILog.Error(PyroExec, ErrorMessage);
+                      Parameters.FileInError = Entry.FullName;
+                      Parameters.ErrorMessage = ErrorMessage;
+                      return false;
                     }
                   }
-                  catch (PyroException PyroExec)
-                  {
-                    string ErrorMessage = $"Internal Server Error: Exception thrown when DeSerializing FHIR resources from the FHIR specification zip file named: {_ZipFileName}. See server logs for more info.";
-                    ILog.Error(PyroExec, ErrorMessage);
-                    Parameters.FileInError = Entry.FullName;
-                    Parameters.ErrorMessage = ErrorMessage;
-                    return false;
-                  }
                 }
-
               }
             }
           }
@@ -243,7 +245,7 @@ namespace Pyro.Engine.Services.FhirTasks.FhirSpecLoader
       {
         if (Entry.Resource != null)
         {
-          //Add Protected to all resource from the FHIR Spec
+          //Add Protected to all resource from the FHIR Specification
           IPyroFhirServerCodeSystem.SetProtectedMetaTag(Entry.Resource);
           if (!string.IsNullOrWhiteSpace(Entry.Resource.Id))
           {
@@ -330,7 +332,7 @@ namespace Pyro.Engine.Services.FhirTasks.FhirSpecLoader
         }
         //Note: we ignore any FileInError as we only collect Task of status == InProgress or Ready.
         // If a user somehow changed a Task status back to InProgress or Ready and yet an old Output is set to Failed the we
-        // are to asume they want us to try again, in this case the FileInError and FileInProgress should be the same file.
+        // are to assume they want us to try again, in this case the FileInError and FileInProgress should be the same file.
         // The process will start again at the FileInProgress.
       }
     }
@@ -340,7 +342,7 @@ namespace Pyro.Engine.Services.FhirTasks.FhirSpecLoader
       Task.Status = IFhirSpecificationDefinitionLoaderParameters.TaskStatus.Value;
 
       Task.Output = new List<Task.OutputComponent>();
-      //Update Task Compeleted LIst
+      //Update Task Completed LIst
       foreach (string FileNameCompleted in IFhirSpecificationDefinitionLoaderParameters.FileCompletedList)
       {
         var FhirStringValue = new FhirString(FileNameCompleted);
@@ -362,7 +364,7 @@ namespace Pyro.Engine.Services.FhirTasks.FhirSpecLoader
       Task.ExecutionPeriod.EndElement = new FhirDateTime(DateTimeOffset.Now);
 
       Task.Output = new List<Task.OutputComponent>();
-      //Update Task Compeleted LIst
+      //Update Task Completed LIst
       foreach (string FileNameCompleted in IFhirSpecificationDefinitionLoaderParameters.FileCompletedList)
       {
         var FhirStringValue = new FhirString(FileNameCompleted);
@@ -377,7 +379,7 @@ namespace Pyro.Engine.Services.FhirTasks.FhirSpecLoader
       Task.ExecutionPeriod.EndElement = new FhirDateTime(DateTimeOffset.Now);
 
       Task.Output = new List<Task.OutputComponent>();
-      //Update Task Compeleted LIst
+      //Update Task Completed LIst
       foreach (string FileNameCompleted in IFhirSpecificationDefinitionLoaderParameters.FileCompletedList)
       {
         var FhirStringValue = new FhirString(FileNameCompleted);
@@ -409,21 +411,6 @@ namespace Pyro.Engine.Services.FhirTasks.FhirSpecLoader
         Task.Output.Add(new Task.OutputComponent() { Type = MyCodableConcept, Value = FhirStringValue });
       }
     }
-
-    private string GetZipFilePath()
-    {
-
-      if (HostingEnvironment.IsHosted)
-      {
-        //If running is IIS either IIS Express in dev or IIS in production i.e (Pyro.Web)
-        return Path.Combine(AppContext.BaseDirectory, @"bin\ZipArchiveFiles\" + _ZipFileName);
-      }
-      else
-      {
-        //If running as a console server i.e (Pyro.ConsoleServer)
-        return Path.Combine(AppContext.BaseDirectory, @"ZipArchiveFiles\" + _ZipFileName);
-      }
-    }
-
+    
   }
 }

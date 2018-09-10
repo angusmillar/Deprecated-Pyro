@@ -1,6 +1,8 @@
 ﻿using Pyro.DataLayer.DbModel.Entity;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
+using Pyro.DataLayer.DbModel.DatabaseContextConfig;
+using System.Data.Entity.ModelConfiguration.Conventions;
 //This class's other partial is auto code generated
 
 namespace Pyro.DataLayer.DbModel.DatabaseContext
@@ -16,7 +18,7 @@ namespace Pyro.DataLayer.DbModel.DatabaseContext
     }
 
     public new DbSet<TEntity> Set<TEntity>() where TEntity : class
-    {
+    {            
       return base.Set<TEntity>();
     }
 
@@ -28,10 +30,28 @@ namespace Pyro.DataLayer.DbModel.DatabaseContext
     public DbSet<_ServiceBaseUrl> ServiceBaseUrl { get; set; }
     public DbSet<_ServiceConfiguration> ServiceConfiguration { get; set; }    
     public DbSet<_ServiceSearchParameter> ServiceSearchParameter { get; set; }
+    public DbSet<_ServiceSearchParameterCompositePivot> ServiceSearchParameterCompositePivot { get; set; }
     public DbSet<_ServiceCompartment> ServiceCompartment { get; set; }
     public DbSet<_ServiceCompartmentResource> ServiceCompartmentResource { get; set; }
     public DbSet<_FhirRelease> FhirRelease { get; set; }
-  }
+
+    private void OnModelCreatingExtra(DbModelBuilder Mb)
+    {      
+      Mb.Conventions.Remove<PluralizingTableNameConvention>();
+
+      Mb.Configurations.Add(new ServiceConfigurationContextConfig());
+
+      Mb.Configurations.Add(new ServiceBaseUrlContextConfig());
+
+      Mb.Configurations.Add(new ServiceSearchParameterConfig());
+      Mb.Configurations.Add(new ServiceSearchParameterTargetResourceConfig());
+      Mb.Configurations.Add(new ServiceSearchParameterCompositePivotConfig());
+
+      Mb.Configurations.Add(new ServiceCompartmentContextConfig());
+      Mb.Configurations.Add(new ServiceCompartmentResourceContextConfig());
+      
+    }
+    }
 
 
 

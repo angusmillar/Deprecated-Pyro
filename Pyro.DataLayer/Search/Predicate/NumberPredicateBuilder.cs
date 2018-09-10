@@ -18,7 +18,7 @@ namespace Pyro.DataLayer.Search.Predicate
       where ResIndexDateTimeType : ResourceIndexDateTime<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>
       
   {
-    public static ExpressionStarter<ResCurrentType> Build(ResourceSearch<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType> Search, ExpressionStarter<ResCurrentType> NewPredicate, SearchParameterBase SearchItem)
+    public static ExpressionStarter<ResCurrentType> Build(ResourceSearchExpressionTrees<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType> Search, ExpressionStarter<ResCurrentType> NewPredicate, SearchParameterBase SearchItem)
     {
       if (SearchItem is SearchParameterNumber)
       {
@@ -135,7 +135,7 @@ namespace Pyro.DataLayer.Search.Predicate
       return NewPredicate;
     }
 
-    private static ExpressionStarter<ResCurrentType> CollectionNotEqualToPredicate(ResourceSearch<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType> Search, ExpressionStarter<ResCurrentType> NewPredicate, SearchParameterNumber SearchTypeNumber, SearchParameterNumberValue SearchValue)
+    private static ExpressionStarter<ResCurrentType> CollectionNotEqualToPredicate(ResourceSearchExpressionTrees<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType> Search, ExpressionStarter<ResCurrentType> NewPredicate, SearchParameterNumber SearchTypeNumber, SearchParameterNumberValue SearchValue)
     {
       var NotEqualToExpression = Search.NumberCollectionAllNotEqualTo(SearchTypeNumber.Id, Common.Tools.DecimalSupport.CalculateLowNumber(SearchValue.Value, SearchValue.Scale), SearchValue.Value, Common.Tools.DecimalSupport.CalculateHighNumber(SearchValue.Value, SearchValue.Scale));
       var CollectionNotNull_Expression = Search.SearchParameterIdIsNotNull<ResIndexQuantityType>(SearchTypeNumber.Id);
@@ -149,7 +149,7 @@ namespace Pyro.DataLayer.Search.Predicate
       return NewPredicate;
     }
 
-    private static ExpressionStarter<ResCurrentType> CollectionEqualToPredicate(ResourceSearch<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType> Search, ExpressionStarter<ResCurrentType> NewPredicate, SearchParameterNumber SearchTypeNumber, SearchParameterNumberValue SearchValue)
+    private static ExpressionStarter<ResCurrentType> CollectionEqualToPredicate(ResourceSearchExpressionTrees<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType> Search, ExpressionStarter<ResCurrentType> NewPredicate, SearchParameterNumber SearchTypeNumber, SearchParameterNumberValue SearchValue)
     {
       var Expression = Search.NumberCollectionAnyEqualTo(SearchTypeNumber.Id, Common.Tools.DecimalSupport.CalculateLowNumber(SearchValue.Value, SearchValue.Scale), SearchValue.Value, Common.Tools.DecimalSupport.CalculateHighNumber(SearchValue.Value, SearchValue.Scale));
       NewPredicate = NewPredicate.Or(Expression);

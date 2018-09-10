@@ -6,5 +6,6 @@ namespace Pyro.Common.PyroHealthFhirResource
   {
     ILoadFhirSpecificationDefinitions LoadFhirSpecificationDefinitionsTask { get; }
     ISetCompartmentDefinitions SetCompartmentDefinitions { get; }
+    ISetSearchParameterDefinitions SetSearchParameterDefinitions { get; }
   }
 }

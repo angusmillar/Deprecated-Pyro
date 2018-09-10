@@ -29,6 +29,9 @@ namespace Pyro.Common.Global
     public static string HIServiceProductVersion { get; } = "HIServiceProductVersion";    
     public static string HIServiceVendorId { get; } = "HIServiceVendorId";    
     public static string HIServiceVendorIdQualifier { get; } = "HIServiceVendorIdQualifier";
-    public static string HIServiceIHIValidationPeriodDays { get; } = "HIServiceIHIValidationPeriodDays";    
+    public static string HIServiceIHIValidationPeriodDays { get; } = "HIServiceIHIValidationPeriodDays";
+    public static string ServerReadOnlyMode { get; } = "ServerReadOnlyMode";
+    public static string ServerReadOnlyModeMessage { get; } = "ServerReadOnlyModeMessage";    
+
   }
 }

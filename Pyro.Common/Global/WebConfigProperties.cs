@@ -198,6 +198,18 @@ namespace Pyro.Common.Global
         .AppSettingAsIntOrDefault(WebConfigPropertiesDefaults.HIServiceIHIValidationPeriodDays);      
     }
     
+    public static bool ServerReadOnlyMode()
+    {
+      return WebConfigPropertiesNames.ServerReadOnlyMode
+        .AppSettingAsBoolOrDefault(WebConfigPropertiesDefaults.ServerReadOnlyMode);
+    }
+
+    public static string ServerReadOnlyModeMessage()
+    {
+      return WebConfigPropertiesNames.ServerReadOnlyModeMessage
+        .AppSettingAsStringOrDefault(WebConfigPropertiesDefaults.ServerReadOnlyModeMessage);
+    }
+
     private static int AppSettingAsIntOrDefault(this string Key, int Default)
     {
       int Result;

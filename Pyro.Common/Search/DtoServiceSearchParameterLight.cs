@@ -18,9 +18,14 @@ namespace Pyro.Common.Search
     public string Name { get; set; }
     public SearchParamType Type { get; set; }
     public string Expression { get; set; }
-
     public List<IServiceSearchParameterTargetResource> TargetResourceTypeList { get; set; }
-    public DtoServiceSearchParameterLight() { }
+    public List<DtoServiceSearchParameterComposite> CompositeList { get; set; }
+
+    public DtoServiceSearchParameterLight()
+    {
+      this.TargetResourceTypeList = new List<IServiceSearchParameterTargetResource>();
+      this.CompositeList = new List<DtoServiceSearchParameterComposite>();
+    }
 
   }
 }

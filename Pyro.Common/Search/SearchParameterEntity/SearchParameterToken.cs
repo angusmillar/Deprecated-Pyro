@@ -45,6 +45,7 @@ namespace Pyro.Common.Search.SearchParameterEntity
           }
           else
           {
+            this.InvalidMessage = $"Found the {Hl7.Fhir.Model.SearchParameter.SearchModifierCode.Missing.GetPyroLiteral()} Modifier yet is value was expected to be true or false yet found '{Value}'. ";
             return false;
           }
         }
@@ -57,6 +58,7 @@ namespace Pyro.Common.Search.SearchParameterEntity
             DtoSearchParameterNumber.System = CodeSystemSplit[0].Trim();
             if (string.IsNullOrEmpty(DtoSearchParameterNumber.Code) && string.IsNullOrEmpty(DtoSearchParameterNumber.System))
             {
+              this.InvalidMessage = $"Unable to parse the Token search parameter value of '{Value}' as there was no Code and System separated by a '{TokenDelimiter}' delimiter";
               return false;
             }
             else if (string.IsNullOrEmpty(DtoSearchParameterNumber.System))
@@ -79,6 +81,7 @@ namespace Pyro.Common.Search.SearchParameterEntity
             DtoSearchParameterNumber.Code = Value.Trim();
             if (string.IsNullOrEmpty(DtoSearchParameterNumber.Code))
             {
+              this.InvalidMessage = $"Unable to parse the Token search parameter value of '{Value}' as there was no Code found.";
               return false;
             }
             this.ValueList.Add(DtoSearchParameterNumber);

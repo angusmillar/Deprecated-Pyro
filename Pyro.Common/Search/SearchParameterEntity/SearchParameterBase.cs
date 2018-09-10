@@ -16,6 +16,8 @@ namespace Pyro.Common.Search.SearchParameterEntity
   public abstract class SearchParameterBase : DtoServiceSearchParameterLight, ISearchParameterBase
   {
     protected const char OrDelimiter = ',';
+    protected const char CompositeDelimiter = '$';
+    protected const char ParameterValueDelimiter = '=';
     public string RawValue { get; set; }
     public SearchParameter.SearchModifierCode? Modifier { get; set; }
     public string TypeModifierResource { get; set; }    

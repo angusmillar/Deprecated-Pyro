@@ -43,7 +43,7 @@ namespace Pyro.Common.Tools.FhirTask
         RequestMeta.RequestHeader = IRequestHeaderFactory.CreateRequestHeader();
         RequestMeta.RequestHeader.IfMatch = Common.Tools.HttpHeaderSupport.GetETagString(Task.VersionId);
 
-        //Update the Tasl Properties
+        //Update the Task Properties
         Task.Status = TaskStatus;
         Task.LastModifiedElement = new FhirDateTime(DateTimeOffset.Now);
 

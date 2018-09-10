@@ -1,11 +1,7 @@
 ﻿using Hl7.Fhir.Model;
 using LinqKit;
 using Pyro.Common.DtoEntity;
-using Pyro.Common.Search;
 using Pyro.Common.ServiceRoot;
-using Pyro.Common.Tools;
-using Pyro.Common.Interfaces.Repositories;
-using Pyro.DataLayer.DbModel.Entity;
 using Pyro.DataLayer.DbModel.EntityBase;
 using Pyro.DataLayer.Search;
 using Pyro.DataLayer.Search.Predicate;
@@ -16,11 +12,8 @@ using System.Linq;
 using System.Linq.Expressions;
 using Hl7.Fhir.Utility;
 using Pyro.DataLayer.DbModel.DatabaseContext;
-using Pyro.Common.CompositionRoot;
-using Pyro.Common.Global;
 using Pyro.Common.Search.SearchParameterEntity;
 using System.Data;
-using System.Data.Entity.Core.Objects;
 
 namespace Pyro.DataLayer.Repository
 {
@@ -35,12 +28,15 @@ namespace Pyro.DataLayer.Repository
     where ResIndexDateTimeType : ResourceIndexDateTime<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>, new()
   {
     protected readonly IPrimaryServiceRootCache IPrimaryServiceRootCache;
+    private readonly ResourceSearch<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType> _ResourceSearch;
+    
 
     #region Constructor
     public CommonRepository(IPyroDbContext IPyroDbContext, IPrimaryServiceRootCache IPrimaryServiceRootCache)
       : base(IPyroDbContext)
     {
       this.IPrimaryServiceRootCache = IPrimaryServiceRootCache;
+      _ResourceSearch = new ResourceSearch<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>(IPrimaryServiceRootCache);
     }
     #endregion
 
@@ -100,7 +96,7 @@ namespace Pyro.DataLayer.Repository
     public ExpressionStarter<ResCurrentType> PredicateResourceIdAndLastUpdatedDate(List<ISearchParameterBase> SearchParametersList)
     {
       var Predicate = LinqKit.PredicateBuilder.New<ResCurrentType>(true);
-      var Search = new ResourceSearch<
+      var Search = new ResourceSearchExpressionTrees<
         ResCurrentType,
         ResIndexStringType,
         ResIndexTokenType,
@@ -124,77 +120,18 @@ namespace Pyro.DataLayer.Repository
 
     public ExpressionStarter<ResCurrentType> PredicateSearchParameter(SearchParameterBase SearchItem)
     {
-      var Search = new ResourceSearch<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>();
-      ExpressionStarter<ResCurrentType> Predicate = LinqKit.PredicateBuilder.New<ResCurrentType>();
-      switch (SearchItem.Type)
-      {
-        case SearchParamType.Date:
-          Predicate = DateTimePeriodPredicateBuilder<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>.Build(Search, Predicate, SearchItem);
-          break;
-        case SearchParamType.Number:
-          {
-            if (SearchItem is SearchParameterNumber)
-            {
-              var SearchTypeNumber = SearchItem as SearchParameterNumber;
-              foreach (var SearchValue in SearchTypeNumber.ValueList)
-              {
-                if (SearchTypeNumber.Name != "page")
-                {
-                  //ToDo: more needed here
-                }
-              }
-            }
-            Predicate = NumberPredicateBuilder<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>.Build(Search, Predicate, SearchItem);
-          }
-          break;
-        case SearchParamType.Quantity:
-          Predicate = QuantityPredicateBuilder<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>.Build(Search, Predicate, SearchItem);
-          break;
-        case SearchParamType.Reference:
-          Predicate = ReferancePredicateBuilder<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>.Build(Search, Predicate, SearchItem, IPrimaryServiceRootCache.GetPrimaryRootUrlStoreFromDatabase());
-          break;
-        case SearchParamType.String:
-          Predicate = StringPredicateBuilder<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>.Build(Search, Predicate, SearchItem);
-          break;
-        case SearchParamType.Token:
-          Predicate = TokenPredicateBuilder<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>.Build(Search, Predicate, SearchItem);
-          break;
-        case SearchParamType.Uri:
-          Predicate = UriPredicateBuilder<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>.Build(Search, Predicate, SearchItem);
-          break;
-        default:
-          throw new System.ComponentModel.InvalidEnumArgumentException(SearchItem.Type.ToString(), (int)SearchItem.Type, typeof(SearchParamType));
-      }
-      return Predicate;
+      return _ResourceSearch.PredicateSearchParameter(SearchItem);
     }
-
 
     public ExpressionStarter<ResCurrentType> ANDSearchParameterListPredicateGenerator(List<ISearchParameterBase> SearchParametersList)
     {
-      var Predicate = LinqKit.PredicateBuilder.New<ResCurrentType>(true);
-      foreach (SearchParameterBase SearchItem in SearchParametersList)
-      {
-        ExpressionStarter<ResCurrentType> NewPredicate = PredicateSearchParameter(SearchItem);
-
-        Predicate.Extend<ResCurrentType>(NewPredicate, PredicateOperator.And);
-      }
-
-      return Predicate;
+      return _ResourceSearch.ANDSearchParameterListPredicateGenerator(SearchParametersList);
     }
 
     public ExpressionStarter<ResCurrentType> ORSearchParameterListPredicateGenerator(List<ISearchParameterBase> SearchParametersList)
     {
-      var Predicate = LinqKit.PredicateBuilder.New<ResCurrentType>(true);
-      foreach (SearchParameterBase SearchItem in SearchParametersList)
-      {
-        ExpressionStarter<ResCurrentType> NewPredicate = PredicateSearchParameter(SearchItem);
-
-        Predicate.Extend<ResCurrentType>(NewPredicate, PredicateOperator.Or);
-      }
-
-      return Predicate;
+      return _ResourceSearch.ORSearchParameterListPredicateGenerator(SearchParametersList);
     }
-
 
     //---- Resource ---------------------------------------------------------------
 
@@ -277,7 +214,7 @@ namespace Pyro.DataLayer.Repository
 
     }
 
-    private static void IdSearchParameterPredicateProcessing(List<ISearchParameterBase> SearchParametersList, ResourceSearch<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType> Search, ExpressionStarter<ResCurrentType> MainPredicate)
+    private static void IdSearchParameterPredicateProcessing(List<ISearchParameterBase> SearchParametersList, ResourceSearchExpressionTrees<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType> Search, ExpressionStarter<ResCurrentType> MainPredicate)
     {
       var IdSearchParamerterList = SearchParametersList.Where(x => x.Resource == FHIRAllTypes.Resource.GetLiteral() && x.Name == "_id");
       if (IdSearchParamerterList != null)

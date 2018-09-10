@@ -18,7 +18,7 @@ namespace Pyro.DataLayer.Search.Predicate
       where ResIndexDateTimeType : ResourceIndexDateTime<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>
       
   {
-    public static ExpressionStarter<ResCurrentType> Build(ResourceSearch<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType> Search, ExpressionStarter<ResCurrentType> NewPredicate, SearchParameterBase SearchItem)
+    public static ExpressionStarter<ResCurrentType> Build(ResourceSearchExpressionTrees<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType> Search, ExpressionStarter<ResCurrentType> NewPredicate, SearchParameterBase SearchItem)
     {
       if (SearchItem is SearchParameterQuantity)
       {
@@ -132,7 +132,7 @@ namespace Pyro.DataLayer.Search.Predicate
       return NewPredicate;
     }
 
-    private static ExpressionStarter<ResCurrentType> CollectionEqualToPredicate(ResourceSearch<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType> Search, ExpressionStarter<ResCurrentType> NewPredicate, SearchParameterQuantity SearchTypeNumber, SearchParameterQuantityValue SearchValue)
+    private static ExpressionStarter<ResCurrentType> CollectionEqualToPredicate(ResourceSearchExpressionTrees<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType> Search, ExpressionStarter<ResCurrentType> NewPredicate, SearchParameterQuantity SearchTypeNumber, SearchParameterQuantityValue SearchValue)
     {
       var Expression = Search.QuantityCollectionAnyEqualTo(
          SearchTypeNumber.Id,
@@ -146,7 +146,7 @@ namespace Pyro.DataLayer.Search.Predicate
       return NewPredicate;
     }
 
-    private static ExpressionStarter<ResCurrentType> CollectionNotEqualToPredicate(ResourceSearch<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType> Search, ExpressionStarter<ResCurrentType> NewPredicate, SearchParameterQuantity SearchTypeNumber, SearchParameterQuantityValue SearchValue)
+    private static ExpressionStarter<ResCurrentType> CollectionNotEqualToPredicate(ResourceSearchExpressionTrees<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType> Search, ExpressionStarter<ResCurrentType> NewPredicate, SearchParameterQuantity SearchTypeNumber, SearchParameterQuantityValue SearchValue)
     {
       var NotEqualTo_Expression = Search.QuantityCollectionAllNotEqualTo(
          SearchTypeNumber.Id,

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Pyro.Common.Tools;
 using Hl7.Fhir.Model;
 using Pyro.Common.DtoEntity;
+using Pyro.Common.Enum;
 
 namespace Pyro.Common.Search.SearchParameterEntity
 {
@@ -44,6 +45,7 @@ namespace Pyro.Common.Search.SearchParameterEntity
           }
           else
           {
+            this.InvalidMessage = $"Found the {Hl7.Fhir.Model.SearchParameter.SearchModifierCode.Missing.GetPyroLiteral()} Modifier yet is value was expected to be true or false yet found '{Value}'. ";
             return false;
           }
         }
@@ -61,11 +63,13 @@ namespace Pyro.Common.Search.SearchParameterEntity
             }
             else
             {
+              
               return false;
             }
           }
           else
           {
+            this.InvalidMessage = $"Unable to parse the provided value of {DateTimeStirng.Trim()} as a FHIR DateTime.";
             return false;
           }
         }

@@ -437,7 +437,7 @@ namespace Pyro.Common.Service.SearchParameters
           string ResourceName = string.Empty;
           if (_ResourceType.HasValue)
             ResourceName = _ResourceType.Value.ToString();
-          DtoUnspportedSearchParameter.ReasonMessage = $"The parameter '{Parameter.Item1}' is not supported by this server for the resource type '{ResourceName}', the whole parameter was : '{DtoUnspportedSearchParameter.RawParameter}'.";
+          DtoUnspportedSearchParameter.ReasonMessage = $"The search parameter '{Parameter.Item1}' for the resource type '{ResourceName}', was unable to be processed as expected, the whole parameter was : '{DtoUnspportedSearchParameter.RawParameter}'.";
           DtoUnspportedSearchParameter.ReasonMessage += $"Additional information: ";
           foreach (var UnspportedSearchParameter in UnspportedSearchParameterList)
           {

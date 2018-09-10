@@ -17,6 +17,9 @@ namespace Pyro.Common.PyroHealthFhirResource.CodeSystems
       LoadFhirDefinitionResources,
       [EnumLiteral("SetCompartmentDefinitions")]
       SetCompartmentDefinitions,
+      [EnumLiteral("SetSearchParameterDefinitions")]
+      SetSearchParameterDefinitions,
+
     }
 
     private readonly CodeSystems.IPyroFhirServer IPyroFhirServerCodeSystem;
@@ -59,7 +62,15 @@ namespace Pyro.Common.PyroHealthFhirResource.CodeSystems
               Definition = "Fhir Task that sets the all the CompartmentDefinitions as active compartments in the Pyro FHIR Server.",
           }
         },
-        
+        {
+          Codes.SetSearchParameterDefinitions,
+          new FhirModel.CodeSystem.ConceptDefinitionComponent()
+          {
+              Code = Codes.SetSearchParameterDefinitions.GetPyroLiteral(),
+              Display = "Set Search Parameter Definitions",
+              Definition = "Fhir Task that sets the all the base Search Parameter Definitions as active search indexes in the Pyro FHIR Server.",
+          }
+        },
       };
     }
     

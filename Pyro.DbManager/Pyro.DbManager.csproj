@@ -154,6 +154,12 @@
     <EmbeddedResource Include="SqlScripts\MsSQL\201808171250000_SeedFhirSearchParameters.sql" />
     <EmbeddedResource Include="SqlScripts\MsSQL\201808171251000_SeedFhirSearchParametersTargetResources.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="SqlScripts\MsSQL\201809100551599_AddCompositePivotTable.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="SqlScripts\PostgreSql\201809100844584_AddCompositePivotTable.sql" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

@@ -572,9 +572,8 @@ namespace Pyro.DataLayer.Repository
     {
       IDatabaseOperationOutcome DatabaseOperationOutcome = IDatabaseOperationOutcomeFactory.CreateDatabaseOperationOutcome();
       ResCurrentType NewResourceEntity = new ResCurrentType();
-      //Also specifity which Includes to also load, only need token in this case;
-      ResCurrentType ResourceHistoryEntity = LoadCurrentResourceEntity(Resource.Id, new SearchParamType[] { SearchParamType.Token });
-      
+      //Also specify which Includes to also load, only need token in this case;
+      ResCurrentType ResourceHistoryEntity = LoadCurrentResourceEntity(Resource.Id, new SearchParamType[] { SearchParamType.Token });      
       ITriggerInput TriggerInput = IResourceTriggerService.TriggerInputFactory();
       TriggerInput.CrudOperationType = Common.Enum.RestEnum.CrudOperationType.Update;
       TriggerInput.InboundResource = Resource;
@@ -602,6 +601,9 @@ namespace Pyro.DataLayer.Repository
         this.CommonRepository.DbAddEntity(NewResourceEntity);        
         DatabaseOperationOutcome.ReturnedResourceList.Add(IndexSettingSupport.SetDtoResource(NewResourceEntity, this.RepositoryResourceType));
         DatabaseOperationOutcome.SingleResourceRead = true;
+        
+        //Delete all the old Resource's Indexes
+        DeleteAllResourceIndexesByResourceId(ResourceHistoryEntity.Id);
         return DatabaseOperationOutcome;
       }
     }
@@ -609,8 +611,7 @@ namespace Pyro.DataLayer.Repository
     public IDatabaseOperationOutcome UpdateResouceIdAsDeleted(string FhirId)
     {
       IDatabaseOperationOutcome DatabaseOperationOutcome = IDatabaseOperationOutcomeFactory.CreateDatabaseOperationOutcome();
-      var OldResourceEntity = this.LoadCurrentResourceEntity(FhirId);
-
+      var OldResourceEntity = this.LoadCurrentResourceEntity(FhirId);      
       ITriggerInput TriggerInput = IResourceTriggerService.TriggerInputFactory();
       TriggerInput.CrudOperationType = Common.Enum.RestEnum.CrudOperationType.Delete;
       TriggerInput.InboundResource = null;
@@ -639,6 +640,10 @@ namespace Pyro.DataLayer.Repository
         NewResourceEntity.VersionId = NewDeletedResourceVersion;
         this.CommonRepository.DbAddEntity(NewResourceEntity);
         OldResourceEntity.IsCurrent = false;
+
+        //Delete all the old Resource's Indexes
+        DeleteAllResourceIndexesByResourceId(OldResourceEntity.Id);
+
         //this.Save();
         DatabaseOperationOutcome.ReturnedResourceList.Add(IndexSettingSupport.SetDtoResource(NewResourceEntity, this.RepositoryResourceType));
       }
@@ -688,6 +693,8 @@ namespace Pyro.DataLayer.Repository
         this.CommonRepository.DbAddEntity(NewResourceEntity);
         OLdEntry.IsCurrent = false;
         DatabaseOperationOutcome.ReturnedResourceList.Add(IndexSettingSupport.SetDtoResource(NewResourceEntity, this.RepositoryResourceType));
+        //Delete all the old Resource's Indexes
+        DeleteAllResourceIndexesByResourceId(OLdEntry.Id);
       }
       return DatabaseOperationOutcome;
     }
@@ -717,6 +724,7 @@ namespace Pyro.DataLayer.Repository
               IncludeList.Add(x => x.IndexReferenceList);
               break;
             case SearchParamType.Composite:
+              //Composite Search Parameters are actually made up of the other types.
               break;
             case SearchParamType.Uri:
               IncludeList.Add(x => x.IndexUriList);
@@ -797,6 +805,7 @@ namespace Pyro.DataLayer.Repository
       }
     }
 
+    //This is to go soon now we delete indexes on the fly
     private int DeleteIndex<IndexType>(IQueryable<IndexType> IndexList, int CurrentCounter)
       where IndexType : ModelBase
     {
@@ -811,6 +820,7 @@ namespace Pyro.DataLayer.Repository
       return CurrentCounter;
     }
 
+    //This is to go soon now we delete indexes on the fly
     private int DeleteIndex2<IndexType>(IQueryable<DtoIndexTypeForDelete> IndexList, bool Attach = true)
       where IndexType : ResourceIndexNewBase<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>, new()
     {
@@ -826,9 +836,45 @@ namespace Pyro.DataLayer.Repository
       return Counter;
     }
 
+    
 
+    public void DeleteAllResourceIndexesByResourceId(int ResourceId)
+    {
+      int Counter = 0;
+      Counter = Counter + DeleteIndexByResourceId<ResIndexStringType>(ResourceId);
+      Counter = Counter + DeleteIndexByResourceId<ResIndexTokenType>(ResourceId);
+      Counter = Counter + DeleteIndexByResourceId<ResIndexUriType>(ResourceId);
+      Counter = Counter + DeleteIndexByResourceId<ResIndexReferenceType>(ResourceId);
+      Counter = Counter + DeleteIndexByResourceId<ResIndexQuantityType>(ResourceId);
+      Counter = Counter + DeleteIndexByResourceId<ResIndexDateTimeType>(ResourceId);            
+      this.Save();
+    }
+
+    private int DeleteIndexByResourceId<IndexType>(int ResourceId)
+      where IndexType : ResourceIndexNewBase<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>, new()
+    {
+      int Counter = 0;
+      foreach (int IdToDelete in IPyroDbContext.Set<IndexType>().Where(x => x.ResourceId == ResourceId).Select(c => c.Id).ToArray())
+      {
+        var DbIndex = new IndexType() { Id = IdToDelete };
+        if (!IPyroDbContext.Set<IndexType>().Local.Any(l => l.Id == DbIndex.Id))
+        {
+          IPyroDbContext.Set<IndexType>().Attach(DbIndex);
+        }
+        else
+        {
+          DbIndex = IPyroDbContext.Set<IndexType>().Local.Single(l => l.Id == DbIndex.Id);
+        }
+        Counter++;
+        IPyroDbContext.Set<IndexType>().Remove(DbIndex);
+      }
+      return Counter;
+    }
+
+    //This is to go soon now we delete indexes on the fly
     public int DeleteNonCurrentResourceIndexes()
-    {      
+    {
+
       int RowsRemovedCount = 0;
 
       var IndexList = IPyroDbContext.Set<ResIndexStringType>()
@@ -906,8 +952,7 @@ namespace Pyro.DataLayer.Repository
       string Resource_ResourceName = FHIRAllTypes.Resource.GetLiteral();
       foreach (DtoServiceSearchParameterLight SearchParameter in SearchParametersList)
       {
-        //Todo: Composite searchParameters are not supported as yet, need to do work to read 
-        // the sub search parameters of the composite directly fro the SearchParameter resources.
+        //Composite searchParameters do not require populating as they are a Composite of other SearchParameter Types
         if (SearchParameter.Type != SearchParamType.Composite)
         {
           bool SetSearchParameterIndex = true;
@@ -971,6 +1016,7 @@ namespace Pyro.DataLayer.Repository
                     }
                   case SearchParamType.Composite:
                     {
+                      //Composite searchParameters do not require populating as they are a Composite of other SearchParameter Types
                       break;
                     }
                   case SearchParamType.Quantity:

@@ -192,6 +192,8 @@
     <Compile Include="PyroHealthFhirResource\Tasks\ILoadFhirSpecificationDefinitions.cs" />
     <Compile Include="PyroHealthFhirResource\Tasks\IPyroTask.cs" />
     <Compile Include="PyroHealthFhirResource\Tasks\ISetCompartmentDefinitions.cs" />
+    <Compile Include="PyroHealthFhirResource\Tasks\ISetSearchParameterDefinitions.cs" />
+    <Compile Include="PyroHealthFhirResource\Tasks\SetSearchParameterDefinitions.cs" />
     <Compile Include="PyroHealthFhirResource\Tasks\SetCompartmentDefinitions.cs" />
     <Compile Include="PyroHealthFhirResource\Tasks\LoadFhirSpecificationDefinitions.cs" />
     <Compile Include="SearchIndexer\Indexer\ExpressionSupport\DateTimePeriodExpression.cs" />
@@ -239,6 +241,9 @@
     <Compile Include="SearchIndexer\Setter\ReferenceSetter.cs" />
     <Compile Include="SearchIndexer\Setter\StringSetter.cs" />
     <Compile Include="SearchIndexer\Setter\TokenSetter.cs" />
+    <Compile Include="Search\DtoServiceSearchParameterComposite.cs" />
+    <Compile Include="Search\SearchParameterEntity\SearchParameterComposite.cs" />
+    <Compile Include="Search\SearchParameterEntity\SearchParameterCompositeValue.cs" />
     <Compile Include="ServiceConfigration\DtoServiceConfigration.cs" />
     <Compile Include="ServiceRoot\DtoRootUrlStore.cs" />
     <Compile Include="Compartment\DtoServiceCompartment.cs" />
@@ -327,8 +332,10 @@
     <Compile Include="Service\Trigger\TriggerOutcome.cs" />
     <Compile Include="Service\Trigger\TriggerServices\ITriggerCompartmentDefinition.cs" />
     <Compile Include="Service\Trigger\TriggerServices\ITriggerProtectedResource.cs" />
+    <Compile Include="Service\Trigger\TriggerServices\ITriggerServerMaintenance.cs" />
     <Compile Include="Service\Trigger\TriggerServices\TriggerProtectedResource.cs" />
     <Compile Include="Service\Trigger\TriggerServices\TriggerCompartmentDefinition.cs" />
+    <Compile Include="Service\Trigger\TriggerServices\TriggerServerReadOnlyMode.cs" />
     <Compile Include="Tools\Bundles\FhirBundleSupport.cs" />
     <Compile Include="Tools\FhirGuid\FhirGuid.cs" />
     <Compile Include="Tools\FhirTask\FhirTaskTool.cs" />
@@ -379,13 +386,11 @@
     <Compile Include="Service\SearchParameters\ISearchParametersServiceRequest.cs" />
     <Compile Include="FhirOperation\ResourceReport\IResourceReportOperation.cs" />
     <Compile Include="FhirOperation\ResourceReport\ResourceReportOperation.cs" />
-    <Compile Include="FhirOperation\DeleteHistoryIndexes\DeleteHistoryIndexesOperation.cs" />
     <Compile Include="FhirOperation\ServerSearchParameter\IServerSearchParameterOperation.cs" />
     <Compile Include="FhirOperation\ServerSearchParameter\ServerSearchParameterOperation.cs" />
     <Compile Include="Global\WebConfigProperties.cs" />
     <Compile Include="Extentions\HttpHeadersExtensions.cs" />
     <Compile Include="Search\IServiceSearchParameterTargetResource.cs" />
-    <Compile Include="FhirOperation\DeleteHistoryIndexes\IDeleteHistoryIndexesOperation.cs" />
     <Compile Include="Service\SearchParameters\SearchParametersServiceRequest.cs" />
     <Compile Include="Tools\UriSupport\IPyroFhirUri.cs" />
     <Compile Include="Enum\EnumUtility.cs" />

@@ -109,5 +109,21 @@ namespace Pyro.Test.Search
       Assert.AreEqual("subject:Patient.organization.endpoint.name", Result.ParameterList[0].Item1);
       Assert.AreEqual("AcmeMail", Result.ParameterList[0].Item2);
     }
+
+    [Test]
+    public void Test_Composite()
+    {
+      //Arrange      
+      string UrlSearchParametersString = "?component-code-value-quantity=http://loinc.org|8480-6$lt60";
+      var DtoSearchParameterGeneric = new SearchParameterGeneric();
+
+      //Act
+      ISearchParameterGeneric Result = DtoSearchParameterGeneric.Parse(UrlSearchParametersString);
+
+      //Assert
+      Assert.AreEqual(1, Result.ParameterList.Count);
+      Assert.AreEqual("component-code-value-quantity", Result.ParameterList[0].Item1);
+      Assert.AreEqual("http://loinc.org|8480-6$lt60", Result.ParameterList[0].Item2);
+    }
   }
 }

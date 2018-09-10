@@ -9,7 +9,6 @@ using Hl7.Fhir.Model;
 using Pyro.Common.RequestMetadata;
 using Pyro.Common.FhirOperation.IhiSearch;
 using Pyro.Common.FhirOperation.Validate;
-using Pyro.Common.FhirOperation.DeleteHistoryIndexes;
 using Pyro.Common.Service.SearchParameters;
 
 namespace Pyro.Engine.Operation
@@ -81,12 +80,7 @@ namespace Pyro.Engine.Operation
       }
 
       switch (OperationClass.Type)
-      {
-        case FhirOperationEnum.OperationType.ServerIndexesDeleteHistoryIndexes:
-          {
-            IDeleteHistoryIndexesOperation DeleteManyHistoryIndexesOperation = ICommonFactory.CreateDeleteHistoryIndexesOperation();
-            return DeleteManyHistoryIndexesOperation.DeleteSingle(RequestMeta.PyroRequestUri, RequestMeta.SearchParameterGeneric);
-          }
+      {       
         case FhirOperationEnum.OperationType.Validate:
           {
             IFhirValidateOperation FhirValidateOperation = ICommonFactory.CreateFhirValidateOperation();

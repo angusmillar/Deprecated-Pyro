@@ -23,5 +23,7 @@
     string HIServiceVendorId { get; }
     string HIServiceVendorIdQualifier { get; }
     int HIServiceIHIValidationPeriodDays { get; }    
+    bool ServerReadOnlyMode { get; set; }
+    string ServerReadOnlyModeMessage { get; set; }
   }
 }

@@ -128,7 +128,7 @@ namespace Pyro.Engine.Services.Metadata
 
       RestComponent.Resource = new List<CapabilityStatement.ResourceComponent>();
 
-      List<DtoServiceSearchParameterHeavy> DtoServiceSearchParameterHeavyList = IServiceSearchParameterService.GetServiceSearchParametersHeavy(false);
+      List<DtoServiceSearchParameterHeavy> DtoServiceSearchParameterHeavyList = IServiceSearchParameterService.GetServiceSearchParametersHeavyByIsIndexed(true);
 
       var ResourceTypeList = Enum.GetValues(typeof(ResourceType));
       foreach (ResourceType ResourceType in ResourceTypeList)

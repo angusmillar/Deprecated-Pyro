@@ -26,7 +26,7 @@ namespace Pyro.DataLayer.Repository
     public void Save()
     {
       try
-      {
+      {        
         IPyroDbContext.SaveChanges();
       }
       catch (DbEntityValidationException e)

@@ -10,7 +10,6 @@ using Pyro.Common.Tools.Headers;
 using Hl7.Fhir.Model;
 using Pyro.Common.CompositionRoot;
 using Pyro.Common.RequestMetadata;
-using Pyro.Common.FhirOperation.DeleteHistoryIndexes;
 using Pyro.Common.FhirOperation.ServerSearchParameter;
 using Pyro.Common.FhirOperation.ConnectathonAnswer;
 using Pyro.Common.FhirOperation.ResourceReport;
@@ -83,12 +82,7 @@ namespace Pyro.Engine.Operation
       }
 
       switch (OperationClass.Type)
-      {
-        case FhirOperationEnum.OperationType.ServerIndexesDeleteHistoryIndexes:
-          {
-            IDeleteHistoryIndexesOperation DeleteManyHistoryIndexesService = ICommonFactory.CreateDeleteHistoryIndexesOperation();
-            return DeleteManyHistoryIndexesService.DeleteMany(RequestMeta.PyroRequestUri, RequestMeta.SearchParameterGeneric, Resource);
-          }
+      {       
         case FhirOperationEnum.OperationType.ServerIndexesSet:
           {
             IServerSearchParameterOperation ServerSearchParameterService = IServerSearchParameterServiceFactory.CreateServerSearchParameterService();

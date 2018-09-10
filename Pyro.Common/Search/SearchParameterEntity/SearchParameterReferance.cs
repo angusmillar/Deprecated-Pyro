@@ -135,6 +135,7 @@ namespace Pyro.Common.Search.SearchParameterEntity
           }
           else
           {
+            this.InvalidMessage = $"Found the {Hl7.Fhir.Model.SearchParameter.SearchModifierCode.Missing.GetPyroLiteral()} Modifier yet is value was expected to be true or false yet found '{Value}'. ";
             return false;
           }
         }
@@ -152,12 +153,12 @@ namespace Pyro.Common.Search.SearchParameterEntity
           }          
           else if (RequestUri.Parse(Value.Trim()))
           {
-            //Mostlikley an absolute for relitive so just parse it 
+            //Most likely an absolute or relative so just parse it 
             DtoSearchParameterReferanceValue.FhirRequestUri = RequestUri;
           }                    
           else
           {
-            this.InvalidMessage = $"Unable to parse the reference search parameter of: '{Value}'";
+            this.InvalidMessage = $"Unable to parse the reference search parameter of: '{Value}'. {RequestUri.ErrorInParseing}";
             return false;
           }
 

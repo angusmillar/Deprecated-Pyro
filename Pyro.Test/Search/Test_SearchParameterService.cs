@@ -161,9 +161,9 @@ namespace Pyro.Test.Search
       //--------------------------------------------------------------------------------
 
       Moq.Mock<ISearchParameterServiceFactory> MokISearchParameterServiceFactory = new Moq.Mock<ISearchParameterServiceFactory>();
-
+      
       //The SearchParameterFactory returns individual search parameters
-      SearchParameterFactory SearchParameterFactory = new SearchParameterFactory(MokISearchParameterServiceFactory.Object, MokISearchParameterGenericFactory.Object, MokISearchParameterReferanceFactory.Object);
+      SearchParameterFactory SearchParameterFactory = new SearchParameterFactory(MokISearchParameterServiceFactory.Object, MokISearchParameterGenericFactory.Object, MokISearchParameterReferanceFactory.Object, MokIServiceSearchParameterCache.Object);
       // The SearchParameterService wraps the factory above and processes all search parameters for a single URL
       SearchParameterService SearchParameterService = new SearchParameterService(MokISearchParametersServiceOutcomeFactory.Object, SearchParameterFactory, MokIServiceSearchParameterCache.Object);
       // A factor used by the SearchParameterService when processing chained parameters recursively

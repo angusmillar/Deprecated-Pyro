@@ -102,6 +102,9 @@ namespace Pyro.Common.Global
 
     public static int HIServiceIHIValidationPeriodDays { get; } = 1;
 
+    public static bool ServerReadOnlyMode { get; } = false;
+
+    public static string ServerReadOnlyModeMessage { get; } = string.Empty;    
 
   }
 }

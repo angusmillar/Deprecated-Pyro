@@ -29,6 +29,8 @@ namespace Pyro.Common.Service.Trigger.TriggerServices
       _ProtectedCoding = IPyroFhirResource.CodeSystem.PyroFhirServerCodeSystem.GetCoding(PyroHealthFhirResource.CodeSystems.PyroFhirServer.Codes.Protected);
     }
 
+    public ResourceType ResourceTypeToTriggerFor => ResourceType.Resource;
+
     public ITriggerOutcome ProcessTrigger(ITriggerInput TriggerInput)
     {
       if (TriggerInput.CrudOperationType == RestEnum.CrudOperationType.Update || TriggerInput.CrudOperationType == RestEnum.CrudOperationType.Delete) 

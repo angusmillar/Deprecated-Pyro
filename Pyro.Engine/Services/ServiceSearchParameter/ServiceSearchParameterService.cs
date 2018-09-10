@@ -19,9 +19,9 @@ namespace Pyro.Engine.Services.ServiceSearchParameter
       return IServiceSearchParameterRepository.GetServiceSearchParametersLightForResource(ResourceType);
     }
 
-    public List<DtoServiceSearchParameterHeavy> GetServiceSearchParametersHeavy(bool CustomOnly = false)
+    public List<DtoServiceSearchParameterHeavy> GetServiceSearchParametersHeavyByIsIndexed(bool IsIndexed)
     {
-      return IServiceSearchParameterRepository.GetServiceSearchParametersHeavy(CustomOnly);
+      return IServiceSearchParameterRepository.GetServiceSearchParametersHeavyByIsIndexed(IsIndexed);
     }
 
     public List<DtoServiceSearchParameterHeavy> GetServiceSearchParametersHeavyForResource(string ResourceType)

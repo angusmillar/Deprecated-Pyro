@@ -9,8 +9,7 @@ namespace Pyro.Backburner.App_Start
   using Pyro.Common.FhirHttpResponse;
   using Pyro.Common.FhirOperation.BundleTransaction;
   using Pyro.Common.FhirOperation.Compartment;
-  using Pyro.Common.FhirOperation.ConnectathonAnswer;
-  using Pyro.Common.FhirOperation.DeleteHistoryIndexes;
+  using Pyro.Common.FhirOperation.ConnectathonAnswer; 
   using Pyro.Common.FhirOperation.IhiSearch;
   using Pyro.Common.FhirOperation.ResourceReport;
   using Pyro.Common.FhirOperation.ServerSearchParameter;
@@ -229,8 +228,7 @@ namespace Pyro.Backburner.App_Start
       container.Register<IFhirBaseOperationService, FhirBaseOperationService>(Lifestyle.Scoped);
       container.Register<IFhirResourceInstanceOperationService, FhirResourceInstanceOperationService>(Lifestyle.Scoped);
       container.Register<IFhirResourceOperationService, FhirResourceOperationService>(Lifestyle.Scoped);
-      //Scoped: Operations
-      container.Register<IDeleteHistoryIndexesOperation, DeleteHistoryIndexesOperation>(Lifestyle.Scoped);
+      //Scoped: Operations      
       container.Register<IServerSearchParameterOperation, ServerSearchParameterOperation>(Lifestyle.Scoped);
       container.Register<IResourceReportOperation, ResourceReportOperation>(Lifestyle.Scoped);
       container.Register<IFhirValidateOperation, FhirValidateOperation>(Lifestyle.Scoped);
@@ -264,6 +262,7 @@ namespace Pyro.Backburner.App_Start
       container.Register<IResourceTriggerService, ResourceTriggerService>(Lifestyle.Scoped);
       container.Register<ITriggerCompartmentDefinition, TriggerCompartmentDefinition>(Lifestyle.Scoped);
       container.Register<ITriggerProtectedResource, TriggerProtectedResource>(Lifestyle.Scoped);
+      container.Register<ITriggerServerReadOnlyMode, TriggerServerReadOnlyMode>(Lifestyle.Scoped);
 
       //Service Configuration to Db
       container.Register<IServiceConfigurationService, ServiceConfigurationService>(Lifestyle.Scoped);

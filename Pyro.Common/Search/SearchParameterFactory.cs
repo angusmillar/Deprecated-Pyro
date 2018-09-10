@@ -11,6 +11,7 @@ using Hl7.Fhir.Utility;
 using Hl7.Fhir.Rest;
 using Pyro.Common.Service.SearchParameters;
 using Pyro.Common.Search.SearchParameterEntity;
+using Pyro.Common.ServiceSearchParameter;
 
 namespace Pyro.Common.Search
 {
@@ -23,16 +24,19 @@ namespace Pyro.Common.Search
     private readonly ISearchParameterServiceFactory ISearchParameterServiceFactory;
     private readonly ISearchParameterGenericFactory ISearchParameterGenericFactory;
     private readonly ISearchParameterReferanceFactory ISearchParameterReferanceFactory;
+    private readonly IServiceSearchParameterCache IServiceSearchParameterCache;
 
-    public SearchParameterFactory(ISearchParameterServiceFactory ISearchParameterServiceFactory, ISearchParameterGenericFactory ISearchParameterGenericFactory, ISearchParameterReferanceFactory ISearchParameterReferanceFactory)
+    public SearchParameterFactory(ISearchParameterServiceFactory ISearchParameterServiceFactory, ISearchParameterGenericFactory ISearchParameterGenericFactory, ISearchParameterReferanceFactory ISearchParameterReferanceFactory, IServiceSearchParameterCache IServiceSearchParameterCache)
     {
       this.ISearchParameterServiceFactory = ISearchParameterServiceFactory;
       this.ISearchParameterGenericFactory = ISearchParameterGenericFactory;
       this.ISearchParameterReferanceFactory = ISearchParameterReferanceFactory;
+      this.IServiceSearchParameterCache = IServiceSearchParameterCache;
     }
 
     public ISearchParameterBase CreateSearchParameter(DtoServiceSearchParameterLight DtoSupportedSearchParametersResource, Tuple<string, string> Parameter, bool IsChainedReferance = false)
     {
+
 
       ISearchParameterBase oSearchParameter = InitalizeSearchParameter(DtoSupportedSearchParametersResource.Type);
 
@@ -42,6 +46,7 @@ namespace Pyro.Common.Search
       oSearchParameter.Resource = DtoSupportedSearchParametersResource.Resource;
       oSearchParameter.Name = DtoSupportedSearchParametersResource.Name;
       oSearchParameter.TargetResourceTypeList = DtoSupportedSearchParametersResource.TargetResourceTypeList;
+      oSearchParameter.CompositeList = DtoSupportedSearchParametersResource.CompositeList;
       if (IsChainedReferance)
         oSearchParameter.RawValue = ParameterName + SearchParams.SEARCH_CHAINSEPARATOR;
       else
@@ -60,10 +65,48 @@ namespace Pyro.Common.Search
         (oSearchParameter as SearchParameterReferance).IsChained = IsChainedReferance;
       }
 
+     
       if (oSearchParameter.Modifier == SearchParameter.SearchModifierCode.Type)
       {
         if (!oSearchParameter.TryParseValue($"{oSearchParameter.TypeModifierResource}/{ParameterValue}"))
         {
+          oSearchParameter.IsValid = false;
+        }
+      }
+      else if (DtoSupportedSearchParametersResource.Type == SearchParamType.Composite)
+      {
+        var SearchParameterComposite = oSearchParameter as SearchParameterComposite; 
+        List<ISearchParameterBase> SearchParameterBaseList = new List<ISearchParameterBase>();
+        var SearchListForResource = IServiceSearchParameterCache.GetSearchParameterForResource(DtoSupportedSearchParametersResource.Resource);
+        //Note we OrderBy as they are always added to the Database is order 1,2,3        
+        foreach(DtoServiceSearchParameterComposite Composite in DtoSupportedSearchParametersResource.CompositeList.OrderBy(x => x.Id))        
+        {
+          DtoServiceSearchParameterLight CompositeSearchParamter = SearchListForResource.SingleOrDefault(x => x.Id == Composite.ChildServiceSearchParameterId);
+          if (CompositeSearchParamter != null)
+          {
+            ISearchParameterBase CompositeSubSearchParameter = InitalizeSearchParameter(CompositeSearchParamter.Type);
+            CompositeSubSearchParameter.Id = CompositeSearchParamter.Id;
+            CompositeSubSearchParameter.Resource = CompositeSearchParamter.Resource;
+            CompositeSubSearchParameter.Name = CompositeSearchParamter.Name;
+            CompositeSubSearchParameter.TargetResourceTypeList = CompositeSearchParamter.TargetResourceTypeList;
+            CompositeSubSearchParameter.CompositeList = CompositeSearchParamter.CompositeList;                        
+            SearchParameterBaseList.Add(CompositeSubSearchParameter);
+          }
+          else
+          {
+            //This should not ever happen, but have message in case it does. We should never have a Composite
+            //search parameter loaded like this as on load it is checked, but you never know!
+            string Message =
+                $"Unable to locate one of the SearchParameters referenced in a Composite SearchParametrer type. " +
+                $"The Composite SearchParametrer name was '{DtoSupportedSearchParametersResource.Name}' for the resource type '{DtoSupportedSearchParametersResource.Resource}'. " +
+                $"This SearchParamter references another SearchParamter with the Canonical Url of {Composite.Url}. " +
+                $"This SearchParamter can not be located in the FHIR Server. This is most likely a server error that will require investigation to resolve";
+            var OpOut = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Informational, Message);
+            throw new Common.Exceptions.PyroException(System.Net.HttpStatusCode.InternalServerError, OpOut, Message);
+          }       
+        }
+        if (!SearchParameterComposite.TryParseCompositeValue(SearchParameterBaseList, ParameterValue))
+        {          
           oSearchParameter.IsValid = false;
         }
       }
@@ -74,10 +117,10 @@ namespace Pyro.Common.Search
           oSearchParameter.IsValid = false;
         }
       }
-      
+
       return oSearchParameter;
     }
-   
+
     private ISearchParameterBase InitalizeSearchParameter(SearchParamType DbSearchParameterType)
     {
       switch (DbSearchParameterType)
@@ -85,9 +128,7 @@ namespace Pyro.Common.Search
         case SearchParamType.Number:
           return new SearchParameterNumber();
         case SearchParamType.Date:
-          //I think I need to make one of these handle both Date and DateTime, the value given will be one or the other
           return new SearchParameterDateTime();
-        //return new DtoSearchParameterDate();          
         case SearchParamType.String:
           return new SearchParameterString();
         case SearchParamType.Token:
@@ -95,7 +136,7 @@ namespace Pyro.Common.Search
         case SearchParamType.Reference:
           return ISearchParameterReferanceFactory.CreateDtoSearchParameterReferance();
         case SearchParamType.Composite:
-          throw new System.ComponentModel.InvalidEnumArgumentException(DbSearchParameterType.ToString(), (int)DbSearchParameterType, typeof(SearchParamType));
+          return new SearchParameterComposite();        
         case SearchParamType.Quantity:
           return new SearchParameterQuantity();
         case SearchParamType.Uri:

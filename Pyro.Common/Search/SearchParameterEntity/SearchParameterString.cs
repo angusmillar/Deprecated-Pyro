@@ -45,6 +45,7 @@ namespace Pyro.Common.Search.SearchParameterEntity
           }
           else
           {
+            this.InvalidMessage = $"Found the {Hl7.Fhir.Model.SearchParameter.SearchModifierCode.Missing.GetPyroLiteral()} Modifier yet is value was expected to be true or false yet found '{Value}'. ";
             return false;
           }
         }

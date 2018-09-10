@@ -1,4 +1,6 @@
-﻿using Pyro.Common.DtoEntity;
+﻿using Hl7.Fhir.Utility;
+using Pyro.Common.DtoEntity;
+using Pyro.Common.Enum;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -54,6 +56,7 @@ namespace Pyro.Common.Search.SearchParameterEntity
           }
           else
           {
+            this.InvalidMessage = $"Found the {Hl7.Fhir.Model.SearchParameter.SearchModifierCode.Missing.GetPyroLiteral()} Modifier yet is value was expected to be true or false yet found '{Value}'. ";
             return false;
           }
         }
@@ -66,8 +69,13 @@ namespace Pyro.Common.Search.SearchParameterEntity
           //Observation?value=le5.4|http://unitsofmeasure.org|mg
           //Observation?value=ap5.4|http://unitsofmeasure.org|mg
 
+          //Observation?value=ap5.4
+          //Observation?value=ap5.4|
+          //Observation?value=ap5.4|http://unitsofmeasure.org
+          //Observation?value=ap5.4|http://unitsofmeasure.org|
+
           string[] Split = Value.Trim().Split(VerticalBarDelimiter);
-          if (Split.Count() == 3)
+          if (Split.Count() == 1)
           {
             var Number = DtoSearchParameterNumber.ParsePrefix(Split[0]);
             DtoSearchParameterNumber.Precision = Tools.StringSupport.GetPrecisionFromDecimal(Number);
@@ -76,17 +84,80 @@ namespace Pyro.Common.Search.SearchParameterEntity
             if (Decimal.TryParse(Number, out TempDouble))
             {
               DtoSearchParameterNumber.Value = TempDouble;
-              DtoSearchParameterNumber.System = Split[1].Trim();
-              DtoSearchParameterNumber.Code = Split[2].Trim();
+              DtoSearchParameterNumber.System = null;
+              DtoSearchParameterNumber.Code = null;
               this.ValueList.Add(DtoSearchParameterNumber);
             }
             else
             {
+              this.InvalidMessage = $"Expected a Quantity value yet was unable to parse the provided value '{Number}' as a Decimal. ";
+              return false;
+            }
+          }
+          else if (Split.Count() == 2)
+          {
+            var Number = DtoSearchParameterNumber.ParsePrefix(Split[0]);
+            DtoSearchParameterNumber.Precision = Tools.StringSupport.GetPrecisionFromDecimal(Number);
+            DtoSearchParameterNumber.Scale = Tools.StringSupport.GetScaleFromDecimal(Number);
+            decimal TempDouble;
+            if (Decimal.TryParse(Number, out TempDouble))
+            {
+              DtoSearchParameterNumber.Value = TempDouble;
+              if (string.IsNullOrWhiteSpace(Split[1].Trim()))
+              {
+                DtoSearchParameterNumber.System = Split[1].Trim();
+              }
+              else
+              {
+                DtoSearchParameterNumber.System = null;
+              }              
+              DtoSearchParameterNumber.Code = null;
+              this.ValueList.Add(DtoSearchParameterNumber);
+            }
+            else
+            {
+              this.InvalidMessage = $"Expected a Quantity value yet was unable to parse the provided value '{Number}' as a Decimal. ";
+              return false;
+            }
+          }
+          else if (Split.Count() == 3)
+          {
+            var Number = DtoSearchParameterNumber.ParsePrefix(Split[0]);
+            DtoSearchParameterNumber.Precision = Tools.StringSupport.GetPrecisionFromDecimal(Number);
+            DtoSearchParameterNumber.Scale = Tools.StringSupport.GetScaleFromDecimal(Number);
+            decimal TempDouble;
+            if (Decimal.TryParse(Number, out TempDouble))
+            {
+              DtoSearchParameterNumber.Value = TempDouble;
+              if (string.IsNullOrWhiteSpace(Split[1].Trim()))
+              {
+                DtoSearchParameterNumber.System = Split[1].Trim();
+              }
+              else
+              {
+                DtoSearchParameterNumber.System = null;
+              }
+
+              if (string.IsNullOrWhiteSpace(Split[2].Trim()))
+              {
+                DtoSearchParameterNumber.Code = Split[2].Trim();
+              }
+              else
+              {
+                DtoSearchParameterNumber.Code = null;
+              }
+              
+              this.ValueList.Add(DtoSearchParameterNumber);
+            }
+            else
+            {
+              this.InvalidMessage = $"Expected a Quantity value yet was unable to parse the provided value '{Number}' as a Decimal. ";
               return false;
             }
           }
           else
           {
+            this.InvalidMessage = $"Expected a Quantity value type yet found to many {VerticalBarDelimiter} Delimiters. ";
             return false;
           }
         }
@@ -102,6 +173,7 @@ namespace Pyro.Common.Search.SearchParameterEntity
       {
         if (!Value.ValidatePreFix(DtoSupportedSearchParameters))
         {
+          this.InvalidMessage = $"The search parameter had an unsupported prefix of '{Value.Prefix.GetLiteral()}'. ";
           return false;
         }
       }

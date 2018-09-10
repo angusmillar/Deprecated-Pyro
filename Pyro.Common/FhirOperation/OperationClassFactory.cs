@@ -11,9 +11,9 @@ namespace Pyro.Common.FhirOperation
       {
         var List = new List<OperationClass>();
 
-        //$server-indexes-delete-history-indexes (Base, Resource)
-        List.Add(new OperationClass() { Type = FhirOperationEnum.OperationType.ServerIndexesDeleteHistoryIndexes, Scope = FhirOperationEnum.OperationScope.Base });
-        List.Add(new OperationClass() { Type = FhirOperationEnum.OperationType.ServerIndexesDeleteHistoryIndexes, Scope = FhirOperationEnum.OperationScope.Resource });
+        ////$server-indexes-delete-history-indexes (Base, Resource)
+        //List.Add(new OperationClass() { Type = FhirOperationEnum.OperationType.ServerIndexesDeleteHistoryIndexes, Scope = FhirOperationEnum.OperationScope.Base });
+        //List.Add(new OperationClass() { Type = FhirOperationEnum.OperationType.ServerIndexesDeleteHistoryIndexes, Scope = FhirOperationEnum.OperationScope.Resource });
 
         //$server-indexes-set (Base)
         List.Add(new OperationClass() { Type = FhirOperationEnum.OperationType.ServerIndexesSet, Scope = FhirOperationEnum.OperationScope.Base });

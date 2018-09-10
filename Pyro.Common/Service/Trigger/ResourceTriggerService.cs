@@ -1,6 +1,8 @@
 ﻿using Hl7.Fhir.Model;
 using Pyro.Common.Enum;
 using Pyro.Common.Service.Trigger.TriggerServices;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Pyro.Common.Service.Trigger
 {
@@ -21,8 +23,10 @@ namespace Pyro.Common.Service.Trigger
   /// </summary>
   public class ResourceTriggerService : IResourceTriggerService
   {
-    private readonly ITriggerCompartmentDefinition ITriggerCompartmentDefinition;
-    private readonly ITriggerProtectedResource ITriggerProtectedResource;
+    //private readonly ITriggerCompartmentDefinition ITriggerCompartmentDefinition;
+    //private readonly ITriggerProtectedResource ITriggerProtectedResource;
+    //private readonly ITriggerServerReadOnlyMode ITriggerServerReadOnlyMode;
+    private readonly List<ITriggerService> ITriggerServiceList;
 
     private bool _TriggersActive;
 
@@ -32,10 +36,16 @@ namespace Pyro.Common.Service.Trigger
       set { _TriggersActive = value; }
     }
 
-    public ResourceTriggerService(ITriggerCompartmentDefinition ITriggerCompartmentDefinition, ITriggerProtectedResource ITriggerProtectedResource)
+    public ResourceTriggerService(ITriggerCompartmentDefinition ITriggerCompartmentDefinition, ITriggerProtectedResource ITriggerProtectedResource, ITriggerServerReadOnlyMode ITriggerServerReadOnlyMode)
     {
-      this.ITriggerCompartmentDefinition = ITriggerCompartmentDefinition;
-      this.ITriggerProtectedResource = ITriggerProtectedResource;
+      //this.ITriggerCompartmentDefinition = ITriggerCompartmentDefinition;
+      //this.ITriggerProtectedResource = ITriggerProtectedResource;
+      //this.ITriggerServerReadOnlyMode = ITriggerServerReadOnlyMode;
+      ITriggerServiceList = new List<ITriggerService>();
+      ITriggerServiceList.Add(ITriggerCompartmentDefinition);
+      ITriggerServiceList.Add(ITriggerProtectedResource);
+      ITriggerServiceList.Add(ITriggerServerReadOnlyMode);
+
       _TriggersActive = true;
     }
 
@@ -79,21 +89,21 @@ namespace Pyro.Common.Service.Trigger
       }
 
       ITriggerOutcome TriggerOutcomeMain = null;
-      
+
       //Resource Specific
-      switch (TriggerInput.ResourceType)
+      var ResourceSpecificList = ITriggerServiceList.Where(x => x.ResourceTypeToTriggerFor == TriggerInput.ResourceType);      
+      foreach (var TriggerService in ResourceSpecificList)
       {
-        case ResourceType.CompartmentDefinition:
-          {
-            TriggerOutcomeMain = CollateOutcomes(TriggerOutcomeMain, ITriggerCompartmentDefinition.ProcessTrigger(TriggerInput));
-            break;
-          }
-          
+        TriggerOutcomeMain = CollateOutcomes(TriggerOutcomeMain, TriggerService.ProcessTrigger(TriggerInput));        
       }
 
-      //All Triggers
-      TriggerOutcomeMain = CollateOutcomes(TriggerOutcomeMain, ITriggerProtectedResource.ProcessTrigger(TriggerInput));
-
+      //All Resource Types
+      ResourceSpecificList = ITriggerServiceList.Where(x => x.ResourceTypeToTriggerFor == ResourceType.Resource);
+      foreach (var TriggerService in ResourceSpecificList)
+      {
+        TriggerOutcomeMain = CollateOutcomes(TriggerOutcomeMain, TriggerService.ProcessTrigger(TriggerInput));        
+      }
+      
       return TriggerOutcomeMain;
     }
     

@@ -2,23 +2,23 @@
 ########################### Migration Command Help File #######################################
 ###############################################################################################
 This file contains Entity Framework Migration command help for creating and running 
-Entity Franework Migrations. As we have many database providers 'Microsoft SQL Server' and 
+Entity Framework Migrations. As we have many database providers 'Microsoft SQL Server' and 
 'PostgreSQL' each needs a migration created when there are any database changes. 
 Below are helper examples of these commands.
 
 Note: If you uses the '-ConfigurationTypeName ConfigurationMsSql' and yet have the PostgreSQL
-connection string active in the Pyro.ConsoleServer.App_Data/Connctions.config file, becuase 
+connection string active in the Pyro.ConsoleServer.App_Data/Connctions.config file, because 
 you forgot to align the migration type to the database in your connection string. The you will 
-see the folowing error:
+see the following error:
 
 'Unable to generate an explicit migration because the following explicit migrations are 
  pending:...etc'
 
 This is because the migration is attempting to hit the wrong database and if it succeeds in 
-connectiong it will read that database's __MigrationHistory table, yet that table will have the 
-wrong ContextKey property in this table. It will therefore belive it needs to perform all migration 
-from the beginging. When you see this you should first check that you have the correct 
-connectionstring set in te Connctions.config file for the migration you are trying to create.
+connecting it will read that database's __MigrationHistory table, yet that table will have the 
+wrong ContextKey property in this table. It will therefore believe it needs to perform all migration 
+from the beginning. When you see this you should first check that you have the correct 
+connection string set in the Connctions.config file for the migration you are trying to create.
 
 ###############################################################################################
 ###### Microsoft SQL Server ###################################################################
@@ -76,9 +76,9 @@ Update-Database -SourceMigration [Source Migration Name] -TargetMigration [Targe
 ###### Using the Migrate.exe for running migrations ###########################################
 ###############################################################################################
 
-Automatical running migrations on server statup can throw an statckoverflow exception as we try
-to run these on startup in a seperate thread. If that thred excceds 1MB then we get statckoverflow 
-exception. Unfortunatly this happens on the initial databse creation and migration First.
+Automatically running migrations on server start-up can throw an Stackoverflow exception as we try
+to run these on start-up in a separate thread. If that thread exceeds 1MB then we get stackoverflow 
+exception. Unfortunately this happens on the initial database creation and migration First.
 The command below is another way to run the migrations
 
 //Microsoft SQL Server

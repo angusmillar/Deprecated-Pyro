@@ -163,13 +163,25 @@ namespace Pyro.DbManager.Seeding
       return sb.ToString();
     }
 
-
+    /// <summary>
+    /// Get the search Parameters to seed the database on database creation.
+    /// Only seed for Resource types 'Resource', 'Task', 'AuditEvent' and 'SearchParameter' as all others will be loaded by the server
+    /// start-up task Pyro.Common.PyroHealthFhirResource.Tasks.SetSearchParameterDefinitions. We must however load these three
+    /// now as they are required to index the search parameters for the Tasks resources and SearchParameter and AuditEvent resources loaded on start-up
+    /// The Task SetSearchParameterDefinitions will update these search parameters table entries with their matching Resource Id and versions
+    /// as the Task runs.
+    /// </summary>
+    /// <returns></returns>
     private IList<SearchParam> GetServiceSearchParameterList()
     {
       IList<DtoServiceSearchParameter> ServiceSearchParameterList = ServiceSearchParameterFactory.FhirAPISearchParameters();
       var ReturnList = new List<SearchParam>();
       var LastUpdated = DateTimeOffset.Now;
-      foreach (var SearchParameter in ServiceSearchParameterList)
+      foreach (var SearchParameter in ServiceSearchParameterList.Where(x => 
+        x.Resource == ResourceType.Resource.GetLiteral() || 
+        x.Resource == ResourceType.Task.GetLiteral() || 
+        x.Resource == ResourceType.SearchParameter.GetLiteral() ||
+        x.Resource == ResourceType.AuditEvent.GetLiteral()))
       {
         var ServiceSearchParameter = new SearchParam()
         {

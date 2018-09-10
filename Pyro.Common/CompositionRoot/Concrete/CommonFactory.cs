@@ -5,7 +5,6 @@ using Pyro.Common.Service.ResourceService;
 using Pyro.Common.Interfaces.Tools.HtmlSupport;
 using Pyro.Common.FhirOperation.Validate;
 using Pyro.Common.FhirOperation.IhiSearch;
-using Pyro.Common.FhirOperation.DeleteHistoryIndexes;
 using Pyro.Common.FhirOperation.ResourceReport;
 using Pyro.Common.FhirOperation.Compartment;
 using Pyro.Common.FhirOperation.ConnectathonAnswer;
@@ -20,12 +19,7 @@ namespace Pyro.Common.CompositionRoot.Concrete
     {
       this.Container = Container;
     }
-    
-    public IDeleteHistoryIndexesOperation CreateDeleteHistoryIndexesOperation()
-    {
-      return Container.GetInstance<IDeleteHistoryIndexesOperation>();
-    }
-    
+       
     public IResourceReportOperation CreateResourceReportOperation()
     {
       return Container.GetInstance<IResourceReportOperation>();

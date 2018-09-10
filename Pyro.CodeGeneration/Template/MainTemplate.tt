@@ -4,7 +4,7 @@
 <#@ include file="$(SolutionDir)Pyro.CodeGeneration\FileManager\TemplateFileManagerV2.1.ttinclude" #>
 
 <#@ Assembly Name="System.Core" #>
-<#@ Assembly Name="$(SolutionDir)packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll"#>
+<#@ Assembly Name="$(SolutionDir)packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll"#>
 <#@ Assembly Name="$(SolutionDir)packages\Hl7.Fhir.STU3.0.96.0\lib\net45\Hl7.Fhir.STU3.Core.dll"#>
 <#@ Assembly Name="$(SolutionDir)packages\Hl7.Fhir.Support.0.96.0\lib\net45\Hl7.Fhir.Support.dll"#>
 <#@ Assembly Name="$(SolutionDir)packages\Hl7.FhirPath.0.96.0\lib\net45\Hl7.FhirPath.dll"#>
@@ -254,7 +254,6 @@ namespace Pyro.Common.Interfaces.Repositories
   manager.StartNewFile($"PyroDbContextCodeGenerated.cs", "Pyro.DataLayer", "DatabaseContext");
 #>
 using System.Data.Entity;
-using System.Data.Entity.ModelConfiguration.Conventions;
 using Pyro.DataLayer.DbModel.EntityGenerated;
 using Pyro.DataLayer.DbModel.DatabaseContextConfig;
 
@@ -277,25 +276,13 @@ namespace Pyro.DataLayer.DbModel.DatabaseContext
     protected override void OnModelCreating(DbModelBuilder Mb)
     {
       base.OnModelCreating(Mb);
-
-      Mb.Conventions.Remove<PluralizingTableNameConvention>();
-      
-      Mb.Configurations.Add(new ServiceConfigurationContextConfig());
-      
-      Mb.Configurations.Add(new ServiceBaseUrlContextConfig());
-      Mb.Configurations.Add(new ServiceSearchParameterConfig());
-      Mb.Configurations.Add(new ServiceSearchParameterTargetResourceConfig());
-
-      Mb.Configurations.Add(new ServiceCompartmentContextConfig());
-      Mb.Configurations.Add(new ServiceCompartmentResourceContextConfig());
-
+      OnModelCreatingExtra(Mb);      
 <#   
   foreach(string ResourceName in MainModel.GetResourceNameList())
   {
 #>      
       // <#=ResourceName#>  
-      Mb.Configurations.Add(new ResourceContextConfig<<#=ResourceName#>Res, <#=ResourceName#>ResIndexString, <#=ResourceName#>ResIndexToken, <#=ResourceName#>ResIndexUri, <#=ResourceName#>ResIndexReference, <#=ResourceName#>ResIndexQuantity, <#=ResourceName#>ResIndexDateTime>());
-      
+      Mb.Configurations.Add(new ResourceContextConfig<<#=ResourceName#>Res, <#=ResourceName#>ResIndexString, <#=ResourceName#>ResIndexToken, <#=ResourceName#>ResIndexUri, <#=ResourceName#>ResIndexReference, <#=ResourceName#>ResIndexQuantity, <#=ResourceName#>ResIndexDateTime>());      
       Mb.Configurations.Add(new IndexStringContextConfig<<#=ResourceName#>Res, <#=ResourceName#>ResIndexString, <#=ResourceName#>ResIndexToken, <#=ResourceName#>ResIndexUri, <#=ResourceName#>ResIndexReference, <#=ResourceName#>ResIndexQuantity, <#=ResourceName#>ResIndexDateTime>());
       Mb.Configurations.Add(new IndexTokenContextConfig<<#=ResourceName#>Res, <#=ResourceName#>ResIndexString, <#=ResourceName#>ResIndexToken, <#=ResourceName#>ResIndexUri, <#=ResourceName#>ResIndexReference, <#=ResourceName#>ResIndexQuantity, <#=ResourceName#>ResIndexDateTime>());
       Mb.Configurations.Add(new IndexUriContextConfig<<#=ResourceName#>Res, <#=ResourceName#>ResIndexString, <#=ResourceName#>ResIndexToken, <#=ResourceName#>ResIndexUri, <#=ResourceName#>ResIndexReference, <#=ResourceName#>ResIndexQuantity, <#=ResourceName#>ResIndexDateTime>());

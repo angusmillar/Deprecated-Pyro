@@ -39,7 +39,7 @@ namespace Pyro.Common.Service.SearchParameters
       var OpOut = new OperationOutcome();
       foreach (UnspportedSearchParameter Parameter in SearchParameters.UnspportedSearchParameterList)
       {
-        string Message = $"Unsupported search parameter: {Parameter.ReasonMessage}";
+        string Message = $"Unable to process a search parameter: {Parameter.ReasonMessage}";
         FhirOperationOutcomeSupport.Append(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.Processing, Message, OpOut);
       }
       return OpOut;

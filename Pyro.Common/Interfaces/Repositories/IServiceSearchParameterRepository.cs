@@ -8,7 +8,7 @@ namespace Pyro.Common.Interfaces.Repositories
     DtoServiceSearchParameterHeavy AddServiceSearchParametersHeavy(DtoServiceSearchParameterHeavy ServiceSearchParameterHeavy);
     void DeleteServiceSearchParameters(int Id);
     List<DtoServiceSearchParameterHeavy> GetServiceSearchParametersHeavy();
-    List<DtoServiceSearchParameterHeavy> GetServiceSearchParametersHeavy(bool CustomOnly = false);
+    List<DtoServiceSearchParameterHeavy> GetServiceSearchParametersHeavyByIsIndexed(bool IsIndexed);
     List<DtoServiceSearchParameterHeavy> GetServiceSearchParametersHeavyForResource(string ResourceType);
     List<DtoServiceSearchParameterLight> GetServiceSearchParametersLightForResource(string ResourceType);
     DtoServiceSearchParameterHeavy UpdateServiceSearchParametersHeavy(DtoServiceSearchParameterHeavy ServiceSearchParameterHeavy);

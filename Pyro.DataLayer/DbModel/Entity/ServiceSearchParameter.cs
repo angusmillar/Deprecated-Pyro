@@ -24,10 +24,12 @@ namespace Pyro.DataLayer.DbModel.Entity
     public string SearchParameterResourceId { get; set; }
     public string SearchParameterResourceVersion { get; set; }
     public ICollection<_ServiceSearchParameterTargetResource> TargetResourceTypeList { get; set; }
+    public ICollection<_ServiceSearchParameterCompositePivot> ServiceSearchParameterCompositePivotList { get; set; }
 
     public _ServiceSearchParameter()
     {
       this.TargetResourceTypeList = new HashSet<_ServiceSearchParameterTargetResource>();
+      this.ServiceSearchParameterCompositePivotList = new HashSet<_ServiceSearchParameterCompositePivot>();
     }
 
     /// <summary>

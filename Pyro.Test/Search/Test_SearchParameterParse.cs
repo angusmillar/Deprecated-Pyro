@@ -192,6 +192,6 @@ namespace Pyro.Test.Search
       Assert.AreEqual(SearchParameterReferance.ValueList[0].FhirRequestUri.ResourceId, TestResourceId, "FhirRequestUri.ResourceName should be Patient");
     }
 
-    
+
   }
 }

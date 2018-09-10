@@ -32,6 +32,8 @@ namespace Pyro.Common.Global
       _HIServiceVendorId = WebConfigProperties.HIServiceVendorId();
       _HIServiceVendorIdQualifier = WebConfigProperties.HIServiceVendorIdQualifier();
       _HIServiceIHIValidationPeriodDays = WebConfigProperties.HIServiceIHIValidationPeriodDays();
+      _ServerReadOnlyMode = WebConfigProperties.ServerReadOnlyMode();
+      _ServerReadOnlyModeMessage = WebConfigProperties.ServerReadOnlyModeMessage();
     }
 
     private string _ServiceBaseURL;
@@ -60,6 +62,7 @@ namespace Pyro.Common.Global
         return _ThisServersEntityCode;
       }
     }
+
     private string _ThisServersEntitySystem;
     public string ThisServersEntitySystem
     {
@@ -68,6 +71,7 @@ namespace Pyro.Common.Global
         return _ThisServersEntitySystem;
       }
     }
+
     private string _ThisServersManagingOrganizationResource;
     public string ThisServersManagingOrganizationResource
     {
@@ -211,7 +215,32 @@ namespace Pyro.Common.Global
         return _HIServiceIHIValidationPeriodDays;
       }
     }
-    
+
+    private bool _ServerReadOnlyMode;
+    public bool ServerReadOnlyMode
+    {
+      get
+      {
+        return _ServerReadOnlyMode;
+      }
+      set
+      {
+        _ServerReadOnlyMode = value;
+      }
+    }
+
+    private string _ServerReadOnlyModeMessage;
+    public string ServerReadOnlyModeMessage
+    {
+      get
+      {
+        return _ServerReadOnlyModeMessage;
+      }
+      set
+      {
+        _ServerReadOnlyModeMessage = value;
+      }
+    }
   }
 
 

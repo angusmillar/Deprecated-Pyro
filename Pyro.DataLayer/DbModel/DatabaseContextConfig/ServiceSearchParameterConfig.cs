@@ -38,10 +38,30 @@ namespace Pyro.DataLayer.DbModel.DatabaseContextConfig
         .HasColumnAnnotation(IndexAnnotation.AnnotationName,
         new IndexAnnotation(new IndexAttribute("ix_Status") { IsUnique = false }));
 
-      Property(x => x.SearchParameterResourceId).HasMaxLength(StaticDatabaseInfo.BaseDatabaseFieldLength.FhirIdMaxLength).IsOptional();
-      Property(x => x.SearchParameterResourceVersion).HasMaxLength(StaticDatabaseInfo.BaseDatabaseFieldLength.FhirIdMaxLength).IsOptional();
-      HasMany(c => c.TargetResourceTypeList).WithRequired(c => c.ServiceSearchParameter).HasForeignKey(c => c.ServiceSearchParameterId).WillCascadeOnDelete(true);
+      Property(x => x.SearchParameterResourceId)
+        .HasMaxLength(StaticDatabaseInfo.BaseDatabaseFieldLength.FhirIdMaxLength)
+        .IsOptional();
 
+      Property(x => x.SearchParameterResourceVersion)
+        .HasMaxLength(StaticDatabaseInfo.BaseDatabaseFieldLength.FhirIdMaxLength)
+        .IsOptional();
+
+      //HasMany(n => n.ServiceSearchParameterCompositePivotList)
+      //  .WithRequired(g => g.ChildServiceSearchParameter)
+      //  .HasForeignKey(x => x.ChildServiceSearchParameterId)
+      //  .WillCascadeOnDelete(false);
+
+      HasMany(a => a.ServiceSearchParameterCompositePivotList)
+        .WithRequired(g => g.ParentServiceSearchParameter)
+        .HasForeignKey(x => x.ParentServiceSearchParameterId)
+        .WillCascadeOnDelete(true);
+
+      HasMany(c => c.TargetResourceTypeList)
+        .WithRequired(c => c.ServiceSearchParameter)
+        .HasForeignKey(c => c.ServiceSearchParameterId)
+        .WillCascadeOnDelete(true);
+
+    
     }
   }
 }

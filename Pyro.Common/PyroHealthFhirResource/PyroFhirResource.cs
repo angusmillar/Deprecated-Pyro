@@ -50,7 +50,8 @@ namespace Pyro.Common.PyroHealthFhirResource
       //Task
       ResourceList.Add(ITask.SetCompartmentDefinitions.GetResource());
       ResourceList.Add(ITask.LoadFhirSpecificationDefinitionsTask.GetResource());
-      
+      ResourceList.Add(ITask.SetSearchParameterDefinitions.GetResource());
+
 
       //CompartmentDefinition
       ResourceList.Add(ICompartmentDefinition.PyroCompartmentDefinitionEncounter.GetResource());

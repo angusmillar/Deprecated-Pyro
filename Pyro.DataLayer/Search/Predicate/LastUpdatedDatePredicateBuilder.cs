@@ -21,7 +21,7 @@ namespace Pyro.DataLayer.Search.Predicate
       where ResIndexDateTimeType : ResourceIndexDateTime<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>
       
   {
-    public static void Build(List<ISearchParameterBase> SearchParametersList, ResourceSearch<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType> Search, ExpressionStarter<ResCurrentType> MainPredicate)
+    public static void Build(List<ISearchParameterBase> SearchParametersList, ResourceSearchExpressionTrees<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType> Search, ExpressionStarter<ResCurrentType> MainPredicate)
     {
       var LastUpdatedSearchParamerterList = SearchParametersList.Where(x => x.Resource == FHIRAllTypes.Resource.GetLiteral() && x.Name == "_lastUpdated");
       if (LastUpdatedSearchParamerterList != null)
@@ -88,7 +88,7 @@ namespace Pyro.DataLayer.Search.Predicate
       }
     }
 
-    private static ExpressionStarter<ResCurrentType> Equals(ResourceSearch<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType> Search, ExpressionStarter<ResCurrentType> NewLastUpdatedPredicate, SearchParameterDateTimeValue SearchValue)
+    private static ExpressionStarter<ResCurrentType> Equals(ResourceSearchExpressionTrees<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType> Search, ExpressionStarter<ResCurrentType> NewLastUpdatedPredicate, SearchParameterDateTimeValue SearchValue)
     {
       var ExpressionLow = Search.LastUpdatedPropertyGreaterThanOrEqualTo(SearchValue.Value);
       var ExpressionHigh = Search.LastUpdatedPropertyLessThanOrEqualTo(FhirDateTimeSupport.CalculateHighDateTimeForRange(SearchValue.Value, SearchValue.Precision));

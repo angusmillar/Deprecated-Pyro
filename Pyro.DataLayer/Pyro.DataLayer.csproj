@@ -102,6 +102,7 @@
     <Compile Include="DbModel\DatabaseContextConfig\ServiceConfigurationContextConfig.cs" />
     <Compile Include="DbModel\DatabaseContextConfig\ServiceCompartmentResourceContextConfig.cs" />
     <Compile Include="DbModel\DatabaseContextConfig\ServiceCompartmentContextConfig.cs" />
+    <Compile Include="DbModel\DatabaseContextConfig\ServiceSearchParameterCompositePivotConfig.cs" />
     <Compile Include="DbModel\DatabaseContextConfig\ServiceSearchParameterTargetResourceConfig.cs" />
     <Compile Include="DbModel\DatabaseContextConfig\ServiceSearchParameterConfig.cs" />
     <Compile Include="DbModel\DatabaseContextConfig\ServiceBaseUrlContextConfig.cs" />
@@ -127,6 +128,7 @@
     <Compile Include="DbModel\EntityBase\IResourceIndexToken.cs" />
     <Compile Include="DbModel\EntityBase\IResourceIndexQuantity.cs" />
     <Compile Include="DbModel\EntityBase\IResourceIndexString.cs" />
+    <Compile Include="DbModel\Entity\ServiceSearchParameterCompositePivot.cs" />
     <Compile Include="DbModel\Entity\ConfigEntityBase.cs" />
     <Compile Include="DbModel\Entity\FhirRelease.cs" />
     <Compile Include="DbModel\EntityBase\ResourceCurrentBase.cs" />
@@ -188,9 +190,17 @@
     <Compile Include="MigrationsMicrosoftSQLServer\201808070917504_DropOldLowHighUtcDateTimeColoums.Designer.cs">
       <DependentUpon>201808070917504_DropOldLowHighUtcDateTimeColoums.cs</DependentUpon>
     </Compile>
+    <Compile Include="MigrationsMicrosoftSQLServer\201809100551599_AddCompositePivotTable.cs" />
+    <Compile Include="MigrationsMicrosoftSQLServer\201809100551599_AddCompositePivotTable.Designer.cs">
+      <DependentUpon>201809100551599_AddCompositePivotTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="MigrationsPostgre\201808070701252_First.cs" />
     <Compile Include="MigrationsPostgre\201808070701252_First.Designer.cs">
       <DependentUpon>201808070701252_First.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MigrationsPostgre\201809100844584_AddCompositePivotTable.cs" />
+    <Compile Include="MigrationsPostgre\201809100844584_AddCompositePivotTable.Designer.cs">
+      <DependentUpon>201809100844584_AddCompositePivotTable.cs</DependentUpon>
     </Compile>
     <Compile Include="MigrationsPostgre\ConfigurationPostgre.cs" />
     <Compile Include="MigrationsMicrosoftSQLServer\201706130247261_First.cs" />
@@ -292,9 +302,11 @@
     <Compile Include="Search\Predicate\QuantityPredicateBuilder.cs" />
     <Compile Include="Search\Predicate\ReferancePredicateBuilder.cs" />
     <Compile Include="Search\Predicate\StringPredicateBuilder.cs" />
+    <Compile Include="Search\Predicate\CompositePredicateBuilder.cs" />
     <Compile Include="Search\Predicate\TokenPredicateBuilder.cs" />
     <Compile Include="Search\Predicate\UriPredicateBuilder.cs" />
     <Compile Include="Search\ResourceSearch.cs" />
+    <Compile Include="Search\ResourceSearchExpressionTrees.cs" />
     <Compile Include="Support\IndexSettingSupport.cs" />
     <Compile Include="Support\DbContextUtils.cs" />
   </ItemGroup>
@@ -383,8 +395,14 @@
     <EmbeddedResource Include="MigrationsMicrosoftSQLServer\201808070917504_DropOldLowHighUtcDateTimeColoums.resx">
       <DependentUpon>201808070917504_DropOldLowHighUtcDateTimeColoums.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="MigrationsMicrosoftSQLServer\201809100551599_AddCompositePivotTable.resx">
+      <DependentUpon>201809100551599_AddCompositePivotTable.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MigrationsPostgre\201808070701252_First.resx">
       <DependentUpon>201808070701252_First.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MigrationsPostgre\201809100844584_AddCompositePivotTable.resx">
+      <DependentUpon>201809100844584_AddCompositePivotTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

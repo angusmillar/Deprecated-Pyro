@@ -61,6 +61,30 @@ namespace Pyro.Common.Global
     
     public int HIServiceIHIValidationPeriodDays { get { return GetIntPropertyValueOrDefault(WebConfigPropertiesNames.HIServiceIHIValidationPeriodDays, WebConfigPropertiesDefaults.HIServiceIHIValidationPeriodDays); } }
 
+    public bool ServerReadOnlyMode
+    {
+      get
+      {
+        return GetBoolPropertyValueOrDefault(WebConfigPropertiesNames.ServerReadOnlyMode, WebConfigPropertiesDefaults.ServerReadOnlyMode);
+      }
+      set
+      {
+        GetBoolPropertyValueOrDefault(WebConfigPropertiesNames.ServerReadOnlyModeMessage, value);
+      }
+    }
+
+    public string ServerReadOnlyModeMessage
+    {
+      get
+      {
+        return GetStringPropertyValueOrDefault(WebConfigPropertiesNames.ServerReadOnlyModeMessage, WebConfigPropertiesDefaults.ServerReadOnlyModeMessage);
+      }
+      set
+      {
+        SetStringPropertyValueOrDefault(WebConfigPropertiesNames.ServerReadOnlyModeMessage, value);
+      }
+    }
+    
     private string GetStringPropertyValueOrDefault(string Parameter, string Default)
     {
       if (GlobalPropertiesDictionary.ContainsKey(Parameter))
@@ -70,6 +94,18 @@ namespace Pyro.Common.Global
       else
       {
         return string.Empty;
+      }
+    }
+
+    private void SetStringPropertyValueOrDefault(string Parameter, string Value)
+    {
+      if (GlobalPropertiesDictionary.ContainsKey(Parameter))
+      {
+        GlobalPropertiesDictionary[Parameter] = Value;
+      }
+      else
+      {
+        throw new FormatException($"Attempt to set a GlobalProperties Parameter of '{Parameter}', yet Parameter not found in dictionary.");
       }
     }
 
@@ -85,6 +121,17 @@ namespace Pyro.Common.Global
       }
     }
 
+    private void SetBoolPropertyValueOrDefault(string Parameter, bool Value)
+    {
+      if (GlobalPropertiesDictionary.ContainsKey(Parameter))
+      {
+         GlobalPropertiesDictionary[Parameter] = Value.ToString();
+      }
+      else
+      {
+        throw new FormatException($"Attempt to set a GlobalProperties Parameter of '{Parameter}', yet Parameter not found in dictionary.");
+      }
+    }
     private int GetIntPropertyValueOrDefault(string Parameter, int Default)
     {
       if (GlobalPropertiesDictionary.ContainsKey(Parameter))

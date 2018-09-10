@@ -9,7 +9,7 @@ using Pyro.Common.ServiceRoot;
 namespace Pyro.Common.Search
 {
   public class DtoServiceSearchParameterHeavy : DtoServiceSearchParameterLight, IServiceSearchParameter
-  {
+  {    
     public string Description { get; set; }
     public string Url { get; set; }
     public string XPath { get; set; }
@@ -17,7 +17,7 @@ namespace Pyro.Common.Search
     public string SearchParameterResourceVersion { get; set; }   
     public bool IsIndexed { get; set; }
     public PublicationStatus Status { get; set; }
-    public DateTimeOffset LastUpdated { get; set; }
+    public DateTimeOffset LastUpdated { get; set; }    
 
   }
 }

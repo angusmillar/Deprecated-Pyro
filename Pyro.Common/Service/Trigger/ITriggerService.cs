@@ -1,4 +1,6 @@
-﻿namespace Pyro.Common.Service.Trigger
+﻿using Hl7.Fhir.Model;
+
+namespace Pyro.Common.Service.Trigger
 {
   public interface ITriggerService
   {
@@ -9,5 +11,6 @@
     /// <param name="TriggerInput"></param>
     /// <returns></returns>
     ITriggerOutcome ProcessTrigger(ITriggerInput TriggerInput);
+    ResourceType ResourceTypeToTriggerFor { get; } 
   }
 }

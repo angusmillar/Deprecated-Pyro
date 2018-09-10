@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using Pyro.Common.Interfaces.Tools.HtmlSupport;
 using Pyro.Common.FhirOperation.Validate;
 using Pyro.Common.FhirOperation.IhiSearch;
-using Pyro.Common.FhirOperation.DeleteHistoryIndexes;
 using Pyro.Common.FhirOperation.ResourceReport;
 using Pyro.Common.FhirOperation.Compartment;
 using Pyro.Common.FhirOperation.ConnectathonAnswer;
@@ -14,8 +13,7 @@ namespace Pyro.Common.CompositionRoot
   public interface ICommonFactory
   {
     
-    IHtmlGenerationSupport CreateFhirNarativeGenerationSupport();    
-    IDeleteHistoryIndexesOperation CreateDeleteHistoryIndexesOperation();    
+    IHtmlGenerationSupport CreateFhirNarativeGenerationSupport();        
     IResourceReportOperation CreateResourceReportOperation();
     IFhirValidateOperation CreateFhirValidateOperation();
     IConnectathonAnswerOperation CreateConnectathonAnswerOperation();
