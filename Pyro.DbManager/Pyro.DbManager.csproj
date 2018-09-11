@@ -158,7 +158,7 @@
     <EmbeddedResource Include="SqlScripts\MsSQL\201809100551599_AddCompositePivotTable.sql" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="SqlScripts\PostgreSql\201809100844584_AddCompositePivotTable.sql" />
+    <EmbeddedResource Include="SqlScripts\PostgreSql\201809111444452_AddCompositePivotTable.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

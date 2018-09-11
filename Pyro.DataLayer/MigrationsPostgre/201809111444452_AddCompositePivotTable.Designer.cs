@@ -13,7 +13,7 @@ namespace Pyro.DataLayer.MigrationsPostgre
         
         string IMigrationMetadata.Id
         {
-            get { return "201809100844584_AddCompositePivotTable"; }
+            get { return "201809111444452_AddCompositePivotTable"; }
         }
         
         string IMigrationMetadata.Source

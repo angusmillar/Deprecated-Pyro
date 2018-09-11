@@ -198,9 +198,9 @@
     <Compile Include="MigrationsPostgre\201808070701252_First.Designer.cs">
       <DependentUpon>201808070701252_First.cs</DependentUpon>
     </Compile>
-    <Compile Include="MigrationsPostgre\201809100844584_AddCompositePivotTable.cs" />
-    <Compile Include="MigrationsPostgre\201809100844584_AddCompositePivotTable.Designer.cs">
-      <DependentUpon>201809100844584_AddCompositePivotTable.cs</DependentUpon>
+    <Compile Include="MigrationsPostgre\201809111444452_AddCompositePivotTable.cs" />
+    <Compile Include="MigrationsPostgre\201809111444452_AddCompositePivotTable.Designer.cs">
+      <DependentUpon>201809111444452_AddCompositePivotTable.cs</DependentUpon>
     </Compile>
     <Compile Include="MigrationsPostgre\ConfigurationPostgre.cs" />
     <Compile Include="MigrationsMicrosoftSQLServer\201706130247261_First.cs" />
@@ -280,13 +280,10 @@
       <DependentUpon>201808041212043_AlignNamesForPostgreSQL.cs</DependentUpon>
     </Compile>
     <Compile Include="MigrationsMicrosoftSQLServer\ConfigurationMsSql.cs" />
-    <Compile Include="DbSeeding\IPyroSeedService.cs" />
-    <Compile Include="DbSeeding\SeedPyroDatabase.cs" />
-    <Compile Include="DbSeeding\SeedServiceFhirReleaseSTU301.cs" />
-    <Compile Include="DbSeeding\SeedServiceSearchParameters.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\BaseRepository.cs" />
     <Compile Include="Repository\ICommonResourcePredicate.cs" />
+    <Compile Include="Repository\MigrationHistoryRepository.cs" />
     <Compile Include="Repository\ServiceConfigurationRepository.cs" />
     <Compile Include="Repository\Interfaces\IServiceBaseUrlRepository.cs" />
     <Compile Include="Repository\ServiceBaseUrlRepository.cs" />
@@ -401,8 +398,8 @@
     <EmbeddedResource Include="MigrationsPostgre\201808070701252_First.resx">
       <DependentUpon>201808070701252_First.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MigrationsPostgre\201809100844584_AddCompositePivotTable.resx">
-      <DependentUpon>201809100844584_AddCompositePivotTable.cs</DependentUpon>
+    <EmbeddedResource Include="MigrationsPostgre\201809111444452_AddCompositePivotTable.resx">
+      <DependentUpon>201809111444452_AddCompositePivotTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

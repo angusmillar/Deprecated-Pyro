@@ -30,13 +30,13 @@ namespace Pyro.DataLayer.Repository
 
     public DtoServiceConfigration UpdateServiceConfigration(DtoServiceConfigration DtoServiceConfigration)
     {
-      var DateTimeNow = System.DateTimeOffset.Now; 
+      var DateTimeNow = System.DateTimeOffset.Now;
       _ServiceConfiguration DbServiceConfigration = IPyroDbContext.ServiceConfiguration.SingleOrDefault(x => x.Parameter == DtoServiceConfigration.Parameter);
       if (DbServiceConfigration != null)
       {
         DbServiceConfigration.Value = DtoServiceConfigration.Value;
         DbServiceConfigration.LastUpdated = DateTimeNow;
-        DbServiceConfigration.LastUpdatedUser = DtoServiceConfigration.LastUpdatedUser;                
+        DbServiceConfigration.LastUpdatedUser = DtoServiceConfigration.LastUpdatedUser;
       }
       else
       {
@@ -48,9 +48,9 @@ namespace Pyro.DataLayer.Repository
       this.Save();
       return IMapper.Map<DtoServiceConfigration>(DbServiceConfigration);
     }
-
+ 
     public bool UpdateIfNewOrModifiedServiceConfigration(string Parameter, string Value, string UserUpdating, System.DateTimeOffset UpdateingDateTime)
-    {      
+    {
       _ServiceConfiguration DbServiceConfigration = IPyroDbContext.ServiceConfiguration.SingleOrDefault(x => x.Parameter.ToLower() == Parameter.ToLower());
       if (DbServiceConfigration != null)
       {
@@ -65,7 +65,7 @@ namespace Pyro.DataLayer.Repository
         else
         {
           return false;
-        }        
+        }
       }
       else
       {
@@ -80,7 +80,7 @@ namespace Pyro.DataLayer.Repository
         this.Save();
         return true;
       }
-          
+
     }
 
     public Dictionary<string, string> GetServiceConfigrationDictionary()
@@ -90,7 +90,7 @@ namespace Pyro.DataLayer.Repository
         IPyroDbContext
         .ServiceConfiguration
         .Select(x => new { x.Parameter, x.Value }).ToList().ToDictionary(c => c.Parameter, c => c.Value);
-      
+
     }
   }
 

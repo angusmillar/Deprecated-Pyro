@@ -80,12 +80,13 @@ namespace Pyro.Engine.Services.FhirTasks.SearchParameterLoader
     {
       _Task = Task;
       IGlobalProperties.ServerReadOnlyMode = true;
-      IGlobalProperties.ServerReadOnlyModeMessage = "The server is currently running a first time start-up task which loads all the base FHIR " +
-                                                    "specification search parameter resources as active search indexes within the Pyro FHIR server. " +
-                                                    $"This Task can be monitored by performing a GET on the servers Task endpoint for the Id of '{_Task.Id}'. " +
-                                                    $"For example: 'GET [base]/Task/{_Task.Id}'. While this Task is in progress the server can not allow resource writes " +
-                                                    $"to the server as these resources would not have their search parameter values indexed. Only once the Task is finished " +
-                                                    $"and all base search parameters are loaded will the server automatically switch out of read only mode. ";
+      IGlobalProperties.ServerReadOnlyModeMessage = 
+        "The server is currently running a first time start-up task which loads all the base FHIR " +
+        "specification search parameter resources as active search indexes within the Pyro FHIR server. " +
+        $"This Task can be monitored by performing a GET on the servers Task endpoint for the Id of '{_Task.Id}'. " +
+        $"For example: 'GET [base]/Task/{_Task.Id}'. While this Task is in progress the server can not allow resource writes " +
+        $"to the server as these resources would not have their search parameter values indexed. Only once the Task is finished " +
+        $"and all base search parameters are loaded will the server automatically switch out of read only mode. ";
 
       
 
@@ -319,14 +320,16 @@ namespace Pyro.Engine.Services.FhirTasks.SearchParameterLoader
     {
       //Add another 148 to cover the Composite parameters that get loaded.
       SerachParameterResourceTotal = SerachParameterResourceTotal + 12;
-      return $"({SerachParameterResourceCount.ToString()}/{SerachParameterResourceTotal.ToString()}) Completed. The server is currently running a first time start-up task which loads all the base FHIR " +
+      return $"Progress: ({SerachParameterResourceCount.ToString()}/{SerachParameterResourceTotal.ToString()}). The server is currently running a first time start-up task which loads all the base FHIR " +
              "specification search parameter resources as active search indexes within the Pyro FHIR server. " +
              $"The Task has completed {SerachParameterResourceCount.ToString()} of a total of {SerachParameterResourceTotal.ToString()} SearchParameter resources, so far. " +
-             $"This Task can be monitored by performing a GET on the servers Task endpoint for the Id of '{TaskFhirID}'. " +
+             $"This Task can be monitored here or by performing a GET on the servers Task endpoint for the Id of '{TaskFhirID}'. " +
              $"For example: 'GET [base]/Task/{TaskFhirID}'. " +
              $"While this Task is in progress the server can not allow resource writes " +
              $"to the server as these resources would not have their search parameter values indexed. Only once the Task is finished " +
-             $"and all base search parameters are loaded will the server automatically switch out of read only mode. ";      
+             $"and all base search parameters are loaded will the server automatically switch out of read only mode. " +
+             $"This task is only required to run once on a new server install and should be complete in roughly 10 min. " +
+             $"Thank you for your patience.";      
     }
 
     private bool FilterSearchParametersToSet(SearchParameter SearchParam)

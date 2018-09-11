@@ -257,6 +257,7 @@ namespace Pyro.Backburner.App_Start
       container.Register<IServiceCompartmentRepository, ServiceCompartmentRepository>(Lifestyle.Scoped);
       container.Register<ICompartmentSearchParameterService, CompartmentSearchParameterService>(Lifestyle.Scoped);
       container.Register<IFhirReleaseRepository, FhirReleaseRepository>(Lifestyle.Scoped);
+      container.Register<IMigrationHistoryRepository, MigrationHistoryRepository>(Lifestyle.Scoped);
 
       //Scoped Trigger Services
       container.Register<IResourceTriggerService, ResourceTriggerService>(Lifestyle.Scoped);

@@ -148,6 +148,7 @@
     <Compile Include="Global\WebConfigPropertiesNames.cs" />
     <Compile Include="Global\WebConfigPropertiesDefaults.cs" />
     <Compile Include="Interfaces\DataLayer\I_ServiceSearchParameter.cs" />
+    <Compile Include="Interfaces\Repositories\IMigrationHistoryRepository.cs" />
     <Compile Include="Interfaces\Repositories\IServiceConfigurationRepository.cs" />
     <Compile Include="Interfaces\Service\IServiceConfigurationService.cs" />
     <Compile Include="ProductText\PyroWarmUpMessages.cs" />

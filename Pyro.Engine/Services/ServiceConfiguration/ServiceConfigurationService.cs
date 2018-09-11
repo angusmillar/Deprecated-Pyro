@@ -34,7 +34,7 @@ namespace Pyro.Engine.Services.ServiceConfiguration
     }
 
     public bool SynchronizeServiceConfigrationWithGlobalProperties(IGlobalProperties GlobalProperties)
-    {
+    {      
       var DateNow = System.DateTimeOffset.Now;
       bool Result = false;
       Type type = typeof(IGlobalProperties);

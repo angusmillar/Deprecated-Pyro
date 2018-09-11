@@ -1,15 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Microsoft.Owin;
 using Owin;
 using System.Web.Http;
-//using System.Web.Mvc;
-//using System.Web.Optimization;
 using System.Web.Routing;
 using Microsoft.AspNet.SignalR;
-using System.Threading;
 
 [assembly: OwinStartup(typeof(Pyro.WebApi.Startup))]
 
@@ -124,20 +118,38 @@ namespace Pyro.WebApi
         WarmUpMessages.Start("Pyro FHIR Server", $"Version: {System.Diagnostics.FileVersionInfo.GetVersionInfo(typeof(Pyro.Common.Global.GlobalProperties).Assembly.Location).ProductVersion}");
       }
 
-      //Synch the Web Config file 
-      //(Note: this call takes significate time as it is the very first database call made on startup. 
-      //       This is slow due to Entity Framework (EF). EF on the first call loads the entire database schema into memory
-      //       and it is this loas that takes the time. Rougly just over 1 min on my machine. All later database calls are fast.
-      Pyro.Common.Logging.Logger.Log.Info("Running server startup process to synchonise the web.config file with the database table ServiceConfiguration.");
+      //Check the database migrations are up-to-date with the application 
+      Pyro.Common.Logging.Logger.Log.Info("Running server start-up process to check the Database Migrations are run.");
+      if (!App_Start.StartupPyroDatabaseMigrationCheck.RunTask(HttpConfiguration))
+      {
+        if (!Console.IsOutputRedirected)
+        {
+          WarmUpMessages.Stop();
+          Console.Clear();
+        }
+        string Message = "Database upgrade is required. Please consider running the Pyro.DbManager to upgrade your database.";
+        Console.WriteLine();        
+        Console.WriteLine("Database upgrade is required.");
+        Console.WriteLine();
+        Console.WriteLine("Please consider running the Pyro.DbManager to upgrade your database.");
+        Console.WriteLine();
+        Console.WriteLine("The application must now exit, press any key.");        
+        Console.ReadKey();
+        Pyro.Common.Logging.Logger.Log.Fatal(Message);
+        throw new Exception(Message);
+      }
+
+      //Synch the Web Configuration file 
+      Pyro.Common.Logging.Logger.Log.Info("Running server start-up process to synchronise the web.config file with the database table ServiceConfiguration.");
       App_Start.StartupPyroConfirgrationSynch.RunTask(HttpConfiguration);
 
       //Check seeded FHIR Resource and update if required      
-      Pyro.Common.Logging.Logger.Log.Info("Running server startup process to seed any referance FHIR resources.");
+      Pyro.Common.Logging.Logger.Log.Info("Running server start-up process to seed any reference FHIR resources.");
       App_Start.StarupPyroResourceSeeding.RunTask(HttpConfiguration);
 
-      //Check for any FHIR task to process on startup
-      //NOTE: This Task runs Asynch, it does not stop the server from starting. 
-      Pyro.Common.Logging.Logger.Log.Info("Running server startup process to manage pending FHIR Tasks.");
+      //Check for any FHIR task to process on start-up
+      //NOTE: This Task runs asynchronous, it does not stop the server from starting. 
+      Pyro.Common.Logging.Logger.Log.Info("Running server start-up process to manage pending FHIR Tasks.");
       App_Start.StarupPyroTaskRunner.RunTask(HttpConfiguration);      
 
       if (!Console.IsOutputRedirected)
@@ -174,8 +186,6 @@ namespace Pyro.WebApi
       app.MapSignalR(hubConfiguration);
 
     }
-
-
-
+    
   }
 }
