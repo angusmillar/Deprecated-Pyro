@@ -206,7 +206,10 @@ namespace Pyro.Engine.Services.Metadata
         ResourceComponent.SearchInclude = IncludesList;
 
         //RevIncludes
-        var RevIncludeSearchParameterList = DtoServiceSearchParameterHeavyList.Where(x => x.Type == SearchParamType.Reference && x.TargetResourceTypeList.Any(c => c.ResourceType == ResourceType));
+        var RevIncludeSearchParameterList = DtoServiceSearchParameterHeavyList.Where(x =>
+          x.Type == SearchParamType.Reference &&
+          x.TargetResourceTypeList != null &&
+          x.TargetResourceTypeList.Any(c => c.ResourceType == ResourceType));
         foreach (var Rev in RevIncludeSearchParameterList)
         {
           if (RevIncludesList == null)
