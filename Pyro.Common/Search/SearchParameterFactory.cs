@@ -78,8 +78,8 @@ namespace Pyro.Common.Search
         var SearchParameterComposite = oSearchParameter as SearchParameterComposite; 
         List<ISearchParameterBase> SearchParameterBaseList = new List<ISearchParameterBase>();
         var SearchListForResource = IServiceSearchParameterCache.GetSearchParameterForResource(DtoSupportedSearchParametersResource.Resource);
-        //Note we OrderBy as they are always added to the Database is order 1,2,3        
-        foreach(DtoServiceSearchParameterComposite Composite in DtoSupportedSearchParametersResource.CompositeList.OrderBy(x => x.Id))        
+        //Note we OrderBy SequentialOrder as they must be processed in this specific order
+        foreach (DtoServiceSearchParameterComposite Composite in DtoSupportedSearchParametersResource.CompositeList.OrderBy(x => x.SequentialOrder))        
         {
           DtoServiceSearchParameterLight CompositeSearchParamter = SearchListForResource.SingleOrDefault(x => x.Id == Composite.ChildServiceSearchParameterId);
           if (CompositeSearchParamter != null)
