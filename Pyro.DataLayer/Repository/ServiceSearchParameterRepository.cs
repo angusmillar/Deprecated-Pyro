@@ -51,7 +51,9 @@ namespace Pyro.DataLayer.Repository
 
       List<_ServiceSearchParameter> ResourceServiceSearchParameterList;
 
-      ResourceServiceSearchParameterList = IPyroDbContext.ServiceSearchParameter.Include(x => x.TargetResourceTypeList).Where(y => y.IsIndexed == IsIndexed).ToList();
+      ResourceServiceSearchParameterList = IPyroDbContext.ServiceSearchParameter
+        .Include(x => x.TargetResourceTypeList)
+        .Where(y => y.IsIndexed == IsIndexed).ToList();
 
       foreach (var x in ResourceServiceSearchParameterList)
       {
@@ -63,7 +65,10 @@ namespace Pyro.DataLayer.Repository
     public List<DtoServiceSearchParameterHeavy> GetServiceSearchParametersHeavy()
     {
       var ReturnList = new List<DtoServiceSearchParameterHeavy>();
-      var ResourceServiceSearchParameterList = IPyroDbContext.ServiceSearchParameter.Include(x => x.TargetResourceTypeList).ToList();
+      var ResourceServiceSearchParameterList = IPyroDbContext.ServiceSearchParameter
+        .Include(x => x.TargetResourceTypeList)
+        .ToList();
+
       foreach (var x in ResourceServiceSearchParameterList)
       {
         ReturnList.Add(PopulateDtoSearchParameterHeavy(x));
@@ -230,10 +235,10 @@ namespace Pyro.DataLayer.Repository
 
     private List<IServiceSearchParameterTargetResource> PopulateDtoTargetResourceList(ICollection<_ServiceSearchParameterTargetResource> DbTargetResourceList)
     {
-      if (DbTargetResourceList == null || DbTargetResourceList.Count == 0)
-        return null;
-
       var DtoTargetResourceList = new List<IServiceSearchParameterTargetResource>();
+      if (DbTargetResourceList == null || DbTargetResourceList.Count == 0)
+        return DtoTargetResourceList;
+      
       foreach (var Target in DbTargetResourceList)
         DtoTargetResourceList.Add(new DtoServiceSearchParameterTargetResource() { ResourceType = Target.ResourceType });
 
@@ -263,10 +268,11 @@ namespace Pyro.DataLayer.Repository
 
     private List<DtoServiceSearchParameterComposite> PopulateDtoCompositeList(ICollection<_ServiceSearchParameterCompositePivot> DbCompositeList)
     {
-      if (DbCompositeList == null || DbCompositeList.Count == 0)
-        return null;
-
       var DtoServiceSearchParameterComposite = new List<DtoServiceSearchParameterComposite>();
+
+      if (DbCompositeList == null || DbCompositeList.Count == 0)
+        return DtoServiceSearchParameterComposite;
+
       foreach (var Composite in DbCompositeList)
       {
         var DtoComposite = new DtoServiceSearchParameterComposite()

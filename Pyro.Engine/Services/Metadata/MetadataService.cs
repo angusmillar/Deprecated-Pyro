@@ -173,7 +173,7 @@ namespace Pyro.Engine.Services.Metadata
         List<string> RevIncludesList = null;
         foreach (var SupportedSearchParam in DtoServiceSearchParameterHeavyForResourceList)
         {
-          if (SupportedSearchParam.IsIndexed && SupportedSearchParam.Status == PublicationStatus.Active)
+          if (SupportedSearchParam.IsIndexed && (SupportedSearchParam.Status == PublicationStatus.Active || SupportedSearchParam.Status == PublicationStatus.Draft))
           {
             //Include (RevIncludes are below)
             if (SupportedSearchParam.Type == SearchParamType.Reference)
