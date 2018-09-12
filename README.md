@@ -13,7 +13,7 @@ See the publicly accessible Pyro Server instance running here: [Pyrohealth.net](
 > Or read the web rendered CapabilityStatement here: [Pyro FHIR Server CapabilityStatement](https://pyrohealth.net/metadata-content)
 
 * All Resources Types
-* All Resources search parameters (except for composite parameters)
+* All Resources search parameters
 * RestFul CRUD
 * Compartments (implemented from dynamic CompartmentDefinition resources)
 * Chained parameters
@@ -30,14 +30,12 @@ See the publicly accessible Pyro Server instance running here: [Pyrohealth.net](
 **Operations**
 
 Base Operations:
-* $server-indexes-delete-history-indexes    
 * $server-indexes-set      
 * $server-indexes-index      
 * $server-indexes-report      
 * $server-resource-report   
 
 Resource Operations:
-* $server-indexes-delete-history-indexes (All ResourceTypes)  
 * $validate (All ResourceTypes)
 * $x-ihisearchorvalidate (Patient ResourceTypes)
 
@@ -71,6 +69,7 @@ PostgreSQL (Version 10)
 7. Hit 'F5' to start the 'Pyro.ConsoleServer' project.
 8. A console window opens with the Pyro logo in yellow and the message "Please wait while database schema loads", this will take about 1 min.     
 9. Once the load is completed the console will change from yellow to blue and the server is ready for calls to its FHRI API. The console will state the FHIR API endpoint. The default is `http://localhost:8888/fhir` 
+10. On a clean install the server on its first start-up performs a background set-up task whereby it loads all the FHIR search parameters as active search indexes into the server. While this is running the server is in read-only mode until it completes. This to prevent Resources from being committed before the indexes are ready. You can monitor the task progress by either trying to perfome a POST or PUT or my doing a GET on the Task its self, Task id: set-searchParameter-definitions. e.g [base]/Task/set-searchParameter-definitions 
 
 ## Understanding the solution a little deeper ##
 
