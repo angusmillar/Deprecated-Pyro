@@ -21,7 +21,8 @@ namespace Pyro.DataLayer.DbModel.DatabaseContextConfig
       Property(x => x.CompartmentDefinitionResourceId).IsRequired().HasMaxLength(StaticDatabaseInfo.BaseDatabaseFieldLength.FhirIdMaxLength);
       Property(x => x.CompartmentDefinitionResourceVersion).IsRequired().HasMaxLength(StaticDatabaseInfo.BaseDatabaseFieldLength.FhirIdMaxLength);
       Property(x => x.Name).IsRequired().HasMaxLength(StaticDatabaseInfo.BaseDatabaseFieldLength.NameMaxLength);
-      Property(x => x.Title).IsOptional().HasMaxLength(StaticDatabaseInfo.BaseDatabaseFieldLength.DescriptionMaxLength);
+      //Removed STU3 to R4
+      //Property(x => x.Title).IsOptional().HasMaxLength(StaticDatabaseInfo.BaseDatabaseFieldLength.DescriptionMaxLength);
 
       Property(x => x.Code)
        .IsRequired()

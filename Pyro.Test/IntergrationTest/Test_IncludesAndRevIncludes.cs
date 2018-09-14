@@ -122,10 +122,11 @@ namespace Pyro.Test.IntergrationTest
       ObsResourceTwo.Identifier.Add(new Identifier(StaticTestData.TestIdentiferSystem, ObservationTwoIdentifer));
       ObsResourceTwo.Subject = new ResourceReference($"{ResourceType.Patient.GetLiteral()}/{PatientResourceId}");
       ObsResourceTwo.Performer = new List<ResourceReference>() { new ResourceReference($"{ResourceType.Organization.GetLiteral()}/{OrganizationOneResourceId}") };
-      ObsResourceTwo.Related = new List<Observation.RelatedComponent>();
-      var RelatedArtifact2 = new Observation.RelatedComponent();
-      RelatedArtifact2.Target = new ResourceReference($"{ResourceType.Observation.GetLiteral()}/{ObservationThreeResourceId}");
-      ObsResourceTwo.Related.Add(RelatedArtifact2);
+      ObsResourceTwo.HasMember = new List<ResourceReference>()
+      {
+        new ResourceReference($"{ResourceType.Observation.GetLiteral()}/{ObservationThreeResourceId}")
+      };
+      
       Observation ObservationTwoResult = null;
       try
       {
@@ -147,10 +148,11 @@ namespace Pyro.Test.IntergrationTest
       ObsResourceOne.Identifier.Add(new Identifier(StaticTestData.TestIdentiferSystem, ObservationOneIdentifer));
       ObsResourceOne.Subject = new ResourceReference($"{ResourceType.Patient.GetLiteral()}/{PatientResourceId}");
       ObsResourceOne.Performer = new List<ResourceReference>() { new ResourceReference($"{ResourceType.Organization.GetLiteral()}/{OrganizationOneResourceId}") };
-      ObsResourceOne.Related = new List<Observation.RelatedComponent>();
-      var RelatedArtifact1 = new Observation.RelatedComponent();
-      RelatedArtifact1.Target = new ResourceReference($"{ResourceType.Observation.GetLiteral()}/{ObservationTwoResourceId}");
-      ObsResourceOne.Related.Add(RelatedArtifact1);
+      ObsResourceOne.HasMember = new List<ResourceReference>()
+      {
+        new ResourceReference($"{ResourceType.Observation.GetLiteral()}/{ObservationTwoResourceId}")
+      };
+      
       Observation ObservationOneResult = null;
       try
       {

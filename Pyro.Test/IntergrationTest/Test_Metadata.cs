@@ -86,7 +86,7 @@ namespace Pyro.Test.IntergrationTest
         Assert.IsNotEmpty(ObsResourceElement.SearchParam[0].Name, "SearchParam Name element should not be empty in CapabilityStatement.");
         Assert.IsNotEmpty(ObsResourceElement.SearchParam[0].Definition, "SearchParam Definition element should not be empty in CapabilityStatement.");
         Assert.IsNotNull(ObsResourceElement.SearchParam[0].Type, "SearchParam Type element should not be empty in CapabilityStatement.");
-        Assert.IsNotEmpty(ObsResourceElement.SearchParam[0].Documentation, "SearchParam documentation element should not be empty in CapabilityStatement.");
+        Assert.IsNotEmpty(ObsResourceElement.SearchParam[0].Documentation.Value, "SearchParam documentation element should not be empty in CapabilityStatement.");
 
 
       }

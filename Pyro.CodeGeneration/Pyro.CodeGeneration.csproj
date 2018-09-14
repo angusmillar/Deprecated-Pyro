@@ -31,14 +31,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Hl7.Fhir.STU3.Core, Version=0.96.0.0, Culture=neutral, PublicKeyToken=d706911480550fc3, processorArchitecture=MSIL">
-      <HintPath>..\packages\Hl7.Fhir.STU3.0.96.0\lib\net45\Hl7.Fhir.STU3.Core.dll</HintPath>
+    <Reference Include="Hl7.Fhir.R4.Core">
+      <HintPath>..\..\fhir-net-api\src\Hl7.Fhir.Core\bin\Debug\net45\Hl7.Fhir.R4.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Hl7.Fhir.Support, Version=0.96.0.0, Culture=neutral, PublicKeyToken=d706911480550fc3, processorArchitecture=MSIL">
-      <HintPath>..\packages\Hl7.Fhir.Support.0.96.0\lib\net45\Hl7.Fhir.Support.dll</HintPath>
+    <Reference Include="Hl7.Fhir.Support">
+      <HintPath>..\..\fhir-net-api\src\Hl7.Fhir.Support\bin\Debug\net45\Hl7.Fhir.Support.dll</HintPath>
     </Reference>
-    <Reference Include="Hl7.FhirPath, Version=0.96.0.0, Culture=neutral, PublicKeyToken=d706911480550fc3, processorArchitecture=MSIL">
-      <HintPath>..\packages\Hl7.FhirPath.0.96.0\lib\net45\Hl7.FhirPath.dll</HintPath>
+    <Reference Include="Hl7.FhirPath">
+      <HintPath>..\..\fhir-net-api\src\Hl7.FhirPath\bin\Debug\net45\Hl7.FhirPath.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>

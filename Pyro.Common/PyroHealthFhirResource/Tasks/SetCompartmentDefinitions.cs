@@ -56,7 +56,7 @@ namespace Pyro.Common.PyroHealthFhirResource.Tasks
 
       //Task.Definition =??
       Resource.Status = FhirModel.Task.TaskStatus.Ready;
-      Resource.Intent = FhirModel.RequestIntent.Order;
+      Resource.Intent = FhirModel.Task.TaskIntent.Order;
       Resource.Priority = FhirModel.RequestPriority.Asap;
 
       Resource.Code = new FhirModel.CodeableConcept();
@@ -80,9 +80,11 @@ namespace Pyro.Common.PyroHealthFhirResource.Tasks
       Resource.For = ServerManagingOrginationReferrence;
       Resource.AuthoredOn = new FhirModel.FhirDateTime(MasterLastUpdated).ToString();
       Resource.LastModified = new FhirModel.FhirDateTime(MasterLastUpdated).ToString();
-      Resource.Requester = new FhirModel.Task.RequesterComponent();
-      Resource.Requester.OnBehalfOf = ServerManagingOrginationReferrence;
-      Resource.Requester.Agent = PyroHealthOrgReference;
+      Resource.Requester = PyroHealthOrgReference;
+      //Change STU3 to R4
+      //Resource.Requester = new FhirModel.Task.RequesterComponent();
+      //Resource.Requester.OnBehalfOf = ServerManagingOrginationReferrence;
+      //Resource.Requester.Agent = PyroHealthOrgReference;
       Resource.PerformerType = new List<FhirModel.CodeableConcept>();
       
       var PerformerTypeCodeableConcept = new FhirModel.CodeableConcept();
@@ -96,7 +98,7 @@ namespace Pyro.Common.PyroHealthFhirResource.Tasks
 
       Resource.Owner = PyroHealthOrgReference;
 
-      Resource.Reason = new FhirModel.CodeableConcept() { Text = "Set active compartments into the FHIR server instance" };
+      Resource.ReasonCode = new FhirModel.CodeableConcept() { Text = "Set active compartments into the FHIR server instance" };
 
       Resource.Restriction = new FhirModel.Task.RestrictionComponent() { Repetitions = 0 };
       

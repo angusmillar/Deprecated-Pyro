@@ -56,7 +56,7 @@ namespace Pyro.Engine.Services.Metadata
         ServiceOperationOutcome.FormatMimeType = SearchParametersServiceOutcome.SearchParameters.Format;
         return ServiceOperationOutcome;
       }
-      
+
       var Conformance = new CapabilityStatement();
       var ApplicationReleaseDate = new DateTimeOffset(2017, 10, 17, 6, 00, 00, new TimeSpan(8, 0, 0));
       string ServerName = "Pyro Server";
@@ -83,19 +83,21 @@ namespace Pyro.Engine.Services.Metadata
       Conformance.Purpose = new Markdown("FHIR Server reference implementation");
 
       Conformance.Copyright = new Markdown("Copyright: PyroHealth.net");
-      Conformance.Kind = CapabilityStatement.CapabilityStatementKind.Instance;
+      Conformance.Kind = CapabilityStatementKind.Instance;
 
       Conformance.Software = new CapabilityStatement.SoftwareComponent();
       Conformance.Software.Name = ServerName;
       Conformance.Software.Version = IGlobalProperties.ApplicationVersionInfo;  //To align with FHIR version only use number no prefix of 'V'
-      Conformance.Software.ReleaseDate = (new FhirDateTime(ApplicationReleaseDate)).Value; 
+      Conformance.Software.ReleaseDate = (new FhirDateTime(ApplicationReleaseDate)).Value;
 
       Conformance.Implementation = new CapabilityStatement.ImplementationComponent();
       Conformance.Implementation.Description = $"{ServerName} is an implementation of a FHIR server supporting V{Hl7.Fhir.Model.ModelInfo.Version} of the specification. This instance is a publicly available testing server and its resource may be cleared at any time.";
       Conformance.Implementation.Url = $"{Https}{IPrimaryServiceRootCache.GetPrimaryRootUrlStoreFromDatabase().Url}";
 
       Conformance.FhirVersion = Hl7.Fhir.Model.ModelInfo.Version; //Must be formated as just the number '3.0.1' as touchstone does not like the V3.0.1
-      Conformance.AcceptUnknown = CapabilityStatement.UnknownContentCode.Extensions;
+
+      //Removed between STU3 and R4
+      //Conformance.AcceptUnknown = CapabilityStatement.UnknownContentCode.Extensions;
 
       var ContentFormatList = new List<string>();
       foreach (var mediaType in Hl7.Fhir.Rest.ContentType.XML_CONTENT_HEADERS)
@@ -108,15 +110,15 @@ namespace Pyro.Engine.Services.Metadata
       var RestComponent = new CapabilityStatement.RestComponent();
       Conformance.Rest.Add(RestComponent);
       RestComponent.Mode = CapabilityStatement.RestfulCapabilityMode.Server;
-      RestComponent.Documentation = $"STU{Hl7.Fhir.Model.ModelInfo.Version.Split('.')[0]} V{Hl7.Fhir.Model.ModelInfo.Version} FHIR Server";
+      RestComponent.Documentation = new Markdown() { Value = $"STU{Hl7.Fhir.Model.ModelInfo.Version.Split('.')[0]} V{Hl7.Fhir.Model.ModelInfo.Version} FHIR Server" };
       RestComponent.Security = new CapabilityStatement.SecurityComponent();
-      RestComponent.Security.Description = "No Security has been implemented, server if publicly open";
+      RestComponent.Security.Description = new Markdown() { Value = "No Security has been implemented, server if publicly open" };
 
       RestComponent.Interaction = new List<CapabilityStatement.SystemInteractionComponent>();
       var SystemInteractionComponent = new CapabilityStatement.SystemInteractionComponent();
       RestComponent.Interaction.Add(SystemInteractionComponent);
       SystemInteractionComponent.Code = CapabilityStatement.SystemRestfulInteraction.Transaction;
-      SystemInteractionComponent.Documentation = "Batch Transaction supports all request methods (Delete, POST, PUT, GET) including conditional create/update/delete. Operatons are not supported within Transaction bundles.";
+      SystemInteractionComponent.Documentation = new Markdown() { Value = "Batch Transaction supports all request methods (Delete, POST, PUT, GET) including conditional create/update/delete. Operatons are not supported within Transaction bundles." };
 
       var CompartmentList = IServiceCompartmentRepository.GetAllServiceCompartments();
       if (CompartmentList != null && CompartmentList.Count > 0)
@@ -200,7 +202,7 @@ namespace Pyro.Engine.Services.Metadata
             SearchParamComponent.Type = SupportedSearchParam.Type;
             SearchParamComponent.Definition = SupportedSearchParam.Url;
             if (!string.IsNullOrWhiteSpace(SupportedSearchParam.Description))
-              SearchParamComponent.Documentation = SupportedSearchParam.Description;
+              SearchParamComponent.Documentation = new Markdown() { Value = SupportedSearchParam.Description } ;
           }
         }
         ResourceComponent.SearchInclude = IncludesList;
@@ -266,7 +268,8 @@ namespace Pyro.Engine.Services.Metadata
       CreateValuePairHTML("Experimental", Conformance.Experimental?.ToString(), XDoc, Xroot);
       CreateValuePairHTML("Purpose", Conformance.Purpose?.Value, XDoc, Xroot);
       CreateValuePairHTML("Kind", Conformance.Kind?.GetLiteral(), XDoc, Xroot);
-      CreateValuePairHTML("AcceptUnknown", Conformance.AcceptUnknown?.GetLiteral(), XDoc, Xroot);      
+      //Removed STU3 to R4
+      //CreateValuePairHTML("AcceptUnknown", Conformance.AcceptUnknown?.GetLiteral(), XDoc, Xroot);      
       var SystemInteractionComponent = Conformance.Rest[0].Interaction.SingleOrDefault(y => y.Code == CapabilityStatement.SystemRestfulInteraction.Transaction);
       CreateValuePairHTML("Interactions", SystemInteractionComponent.Code.GetLiteral(), XDoc, Xroot);
       

@@ -4,6 +4,7 @@ using Hl7.Fhir.Model;
 using Pyro.Common.Search;
 using System.Collections.Generic;
 using Pyro.Common.SearchIndexer.Index;
+using Hl7.Fhir.Utility;
 
 namespace Pyro.Common.SearchIndexer.Setter
 {
@@ -104,9 +105,14 @@ namespace Pyro.Common.SearchIndexer.Setter
     }
 
     private void SetMoney(Money Money, IList<IQuantityIndex> ResourceIndexList)
-    {
+    {      
       var ResourceIndex = new QuantityIndex(_SearchParameter);
-      MainQuantitySetter(Money, ResourceIndex);
+      ResourceIndex.Quantity = Money.Value;
+      if (Money.Currency.HasValue)
+      {
+        ResourceIndex.Code = Money.Currency.Value.GetLiteral();
+        ResourceIndex.System = "urn:iso:std:iso:4217";
+      }           
       ResourceIndexList.Add(ResourceIndex);
     }
 

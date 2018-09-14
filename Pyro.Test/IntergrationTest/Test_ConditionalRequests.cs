@@ -308,7 +308,7 @@ namespace Pyro.Test.IntergrationTest
       {
         //Catch the error and check it is a 304 http status.
         Assert.True(true, "FhirOperationException should be thrown on resource Read: " + ExecOp.Message);
-        Assert.IsTrue(ExecOp.Status.IsRedirection());
+        Assert.IsTrue(ExecOp.Status == System.Net.HttpStatusCode.NotModified);
       }
 
       PatientTwo = null;
@@ -324,7 +324,7 @@ namespace Pyro.Test.IntergrationTest
       catch (FhirOperationException ExecOp)
       {
         Assert.True(false, "FhirOperationException thrown on resource Read: " + ExecOp.Message);
-        Assert.IsTrue(ExecOp.Status.IsRedirection());
+        Assert.IsTrue(ExecOp.Status == System.Net.HttpStatusCode.NotModified);
       }
 
       PatientTwo = null;

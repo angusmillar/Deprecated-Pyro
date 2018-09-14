@@ -723,12 +723,12 @@ namespace Pyro.Common.FhirOperation.ServerSearchParameter
         foreach (var Componet in SearchParam.Component)
         {
           var Composite = new DtoServiceSearchParameterComposite();
-          Composite.Url = Componet.Definition.Reference;
+          Composite.Url = Componet.Definition;
           Composite.Expression = Componet.Expression;
           Composite.SequentialOrder = Counter;
-          if (Componet.Definition != null && !string.IsNullOrWhiteSpace(Componet.Definition.Reference))
+          if (!string.IsNullOrWhiteSpace(Componet.Definition))
           {
-            var ChildSearchParameter = _DbSearchParamListForResource.SingleOrDefault(x => x.Url == Componet.Definition.Reference);
+            var ChildSearchParameter = _DbSearchParamListForResource.SingleOrDefault(x => x.Url == Componet.Definition);
             if (ChildSearchParameter != null)
             {
               Composite.ChildServiceSearchParameterId = ChildSearchParameter.Id;
@@ -738,7 +738,7 @@ namespace Pyro.Common.FhirOperation.ServerSearchParameter
               string Message =
                 $"Unable to locate one of the SearchParameters referenced in a Composite SearchParametrer type. " +
                 $"The Composite SearchParametrer resource id was '{SearchParam.Id}' with a Canonical Url of '{SearchParam.Url}'. " +
-                $"Within this SearchParamter resource their is a component/definition/reference to another SearchParamter resource with the Canonical Url of {Componet.Definition.Reference}. " +
+                $"Within this SearchParamter resource their is a component/definition/reference to another SearchParamter resource with the Canonical Url of {Componet.Definition}. " +
                 $"This SearchParamter resource can not be located by the FHIR Server. " +
                 $"In order to load SearchParamters of type Composite you must first ensure " +
                 $"all SearchParameter resources that make-up the Composite SearchParameter are loaded first into the FHIR server before the Composite type SearchParamters in loaded.";

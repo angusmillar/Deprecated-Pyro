@@ -17,7 +17,8 @@ namespace Pyro.DataLayer.DbModel.Entity
     public string CompartmentDefinitionResourceId { get; set; }
     public string CompartmentDefinitionResourceVersion { get; set; }
     public string Name { get; set; }
-    public string Title { get; set; }
+    //Removed STU3 to R4
+    //public string Title { get; set; }
     public string Code { get; set; }
     public DateTimeOffset LastUpdated { get; set; }
     public ICollection<_ServiceCompartmentResource> ResourceList { get; set; }

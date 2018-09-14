@@ -154,10 +154,14 @@ namespace Pyro.Test.HiServiceIHI
       IRequestMetaFactory RequestMetaFactory = CommonTestSetup.TestSetupMocks.GetIRequestMetaFactory();
       INationalHealthcareIdentifierInfo INationalHealthcareIdentifierInfo = new NationalHealthcareIdentifierInfo();
       IMedicareNumberInfo IMedicareNumberInfo = new MedicareNumberInfo();
+
+      
       Common.PyroHealthFhirResource.CodeSystems.IPyroFhirServer IPyroFhirServerCodeSystem = new Common.PyroHealthFhirResource.CodeSystems.PyroFhirServer();
+      Common.PyroHealthFhirResource.CodeSystems.IPyroHealth IPyroHealthCodeSystem = new Common.PyroHealthFhirResource.CodeSystems.PyroHealth(IPyroFhirServerCodeSystem);
+      Common.PyroHealthFhirResource.Organizations.IPyroHealth IPyroOrganization = new Common.PyroHealthFhirResource.Organizations.PyroHealth(IPyroHealthCodeSystem, IPyroFhirServerCodeSystem);
+      Common.PyroHealthFhirResource.Devices.IPyroFhirServer IPyroFhirServerDevice = new Common.PyroHealthFhirResource.Devices.PyroFhirServer(IGlobalProperties, IPyroOrganization, IPyroHealthCodeSystem, IPyroFhirServerCodeSystem);
 
-
-    IHISearchOrValidateOperation IHISearchOrValidateOperationService = new IHISearchOrValidateOperation(        
+      IHISearchOrValidateOperation IHISearchOrValidateOperationService = new IHISearchOrValidateOperation(        
         IResourceServiceOutcomeFactory,
         IResourceServices, 
         IGlobalProperties, 
@@ -168,7 +172,9 @@ namespace Pyro.Test.HiServiceIHI
         IDVANumberParser,
         INationalHealthcareIdentifierInfo,
         IMedicareNumberInfo,
-        IPyroFhirServerCodeSystem);
+        IPyroFhirServerCodeSystem,
+        IPyroFhirServerDevice,
+        IPyroOrganization);
 
       OperationClass OperationClass = new OperationClass()
       {

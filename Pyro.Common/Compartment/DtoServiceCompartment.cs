@@ -13,7 +13,8 @@ namespace Pyro.Common.Compartment
     public string CompartmentDefinitionResourceId { get; set; }
     public string CompartmentDefinitionResourceVersion { get; set; }
     public string Name { get; set; }
-    public string Title { get; set; }
+    //removed STU3 to R4
+    //public string Title { get; set; }
     public string Code { get; set; }
     public DateTimeOffset LastUpdated { get; set; }
     public ICollection<DtoServiceCompartmentResource> ResourceList { get; set; }

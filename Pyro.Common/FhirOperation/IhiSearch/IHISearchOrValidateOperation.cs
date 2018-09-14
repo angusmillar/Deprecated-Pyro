@@ -43,6 +43,8 @@ namespace Pyro.Common.FhirOperation.IhiSearch
     private readonly INationalHealthcareIdentifierInfo INationalHealthcareIdentifierInfo;
     private readonly IMedicareNumberInfo IMedicareNumberInfo;
     private readonly Common.PyroHealthFhirResource.CodeSystems.IPyroFhirServer IPyroFhirServerCodeSystem;
+    private readonly Common.PyroHealthFhirResource.Devices.IPyroFhirServer IPyroFhirServerDevice;
+    private readonly Common.PyroHealthFhirResource.Organizations.IPyroHealth IPyroHealth;
 
     public IHISearchOrValidateOperation(
       IResourceServiceOutcomeFactory IResourceServiceOutcomeFactory,
@@ -55,7 +57,9 @@ namespace Pyro.Common.FhirOperation.IhiSearch
       IDVANumberParser IDVANumberParser,
       INationalHealthcareIdentifierInfo INationalHealthcareIdentifierInfo,
       IMedicareNumberInfo IMedicareNumberInfo,
-      Common.PyroHealthFhirResource.CodeSystems.IPyroFhirServer IPyroFhirServerCodeSystem)
+      Common.PyroHealthFhirResource.CodeSystems.IPyroFhirServer IPyroFhirServerCodeSystem,
+      Common.PyroHealthFhirResource.Devices.IPyroFhirServer IPyroFhirServerDevice,
+      Common.PyroHealthFhirResource.Organizations.IPyroHealth IPyroHealth)
     {
       this.IResourceServiceOutcomeFactory = IResourceServiceOutcomeFactory;
       this.IResourceServices = IResourceServices;
@@ -68,7 +72,8 @@ namespace Pyro.Common.FhirOperation.IhiSearch
       this.INationalHealthcareIdentifierInfo = INationalHealthcareIdentifierInfo;
       this.IMedicareNumberInfo = IMedicareNumberInfo;
       this.IPyroFhirServerCodeSystem = IPyroFhirServerCodeSystem;
-
+      this.IPyroHealth = IPyroHealth;
+      this.IPyroFhirServerDevice = IPyroFhirServerDevice;
 
     }
 
@@ -276,12 +281,13 @@ namespace Pyro.Common.FhirOperation.IhiSearch
            }
          }
       };
-      AgentRequestUser.UserId = new Identifier()
-      {
-        Value = HiServiceOutCome.RequestData.UserId,
-        System = HiServiceOutCome.RequestData.UserIdQualifier
-      };
-      AgentRequestUser.Name = "The user recorded as making the request to the HI Service";
+
+      //AgentRequestUser.UserId = new Identifier()
+      //{
+      //  Value = HiServiceOutCome.RequestData.UserId,
+      //  System = HiServiceOutCome.RequestData.UserIdQualifier
+      //};
+      AgentRequestUser.Name = HiServiceOutCome.RequestData.UserId;
       AgentRequestUser.Requestor = true;
 
       //System Agent (PyroServer)
@@ -302,11 +308,17 @@ namespace Pyro.Common.FhirOperation.IhiSearch
            }
          }
       };
-      AgentSystemPyroServer.UserId = new Identifier()
+
+     
+      if (string.IsNullOrWhiteSpace(GlobalProperties.ThisServersManagingOrganizationResource))
       {
-        Value = GlobalProperties.ThisServersEntityCode,
-        System = GlobalProperties.ThisServersEntitySystem
-      };
+        AgentSystemPyroServer.Who = new ResourceReference($"{ResourceType.Organization.GetLiteral()}/{IPyroHealth.GetResourceId()}");
+      }
+      else
+      {
+        AgentSystemPyroServer.Who = new ResourceReference($"{ResourceType.Organization.GetLiteral()}/{GlobalProperties.ThisServersManagingOrganizationResource}");
+      }
+      
       AgentSystemPyroServer.Name = "The intermediate system recorded as performing the request to the HI Service";
       AgentSystemPyroServer.Requestor = false;
       AgentSystemPyroServer.Network = new AuditEvent.NetworkComponent()
@@ -341,11 +353,7 @@ namespace Pyro.Common.FhirOperation.IhiSearch
            }
          }
       };
-      AgentSystemHiService.UserId = new Identifier()
-      {
-        Value = "HiService",
-        System = "http://ns.electronichealth.net.au/hi/svc"
-      };
+      AgentSystemHiService.AltId = "HiService";      
       AgentSystemHiService.Name = "The Australian National Health Identifer service (HI Service) source of identifier truth.";
       AgentSystemHiService.Requestor = false;
       AgentSystemHiService.Network = new AuditEvent.NetworkComponent()
@@ -356,11 +364,7 @@ namespace Pyro.Common.FhirOperation.IhiSearch
 
       Audit.Source = new AuditEvent.SourceComponent()
       {
-        Identifier = new Identifier()
-        {
-          Value = GlobalProperties.ThisServersEntityCode,
-          System = GlobalProperties.ThisServersEntitySystem
-        },
+        Observer = new ResourceReference($"{ResourceType.Device}/{IPyroFhirServerDevice.GetResourceId()}"),        
         Type = new List<Coding>()
         {
           new Coding()
@@ -379,11 +383,11 @@ namespace Pyro.Common.FhirOperation.IhiSearch
       {
         var EntityHiServiceRequest = new AuditEvent.EntityComponent();
         Audit.Entity.Add(EntityHiServiceRequest);
-        EntityHiServiceRequest.Identifier = new Identifier()
-        {
-          Value = "http://ns.electronichealth.net.au/hi/svc/EsbPing/3.0/EsbPingPortType/esbPingRequest",
-          System = HiServiceOutCome.QueryMetadata.SoapRequestMessageId,
-        };
+        //EntityHiServiceRequest.Identifier = new Identifier()
+        //{
+        //  Value = "http://ns.electronichealth.net.au/hi/svc/EsbPing/3.0/EsbPingPortType/esbPingRequest",
+        //  System = HiServiceOutCome.QueryMetadata.SoapRequestMessageId,
+        //};
         EntityHiServiceRequest.Type = new Coding()
         {
           Code = "2",
@@ -416,7 +420,7 @@ namespace Pyro.Common.FhirOperation.IhiSearch
           new AuditEvent.DetailComponent()
           {
              Type = "Request SOAP",
-             Value = System.Text.Encoding.UTF8.GetBytes(HiServiceOutCome.QueryMetadata.SoapRequest)
+             Value = new Base64Binary() { Value = System.Text.Encoding.UTF8.GetBytes(HiServiceOutCome.QueryMetadata.SoapRequest) }
            }
         };
       }
@@ -426,11 +430,11 @@ namespace Pyro.Common.FhirOperation.IhiSearch
       {
         var EntityHiServiceResponse = new AuditEvent.EntityComponent();
         Audit.Entity.Add(EntityHiServiceResponse);
-        EntityHiServiceResponse.Identifier = new Identifier()
-        {
-          Value = "http://ns.electronichealth.net.au/hi/svc/EsbPing/3.0/EsbPingPortType/esbPingResponse",
-          System = HiServiceOutCome.QueryMetadata.SoapRequestMessageId,
-        };
+        //EntityHiServiceResponse.Identifier = new Identifier()
+        //{
+        //  Value = "http://ns.electronichealth.net.au/hi/svc/EsbPing/3.0/EsbPingPortType/esbPingResponse",
+        //  System = HiServiceOutCome.QueryMetadata.SoapRequestMessageId,
+        //};
         EntityHiServiceResponse.Type = new Coding()
         {
           Code = "2",
@@ -459,7 +463,7 @@ namespace Pyro.Common.FhirOperation.IhiSearch
           new AuditEvent.DetailComponent()
           {
              Type = "Response SOAP",
-             Value = System.Text.Encoding.UTF8.GetBytes(HiServiceOutCome.QueryMetadata.SoapResponse)
+             Value = new Base64Binary() { Value = System.Text.Encoding.UTF8.GetBytes(HiServiceOutCome.QueryMetadata.SoapResponse) }
            }
         };
       }

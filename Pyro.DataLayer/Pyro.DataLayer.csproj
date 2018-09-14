@@ -43,14 +43,14 @@
     <Reference Include="EntityFramework6.Npgsql, Version=3.2.0.0, Culture=neutral, PublicKeyToken=5d8b90d52f46fda7, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework6.Npgsql.3.2.0\lib\net45\EntityFramework6.Npgsql.dll</HintPath>
     </Reference>
-    <Reference Include="Hl7.Fhir.STU3.Core, Version=0.96.0.0, Culture=neutral, PublicKeyToken=d706911480550fc3, processorArchitecture=MSIL">
-      <HintPath>..\packages\Hl7.Fhir.STU3.0.96.0\lib\net45\Hl7.Fhir.STU3.Core.dll</HintPath>
+    <Reference Include="Hl7.Fhir.R4.Core">
+      <HintPath>..\..\fhir-net-api\src\Hl7.Fhir.Core\bin\Debug\net45\Hl7.Fhir.R4.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Hl7.Fhir.Support, Version=0.96.0.0, Culture=neutral, PublicKeyToken=d706911480550fc3, processorArchitecture=MSIL">
-      <HintPath>..\packages\Hl7.Fhir.Support.0.96.0\lib\net45\Hl7.Fhir.Support.dll</HintPath>
+    <Reference Include="Hl7.Fhir.Support">
+      <HintPath>..\..\fhir-net-api\src\Hl7.Fhir.Support\bin\Debug\net45\Hl7.Fhir.Support.dll</HintPath>
     </Reference>
-    <Reference Include="Hl7.FhirPath, Version=0.96.0.0, Culture=neutral, PublicKeyToken=d706911480550fc3, processorArchitecture=MSIL">
-      <HintPath>..\packages\Hl7.FhirPath.0.96.0\lib\net45\Hl7.FhirPath.dll</HintPath>
+    <Reference Include="Hl7.FhirPath">
+      <HintPath>..\..\fhir-net-api\src\Hl7.FhirPath\bin\Debug\net45\Hl7.FhirPath.dll</HintPath>
     </Reference>
     <Reference Include="LinqKit, Version=1.1.15.0, Culture=neutral, PublicKeyToken=bc217f8844052a91, processorArchitecture=MSIL">
       <HintPath>..\packages\LinqKit.1.1.15\lib\net45\LinqKit.dll</HintPath>
@@ -194,13 +194,9 @@
     <Compile Include="MigrationsMicrosoftSQLServer\201809100551599_AddCompositePivotTable.Designer.cs">
       <DependentUpon>201809100551599_AddCompositePivotTable.cs</DependentUpon>
     </Compile>
-    <Compile Include="MigrationsPostgre\201808070701252_First.cs" />
-    <Compile Include="MigrationsPostgre\201808070701252_First.Designer.cs">
-      <DependentUpon>201808070701252_First.cs</DependentUpon>
-    </Compile>
-    <Compile Include="MigrationsPostgre\201809111444452_AddCompositePivotTable.cs" />
-    <Compile Include="MigrationsPostgre\201809111444452_AddCompositePivotTable.Designer.cs">
-      <DependentUpon>201809111444452_AddCompositePivotTable.cs</DependentUpon>
+    <Compile Include="MigrationsPostgre\201809140446346_First.cs" />
+    <Compile Include="MigrationsPostgre\201809140446346_First.Designer.cs">
+      <DependentUpon>201809140446346_First.cs</DependentUpon>
     </Compile>
     <Compile Include="MigrationsPostgre\ConfigurationPostgre.cs" />
     <Compile Include="MigrationsMicrosoftSQLServer\201706130247261_First.cs" />
@@ -395,11 +391,8 @@
     <EmbeddedResource Include="MigrationsMicrosoftSQLServer\201809100551599_AddCompositePivotTable.resx">
       <DependentUpon>201809100551599_AddCompositePivotTable.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MigrationsPostgre\201808070701252_First.resx">
-      <DependentUpon>201808070701252_First.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MigrationsPostgre\201809111444452_AddCompositePivotTable.resx">
-      <DependentUpon>201809111444452_AddCompositePivotTable.cs</DependentUpon>
+    <EmbeddedResource Include="MigrationsPostgre\201809140446346_First.resx">
+      <DependentUpon>201809140446346_First.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

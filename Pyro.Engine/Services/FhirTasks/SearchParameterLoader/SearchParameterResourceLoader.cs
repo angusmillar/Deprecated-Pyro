@@ -284,15 +284,15 @@ namespace Pyro.Engine.Services.FhirTasks.SearchParameterLoader
     private void SpecificationCorrections(List<SearchParameter> CompositeSearchParameterList)
     {
       //This is an correction to the FHIR specification SearchParameter definitions found in the  
-      //definitions.xml.zip file.
+      //definitions.xml.zip file required for STU3, I believe it is fixed in R4 and it should be removed once tested that it is not hit.
       string IncorrectCanonicalUrl = "http://hl7.org/fhir/SearchParameter/Observation-code";
       string CorrectCanonicalUrl = "http://hl7.org/fhir/SearchParameter/clinical-code";
-      foreach (var SearchParam in CompositeSearchParameterList.Where(x => x.Component.Any(c => c.Definition.Reference == IncorrectCanonicalUrl)))
+      foreach (var SearchParam in CompositeSearchParameterList.Where(x => x.Component.Any(c => c.Definition == IncorrectCanonicalUrl)))
       {
-        var BrokenComponetList = SearchParam.Component.Where(z => z.Definition.Reference == IncorrectCanonicalUrl);
+        var BrokenComponetList = SearchParam.Component.Where(z => z.Definition == IncorrectCanonicalUrl);
         foreach (var BrokenComponet in BrokenComponetList)
         {
-          BrokenComponet.Definition.Reference = CorrectCanonicalUrl;
+          BrokenComponet.Definition = CorrectCanonicalUrl;
         }
       }
       

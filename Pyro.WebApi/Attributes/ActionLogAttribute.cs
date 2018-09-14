@@ -45,8 +45,8 @@ namespace Pyro.WebApi.Attributes
       var IPyroRequestUriFactory = actionExecutedContext.ActionContext.ControllerContext.Configuration.DependencyResolver.GetService(typeof(IPyroRequestUriFactory)) as IPyroRequestUriFactory;
       var IGlobalProperties = actionExecutedContext.ActionContext.ControllerContext.Configuration.DependencyResolver.GetService(typeof(IGlobalProperties)) as IGlobalProperties;
       var IResourceTriggerService = actionExecutedContext.ActionContext.ControllerContext.Configuration.DependencyResolver.GetService(typeof(IResourceTriggerService)) as IResourceTriggerService;
-      var IPyroFhirResource = actionExecutedContext.ActionContext.ControllerContext.Configuration.DependencyResolver.GetService(typeof(Common.PyroHealthFhirResource.IPyroFhirResource)) as Common.PyroHealthFhirResource.IPyroFhirResource;
-      
+      var IPyroFhirResource = actionExecutedContext.ActionContext.ControllerContext.Configuration.DependencyResolver.GetService(typeof(Common.PyroHealthFhirResource.IPyroFhirResource)) as Common.PyroHealthFhirResource.IPyroFhirResource;      
+
       using (DbContextTransaction Transaction = IUnitOfWork.BeginTransaction())
       {
         try
@@ -171,8 +171,7 @@ namespace Pyro.WebApi.Attributes
 
           Audit.Source = new AuditEvent.SourceComponent
           {
-            Site = "Cloud",
-            Identifier = new Identifier(null, actionExecutedContext.Request.RequestUri.GetLeftPart(UriPartial.Authority))
+            Observer = new ResourceReference($"{ResourceType.Device.GetPyroLiteral()}/{IPyroFhirResource.Device.PyroFhirServerDevice.GetResourceId()}", "Pyro Fhir Server")
           };
           Audit.Source.Type.Add(new Coding() { System = "http://hl7.org/fhir/ValueSet/audit-source-type", Code = "3", Display = "Web Server" });
 
@@ -185,8 +184,9 @@ namespace Pyro.WebApi.Attributes
             {
               new AuditEvent.EntityComponent()
               {
+                 
                 Name = actionExecutedContext.Request.RequestUri.ToString(),
-                Reference = new ResourceReference() { Url = new Uri(relativeUri, UriKind.Relative) },
+                What = new ResourceReference() { Url = new Uri(relativeUri, UriKind.Relative) },
                 Type = new Coding() { System = "http://hl7.org/fhir/object-type", Code = "1", Display = "Person" }
               }
             };
@@ -194,7 +194,7 @@ namespace Pyro.WebApi.Attributes
             {
               string reference = actionExecutedContext.Request.Properties[Attributes.ActionLogAttribute.ResourceIdentityKey] as string;
               if (!string.IsNullOrEmpty(reference))
-                Audit.Entity[0].Reference.Reference = reference;
+                Audit.Entity[0].What.Reference = reference;
             }
           }
           else
@@ -215,7 +215,7 @@ namespace Pyro.WebApi.Attributes
             {
               string reference = actionExecutedContext.Request.Properties[Attributes.ActionLogAttribute.ResourceIdentityKey] as string;
               if (!string.IsNullOrEmpty(reference))
-                Audit.Entity[0].Reference = new ResourceReference() { Reference = reference };
+                Audit.Entity[0].What = new ResourceReference() { Reference = reference };
             }
           }
 
@@ -249,9 +249,9 @@ namespace Pyro.WebApi.Attributes
           {
             var requestDataObj = new AuditEvent.EntityComponent
             {
-              Identifier = new Identifier(null, "RequestData"),
+              //Identifier = new Identifier(null, "RequestData"),
               Name = actionExecutedContext.Request.RequestUri.ToString(),
-              Description = "Orginial Request Data",
+              Description = "Original Request Data",
               Type = new Coding() { System = "http://hl7.org/fhir/object-type", Code = "4", Display = "RequestData" },
               Detail = new List<AuditEvent.DetailComponent>()
             };
@@ -260,7 +260,7 @@ namespace Pyro.WebApi.Attributes
             string RequestData = GetRequestData(actionExecutedContext);
             if (!string.IsNullOrWhiteSpace(RequestData))
             {
-              DetailComponent.Value = Encoding.UTF8.GetBytes(RequestData);
+              DetailComponent.Value = new Base64Binary() { Value = Encoding.UTF8.GetBytes(RequestData) };
               Audit.Entity.Add(requestDataObj);
             }
           }
@@ -269,9 +269,9 @@ namespace Pyro.WebApi.Attributes
           {
             var responseDataObj = new AuditEvent.EntityComponent
             {
-              Identifier = new Identifier(null, "ResponseData"),
+              //Identifier = new Identifier(null, "ResponseData"),
               Name = actionExecutedContext.Request.RequestUri.ToString(),
-              Description = "Orginial Response Data",
+              Description = "Original Response Data",
               Type = new Coding() { System = "http://hl7.org/fhir/object-type", Code = "4", Display = "ResponseData" },
               Detail = new List<AuditEvent.DetailComponent>()
             };
@@ -280,7 +280,7 @@ namespace Pyro.WebApi.Attributes
             string ResponseData = GetResponseData(actionExecutedContext);
             if (!string.IsNullOrWhiteSpace(ResponseData))
             {
-              DetailComponent.Value = Encoding.UTF8.GetBytes(ResponseData);
+              DetailComponent.Value = new Base64Binary() { Value = Encoding.UTF8.GetBytes(ResponseData) };
               Audit.Entity.Add(responseDataObj);
             }
           }

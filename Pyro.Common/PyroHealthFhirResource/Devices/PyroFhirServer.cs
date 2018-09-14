@@ -9,6 +9,8 @@ using FhirModel = Hl7.Fhir.Model;
 
 namespace Pyro.Common.PyroHealthFhirResource.Devices
 {
+  //This class represents the creation of a FHIR Device resource where that 
+  //device is the Pyro Fhir Server its self as a device
   public class PyroFhirServer : IPyroFhirServer
   {
     private readonly IGlobalProperties IGlobalProperties;
@@ -16,7 +18,10 @@ namespace Pyro.Common.PyroHealthFhirResource.Devices
     private readonly CodeSystems.IPyroFhirServer IPyroFhirServerCodeSystem;
     private readonly Organizations.IPyroHealth IPyroHealthOrg;
 
-    public PyroFhirServer(IGlobalProperties IGlobalProperties, Organizations.IPyroHealth IPyroHealthOrg, CodeSystems.IPyroHealth IPyroHealthCodeSystem, CodeSystems.IPyroFhirServer IPyroFhirServerCodeSystem)
+    public PyroFhirServer(IGlobalProperties IGlobalProperties, 
+      Organizations.IPyroHealth IPyroHealthOrg, 
+      CodeSystems.IPyroHealth IPyroHealthCodeSystem, 
+      CodeSystems.IPyroFhirServer IPyroFhirServerCodeSystem)
     {
       this.IGlobalProperties = IGlobalProperties;
       this.IPyroHealthOrg = IPyroHealthOrg;
@@ -52,8 +57,14 @@ namespace Pyro.Common.PyroHealthFhirResource.Devices
         new FhirModel.Coding("http://snomed.info/sct", "129465004", "Medical record")
       };
       Resource.Manufacturer = "Pyro Health";
-      Resource.ManufactureDate = ManufactureDate.ToString();
-      Resource.Version = $"V{IGlobalProperties.ApplicationVersionInfo}";
+      Resource.ManufactureDate = ManufactureDate.ToString();      
+      Resource.Version = new List<FhirModel.Device.VersionComponent>()
+      {
+        new FhirModel.Device.VersionComponent()
+        {
+           Value =$"V{IGlobalProperties.ApplicationVersionInfo}"
+        }
+      };
       if (string.IsNullOrWhiteSpace(IGlobalProperties.ThisServersManagingOrganizationResource))
       {
         Resource.Owner = new FhirModel.ResourceReference($"{FhirModel.ResourceType.Organization.GetLiteral()}/{IPyroHealthOrg.GetResourceId()}");

@@ -104,7 +104,8 @@ namespace Pyro.Common.FhirOperation.Compartment
           NewServiceCompartment.Code = CompartDef.Code.GetLiteral();
           NewServiceCompartment.LastUpdated = DateTimeOffset.Now;
           NewServiceCompartment.Name = CompartDef.Name;
-          NewServiceCompartment.Title = CompartDef.Title;
+          //Title was removed between STU3 and R4
+          //NewServiceCompartment.Title = CompartDef.Title;
           NewServiceCompartment.Url = CompartDef.Url;
           NewServiceCompartment.ResourceList = new List<DtoServiceCompartmentResource>();
           foreach (var ResourceComponent in CompartDef.Resource)
