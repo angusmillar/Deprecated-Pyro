@@ -430,7 +430,7 @@
     <Compile Include="Service\SearchParameters\SearchParametersServiceOutcome.cs" />
     <Compile Include="Service\SearchParameters\SearchParameterService.cs" />
     <Compile Include="Service\ResourceService\ResourceServiceOutcome.cs" />
-    <Compile Include="BackgroundTask\Database\StaticDatabaseInfo.cs" />
+    <Compile Include="Database\StaticDatabaseInfo.cs" />
     <Compile Include="Enum\DatabaseEnum.cs" />
     <Compile Include="Enum\FhirSearchEnum.cs" />
     <Compile Include="Enum\RestEnum.cs" />

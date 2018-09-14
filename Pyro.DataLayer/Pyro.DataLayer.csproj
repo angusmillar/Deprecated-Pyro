@@ -178,103 +178,15 @@
     <Compile Include="IndexSetter\DbTokenSetter.cs" />
     <Compile Include="IndexSetter\DbQuantitySetter.cs" />
     <Compile Include="IndexSetter\DbStringSetter.cs" />
-    <Compile Include="MigrationsMicrosoftSQLServer\201808070908225_AddNewLowHighUtcDateTimeColoums.cs" />
-    <Compile Include="MigrationsMicrosoftSQLServer\201808070908225_AddNewLowHighUtcDateTimeColoums.Designer.cs">
-      <DependentUpon>201808070908225_AddNewLowHighUtcDateTimeColoums.cs</DependentUpon>
+    <Compile Include="MigrationsMicrosoftSQLServer\201809140829427_First.cs" />
+    <Compile Include="MigrationsMicrosoftSQLServer\201809140829427_First.Designer.cs">
+      <DependentUpon>201809140829427_First.cs</DependentUpon>
     </Compile>
-    <Compile Include="MigrationsMicrosoftSQLServer\201808070911372_PopulateNewLowHighUtcDateTimeColoums.cs" />
-    <Compile Include="MigrationsMicrosoftSQLServer\201808070911372_PopulateNewLowHighUtcDateTimeColoums.Designer.cs">
-      <DependentUpon>201808070911372_PopulateNewLowHighUtcDateTimeColoums.cs</DependentUpon>
-    </Compile>
-    <Compile Include="MigrationsMicrosoftSQLServer\201808070917504_DropOldLowHighUtcDateTimeColoums.cs" />
-    <Compile Include="MigrationsMicrosoftSQLServer\201808070917504_DropOldLowHighUtcDateTimeColoums.Designer.cs">
-      <DependentUpon>201808070917504_DropOldLowHighUtcDateTimeColoums.cs</DependentUpon>
-    </Compile>
-    <Compile Include="MigrationsMicrosoftSQLServer\201809100551599_AddCompositePivotTable.cs" />
-    <Compile Include="MigrationsMicrosoftSQLServer\201809100551599_AddCompositePivotTable.Designer.cs">
-      <DependentUpon>201809100551599_AddCompositePivotTable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="MigrationsPostgre\201809140446346_First.cs" />
-    <Compile Include="MigrationsPostgre\201809140446346_First.Designer.cs">
-      <DependentUpon>201809140446346_First.cs</DependentUpon>
+    <Compile Include="MigrationsPostgre\201809140808349_First.cs" />
+    <Compile Include="MigrationsPostgre\201809140808349_First.Designer.cs">
+      <DependentUpon>201809140808349_First.cs</DependentUpon>
     </Compile>
     <Compile Include="MigrationsPostgre\ConfigurationPostgre.cs" />
-    <Compile Include="MigrationsMicrosoftSQLServer\201706130247261_First.cs" />
-    <Compile Include="MigrationsMicrosoftSQLServer\201706130247261_First.Designer.cs">
-      <DependentUpon>201706130247261_First.cs</DependentUpon>
-    </Compile>
-    <Compile Include="MigrationsMicrosoftSQLServer\201706130828061_CaseSensativeFhirId.cs" />
-    <Compile Include="MigrationsMicrosoftSQLServer\201706130828061_CaseSensativeFhirId.Designer.cs">
-      <DependentUpon>201706130828061_CaseSensativeFhirId.cs</DependentUpon>
-    </Compile>
-    <Compile Include="MigrationsMicrosoftSQLServer\201707250621340_CodeMax128.cs" />
-    <Compile Include="MigrationsMicrosoftSQLServer\201707250621340_CodeMax128.Designer.cs">
-      <DependentUpon>201707250621340_CodeMax128.cs</DependentUpon>
-    </Compile>
-    <Compile Include="MigrationsMicrosoftSQLServer\201708292255593_StringIndexAdd.cs" />
-    <Compile Include="MigrationsMicrosoftSQLServer\201708292255593_StringIndexAdd.Designer.cs">
-      <DependentUpon>201708292255593_StringIndexAdd.cs</DependentUpon>
-    </Compile>
-    <Compile Include="MigrationsMicrosoftSQLServer\201708300021437_OldStringIndexDrop.cs" />
-    <Compile Include="MigrationsMicrosoftSQLServer\201708300021437_OldStringIndexDrop.Designer.cs">
-      <DependentUpon>201708300021437_OldStringIndexDrop.cs</DependentUpon>
-    </Compile>
-    <Compile Include="MigrationsMicrosoftSQLServer\201709052306571_NewIndexesAdd.cs" />
-    <Compile Include="MigrationsMicrosoftSQLServer\201709052306571_NewIndexesAdd.Designer.cs">
-      <DependentUpon>201709052306571_NewIndexesAdd.cs</DependentUpon>
-    </Compile>
-    <Compile Include="MigrationsMicrosoftSQLServer\201709122345167_OldIndexesDrop.cs" />
-    <Compile Include="MigrationsMicrosoftSQLServer\201709122345167_OldIndexesDrop.Designer.cs">
-      <DependentUpon>201709122345167_OldIndexesDrop.cs</DependentUpon>
-    </Compile>
-    <Compile Include="MigrationsMicrosoftSQLServer\201712120810582_RenameServiceTables.cs" />
-    <Compile Include="MigrationsMicrosoftSQLServer\201712120810582_RenameServiceTables.Designer.cs">
-      <DependentUpon>201712120810582_RenameServiceTables.cs</DependentUpon>
-    </Compile>
-    <Compile Include="MigrationsMicrosoftSQLServer\201804210403261_ServiceCompartment.cs" />
-    <Compile Include="MigrationsMicrosoftSQLServer\201804210403261_ServiceCompartment.Designer.cs">
-      <DependentUpon>201804210403261_ServiceCompartment.cs</DependentUpon>
-    </Compile>
-    <Compile Include="MigrationsMicrosoftSQLServer\201805080344516_AddTable_FhirRelease.cs" />
-    <Compile Include="MigrationsMicrosoftSQLServer\201805080344516_AddTable_FhirRelease.Designer.cs">
-      <DependentUpon>201805080344516_AddTable_FhirRelease.cs</DependentUpon>
-    </Compile>
-    <Compile Include="MigrationsMicrosoftSQLServer\201805100414292_AddFhirReleaseIdToResources.cs" />
-    <Compile Include="MigrationsMicrosoftSQLServer\201805100414292_AddFhirReleaseIdToResources.Designer.cs">
-      <DependentUpon>201805100414292_AddFhirReleaseIdToResources.cs</DependentUpon>
-    </Compile>
-    <Compile Include="MigrationsMicrosoftSQLServer\201805100418177_PopulateFhirReleaseIdWithFhirRelease301.cs" />
-    <Compile Include="MigrationsMicrosoftSQLServer\201805100418177_PopulateFhirReleaseIdWithFhirRelease301.Designer.cs">
-      <DependentUpon>201805100418177_PopulateFhirReleaseIdWithFhirRelease301.cs</DependentUpon>
-    </Compile>
-    <Compile Include="MigrationsMicrosoftSQLServer\201805100431553_SetForgienKeyToFhirReleaseForResource.cs" />
-    <Compile Include="MigrationsMicrosoftSQLServer\201805100431553_SetForgienKeyToFhirReleaseForResource.Designer.cs">
-      <DependentUpon>201805100431553_SetForgienKeyToFhirReleaseForResource.cs</DependentUpon>
-    </Compile>
-    <Compile Include="MigrationsMicrosoftSQLServer\201806080859237_ServiceConfigurationTable.cs" />
-    <Compile Include="MigrationsMicrosoftSQLServer\201806080859237_ServiceConfigurationTable.Designer.cs">
-      <DependentUpon>201806080859237_ServiceConfigurationTable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="MigrationsMicrosoftSQLServer\201806280910008_ReferenceIndexCaseSensitiveDrop.cs" />
-    <Compile Include="MigrationsMicrosoftSQLServer\201806280910008_ReferenceIndexCaseSensitiveDrop.Designer.cs">
-      <DependentUpon>201806280910008_ReferenceIndexCaseSensitiveDrop.cs</DependentUpon>
-    </Compile>
-    <Compile Include="MigrationsMicrosoftSQLServer\201806280918213_ReferenceIndexCaseSensitiveReinstate.cs" />
-    <Compile Include="MigrationsMicrosoftSQLServer\201806280918213_ReferenceIndexCaseSensitiveReinstate.Designer.cs">
-      <DependentUpon>201806280918213_ReferenceIndexCaseSensitiveReinstate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="MigrationsMicrosoftSQLServer\201807110801161_AddGZipResourceColumn.cs" />
-    <Compile Include="MigrationsMicrosoftSQLServer\201807110801161_AddGZipResourceColumn.Designer.cs">
-      <DependentUpon>201807110801161_AddGZipResourceColumn.cs</DependentUpon>
-    </Compile>
-    <Compile Include="MigrationsMicrosoftSQLServer\201807110804261_ConversionXMLBlobtoGZipResourceColumn.cs" />
-    <Compile Include="MigrationsMicrosoftSQLServer\201807110804261_ConversionXMLBlobtoGZipResourceColumn.Designer.cs">
-      <DependentUpon>201807110804261_ConversionXMLBlobtoGZipResourceColumn.cs</DependentUpon>
-    </Compile>
-    <Compile Include="MigrationsMicrosoftSQLServer\201808041212043_AlignNamesForPostgreSQL.cs" />
-    <Compile Include="MigrationsMicrosoftSQLServer\201808041212043_AlignNamesForPostgreSQL.Designer.cs">
-      <DependentUpon>201808041212043_AlignNamesForPostgreSQL.cs</DependentUpon>
-    </Compile>
     <Compile Include="MigrationsMicrosoftSQLServer\ConfigurationMsSql.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\BaseRepository.cs" />
@@ -322,77 +234,11 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <EmbeddedResource Include="MigrationsMicrosoftSQLServer\201706130247261_First.resx">
-      <DependentUpon>201706130247261_First.cs</DependentUpon>
+    <EmbeddedResource Include="MigrationsMicrosoftSQLServer\201809140829427_First.resx">
+      <DependentUpon>201809140829427_First.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MigrationsMicrosoftSQLServer\201706130828061_CaseSensativeFhirId.resx">
-      <DependentUpon>201706130828061_CaseSensativeFhirId.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MigrationsMicrosoftSQLServer\201707250621340_CodeMax128.resx">
-      <DependentUpon>201707250621340_CodeMax128.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MigrationsMicrosoftSQLServer\201708292255593_StringIndexAdd.resx">
-      <DependentUpon>201708292255593_StringIndexAdd.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MigrationsMicrosoftSQLServer\201708300021437_OldStringIndexDrop.resx">
-      <DependentUpon>201708300021437_OldStringIndexDrop.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MigrationsMicrosoftSQLServer\201709052306571_NewIndexesAdd.resx">
-      <DependentUpon>201709052306571_NewIndexesAdd.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MigrationsMicrosoftSQLServer\201709122345167_OldIndexesDrop.resx">
-      <DependentUpon>201709122345167_OldIndexesDrop.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MigrationsMicrosoftSQLServer\201712120810582_RenameServiceTables.resx">
-      <DependentUpon>201712120810582_RenameServiceTables.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MigrationsMicrosoftSQLServer\201804210403261_ServiceCompartment.resx">
-      <DependentUpon>201804210403261_ServiceCompartment.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MigrationsMicrosoftSQLServer\201805080344516_AddTable_FhirRelease.resx">
-      <DependentUpon>201805080344516_AddTable_FhirRelease.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MigrationsMicrosoftSQLServer\201805100414292_AddFhirReleaseIdToResources.resx">
-      <DependentUpon>201805100414292_AddFhirReleaseIdToResources.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MigrationsMicrosoftSQLServer\201805100418177_PopulateFhirReleaseIdWithFhirRelease301.resx">
-      <DependentUpon>201805100418177_PopulateFhirReleaseIdWithFhirRelease301.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MigrationsMicrosoftSQLServer\201805100431553_SetForgienKeyToFhirReleaseForResource.resx">
-      <DependentUpon>201805100431553_SetForgienKeyToFhirReleaseForResource.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MigrationsMicrosoftSQLServer\201806080859237_ServiceConfigurationTable.resx">
-      <DependentUpon>201806080859237_ServiceConfigurationTable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MigrationsMicrosoftSQLServer\201806280910008_ReferenceIndexCaseSensitiveDrop.resx">
-      <DependentUpon>201806280910008_ReferenceIndexCaseSensitiveDrop.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MigrationsMicrosoftSQLServer\201806280918213_ReferenceIndexCaseSensitiveReinstate.resx">
-      <DependentUpon>201806280918213_ReferenceIndexCaseSensitiveReinstate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MigrationsMicrosoftSQLServer\201807110801161_AddGZipResourceColumn.resx">
-      <DependentUpon>201807110801161_AddGZipResourceColumn.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MigrationsMicrosoftSQLServer\201807110804261_ConversionXMLBlobtoGZipResourceColumn.resx">
-      <DependentUpon>201807110804261_ConversionXMLBlobtoGZipResourceColumn.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MigrationsMicrosoftSQLServer\201808041212043_AlignNamesForPostgreSQL.resx">
-      <DependentUpon>201808041212043_AlignNamesForPostgreSQL.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MigrationsMicrosoftSQLServer\201808070908225_AddNewLowHighUtcDateTimeColoums.resx">
-      <DependentUpon>201808070908225_AddNewLowHighUtcDateTimeColoums.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MigrationsMicrosoftSQLServer\201808070911372_PopulateNewLowHighUtcDateTimeColoums.resx">
-      <DependentUpon>201808070911372_PopulateNewLowHighUtcDateTimeColoums.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MigrationsMicrosoftSQLServer\201808070917504_DropOldLowHighUtcDateTimeColoums.resx">
-      <DependentUpon>201808070917504_DropOldLowHighUtcDateTimeColoums.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MigrationsMicrosoftSQLServer\201809100551599_AddCompositePivotTable.resx">
-      <DependentUpon>201809100551599_AddCompositePivotTable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MigrationsPostgre\201809140446346_First.resx">
-      <DependentUpon>201809140446346_First.cs</DependentUpon>
+    <EmbeddedResource Include="MigrationsPostgre\201809140808349_First.resx">
+      <DependentUpon>201809140808349_First.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

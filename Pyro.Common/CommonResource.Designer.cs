@@ -106,7 +106,7 @@ namespace Pyro.Common {
         
         /// <summary>
         ///   Looks up a localized string similar to &lt;CompartmentDefinition xmlns=&quot;http://hl7.org/fhir&quot;&gt;
-        ///    &lt;id value=&quot;pyro=patient&quot; /&gt;   
+        ///    &lt;id value=&quot;pyro-patient&quot; /&gt;   
         ///    &lt;url value=&quot;https://pyrohealth.net/fhir/CompartmentDefinition/pyro-patient&quot;/&gt;    
         ///    &lt;name value=&quot;Base FHIR compartment definition for Patient&quot; /&gt;
         ///    &lt;status value=&quot;active&quot; /&gt;

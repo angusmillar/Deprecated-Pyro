@@ -42,26 +42,26 @@ namespace Pyro.DataLayer.DbModel.EntityGenerated
   {
 #>  
   //###### <#=ResourceName#> ##################################################################################
-  public partial class <#=ResourceName#>Res : ResourceCurrentBase<<#=ResourceName#>Res, <#=ResourceName#>ResIndexString, <#=ResourceName#>ResIndexToken, <#=ResourceName#>ResIndexUri, <#=ResourceName#>ResIndexReference, <#=ResourceName#>ResIndexQuantity, <#=ResourceName#>ResIndexDateTime>, I<#=ResourceName#>Res { }
-  public interface I<#=ResourceName#>Res : IResourceCurrentBase<<#=ResourceName#>Res, <#=ResourceName#>ResIndexString, <#=ResourceName#>ResIndexToken, <#=ResourceName#>ResIndexUri, <#=ResourceName#>ResIndexReference, <#=ResourceName#>ResIndexQuantity, <#=ResourceName#>ResIndexDateTime> { }
+  public partial class <#=ResourceName#>Res : ResourceCurrentBase<<#=ResourceName#>Res, <#=ResourceName#>IxStr, <#=ResourceName#>IxTok, <#=ResourceName#>IxUri, <#=ResourceName#>IxRef, <#=ResourceName#>IxQty, <#=ResourceName#>IxDT>, I<#=ResourceName#>Res { }
+  public interface I<#=ResourceName#>Res : IResourceCurrentBase<<#=ResourceName#>Res, <#=ResourceName#>IxStr, <#=ResourceName#>IxTok, <#=ResourceName#>IxUri, <#=ResourceName#>IxRef, <#=ResourceName#>IxQty, <#=ResourceName#>IxDT> { }
   
-  public partial class <#=ResourceName#>ResIndexDateTime : ResourceIndexDateTime<<#=ResourceName#>Res, <#=ResourceName#>ResIndexString, <#=ResourceName#>ResIndexToken, <#=ResourceName#>ResIndexUri, <#=ResourceName#>ResIndexReference, <#=ResourceName#>ResIndexQuantity, <#=ResourceName#>ResIndexDateTime>, I<#=ResourceName#>ResIndexDateTime { }
-  public interface I<#=ResourceName#>ResIndexDateTime : IResourceIndexDateTime<<#=ResourceName#>Res, <#=ResourceName#>ResIndexString, <#=ResourceName#>ResIndexToken, <#=ResourceName#>ResIndexUri, <#=ResourceName#>ResIndexReference, <#=ResourceName#>ResIndexQuantity, <#=ResourceName#>ResIndexDateTime> { }
+  public partial class <#=ResourceName#>IxDT : ResourceIndexDateTime<<#=ResourceName#>Res, <#=ResourceName#>IxStr, <#=ResourceName#>IxTok, <#=ResourceName#>IxUri, <#=ResourceName#>IxRef, <#=ResourceName#>IxQty, <#=ResourceName#>IxDT>, I<#=ResourceName#>IxDT { }
+  public interface I<#=ResourceName#>IxDT : IResourceIndexDateTime<<#=ResourceName#>Res, <#=ResourceName#>IxStr, <#=ResourceName#>IxTok, <#=ResourceName#>IxUri, <#=ResourceName#>IxRef, <#=ResourceName#>IxQty, <#=ResourceName#>IxDT> { }
 
-  public partial class <#=ResourceName#>ResIndexQuantity : ResourceIndexQuantity<<#=ResourceName#>Res, <#=ResourceName#>ResIndexString, <#=ResourceName#>ResIndexToken, <#=ResourceName#>ResIndexUri, <#=ResourceName#>ResIndexReference, <#=ResourceName#>ResIndexQuantity, <#=ResourceName#>ResIndexDateTime>, I<#=ResourceName#>ResIndexQuantity { }
-  public interface I<#=ResourceName#>ResIndexQuantity : IResourceIndexQuantity<<#=ResourceName#>Res, <#=ResourceName#>ResIndexString, <#=ResourceName#>ResIndexToken, <#=ResourceName#>ResIndexUri, <#=ResourceName#>ResIndexReference, <#=ResourceName#>ResIndexQuantity, <#=ResourceName#>ResIndexDateTime> { }
+  public partial class <#=ResourceName#>IxQty : ResourceIndexQuantity<<#=ResourceName#>Res, <#=ResourceName#>IxStr, <#=ResourceName#>IxTok, <#=ResourceName#>IxUri, <#=ResourceName#>IxRef, <#=ResourceName#>IxQty, <#=ResourceName#>IxDT>, I<#=ResourceName#>IxQty { }
+  public interface I<#=ResourceName#>IxQty : IResourceIndexQuantity<<#=ResourceName#>Res, <#=ResourceName#>IxStr, <#=ResourceName#>IxTok, <#=ResourceName#>IxUri, <#=ResourceName#>IxRef, <#=ResourceName#>IxQty, <#=ResourceName#>IxDT> { }
 
-  public partial class <#=ResourceName#>ResIndexReference : ResourceIndexReference<<#=ResourceName#>Res, <#=ResourceName#>ResIndexString, <#=ResourceName#>ResIndexToken, <#=ResourceName#>ResIndexUri, <#=ResourceName#>ResIndexReference, <#=ResourceName#>ResIndexQuantity, <#=ResourceName#>ResIndexDateTime>, I<#=ResourceName#>ResIndexReference { }
-  public interface I<#=ResourceName#>ResIndexReference : IResourceIndexReference<<#=ResourceName#>Res, <#=ResourceName#>ResIndexString, <#=ResourceName#>ResIndexToken, <#=ResourceName#>ResIndexUri, <#=ResourceName#>ResIndexReference, <#=ResourceName#>ResIndexQuantity, <#=ResourceName#>ResIndexDateTime> { }
+  public partial class <#=ResourceName#>IxRef : ResourceIndexReference<<#=ResourceName#>Res, <#=ResourceName#>IxStr, <#=ResourceName#>IxTok, <#=ResourceName#>IxUri, <#=ResourceName#>IxRef, <#=ResourceName#>IxQty, <#=ResourceName#>IxDT>, I<#=ResourceName#>IxRef { }
+  public interface I<#=ResourceName#>IxRef : IResourceIndexReference<<#=ResourceName#>Res, <#=ResourceName#>IxStr, <#=ResourceName#>IxTok, <#=ResourceName#>IxUri, <#=ResourceName#>IxRef, <#=ResourceName#>IxQty, <#=ResourceName#>IxDT> { }
 
-  public partial class <#=ResourceName#>ResIndexUri : ResourceIndexUri<<#=ResourceName#>Res, <#=ResourceName#>ResIndexString, <#=ResourceName#>ResIndexToken, <#=ResourceName#>ResIndexUri, <#=ResourceName#>ResIndexReference, <#=ResourceName#>ResIndexQuantity, <#=ResourceName#>ResIndexDateTime>, I<#=ResourceName#>ResIndexUri { }
-  public interface I<#=ResourceName#>ResIndexUri : IResourceIndexUri<<#=ResourceName#>Res, <#=ResourceName#>ResIndexString, <#=ResourceName#>ResIndexToken, <#=ResourceName#>ResIndexUri, <#=ResourceName#>ResIndexReference, <#=ResourceName#>ResIndexQuantity, <#=ResourceName#>ResIndexDateTime> { }
+  public partial class <#=ResourceName#>IxUri : ResourceIndexUri<<#=ResourceName#>Res, <#=ResourceName#>IxStr, <#=ResourceName#>IxTok, <#=ResourceName#>IxUri, <#=ResourceName#>IxRef, <#=ResourceName#>IxQty, <#=ResourceName#>IxDT>, I<#=ResourceName#>IxUri { }
+  public interface I<#=ResourceName#>IxUri : IResourceIndexUri<<#=ResourceName#>Res, <#=ResourceName#>IxStr, <#=ResourceName#>IxTok, <#=ResourceName#>IxUri, <#=ResourceName#>IxRef, <#=ResourceName#>IxQty, <#=ResourceName#>IxDT> { }
 
-  public partial class <#=ResourceName#>ResIndexToken : ResourceIndexToken<<#=ResourceName#>Res, <#=ResourceName#>ResIndexString, <#=ResourceName#>ResIndexToken, <#=ResourceName#>ResIndexUri, <#=ResourceName#>ResIndexReference, <#=ResourceName#>ResIndexQuantity, <#=ResourceName#>ResIndexDateTime>, I<#=ResourceName#>ResIndexToken { }
-  public interface I<#=ResourceName#>ResIndexToken : IResourceIndexToken<<#=ResourceName#>Res, <#=ResourceName#>ResIndexString, <#=ResourceName#>ResIndexToken, <#=ResourceName#>ResIndexUri, <#=ResourceName#>ResIndexReference, <#=ResourceName#>ResIndexQuantity, <#=ResourceName#>ResIndexDateTime> { }
+  public partial class <#=ResourceName#>IxTok : ResourceIndexToken<<#=ResourceName#>Res, <#=ResourceName#>IxStr, <#=ResourceName#>IxTok, <#=ResourceName#>IxUri, <#=ResourceName#>IxRef, <#=ResourceName#>IxQty, <#=ResourceName#>IxDT>, I<#=ResourceName#>IxTok { }
+  public interface I<#=ResourceName#>IxTok : IResourceIndexToken<<#=ResourceName#>Res, <#=ResourceName#>IxStr, <#=ResourceName#>IxTok, <#=ResourceName#>IxUri, <#=ResourceName#>IxRef, <#=ResourceName#>IxQty, <#=ResourceName#>IxDT> { }
 
-  public partial class <#=ResourceName#>ResIndexString : ResourceIndexString<<#=ResourceName#>Res, <#=ResourceName#>ResIndexString, <#=ResourceName#>ResIndexToken, <#=ResourceName#>ResIndexUri, <#=ResourceName#>ResIndexReference, <#=ResourceName#>ResIndexQuantity, <#=ResourceName#>ResIndexDateTime>, I<#=ResourceName#>ResIndexString { }
-  public interface I<#=ResourceName#>ResIndexString : IResourceIndexString<<#=ResourceName#>Res, <#=ResourceName#>ResIndexString, <#=ResourceName#>ResIndexToken, <#=ResourceName#>ResIndexUri, <#=ResourceName#>ResIndexReference, <#=ResourceName#>ResIndexQuantity, <#=ResourceName#>ResIndexDateTime> { }
+  public partial class <#=ResourceName#>IxStr : ResourceIndexString<<#=ResourceName#>Res, <#=ResourceName#>IxStr, <#=ResourceName#>IxTok, <#=ResourceName#>IxUri, <#=ResourceName#>IxRef, <#=ResourceName#>IxQty, <#=ResourceName#>IxDT>, I<#=ResourceName#>IxStr { }
+  public interface I<#=ResourceName#>IxStr : IResourceIndexString<<#=ResourceName#>Res, <#=ResourceName#>IxStr, <#=ResourceName#>IxTok, <#=ResourceName#>IxUri, <#=ResourceName#>IxRef, <#=ResourceName#>IxQty, <#=ResourceName#>IxDT> { }
 
 <#
 }
@@ -170,7 +170,7 @@ namespace Pyro.DataLayer.DbModel.EntityGenerated
       foreach(string ResourceName in MainModel.GetResourceNameList())
       {
     #>
-      typeof(CommonResourceRepository<<#=ResourceName#>Res, <#=ResourceName#>ResIndexString, <#=ResourceName#>ResIndexToken, <#=ResourceName#>ResIndexUri, <#=ResourceName#>ResIndexReference, <#=ResourceName#>ResIndexQuantity, <#=ResourceName#>ResIndexDateTime>),             
+      typeof(CommonResourceRepository<<#=ResourceName#>Res, <#=ResourceName#>IxStr, <#=ResourceName#>IxTok, <#=ResourceName#>IxUri, <#=ResourceName#>IxRef, <#=ResourceName#>IxQty, <#=ResourceName#>IxDT>),             
     <#
     }
     #>       
@@ -206,7 +206,7 @@ namespace Pyro.DataLayer.DbModel.UnitOfWork
     {
       get
       {      
-        return IResourceRepositoryFactory.Create<<#=ResourceName#>Res, <#=ResourceName#>ResIndexString, <#=ResourceName#>ResIndexToken, <#=ResourceName#>ResIndexUri, <#=ResourceName#>ResIndexReference, <#=ResourceName#>ResIndexQuantity, <#=ResourceName#>ResIndexDateTime>(FHIRAllTypes.<#=ResourceName#>);             
+        return IResourceRepositoryFactory.Create<<#=ResourceName#>Res, <#=ResourceName#>IxStr, <#=ResourceName#>IxTok, <#=ResourceName#>IxUri, <#=ResourceName#>IxRef, <#=ResourceName#>IxQty, <#=ResourceName#>IxDT>(FHIRAllTypes.<#=ResourceName#>);             
       }
     }
 <#
@@ -282,13 +282,13 @@ namespace Pyro.DataLayer.DbModel.DatabaseContext
   {
 #>      
       // <#=ResourceName#>  
-      Mb.Configurations.Add(new ResourceContextConfig<<#=ResourceName#>Res, <#=ResourceName#>ResIndexString, <#=ResourceName#>ResIndexToken, <#=ResourceName#>ResIndexUri, <#=ResourceName#>ResIndexReference, <#=ResourceName#>ResIndexQuantity, <#=ResourceName#>ResIndexDateTime>());      
-      Mb.Configurations.Add(new IndexStringContextConfig<<#=ResourceName#>Res, <#=ResourceName#>ResIndexString, <#=ResourceName#>ResIndexToken, <#=ResourceName#>ResIndexUri, <#=ResourceName#>ResIndexReference, <#=ResourceName#>ResIndexQuantity, <#=ResourceName#>ResIndexDateTime>());
-      Mb.Configurations.Add(new IndexTokenContextConfig<<#=ResourceName#>Res, <#=ResourceName#>ResIndexString, <#=ResourceName#>ResIndexToken, <#=ResourceName#>ResIndexUri, <#=ResourceName#>ResIndexReference, <#=ResourceName#>ResIndexQuantity, <#=ResourceName#>ResIndexDateTime>());
-      Mb.Configurations.Add(new IndexUriContextConfig<<#=ResourceName#>Res, <#=ResourceName#>ResIndexString, <#=ResourceName#>ResIndexToken, <#=ResourceName#>ResIndexUri, <#=ResourceName#>ResIndexReference, <#=ResourceName#>ResIndexQuantity, <#=ResourceName#>ResIndexDateTime>());
-      Mb.Configurations.Add(new IndexReferenceContextConfig<<#=ResourceName#>Res, <#=ResourceName#>ResIndexString, <#=ResourceName#>ResIndexToken, <#=ResourceName#>ResIndexUri, <#=ResourceName#>ResIndexReference, <#=ResourceName#>ResIndexQuantity, <#=ResourceName#>ResIndexDateTime>());
-      Mb.Configurations.Add(new IndexQuantityContextConfig<<#=ResourceName#>Res, <#=ResourceName#>ResIndexString, <#=ResourceName#>ResIndexToken, <#=ResourceName#>ResIndexUri, <#=ResourceName#>ResIndexReference, <#=ResourceName#>ResIndexQuantity, <#=ResourceName#>ResIndexDateTime>());
-      Mb.Configurations.Add(new IndexDateTimeContextConfig<<#=ResourceName#>Res, <#=ResourceName#>ResIndexString, <#=ResourceName#>ResIndexToken, <#=ResourceName#>ResIndexUri, <#=ResourceName#>ResIndexReference, <#=ResourceName#>ResIndexQuantity, <#=ResourceName#>ResIndexDateTime>());
+      Mb.Configurations.Add(new ResourceContextConfig<<#=ResourceName#>Res, <#=ResourceName#>IxStr, <#=ResourceName#>IxTok, <#=ResourceName#>IxUri, <#=ResourceName#>IxRef, <#=ResourceName#>IxQty, <#=ResourceName#>IxDT>());      
+      Mb.Configurations.Add(new IndexStringContextConfig<<#=ResourceName#>Res, <#=ResourceName#>IxStr, <#=ResourceName#>IxTok, <#=ResourceName#>IxUri, <#=ResourceName#>IxRef, <#=ResourceName#>IxQty, <#=ResourceName#>IxDT>());
+      Mb.Configurations.Add(new IndexTokenContextConfig<<#=ResourceName#>Res, <#=ResourceName#>IxStr, <#=ResourceName#>IxTok, <#=ResourceName#>IxUri, <#=ResourceName#>IxRef, <#=ResourceName#>IxQty, <#=ResourceName#>IxDT>());
+      Mb.Configurations.Add(new IndexUriContextConfig<<#=ResourceName#>Res, <#=ResourceName#>IxStr, <#=ResourceName#>IxTok, <#=ResourceName#>IxUri, <#=ResourceName#>IxRef, <#=ResourceName#>IxQty, <#=ResourceName#>IxDT>());
+      Mb.Configurations.Add(new IndexReferenceContextConfig<<#=ResourceName#>Res, <#=ResourceName#>IxStr, <#=ResourceName#>IxTok, <#=ResourceName#>IxUri, <#=ResourceName#>IxRef, <#=ResourceName#>IxQty, <#=ResourceName#>IxDT>());
+      Mb.Configurations.Add(new IndexQuantityContextConfig<<#=ResourceName#>Res, <#=ResourceName#>IxStr, <#=ResourceName#>IxTok, <#=ResourceName#>IxUri, <#=ResourceName#>IxRef, <#=ResourceName#>IxQty, <#=ResourceName#>IxDT>());
+      Mb.Configurations.Add(new IndexDateTimeContextConfig<<#=ResourceName#>Res, <#=ResourceName#>IxStr, <#=ResourceName#>IxTok, <#=ResourceName#>IxUri, <#=ResourceName#>IxRef, <#=ResourceName#>IxQty, <#=ResourceName#>IxDT>());
 <#
   }
 #>

@@ -18,8 +18,9 @@ namespace Pyro.DbManager
     public static void Main(string[] args)
     {
 
-      //FhirSearchParamters test = new FhirSearchParamters();
-      //string SQL = test.GetMSSQLQuerySearchParameterTargetResources();
+      //FhirSearchParamters test = new FhirSearchParamters();      
+      //string SQLP = test.GetMsSQLQuerySearchParameters();
+      //string SQLTR = test.GetMSSQLQuerySearchParameterTargetResources();
 
       Dictionary<string, string> Arguments = ProcessArguments(args);
       bool UnattendedMode = false;

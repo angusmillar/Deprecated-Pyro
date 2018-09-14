@@ -88,8 +88,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ResourceStore.resx</DependentUpon>
     </Compile>
-    <Compile Include="SqlScripts\PostgreSql\201809140450002_SeedFhirSearchParametersTargetResources.cs" />
-    <Compile Include="SqlScripts\PostgreSql\201809140450001_SeedFhirSearchParameters.cs" />
+    <Compile Include="SqlScripts\PostgreSql\201809140808352_SeedFhirSearchParametersTargetResources.cs" />
+    <Compile Include="SqlScripts\PostgreSql\201809140808351_SeedFhirSearchParameters.cs" />
     <Compile Include="Tools\ScriptFileDrop.cs" />
     <Compile Include="Tools\StringStore.cs" />
     <Compile Include="Tools\StringSupport.cs" />
@@ -104,10 +104,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>ResourceStore.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="SqlScripts\MsSQL\201706130828061_CaseSensativeFhirId.sql" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="SqlScripts\MsSQL\201706130247261_First.sql" />
+    <EmbeddedResource Include="SqlScripts\MsSQL\201809140829427_First.sql" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Pyro.Common\Pyro.Common.csproj">
@@ -116,46 +115,17 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="SqlScripts\PostgreSql\201809140446346_First.sql" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="SqlScripts\MsSQL\201707250621340_CodeMax128.sql" />
-    <EmbeddedResource Include="SqlScripts\MsSQL\201708292255593_StringIndexAdd.sql" />
-    <EmbeddedResource Include="SqlScripts\MsSQL\201708300021437_OldStringIndexDrop.sql" />
-    <EmbeddedResource Include="SqlScripts\MsSQL\201709052306571_NewIndexesAdd.sql" />
-    <EmbeddedResource Include="SqlScripts\MsSQL\201709122345167_OldIndexesDrop.sql" />
-    <EmbeddedResource Include="SqlScripts\MsSQL\201712120810582_RenameServiceTables.sql" />
-    <EmbeddedResource Include="SqlScripts\MsSQL\201804210403261_ServiceCompartment.sql" />
-    <EmbeddedResource Include="SqlScripts\MsSQL\201805080344516_AddTable_FhirRelease.sql" />
-    <EmbeddedResource Include="SqlScripts\MsSQL\201805100414292_AddFhirReleaseIdToResources.sql" />
-    <EmbeddedResource Include="SqlScripts\MsSQL\201805100418177_PopulateFhirReleaseIdWithFhirRelease301.sql" />
-    <EmbeddedResource Include="SqlScripts\MsSQL\201805100431553_SetForgienKeyToFhirReleaseForResource.sql" />
-    <EmbeddedResource Include="SqlScripts\MsSQL\201806080859237_ServiceConfigurationTable.sql" />
-    <EmbeddedResource Include="SqlScripts\MsSQL\201806280910008_ReferenceIndexCaseSensitiveDrop.sql" />
-    <EmbeddedResource Include="SqlScripts\MsSQL\201806280918213_ReferenceIndexCaseSensitiveReinstate.sql" />
-    <EmbeddedResource Include="SqlScripts\MsSQL\201807110801161_AddGZipResourceColumn.sql" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="SqlScripts\MsSQL\201807110804261_ConversionXMLBlobtoGZipResourceColumn.sql" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="SqlScripts\MsSQL\201808041212043_AlignNamesForPostgreSQL.sql" />
-    <EmbeddedResource Include="SqlScripts\MsSQL\201808070908225_AddNewLowHighUtcDateTimeColoums.sql" />
-    <EmbeddedResource Include="SqlScripts\MsSQL\201808070911372_PopulateNewLowHighUtcDateTimeColoums.sql" />
-    <EmbeddedResource Include="SqlScripts\MsSQL\201808070917504_DropOldLowHighUtcDateTimeColoums.sql" />
+    <EmbeddedResource Include="SqlScripts\PostgreSql\201809140808349_First.sql" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Seeding\FhirSearchParamters.cs" />
     <Compile Include="Seeding\SParamResource.cs" />
     <Compile Include="Seeding\SearchParam.cs" />
-    <Compile Include="SqlScripts\PostgreSql\201809140450000_FhirReleaseSeed.cs" />
+    <Compile Include="SqlScripts\PostgreSql\201809140808350_FhirReleaseSeed.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="SqlScripts\MsSQL\201808171250000_SeedFhirSearchParameters.sql" />
-    <EmbeddedResource Include="SqlScripts\MsSQL\201808171251000_SeedFhirSearchParametersTargetResources.sql" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="SqlScripts\MsSQL\201809100551599_AddCompositePivotTable.sql" />
+    <EmbeddedResource Include="SqlScripts\MsSQL\201809140830000_SeedFhirSearchParameters.sql" />
+    <EmbeddedResource Include="SqlScripts\MsSQL\201809140830001_SeedFhirSearchParametersTargetResources.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -26,14 +26,14 @@ namespace Pyro.DataLayer.DbModel.DatabaseContext
       //10. Run the Pyro.DbManager project to upgrade the database.
       //-----------------------------------------------------------------------------------
 
-      bool GenerateMigration = false;
+      bool GenerateMigration = true;
       if (GenerateMigration)
       {
-        if (!System.Diagnostics.Debugger.IsAttached)
-        {
-          throw new System.ApplicationException("Oh no, the developer has left a development only setting of 'GenerateMigration' for PostgreSQL as True and this code appears to be running outside of the development environment. " +
-            "Unfortunately this is not allowed. Please contact your system administrator.");
-        }
+        //if (!System.Diagnostics.Debugger.IsAttached)
+        //{
+        //  throw new System.ApplicationException("Oh no, the developer has left a development only setting of 'GenerateMigration' for PostgreSQL as True and this code appears to be running outside of the development environment. " +
+        //    "Unfortunately this is not allowed. Please contact your system administrator.");
+        //}
         DbContextUtils<MsSqlContext>.SetInitializer(new MigrateDatabaseToLatestVersion<MsSqlContext, MigrationsMicrosoftSQLServer.ConfigurationMsSql>());
       }
       else

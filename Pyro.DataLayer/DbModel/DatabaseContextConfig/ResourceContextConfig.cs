@@ -43,14 +43,14 @@ namespace Pyro.DataLayer.DbModel.DatabaseContextConfig
       // Should be only 64 char not 400?? Version is the same they are both id datatypes
       // They are also both CaseSensitive
       Property(t => t.FhirId)
-          .HasColumnAnnotation("CaseSensitive", true)
+          //.HasColumnAnnotation("CaseSensitive", true)
           .HasColumnName("FhirId")
           .HasMaxLength(StaticDatabaseInfo.BaseDatabaseFieldLength.FhirIdMaxLength)
           .IsRequired()
           .HasUniqueIndexAnnotation("uq_FhirIdAndVersionId", 0);
 
       Property(t => t.VersionId)
-         .HasColumnAnnotation("CaseSensitive", true)
+         //.HasColumnAnnotation("CaseSensitive", true)
          .HasColumnName("VersionId")
          .HasMaxLength(StaticDatabaseInfo.BaseDatabaseFieldLength.FhirIdMaxLength)
          .IsRequired()
