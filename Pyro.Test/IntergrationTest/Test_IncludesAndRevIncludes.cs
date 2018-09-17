@@ -305,12 +305,12 @@ namespace Pyro.Test.IntergrationTest
       Assert.AreEqual(BundleResult.Entry.Count, 4, "BundleResult.Entry.Count should be 2, the primary Observation1 and the included Patient, Orginisation and Observation2 ");
       Assert.AreEqual(BundleResult.Entry[0].Resource.Id, ObservationOneResourceId, "Observation1 id incorrect.");
       Assert.AreEqual(BundleResult.Entry[0].Resource.ResourceType, ResourceType.Observation, "Incorrect Resource type should be Observation.");
-      Assert.AreEqual(BundleResult.Entry[1].Resource.Id, PatientResourceId, "Patient id incorrect.");
-      Assert.AreEqual(BundleResult.Entry[1].Resource.ResourceType, ResourceType.Patient, "Incorrect Resource type should be Patient.");
+      Assert.AreEqual(BundleResult.Entry[1].Resource.Id, ObservationTwoResourceId, "Observation id incorrect.");
+      Assert.AreEqual(BundleResult.Entry[1].Resource.ResourceType, ResourceType.Observation, "Incorrect Resource type should be Observation.");
       Assert.AreEqual(BundleResult.Entry[2].Resource.Id, OrganizationOneResourceId, "Organization id incorrect.");
       Assert.AreEqual(BundleResult.Entry[2].Resource.ResourceType, ResourceType.Organization, "Incorrect Resource type should be Organization.");
-      Assert.AreEqual(BundleResult.Entry[3].Resource.Id, ObservationTwoResourceId, "Observation2 id incorrect.");
-      Assert.AreEqual(BundleResult.Entry[3].Resource.ResourceType, ResourceType.Observation, "Incorrect Resource type should be Observation.");
+      Assert.AreEqual(BundleResult.Entry[3].Resource.Id, PatientResourceId, "Patient id incorrect.");
+      Assert.AreEqual(BundleResult.Entry[3].Resource.ResourceType, ResourceType.Patient, "Incorrect Resource type should be Patient.");
 
     }
 
@@ -346,7 +346,7 @@ namespace Pyro.Test.IntergrationTest
       try
       {
         SearchParam.Add("identifier", $"{StaticTestData.TestIdentiferSystem}|{ObservationOneIdentifer}");
-        SearchParam.Add($"{SearchParams.SEARCH_PARAM_INCLUDE}:recurse", $"{ResourceType.Observation.GetLiteral()}:related-target:{ResourceType.Observation.GetLiteral()}");
+        SearchParam.Add($"{SearchParams.SEARCH_PARAM_INCLUDE}:recurse", $"{ResourceType.Observation.GetLiteral()}:has-member:{ResourceType.Observation.GetLiteral()}");
         BundleResult = clientFhir.Search<Observation>(SearchParam);
       }
       catch (Exception Exec)

@@ -64,7 +64,7 @@ namespace Pyro.Test.IntergrationTest
 
 
         Assert.NotNull(Cap.Rest[0].Resource, "No Rest.Resource element in CapabilityStatement.");
-        Assert.GreaterOrEqual(119, Cap.Rest[0].Resource.Count(), "Less than 197 FHIR resources in CapabilityStatement.");
+        Assert.GreaterOrEqual(Cap.Rest[0].Resource.Count(), 145, "Less than 145 FHIR resources in CapabilityStatement.");
 
         var ObsResourceElement = Cap.Rest[0].Resource.SingleOrDefault(x => x.Type == ResourceType.Observation);
         Assert.NotNull(ObsResourceElement, "No Observation Resource element in CapabilityStatement.");
@@ -80,9 +80,9 @@ namespace Pyro.Test.IntergrationTest
         Assert.AreEqual(CapabilityStatement.ReferenceHandlingPolicy.Literal, ObsResourceElement.ReferencePolicy.ElementAt(0), "ReferencePolicy 1 should be True");
         Assert.AreEqual(CapabilityStatement.ReferenceHandlingPolicy.Local, ObsResourceElement.ReferencePolicy.ElementAt(1), "ReferencePolicy 2 should be True");
 
-        Assert.AreEqual(27, ObsResourceElement.SearchInclude.Count(), "Not exactly 27 SearchInclude elements in CapabilityStatement.");
-        Assert.AreEqual(67, ObsResourceElement.SearchRevInclude.Count(), "Not exactly 67 SearchRevInclude elements in CapabilityStatement.");
-        Assert.AreEqual(43, ObsResourceElement.SearchParam.Count(), "Not exactly 43 SearchParam elements in CapabilityStatement.");
+        Assert.AreEqual(ObsResourceElement.SearchInclude.Count(),181, "Not exactly 181 SearchInclude elements in CapabilityStatement.");
+        Assert.AreEqual(ObsResourceElement.SearchRevInclude.Count(), 72, "Not exactly 67 SearchRevInclude elements in CapabilityStatement.");
+        Assert.AreEqual(ObsResourceElement.SearchParam.Count(),44, "Not exactly 43 SearchParam elements in CapabilityStatement.");
         Assert.IsNotEmpty(ObsResourceElement.SearchParam[0].Name, "SearchParam Name element should not be empty in CapabilityStatement.");
         Assert.IsNotEmpty(ObsResourceElement.SearchParam[0].Definition, "SearchParam Definition element should not be empty in CapabilityStatement.");
         Assert.IsNotNull(ObsResourceElement.SearchParam[0].Type, "SearchParam Type element should not be empty in CapabilityStatement.");

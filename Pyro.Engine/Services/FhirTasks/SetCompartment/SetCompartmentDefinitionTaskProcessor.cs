@@ -52,13 +52,11 @@ namespace Pyro.Engine.Services.FhirTasks.SetCompartment
     {
       try
       {
-        ILog.Info("Running Task: SetCompartmentDefinition");
-
         //Task.TaskStatus? LocalTaskStatus = null;
         Task.ExecutionPeriod = new Period();
         Task.ExecutionPeriod.StartElement = new FhirDateTime(DateTimeOffset.Now);
         //Update the status of the task so that no other processes (instances of the server) also try and process this task can start it.
-        //If this fails do nothing as we are to asume some other process is workng on this task, just return InProgress.
+        //If this fails do nothing as we are to assume some other process is working on this task, just return InProgress.
         if (!IFhirTaskTool.UpdateTaskAsStatus(Task.TaskStatus.InProgress, Task))
           return Task.TaskStatus.InProgress;
 
@@ -154,7 +152,7 @@ namespace Pyro.Engine.Services.FhirTasks.SetCompartment
           {
             //If it is then set to Active (Note: On server start we will have bypassed the Protected Resource check so need to InActivate and then Activate it to make sure the 
             //Compartment is set correctly against the loaded Resource in the database table [_ServiceCompartment])
-            //It is highly likley that this never occurs unless this task run on server that already has Compartments set, first time installs this would never happen.
+            //It is highly likely that this never occurs unless this task run on server that already has Compartments set, first time installs this would never happen.
             //Request: GET [base]/CompartmentDefinition/pyro-patient/x-set-compartment-inactive
             var GetInActivateRequestMeta = IRequestMetaFactory.CreateRequestMeta().Set(ResourceType.CompartmentDefinition, $"{ResourceId}/${FhirOperationEnum.OperationType.xSetCompartmentInActive.GetPyroLiteral()}");
             var ResourceServiceOutcomeGetOpInActive = IFhirResourceInstanceOperationService.ProcessGet(ResourceType.CompartmentDefinition.GetLiteral(), ResourceId, FhirOperationEnum.OperationType.xSetCompartmentInActive.GetPyroLiteral(), GetInActivateRequestMeta);
@@ -165,14 +163,14 @@ namespace Pyro.Engine.Services.FhirTasks.SetCompartment
             }
             else
             {
-              ILog.Warn($"The resource CompartmentDefinition/{ResourceId} was marked as an Active compartment yet the server was not able to set the compartment to InActive inorder to update it. The HTTP status returned was: {ResourceServiceOutcome.HttpStatusCode.ToString()}");
+              ILog.Warn($"The resource CompartmentDefinition/{ResourceId} was marked as an Active compartment yet the server was not able to set the compartment to InActive in order to update it. The HTTP status returned was: {ResourceServiceOutcome.HttpStatusCode.ToString()}");
               return false;
             }
           }
           else
           {
             //The Compartment is not set as Active so we can just Activate it
-            //Note: ToDo: Do we actualy check that a Compartment code i.e 'Patient' is not set twice by two seperate resources?
+            //Note: ToDo: Do we actually check that a Compartment code i.e 'Patient' is not set twice by two separate resources?
             return SetCompatmentAsActive(ResourceId);
           }
         }
@@ -184,7 +182,7 @@ namespace Pyro.Engine.Services.FhirTasks.SetCompartment
       }
       else
       {
-        ILog.Warn($"Unable to get the CompartmentDefinition resource inorder to set the Compartment on server startup. The resource was CompartmentDefinition/{ResourceId}. The HTTP status returned was: {ResourceServiceOutcome.HttpStatusCode.ToString()} ");
+        ILog.Warn($"Unable to get the CompartmentDefinition resource in order to set the Compartment on server start-up. The resource was CompartmentDefinition/{ResourceId}. The HTTP status returned was: {ResourceServiceOutcome.HttpStatusCode.ToString()} ");
         return false;
       }
     }

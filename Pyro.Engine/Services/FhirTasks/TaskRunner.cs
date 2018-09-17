@@ -118,7 +118,9 @@ namespace Pyro.Engine.Services.FhirTasks
       Task SetSearchParameterDefinitions = GetTaskByCode(readyTaskOfTasksList, PyroTask.Codes.SetSearchParameterDefinitions);
       if (SetSearchParameterDefinitions != null)
       {
+        ILog.Info("Start Task: Search Parameter Resource Loader");
         ISearchParameterResourceLoader.Run(SetSearchParameterDefinitions);
+        ILog.Info("End Task: Search Parameter Resource Loader");
         readyTaskOfTasksList.Remove(SetSearchParameterDefinitions);
       }
 
@@ -126,7 +128,9 @@ namespace Pyro.Engine.Services.FhirTasks
       Task SetCompartmentDefinitions = GetTaskByCode(readyTaskOfTasksList, PyroTask.Codes.SetCompartmentDefinitions);
       if (SetCompartmentDefinitions != null)
       {
+        ILog.Info("Start Task: Set Compartment Definitions");
         ISetCompartmentDefinitionTaskProcessor.Run(SetCompartmentDefinitions);
+        ILog.Info("End Task: Set Compartment Definitions");
         readyTaskOfTasksList.Remove(SetCompartmentDefinitions);
       }
 
@@ -136,7 +140,9 @@ namespace Pyro.Engine.Services.FhirTasks
       {
         if (IGlobalProperties.LoadFhirDefinitionResources)
         {
+          ILog.Info("Start Task: Fhir Specification Definition Loader");
           IFhirSpecificationDefinitionLoader.Run(LoadFhirDefinitionResources);
+          ILog.Info("End Task: Fhir Specification Definition Loader");
         }        
         readyTaskOfTasksList.Remove(LoadFhirDefinitionResources);
       }

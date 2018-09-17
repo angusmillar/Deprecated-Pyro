@@ -215,6 +215,7 @@ namespace Pyro.Backburner.App_Start
       container.Register<IRepositorySwitcher, RepositorySwitcher>(Lifestyle.Scoped);
       container.Register<IPyroService, PyroService>(Lifestyle.Scoped);
       container.Register<IServiceSearchParameterService, ServiceSearchParameterService>(Lifestyle.Scoped);
+      container.Register<Common.Tools.FhirSpecCorrections.IFhirSpecificationCorrections, Common.Tools.FhirSpecCorrections.FhirSpecificationCorrections>(Lifestyle.Scoped);
       container.Register<IServicePrimaryBaseUrlService, ServiceBaseUrlService>(Lifestyle.Scoped);
       container.Register<IResourceServices, ResourceServices>(Lifestyle.Scoped);
       container.Register<ISmartScopeService, SmartScopeService>(Lifestyle.Scoped);

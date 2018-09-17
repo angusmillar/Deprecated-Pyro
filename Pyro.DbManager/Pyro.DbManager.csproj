@@ -130,6 +130,9 @@
   <ItemGroup>
     <EmbeddedResource Include="SqlScripts\MsSQL\201809140829500_FhirReleaseSeed.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="SqlScripts\MsSQL\201809171509315_CaseSensitiveFhirIdIndex.sql" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

@@ -182,6 +182,10 @@
     <Compile Include="MigrationsMicrosoftSQLServer\201809140829427_First.Designer.cs">
       <DependentUpon>201809140829427_First.cs</DependentUpon>
     </Compile>
+    <Compile Include="MigrationsMicrosoftSQLServer\201809171509315_CaseSensitiveFhirIdIndex.cs" />
+    <Compile Include="MigrationsMicrosoftSQLServer\201809171509315_CaseSensitiveFhirIdIndex.Designer.cs">
+      <DependentUpon>201809171509315_CaseSensitiveFhirIdIndex.cs</DependentUpon>
+    </Compile>
     <Compile Include="MigrationsPostgre\201809140808349_First.cs" />
     <Compile Include="MigrationsPostgre\201809140808349_First.Designer.cs">
       <DependentUpon>201809140808349_First.cs</DependentUpon>
@@ -236,6 +240,9 @@
   <ItemGroup>
     <EmbeddedResource Include="MigrationsMicrosoftSQLServer\201809140829427_First.resx">
       <DependentUpon>201809140829427_First.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MigrationsMicrosoftSQLServer\201809171509315_CaseSensitiveFhirIdIndex.resx">
+      <DependentUpon>201809171509315_CaseSensitiveFhirIdIndex.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MigrationsPostgre\201809140808349_First.resx">
       <DependentUpon>201809140808349_First.cs</DependentUpon>

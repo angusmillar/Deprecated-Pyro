@@ -43,14 +43,21 @@ namespace Pyro.DataLayer.DbModel.DatabaseContextConfig
       // Should be only 64 char not 400?? Version is the same they are both id datatypes
       // They are also both CaseSensitive
       Property(t => t.FhirId)
-          //.HasColumnAnnotation("CaseSensitive", true)
+          .HasColumnAnnotation("CaseSensitive", true)
           .HasColumnName("FhirId")
           .HasMaxLength(StaticDatabaseInfo.BaseDatabaseFieldLength.FhirIdMaxLength)
           .IsRequired()
           .HasUniqueIndexAnnotation("uq_FhirIdAndVersionId", 0);
 
+      //Note: CaseSensitive indexes must be created after the First migration with a new migration
+      //      to do this just comment out the '.HasColumnAnnotation("CaseSensitive", true)' lines in this
+      //file and two more in the IndexReferenceContextConfig class.
+      //Then generate the First migration. Once done uncomment them out and generate
+      //the a 'CaseSensitiveFhirIdIndex' migration.
+      
+
       Property(t => t.VersionId)
-         //.HasColumnAnnotation("CaseSensitive", true)
+         .HasColumnAnnotation("CaseSensitive", true)
          .HasColumnName("VersionId")
          .HasMaxLength(StaticDatabaseInfo.BaseDatabaseFieldLength.FhirIdMaxLength)
          .IsRequired()

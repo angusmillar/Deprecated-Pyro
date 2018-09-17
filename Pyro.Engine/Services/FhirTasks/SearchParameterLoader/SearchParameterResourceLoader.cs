@@ -23,6 +23,7 @@ using Pyro.Common.Enum;
 using Pyro.Common.FhirOperation.ServerSearchParameter;
 using Pyro.Common.Global;
 using Pyro.Common.Cache;
+using Pyro.Common.Tools.FhirSpecCorrections;
 
 namespace Pyro.Engine.Services.FhirTasks.SearchParameterLoader
 {
@@ -38,6 +39,7 @@ namespace Pyro.Engine.Services.FhirTasks.SearchParameterLoader
     private readonly IServerSearchParameterOperation IServerSearchParameterOperation;
     private readonly IGlobalProperties IGlobalProperties;
     private readonly ICacheClear ICacheClear;
+    private readonly IFhirSpecificationCorrections IFhirSpecificationCorrections;
 
     private readonly string _ZipFileName = "definitions.xml.zip";
     private readonly string _TaskStatusSystem = "http://hl7.org/fhir/task-status";
@@ -61,7 +63,8 @@ namespace Pyro.Engine.Services.FhirTasks.SearchParameterLoader
       IFhirBaseOperationServiceFactory IFhirBaseOperationServiceFactory,
       IServerSearchParameterOperation IServerSearchParameterOperation,
       IGlobalProperties IGlobalProperties,
-      ICacheClear ICacheClear)
+      ICacheClear ICacheClear,
+      IFhirSpecificationCorrections IFhirSpecificationCorrections)
     {
       this.ILog = ILog;
       this.IFhirTaskTool = IFhirTaskTool;
@@ -73,6 +76,7 @@ namespace Pyro.Engine.Services.FhirTasks.SearchParameterLoader
       this.IServerSearchParameterOperation = IServerSearchParameterOperation;
       this.IGlobalProperties = IGlobalProperties;
       this.ICacheClear = ICacheClear;
+      this.IFhirSpecificationCorrections = IFhirSpecificationCorrections;
     }
 
 
@@ -125,7 +129,7 @@ namespace Pyro.Engine.Services.FhirTasks.SearchParameterLoader
               {
                 if (Entry.Resource is SearchParameter SearchParam)
                 {
-                  SpecificationCorrections(SearchParam);
+                  IFhirSpecificationCorrections.SearchParameterCorrections(SearchParam);                  
                   if (!_SearchParameterResourceProcessedIdList.Contains(SearchParam.Id))
                   {
                     //Increment Counter end of loop
@@ -283,30 +287,6 @@ namespace Pyro.Engine.Services.FhirTasks.SearchParameterLoader
       }
     }
 
-    private void SpecificationCorrections(SearchParameter SearchParameter)
-    {
-      //################################################################################################
-      //This is an correction to the FHIR specification SearchParameter definitions found in the  
-      //definitions.xml.zip file required for STU3, I believe it is fixed in R4 and it should be removed once tested that it is not hit.
-      string IncorrectCanonicalUrl = "http://hl7.org/fhir/SearchParameter/Observation-code";
-      string CorrectCanonicalUrl = "http://hl7.org/fhir/SearchParameter/clinical-code";
-      var BrokenComponetList = SearchParameter.Component.Where(z => z.Definition == IncorrectCanonicalUrl);      
-      foreach (var BrokenComponet in BrokenComponetList)
-      {
-        BrokenComponet.Definition = CorrectCanonicalUrl;
-      }
-
-      //################################################################################################
-      //This FHIRPath expression fails to work and yet this correct does work, issues found in FHRI R4 3.5.0.
-      //The old Expression was :
-      //Expression = AuditEvent.agent.who.where(resolve() is Patient) | AuditEvent.entity.what.where(resolve() is Patient)
-      if (SearchParameter.Name == "patient" && SearchParameter.Base.Contains(ResourceType.AuditEvent))
-      {
-        SearchParameter.Expression = "AuditEvent.entity.what.where(reference.contains('Patient/')) | AuditEvent.agent.who.where(reference.contains('Patient/'))";
-      }
-    }
-    
-
     private List<SearchParameter> GetCompositeSearchParameterList()
     {
       List<SearchParameter> CompositeSearchParameterList = new List<SearchParameter>();
@@ -316,7 +296,7 @@ namespace Pyro.Engine.Services.FhirTasks.SearchParameterLoader
         {
           if (Entry.Resource is SearchParameter SearchParam)
           {
-            SpecificationCorrections(SearchParam);
+            IFhirSpecificationCorrections.SearchParameterCorrections(SearchParam);            
             if (SearchParam.Type == SearchParamType.Composite)
               CompositeSearchParameterList.Add(SearchParam);
           }

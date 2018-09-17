@@ -21,7 +21,7 @@ namespace Pyro.Common.Search
 
       //Add all the base Resource parameters 
       ServiceSearchParameterList.AddRange(BaseResourceSearchParameters());
-
+      var FhirSpecificationCorrections = new Common.Tools.FhirSpecCorrections.FhirSpecificationCorrections();
       //Add the ones for each Resource
       foreach (var SearchParameter in ModelInfo.SearchParameters)
       {
@@ -30,6 +30,9 @@ namespace Pyro.Common.Search
           !string.IsNullOrWhiteSpace(SearchParameter.Name) &&
           !string.IsNullOrWhiteSpace(SearchParameter.Resource))
         {
+
+          //Make any corrections
+          FhirSpecificationCorrections.SearchParameterCorrections(SearchParameter);
           var DtoServiceSearchParameter = new DtoServiceSearchParameter()
           {
             Name = SearchParameter.Name,
