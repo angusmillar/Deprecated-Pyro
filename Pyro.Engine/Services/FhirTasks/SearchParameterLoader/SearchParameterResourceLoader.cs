@@ -302,7 +302,7 @@ namespace Pyro.Engine.Services.FhirTasks.SearchParameterLoader
       //Expression = AuditEvent.agent.who.where(resolve() is Patient) | AuditEvent.entity.what.where(resolve() is Patient)
       if (SearchParameter.Name == "patient" && SearchParameter.Base.Contains(ResourceType.AuditEvent))
       {
-        SearchParameter.Expression = "AuditEvent.entity.what.where(reference.startsWith('Patient')) | AuditEvent.agent.who.where(reference.startsWith('Patient'))"
+        SearchParameter.Expression = "AuditEvent.entity.what.where(reference.contains('Patient/')) | AuditEvent.agent.who.where(reference.contains('Patient/'))";
       }
     }
     
