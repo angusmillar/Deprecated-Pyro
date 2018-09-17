@@ -37,6 +37,10 @@ namespace Pyro.Common.SearchIndexer.Setter
         {
           SetResourcereference(ResourceReference, ResourceIndexList);
         }
+        else if (Poco.FhirValue is Canonical Canonical)
+        {
+          SetCanonical(Canonical, ResourceIndexList);
+        }
         else if (Poco.FhirValue is Resource Resource)
         {
           SetResource(Resource, ResourceIndexList);
@@ -60,6 +64,14 @@ namespace Pyro.Common.SearchIndexer.Setter
       {
         throw new FormatException($"Unknown Navigator FhirType: '{oElement.Type}' for SearchParameterType: '{SearchParameter.Type}'");
       }
+    }
+
+    private void SetCanonical(Canonical Canonical, List<IReferenceIndex> ResourceIndexList)
+    {
+      if (!string.IsNullOrWhiteSpace(Canonical.Value))
+      {
+        SetReferance(Canonical.Value, ResourceIndexList);
+      }      
     }
 
     private void SetIdentifier(Identifier Identifier, IList<IReferenceIndex> ResourceIndexList)

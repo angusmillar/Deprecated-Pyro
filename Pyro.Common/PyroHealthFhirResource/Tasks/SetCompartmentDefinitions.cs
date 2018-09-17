@@ -41,7 +41,7 @@ namespace Pyro.Common.PyroHealthFhirResource.Tasks
       return ResourceId;
     }
 
-    public DateTimeOffset MasterLastUpdated => new DateTimeOffset(2018, 07, 30, 18, 05, 00, new TimeSpan(8, 0, 0));
+    public DateTimeOffset MasterLastUpdated => new DateTimeOffset(2018, 09, 17, 13, 56, 00, new TimeSpan(8, 0, 0));
 
     public FhirModel.Task GetResource()
     {
@@ -55,7 +55,7 @@ namespace Pyro.Common.PyroHealthFhirResource.Tasks
       };
 
       //Task.Definition =??
-      Resource.Status = FhirModel.Task.TaskStatus.Ready;
+      Resource.Status = FhirModel.Task.TaskStatus.OnHold;
       Resource.Intent = FhirModel.Task.TaskIntent.Order;
       Resource.Priority = FhirModel.RequestPriority.Asap;
 

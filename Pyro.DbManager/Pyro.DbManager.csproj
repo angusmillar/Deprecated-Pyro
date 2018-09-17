@@ -127,6 +127,9 @@
     <EmbeddedResource Include="SqlScripts\MsSQL\201809140830000_SeedFhirSearchParameters.sql" />
     <EmbeddedResource Include="SqlScripts\MsSQL\201809140830001_SeedFhirSearchParametersTargetResources.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="SqlScripts\MsSQL\201809140829500_FhirReleaseSeed.sql" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

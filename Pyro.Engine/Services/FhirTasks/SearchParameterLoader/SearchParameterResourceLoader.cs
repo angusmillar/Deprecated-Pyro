@@ -80,7 +80,7 @@ namespace Pyro.Engine.Services.FhirTasks.SearchParameterLoader
     {
       _Task = Task;
       IGlobalProperties.ServerReadOnlyMode = true;
-      IGlobalProperties.ServerReadOnlyModeMessage = 
+      IGlobalProperties.ServerReadOnlyModeMessage =
         "The server is currently running a first time start-up task which loads all the base FHIR " +
         "specification search parameter resources as active search indexes within the Pyro FHIR server. " +
         $"This Task can be monitored by performing a GET on the servers Task endpoint for the Id of '{_Task.Id}'. " +
@@ -88,7 +88,7 @@ namespace Pyro.Engine.Services.FhirTasks.SearchParameterLoader
         $"to the server as these resources would not have their search parameter values indexed. Only once the Task is finished " +
         $"and all base search parameters are loaded will the server automatically switch out of read only mode. ";
 
-      
+
 
       _SearchParameterResourceProcessedIdList = new List<string>();
       try
@@ -103,7 +103,7 @@ namespace Pyro.Engine.Services.FhirTasks.SearchParameterLoader
           ICacheClear.ClearCache();
           return Task.TaskStatus.InProgress;
         }
-          
+
         SetParametersBeforeRunningTaskLoad(_Task);
 
         _Task.Output = new List<Task.OutputComponent>();
@@ -125,6 +125,7 @@ namespace Pyro.Engine.Services.FhirTasks.SearchParameterLoader
               {
                 if (Entry.Resource is SearchParameter SearchParam)
                 {
+                  SpecificationCorrections(SearchParam);
                   if (!_SearchParameterResourceProcessedIdList.Contains(SearchParam.Id))
                   {
                     //Increment Counter end of loop
@@ -224,7 +225,7 @@ namespace Pyro.Engine.Services.FhirTasks.SearchParameterLoader
               }
             }
           }
-        }      
+        }
         return _CurrentTaskStatus;
       }
       catch (Exception Exec)
@@ -237,10 +238,11 @@ namespace Pyro.Engine.Services.FhirTasks.SearchParameterLoader
       }
     }
 
+
     private void ProcessCompositeSearchParameters()
     {
       List<SearchParameter> CompositeSearchParameterList = GetCompositeSearchParameterList();
-     
+
       foreach (SearchParameter SearchParam in CompositeSearchParameterList)
       {
         TotalCounter++;
@@ -253,7 +255,7 @@ namespace Pyro.Engine.Services.FhirTasks.SearchParameterLoader
           {
             _ResourceIdInProgress = SearchParam.Id;
             AddSearchParameterResourceToServer(SearchParam);
-            
+
             if (!SetSearchParameterServerIndex(SearchParam.Id))
             {
               IGlobalProperties.ServerReadOnlyMode = false;
@@ -281,45 +283,52 @@ namespace Pyro.Engine.Services.FhirTasks.SearchParameterLoader
       }
     }
 
-    private void SpecificationCorrections(List<SearchParameter> CompositeSearchParameterList)
+    private void SpecificationCorrections(SearchParameter SearchParameter)
     {
+      //################################################################################################
       //This is an correction to the FHIR specification SearchParameter definitions found in the  
       //definitions.xml.zip file required for STU3, I believe it is fixed in R4 and it should be removed once tested that it is not hit.
       string IncorrectCanonicalUrl = "http://hl7.org/fhir/SearchParameter/Observation-code";
       string CorrectCanonicalUrl = "http://hl7.org/fhir/SearchParameter/clinical-code";
-      foreach (var SearchParam in CompositeSearchParameterList.Where(x => x.Component.Any(c => c.Definition == IncorrectCanonicalUrl)))
+      var BrokenComponetList = SearchParameter.Component.Where(z => z.Definition == IncorrectCanonicalUrl);      
+      foreach (var BrokenComponet in BrokenComponetList)
       {
-        var BrokenComponetList = SearchParam.Component.Where(z => z.Definition == IncorrectCanonicalUrl);
-        foreach (var BrokenComponet in BrokenComponetList)
-        {
-          BrokenComponet.Definition = CorrectCanonicalUrl;
-        }
+        BrokenComponet.Definition = CorrectCanonicalUrl;
       }
-      
+
+      //################################################################################################
+      //This FHIRPath expression fails to work and yet this correct does work, issues found in FHRI R4 3.5.0.
+      //The old Expression was :
+      //Expression = AuditEvent.agent.who.where(resolve() is Patient) | AuditEvent.entity.what.where(resolve() is Patient)
+      if (SearchParameter.Name == "patient" && SearchParameter.Base.Contains(ResourceType.AuditEvent))
+      {
+        SearchParameter.Expression = "AuditEvent.entity.what.where(reference.startsWith('Patient')) | AuditEvent.agent.who.where(reference.startsWith('Patient'))"
+      }
     }
+    
 
     private List<SearchParameter> GetCompositeSearchParameterList()
     {
       List<SearchParameter> CompositeSearchParameterList = new List<SearchParameter>();
       foreach (var Entry in _SearchParameterBundle.Entry)
-      {        
+      {
         if (Entry.Resource != null)
         {
           if (Entry.Resource is SearchParameter SearchParam)
           {
+            SpecificationCorrections(SearchParam);
             if (SearchParam.Type == SearchParamType.Composite)
-                CompositeSearchParameterList.Add(SearchParam);
+              CompositeSearchParameterList.Add(SearchParam);
           }
         }
-      }
-      SpecificationCorrections(CompositeSearchParameterList);
+      }      
       return CompositeSearchParameterList;
     }
 
     private string SetServerReadOnlyMessage(int SerachParameterResourceCount, int SerachParameterResourceTotal, string TaskFhirID)
     {
-      //Add another 148 to cover the Composite parameters that get loaded.
-      SerachParameterResourceTotal = SerachParameterResourceTotal + 12;
+      //Add another 31 to cover the Composite parameters that get loaded.
+      SerachParameterResourceTotal = SerachParameterResourceTotal + 31;
       return $"Progress: ({SerachParameterResourceCount.ToString()}/{SerachParameterResourceTotal.ToString()}). The server is currently running a first time start-up task which loads all the base FHIR " +
              "specification search parameter resources as active search indexes within the Pyro FHIR server. " +
              $"The Task has completed {SerachParameterResourceCount.ToString()} of a total of {SerachParameterResourceTotal.ToString()} SearchParameter resources, so far. " +
@@ -329,7 +338,7 @@ namespace Pyro.Engine.Services.FhirTasks.SearchParameterLoader
              $"to the server as these resources would not have their search parameter values indexed. Only once the Task is finished " +
              $"and all base search parameters are loaded will the server automatically switch out of read only mode. " +
              $"This task is only required to run once on a new server install and should be complete in roughly 10 min. " +
-             $"Thank you for your patience.";      
+             $"Thank you for your patience.";
     }
 
     private bool FilterSearchParametersToSet(SearchParameter SearchParam)
@@ -345,7 +354,7 @@ namespace Pyro.Engine.Services.FhirTasks.SearchParameterLoader
         //Base = "DataElement", SearchParam.Id == "elementdefinition-11179-DataElement-objectClassProperty"     
         return false;
       }
-      
+
       //Composite Search Parameters types must be filtered out from the first pass
       //and then later added at the very end as they are dependant of the other parameters having been loaded 
       //first.
@@ -353,7 +362,7 @@ namespace Pyro.Engine.Services.FhirTasks.SearchParameterLoader
       {
         return false;
       }
-      
+
       return true;
     }
 
@@ -374,7 +383,7 @@ namespace Pyro.Engine.Services.FhirTasks.SearchParameterLoader
       try
       {
         IFhirBaseOperationService FhirBaseOperationService = IFhirBaseOperationServiceFactory.CreateFhirBaseOperationService();
-        IResourceServiceOutcome ResourceServiceOutcome = IServerSearchParameterOperation.ProcessSet(RequestMeta.PyroRequestUri, RequestMeta.SearchParameterGeneric, Parameters, true);        
+        IResourceServiceOutcome ResourceServiceOutcome = IServerSearchParameterOperation.ProcessSet(RequestMeta.PyroRequestUri, RequestMeta.SearchParameterGeneric, Parameters, true);
         if (ResourceServiceOutcome.HttpStatusCode == System.Net.HttpStatusCode.OK)
         {
           return true;
@@ -387,7 +396,7 @@ namespace Pyro.Engine.Services.FhirTasks.SearchParameterLoader
             OptOut.Issue.ForEach(x => OperationOutcomeMessage = OperationOutcomeMessage + " " + x.Details.Text);
             string Message = $"Internal Server Error: Failed to Set SearchParameter Server index calling operation ${OperationName} with the SearchParmeter Resource {RequestMetaTemp.PyroRequestUri.FhirRequestUri.OriginalString} with extra detail: {OperationOutcomeMessage}";
             ILog.Error(Message);
-            throw new Exception(Message);            
+            throw new Exception(Message);
           }
           else
           {
@@ -537,7 +546,7 @@ namespace Pyro.Engine.Services.FhirTasks.SearchParameterLoader
         var MyCodableConcept = new CodeableConcept(_TaskStatusSystem, Task.TaskStatus.Failed.GetLiteral(), Task.TaskStatus.Failed.GetLiteral());
         Task.Output.Add(new Task.OutputComponent() { Type = MyCodableConcept, Value = FhirStringValue });
       }
-      
+
       //Update Task Failed
       if (_CurrentTaskStatus == Task.TaskStatus.Failed && !string.IsNullOrWhiteSpace(_ResourceIdInError) && !string.IsNullOrWhiteSpace(_InErrorMessage))
       {

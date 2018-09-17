@@ -13,31 +13,31 @@ using System.Data.Entity;
 using System.Linq;
 
 namespace Pyro.Engine.Services.FhirTasks.SetCompartment
-{ 
+{
   public class SetCompartmentDefinitionTaskProcessor : ISetCompartmentDefinitionTaskProcessor
   {
     private readonly ILog ILog;
     private readonly IUnitOfWork IUnitOfWork;
-    private readonly IRequestMetaFactory IRequestMetaFactory;    
-    private readonly IResourceServices IResourceServices;    
+    private readonly IRequestMetaFactory IRequestMetaFactory;
+    private readonly IResourceServices IResourceServices;
     private readonly IFhirTaskTool IFhirTaskTool;
     private readonly Common.PyroHealthFhirResource.CodeSystems.IPyroFhirServer IPyroFhirServerCodeSystem;
-    private readonly Common.PyroHealthFhirResource.ICompartmentDefinition ICompartmentDefinition;    
+    private readonly Common.PyroHealthFhirResource.ICompartmentDefinition ICompartmentDefinition;
     private readonly IFhirResourceInstanceOperationService IFhirResourceInstanceOperationService;
-       
+
     public SetCompartmentDefinitionTaskProcessor(ILog ILog,
       IUnitOfWork IUnitOfWork,
-      IRequestMetaFactory IRequestMetaFactory,      
-      IResourceServices IResourceServices,            
+      IRequestMetaFactory IRequestMetaFactory,
+      IResourceServices IResourceServices,
       IFhirTaskTool IFhirTaskTool,
-      Common.PyroHealthFhirResource.CodeSystems.IPyroFhirServer IPyroFhirServerCodeSystem,      
+      Common.PyroHealthFhirResource.CodeSystems.IPyroFhirServer IPyroFhirServerCodeSystem,
       Common.PyroHealthFhirResource.ICompartmentDefinition ICompartmentDefinition,
       IFhirResourceInstanceOperationService IFhirResourceInstanceOperationService)
     {
       this.ILog = ILog;
       this.IUnitOfWork = IUnitOfWork;
-      this.IRequestMetaFactory = IRequestMetaFactory;      
-      this.IResourceServices = IResourceServices;            
+      this.IRequestMetaFactory = IRequestMetaFactory;
+      this.IResourceServices = IResourceServices;
       this.IFhirTaskTool = IFhirTaskTool;
       this.IPyroFhirServerCodeSystem = IPyroFhirServerCodeSystem;
       this.ICompartmentDefinition = ICompartmentDefinition;
@@ -49,9 +49,11 @@ namespace Pyro.Engine.Services.FhirTasks.SetCompartment
     //             Failed -> Completed -> Entered in Error)
 
     public Task.TaskStatus Run(Task Task)
-    {      
+    {
       try
       {
+        ILog.Info("Running Task: SetCompartmentDefinition");
+
         //Task.TaskStatus? LocalTaskStatus = null;
         Task.ExecutionPeriod = new Period();
         Task.ExecutionPeriod.StartElement = new FhirDateTime(DateTimeOffset.Now);
@@ -63,14 +65,14 @@ namespace Pyro.Engine.Services.FhirTasks.SetCompartment
         Task.Output = new List<Task.OutputComponent>();
 
         if (!ProcessCompartmentDefinitionList(Task))
-        { 
+        {
           using (DbContextTransaction Transaction = IUnitOfWork.BeginTransaction())
           {
             Task.ExecutionPeriod.EndElement = new FhirDateTime(DateTimeOffset.Now);
             IFhirTaskTool.UpdateTaskAsStatus(Task.TaskStatus.Failed, Task);
             Transaction.Commit();
           }
-        }        
+        }
         return Task.Status.Value;
       }
       catch (Exception Exec)
@@ -115,17 +117,17 @@ namespace Pyro.Engine.Services.FhirTasks.SetCompartment
           Transaction.Commit();
           return true;
         }
-        catch(Exception Exec)
+        catch (Exception Exec)
         {
           ILog.Warn(Exec, $"Internal Server Error: Attempt to set the server's Compartments based on CompartmentDefinition resources failed. The attempt was rolled back.");
           Transaction.Rollback();
           return false;
-        }       
-      }      
+        }
+      }
     }
 
     private Task.OutputComponent AddTaskOutputComponent(string ResourceId, Task.TaskStatus Status)
-    {      
+    {
       var TaskOutputComponent = new Task.OutputComponent();
       TaskOutputComponent.Type = new CodeableConcept();
       TaskOutputComponent.Type.Coding = new List<Coding>();
@@ -162,7 +164,7 @@ namespace Pyro.Engine.Services.FhirTasks.SetCompartment
               return SetCompatmentAsActive(ResourceId);
             }
             else
-            {              
+            {
               ILog.Warn($"The resource CompartmentDefinition/{ResourceId} was marked as an Active compartment yet the server was not able to set the compartment to InActive inorder to update it. The HTTP status returned was: {ResourceServiceOutcome.HttpStatusCode.ToString()}");
               return false;
             }
@@ -190,7 +192,7 @@ namespace Pyro.Engine.Services.FhirTasks.SetCompartment
     private bool SetCompatmentAsActive(string ResourceId)
     {
       //need the Code not the ResourceID
-      var GetActivateRequestMeta = IRequestMetaFactory.CreateRequestMeta().Set(ResourceType.CompartmentDefinition, $"{ResourceId}/${FhirOperationEnum.OperationType.xSetCompartmentActive.GetPyroLiteral()}");      
+      var GetActivateRequestMeta = IRequestMetaFactory.CreateRequestMeta().Set(ResourceType.CompartmentDefinition, $"{ResourceId}/${FhirOperationEnum.OperationType.xSetCompartmentActive.GetPyroLiteral()}");
       var ResourceServiceOutcomeGetOpActive = IFhirResourceInstanceOperationService.ProcessGet(ResourceType.CompartmentDefinition.GetLiteral(), ResourceId, FhirOperationEnum.OperationType.xSetCompartmentActive.GetPyroLiteral(), GetActivateRequestMeta);
       if (ResourceServiceOutcomeGetOpActive.HttpStatusCode == System.Net.HttpStatusCode.OK)
       {
@@ -198,6 +200,22 @@ namespace Pyro.Engine.Services.FhirTasks.SetCompartment
       }
       else
       {
+        if (ResourceServiceOutcomeGetOpActive.ResourceResult != null && ResourceServiceOutcomeGetOpActive.ResourceResult is OperationOutcome optout)
+        {
+          if (optout.Issue != null)
+          {
+            foreach (var Issue in optout.Issue)
+            {
+              if (Issue.Details != null)
+              {
+                if (!string.IsNullOrWhiteSpace(Issue.Details.Text))
+                {
+                  ILog.Error($"Error Setting the {ResourceType.CompartmentDefinition.GetLiteral()} Resource with the FHIR id of '{ResourceId}'. Error message: {Issue.Details.Text}");
+                }
+              }
+            }
+          }
+        }        
         return false;
       }
     }

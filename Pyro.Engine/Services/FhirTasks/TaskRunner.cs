@@ -112,7 +112,7 @@ namespace Pyro.Engine.Services.FhirTasks
     private void ProcessServerStartupTaskList(List<Task> readyTaskOfTasksList)
     {
       //Below managed the order that the Task are run. They are sourced from a search on the server so there is
-      //little guarantee of order, so they are selected specificaly as below.
+      //little guarantee of order, so they are selected specifically as below.
 
       //1. Task: SetSearchDefinitions and Indexes
       Task SetSearchParameterDefinitions = GetTaskByCode(readyTaskOfTasksList, PyroTask.Codes.SetSearchParameterDefinitions);
@@ -134,7 +134,10 @@ namespace Pyro.Engine.Services.FhirTasks
       Task LoadFhirDefinitionResources = GetTaskByCode(readyTaskOfTasksList, PyroTask.Codes.LoadFhirDefinitionResources);
       if (LoadFhirDefinitionResources != null)
       {
-        IFhirSpecificationDefinitionLoader.Run(LoadFhirDefinitionResources);
+        if (IGlobalProperties.LoadFhirDefinitionResources)
+        {
+          IFhirSpecificationDefinitionLoader.Run(LoadFhirDefinitionResources);
+        }        
         readyTaskOfTasksList.Remove(LoadFhirDefinitionResources);
       }
 
