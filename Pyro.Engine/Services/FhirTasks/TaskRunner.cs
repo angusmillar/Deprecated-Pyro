@@ -134,7 +134,10 @@ namespace Pyro.Engine.Services.FhirTasks
       Task LoadFhirDefinitionResources = GetTaskByCode(readyTaskOfTasksList, PyroTask.Codes.LoadFhirDefinitionResources);
       if (LoadFhirDefinitionResources != null)
       {
-        IFhirSpecificationDefinitionLoader.Run(LoadFhirDefinitionResources);
+        if (IGlobalProperties.LoadFhirDefinitionResources)
+        {
+          IFhirSpecificationDefinitionLoader.Run(LoadFhirDefinitionResources);
+        }        
         readyTaskOfTasksList.Remove(LoadFhirDefinitionResources);
       }
 
