@@ -1,6 +1,4 @@
-﻿## Pyro FHIR Server ##
-
- 
+﻿
 ![][logo]
 
 [logo]: https://github.com/angusmillar/PyroWeb/blob/master/src/Images/SiteIcon/NewPyroIconLong-200.png "Pyro Server Logo"
