@@ -129,12 +129,11 @@ You may also like to change the `ServiceBaseURL` property which is the endpoint 
 
 Below is the documentation about the property:
 
-*Command:* `ServiceBaseURL`
-
-*Value:* URL String
-
-*Description:* This setting sets the service's Service Base URL and must match the URL where the service is hosted. This is the URL that will host the FHIR API. Care must be taken changing this URL post the service being in operation as the physical Resources and the search indexes in the database, and any external references with still have the previous URL reference. In practice, all Resource would need to be updated and recommitted if this was to change. 
-Simply changing the setting here does not initiate the updating of all these references.
+| ***Item***        | ***Value***  |
+| :------------- |:-------------|
+|**Command:**| ServiceBaseURL|
+| **Value:**| URL String|
+| **Description:**   | This setting sets the service's Service Base URL and must match the URL where the service is hosted. This is the URL that will host the FHIR API. Care must be taken changing this URL post the service being in operation as the physical Resources and the search indexes in the database, and any external references with still have the previous URL reference. In practice, all Resource would need to be updated and recommitted if this was to change. Simply changing the setting here does not initiate the updating of all these references.        |
 
 **Production Environment**
 
@@ -154,7 +153,7 @@ You will also need to set the `ServiceBaseURL` property in the file below (See t
 
 ***Database Migration Check***
 
-Both projects `Pyro.WebApi` and `Pyro.ConsoleServer`, require that you first run the `Pyro.DbManager` to initialise the database. Furthermore, if the code is updated and a database upgrade is required the `Pyro.DbManager` must be run. In general you should always run the `Pyro.DbManager` when a code update is sourced. Their is never any harm in running it many times. If you do not do run it when it is required to be run then starting either `Pyro.WebApi` or `Pyro.ConsoleServer` they will throw and log an error, and stop. That error will read:
+Both projects `Pyro.WebApi` and `Pyro.ConsoleServer`, require that you first run the `Pyro.DbManager` to initialise the database. Furthermore, if the code is updated and a database upgrade is required the `Pyro.DbManager` must be run. In general you should always run the `Pyro.DbManager` when a code update is sourced. Their is never any harm in running it many times. If you do not do run it when it is required to be run, starting either `Pyro.WebApi` or `Pyro.ConsoleServer` will throw and log an error, and stop. That error will read:
 ```
 Database upgrade is required.
 Please consider running the Pyro.DbManager to upgrade your database.
@@ -217,13 +216,12 @@ parameters.
 Before running the T4 template `MainTemplate.tt` you will need to manually update the static assembly references within this file to point to the new packages as updated by Nuget package manager. 
 Below are examples of the four references discussed: 
 
-`<#@ Assembly Name="$(SolutionDir)packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll"#>`
-
-`<#@ Assembly Name="$(SolutionDir)packages\Hl7.Fhir.STU3.0.93.3\lib\net45\Hl7.Fhir.STU3.Core.dll"#>`
-
-`<#@ Assembly Name="$(SolutionDir)packages\Hl7.Fhir.Support.0.4.2\lib\net45\Hl7.Fhir.Support.dll"#>`
-
-`<#@ Assembly Name="$(SolutionDir)packages\Hl7.FhirPath.0.4.2\lib\net45\Hl7.FhirPath.dll"#>`
+```
+<#@ Assembly Name="$(SolutionDir)packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll"#>
+<#@ Assembly Name="$(SolutionDir)packages\Hl7.Fhir.STU3.0.93.3\lib\net45\Hl7.Fhir.STU3.Core.dll"#>
+<#@ Assembly Name="$(SolutionDir)packages\Hl7.Fhir.Support.0.4.2\lib\net45\Hl7.Fhir.Support.dll"#>
+<#@ Assembly Name="$(SolutionDir)packages\Hl7.FhirPath.0.4.2\lib\net45\Hl7.FhirPath.dll"#>
+```
 
 Once these are updated first build the project `Pyro.CodeGeneration` in debug and then right-click the 
 `MainTemplate.tt` file and select 'Run Custom Tool'. This will generate the code classes as discussed.
