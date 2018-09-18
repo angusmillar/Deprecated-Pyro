@@ -69,6 +69,83 @@ namespace Pyro.Engine.Services.FhirTasks
         List<Task> ReadyTaskOfTasksList = GetServerStartupTaskList();
         ProcessServerStartupTaskList(ReadyTaskOfTasksList);
       }
+      else
+      {
+        ILog.Info("Server start-up: No FHIR Task to be run.");
+      }
+    }
+
+    /// <summary>
+    /// Add new tasks to this method in the order they need to be run.
+    /// </summary>
+    /// <param name="ReadyTaskOfTasksList"></param>
+    /// <returns></returns>
+    private List<Task> FilterAndOrderTasksToBeRun(List<Task> ReadyTaskOfTasksList)
+    {
+      var ReturnTaskList = new List<Task>();
+
+      //Below manages the order that the Task are run. 
+      //They are sourced from a search on the server so there is
+      //little guarantee of order, so they are selected specifically as below.
+
+      //1. Task: SetSearchDefinitions and Indexes
+      Task SetSearchParameterDefinitions = GetTaskByCode(ReadyTaskOfTasksList, PyroTask.Codes.SetSearchParameterDefinitions);
+      if (SetSearchParameterDefinitions != null)
+      {
+        ReturnTaskList.Add(SetSearchParameterDefinitions);
+      }
+
+      //2. Task: SetCompartmentDefinitions
+      Task SetCompartmentDefinitions = GetTaskByCode(ReadyTaskOfTasksList, PyroTask.Codes.SetCompartmentDefinitions);
+      if (SetCompartmentDefinitions != null)
+      {
+        ReturnTaskList.Add(SetCompartmentDefinitions);
+      }
+
+      //3. Task: LoadFhirDefinitionResources
+      Task LoadFhirDefinitionResources = GetTaskByCode(ReadyTaskOfTasksList, PyroTask.Codes.LoadFhirDefinitionResources);
+      if (LoadFhirDefinitionResources != null)
+      {
+        if (IGlobalProperties.LoadFhirDefinitionResources)
+        {
+          ReturnTaskList.Add(LoadFhirDefinitionResources);
+        }
+      }
+      //Report on task to run
+      if (ReturnTaskList.Count > 0)
+      {
+        ILog.Info("Server start-up: FHIR Task to be run:");
+        ReturnTaskList.ForEach(x => ILog.Info($"    Fhir Task Id: {x.Id}"));
+        ILog.Info("Server start-up: Begin Running Tasks:");
+      }
+      else
+      {
+        ILog.Info("Server start-up: No FHIR Task to be run.");
+      }
+      return ReturnTaskList;
+    }
+
+    /// <summary>
+    /// Add new tasks to this method providing the service to run the task 
+    /// </summary>
+    /// <param name="Task"></param>
+    /// <param name="TaskTypeCode"></param>
+    private void TaskRun(Task Task, PyroTask.Codes TaskTypeCode)
+    {
+      switch (TaskTypeCode)
+      {
+        case PyroTask.Codes.LoadFhirDefinitionResources:
+          IFhirSpecificationDefinitionLoader.Run(Task);
+          break;
+        case PyroTask.Codes.SetCompartmentDefinitions:
+          ISetCompartmentDefinitionTaskProcessor.Run(Task);
+          break;
+        case PyroTask.Codes.SetSearchParameterDefinitions:
+          ISearchParameterResourceLoader.Run(Task);
+          break;
+        default:
+          throw new System.ApplicationException($"Unhanded Enum of : {TaskTypeCode.ToString()} of Enum type 'PyroTask.Codes' in TaskRunner");
+      }
     }
 
     private List<Task> GetServerStartupTaskList()
@@ -109,52 +186,36 @@ namespace Pyro.Engine.Services.FhirTasks
       return TaskResultList;
     }
 
-    private void ProcessServerStartupTaskList(List<Task> readyTaskOfTasksList)
+    private void ProcessServerStartupTaskList(List<Task> ReadyTaskOfTasksList)
     {
+      var TaskToRunList = FilterAndOrderTasksToBeRun(ReadyTaskOfTasksList);
       //Below managed the order that the Task are run. They are sourced from a search on the server so there is
       //little guarantee of order, so they are selected specifically as below.
 
-      //1. Task: SetSearchDefinitions and Indexes
-      Task SetSearchParameterDefinitions = GetTaskByCode(readyTaskOfTasksList, PyroTask.Codes.SetSearchParameterDefinitions);
-      if (SetSearchParameterDefinitions != null)
+      foreach(var TaskToRun in TaskToRunList)
       {
-        ILog.Info("Start Task: Search Parameter Resource Loader");
-        ISearchParameterResourceLoader.Run(SetSearchParameterDefinitions);
-        ILog.Info("End Task: Search Parameter Resource Loader");
-        readyTaskOfTasksList.Remove(SetSearchParameterDefinitions);
+        //Get the tasks Code by the System and then convert to an Enum to pass into the TaskRun
+        //If the Enum TryuParse fails then the task will not be processed and picked up by the IsTaskProcessed check below
+        bool IsTaskProcessed = false;
+        var CodeBySystem = TaskToRun.Code.Coding.SingleOrDefault(x => x.System == IPyroTaskCodeSystem.GetSystem());
+        if (CodeBySystem != null)
+        {          
+          PyroTask.Codes Test;
+          if (Enum.TryParse<PyroTask.Codes>(CodeBySystem.Code, out Test))
+          {
+            ILog.Info($"    Start Task : {TaskToRun.Id}");
+            TaskRun(TaskToRun, Test);            
+            ILog.Info($"    End Task: {TaskToRun.Id}");
+            IsTaskProcessed = true;
+          }          
+        }       
+        if (!IsTaskProcessed)
+        {         
+          throw new ApplicationException($"Internal Server Error: Detected server start-up Task that did not have a matching service to process it. The Task Resource id list was: {TaskToRun.Id}");
+        }
       }
-
-      //2. Task: SetCompartmentDefinitions
-      Task SetCompartmentDefinitions = GetTaskByCode(readyTaskOfTasksList, PyroTask.Codes.SetCompartmentDefinitions);
-      if (SetCompartmentDefinitions != null)
-      {
-        ILog.Info("Start Task: Set Compartment Definitions");
-        ISetCompartmentDefinitionTaskProcessor.Run(SetCompartmentDefinitions);
-        ILog.Info("End Task: Set Compartment Definitions");
-        readyTaskOfTasksList.Remove(SetCompartmentDefinitions);
-      }
-
-      //3. Task: LoadFhirDefinitionResources
-      Task LoadFhirDefinitionResources = GetTaskByCode(readyTaskOfTasksList, PyroTask.Codes.LoadFhirDefinitionResources);
-      if (LoadFhirDefinitionResources != null)
-      {
-        if (IGlobalProperties.LoadFhirDefinitionResources)
-        {
-          ILog.Info("Start Task: Fhir Specification Definition Loader");
-          IFhirSpecificationDefinitionLoader.Run(LoadFhirDefinitionResources);
-          ILog.Info("End Task: Fhir Specification Definition Loader");
-        }        
-        readyTaskOfTasksList.Remove(LoadFhirDefinitionResources);
-      }
-
-      
-      if (readyTaskOfTasksList.Count != 0)
-      {
-        string TaskIds = string.Empty;
-        readyTaskOfTasksList.ForEach(x => TaskIds = TaskIds + x.Id + ", ");
-        throw new ApplicationException($"Internal Server Error: Detected server start-up Task that did not have a matching service to process it. The Task Resource id list was: {TaskIds}");
-      }
-      
+      if (TaskToRunList.Count > 0)
+        ILog.Info($"Server start-up: All Tasks have completed"); 
     }
 
     private Task GetTaskByCode(List<Task> readyTaskOfTasksList, PyroTask.Codes Code)
@@ -168,7 +229,7 @@ namespace Pyro.Engine.Services.FhirTasks
       {
         throw new ApplicationException($"Server start-up Task Resource did not contain a Task.code to identify the Task Type by.", Exec);
       }
-           
+
     }
   }
 }

@@ -27,7 +27,7 @@ namespace Pyro.WebApi.App_Start
                 WasUpdated = ServiceConfigurationService.SynchronizeServiceConfigrationWithGlobalProperties(GlobalProperties);
                 if (WasUpdated)
                 {
-                  Pyro.Common.Logging.Logger.Log.Info("GlobalProperties from web.config file were updated in the database table ServiceConfiguration.");
+                  Pyro.Common.Logging.Logger.Log.Info("Server start-up: Synchronise updated database table ServiceConfiguration.");
                 }
                 Transaction.Commit();
                 return WasUpdated;
@@ -43,7 +43,7 @@ namespace Pyro.WebApi.App_Start
         }
         catch (Exception Exec)
         {
-          Pyro.Common.Logging.Logger.Log.Error(Exec, "Synchronize Service Configration With GlobalProperties failed.");
+          Pyro.Common.Logging.Logger.Log.Error(Exec, "Synchronise Service Configuration With GlobalProperties failed.");
           throw Exec;
         }
         //End of Task Thread.
@@ -51,13 +51,13 @@ namespace Pyro.WebApi.App_Start
 
       try
       {
-        //Here we are catching any exceptions that occured inside the Task thread above.
+        //Here we are catching any exceptions that occurred inside the Task thread above.
         SynchronizeTaskResults.Wait();
         bool Result = SynchronizeTaskResults.Result;
       }
       catch (Exception Exec)
       {
-        string ExecMessage = "Internal Server Error: Unable to Synchronize database ServiceConfiguration table with Web.Config file. This is likely to be due to the FHIR server database connection being unavailable.";
+        string ExecMessage = "Internal Server Error: Unable to Synchronise database ServiceConfiguration table with Web.Config file. This is likely to be due to the FHIR server database connection being unavailable.";
         Pyro.Common.Logging.Logger.Log.Fatal(Exec, ExecMessage);
         throw new Exception(ExecMessage, Exec);
       }

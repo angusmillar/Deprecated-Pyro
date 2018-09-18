@@ -46,12 +46,12 @@ namespace Pyro.Engine.Services.ResourceSeed
       var ResourceToCommit = ResolveResourcesToLoad(IPyroFhirResource.ResourceToLoadOnStartupList());
       if (ResourceToCommit.Count() > 0)
       {
-        ILog.Info($"Resource seeding startup task, {ResourceToCommit.Count()} resources to be seeded.");
+        ILog.Info($"Server start-up: Resource seeding task, {ResourceToCommit.Count()} resources to be seeded.");
         CommitResourceList(ResourceToCommit);
       }        
       else
       {
-        ILog.Info($"Resource seeding startup task, no new resources to seed.");
+        ILog.Info($"Server start-up: Resource seeding, no new reference FHIR resources to seed.");
       }
     }
     
@@ -120,16 +120,16 @@ namespace Pyro.Engine.Services.ResourceSeed
             IResourceServiceOutcome PutResourceServiceOutcome = IResourceServices.Put(ResourceId, NewResource, RequestMeta);
             if (PutResourceServiceOutcome.HttpStatusCode == System.Net.HttpStatusCode.Created)
             {
-              ILog.Info($"Resource seeding startup task, Created {ResourceName} with id of {ResourceId}.");
+              ILog.Info($"    Resource seeding: Created `{ResourceName}` resource with id of `{ResourceId}`.");
             }
             else if (PutResourceServiceOutcome.HttpStatusCode == System.Net.HttpStatusCode.OK)
             {
-              ILog.Info($"Resource seeding startup task, Updated {ResourceName} with id of {ResourceId}.");
+              ILog.Info($"    Resource seeding: Updated '{ResourceName}' resource with id of '{ResourceId}'.");
             }
             else
             {
               Transaction.Rollback();
-              ILog.Error($"ResourceSeeding on Startup, failed to Create or Update the resource {ResourceName} with the id of {ResourceId}. The entire seeding operation has been rolled back.");
+              ILog.Error($"ResourceSeeding on Start-up, failed to Create or Update the resource {ResourceName} with the id of {ResourceId}. The entire seeding operation has been rolled back.");
               ErrorDetected = true;
               break;
             }
@@ -140,7 +140,7 @@ namespace Pyro.Engine.Services.ResourceSeed
         catch (Exception Exec)
         {
           Transaction.Rollback();
-          ILog.Error(Exec, $"ResourceSeeding on Startup, PUT operations failed with exception.");          
+          ILog.Error(Exec, $"ResourceSeeding on Start-up, PUT operations failed with exception.");          
         }
         finally
         {          

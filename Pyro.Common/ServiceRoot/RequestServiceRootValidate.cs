@@ -47,7 +47,7 @@ namespace Pyro.Common.ServiceRoot
         //There is no primary in the database / Cache.
         //If the Web.Config ServiceBaseURL equals the incoming request Service Base URL 
         //Therefore set the database's primary service root URL, as this is a clean install.
-        ILog.Info($"Clean install detected. As the first request's Service root is equal to the ServiceBaseURL found in the App_Data\\PyroApp.config this will be set in the database for future requests. ServiceBaseURL is : {IPrimaryServiceRootCache.GetPrimaryRootUrlFromWebConfig()} ");        
+        ILog.Info($"Server start-up: Clean install detected. As the first request's Service root is equal to the ServiceBaseURL found in the App_Data\\PyroApp.config this will be set in the database for future requests. ServiceBaseURL is : {IPrimaryServiceRootCache.GetPrimaryRootUrlFromWebConfig()} ");        
         IDtoRootUrlStore DtoRootUrlStore = IServicePrimaryBaseUrlService.SetPrimaryRootUrlStore(WebConfigServiceBase.StripHttp().ToLower());
         //Clear the cache as we just added the ServiceRoot to the database as the cache will have null cached.
         IPrimaryServiceRootCache.ClearPrimaryRootUrlFromCache();

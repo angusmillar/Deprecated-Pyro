@@ -64,7 +64,8 @@ namespace Pyro.Engine.Services.FhirTasks.SearchParameterLoader
       IServerSearchParameterOperation IServerSearchParameterOperation,
       IGlobalProperties IGlobalProperties,
       ICacheClear ICacheClear,
-      IFhirSpecificationCorrections IFhirSpecificationCorrections)
+      IFhirSpecificationCorrections IFhirSpecificationCorrections
+      )
     {
       this.ILog = ILog;
       this.IFhirTaskTool = IFhirTaskTool;
@@ -92,7 +93,7 @@ namespace Pyro.Engine.Services.FhirTasks.SearchParameterLoader
         $"to the server as these resources would not have their search parameter values indexed. Only once the Task is finished " +
         $"and all base search parameters are loaded will the server automatically switch out of read only mode. ";
 
-
+      ILog.Info($"    Server has been placed in Read-Only mode by the server start-up Task: {_Task.Id}");
 
       _SearchParameterResourceProcessedIdList = new List<string>();
       try
@@ -225,6 +226,7 @@ namespace Pyro.Engine.Services.FhirTasks.SearchParameterLoader
                 Transaction.Commit();
                 _CurrentTaskStatus = Task.TaskStatus.Completed;
                 IGlobalProperties.ServerReadOnlyMode = false;
+                ILog.Info($"    Server is no longer in Read-Only server start-up Task: {_Task.Id} finished.");
                 ICacheClear.ClearCache();
               }
             }

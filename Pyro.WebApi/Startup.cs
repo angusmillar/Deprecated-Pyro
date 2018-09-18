@@ -119,8 +119,12 @@ namespace Pyro.WebApi
       }
 
       //Check the database migrations are up-to-date with the application 
-      Pyro.Common.Logging.Logger.Log.Info("Running server start-up process to check the Database Migrations are run.");
-      if (!App_Start.StartupPyroDatabaseMigrationCheck.RunTask(HttpConfiguration))
+      Pyro.Common.Logging.Logger.Log.Info("Server start-up: Check the Database Migrations are run.");
+      if (App_Start.StartupPyroDatabaseMigrationCheck.RunTask(HttpConfiguration))
+      {
+        Pyro.Common.Logging.Logger.Log.Info("Server start-up: Database is up-to-date.");
+      }
+      else
       {
         if (!Console.IsOutputRedirected)
         {
@@ -140,16 +144,16 @@ namespace Pyro.WebApi
       }
 
       //Synch the Web Configuration file 
-      Pyro.Common.Logging.Logger.Log.Info("Running server start-up process to synchronise the web.config file with the database table ServiceConfiguration.");
+      Pyro.Common.Logging.Logger.Log.Info("Server start-up: Synchronise the web.config file to database table ServiceConfiguration.");
       App_Start.StartupPyroConfirgrationSynch.RunTask(HttpConfiguration);
 
       //Check seeded FHIR Resource and update if required      
-      Pyro.Common.Logging.Logger.Log.Info("Running server start-up process to seed any reference FHIR resources.");
+      Pyro.Common.Logging.Logger.Log.Info("Server start-up: Seed reference FHIR resources as required.");
       App_Start.StarupPyroResourceSeeding.RunTask(HttpConfiguration);
 
       //Check for any FHIR task to process on start-up
       //NOTE: This Task runs asynchronous, it does not stop the server from starting. 
-      Pyro.Common.Logging.Logger.Log.Info("Running server start-up process to manage pending FHIR Tasks.");
+      Pyro.Common.Logging.Logger.Log.Info("Server start-up: Run pending FHIR Tasks.");
       App_Start.StarupPyroTaskRunner.RunTask(HttpConfiguration);      
 
       if (!Console.IsOutputRedirected)
