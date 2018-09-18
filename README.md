@@ -1,16 +1,28 @@
-## Pyro FHIR Server ##
+﻿## Pyro FHIR Server ##
+
+ 
+![][logo]
+
+[logo]: https://github.com/angusmillar/PyroWeb/blob/master/src/Images/SiteIcon/NewPyroIconLong-200.png "Pyro Server Logo"
+
 
 This is a C# .NET Framework 4.6, MSSQL or PostgreSQL, FHIR server implementing FHIR Version STU-3.0.1 
 
+See the publicly accessible Pyro Server instance running here: [Pyrohealth.net](https://pyrohealth.net/)
+
 See the official FHIR specification page here: [FHIR specification STU-3.0.1](http://hl7.org/fhir/STU3/index.html)
 
-See the publicly accessible Pyro Server instance running here: [Pyrohealth.net](https://pyrohealth.net/)
+
+>Read the servers rendered CapabilityStatement here: [Pyro FHIR Server CapabilityStatement](https://pyrohealth.net/metadata-content)
+>
+> HTTP Get the server's CapabilityStatement resource from the Pyrohealth.net server: 
+>
+>`GET https://stu3.test.pyrohealth.net/fhir/metadata`
+
 
 **This server implements the following FHIR specification components** 
 
-> Or get the server's CapabilityStatement resource from the Pyrohealth.net server: GET https://stu3.test.pyrohealth.net/fhir/metadata
 
-> Or read the web rendered CapabilityStatement here: [Pyro FHIR Server CapabilityStatement](https://pyrohealth.net/metadata-content)
 
 * All Resources Types
 * All Resources search parameters
@@ -69,25 +81,47 @@ PostgreSQL (Version 10)
 7. Hit 'F5' to start the 'Pyro.ConsoleServer' project.
 8. A console window opens with the Pyro logo in yellow and the message "Please wait while database schema loads", this will take about 1 min.     
 9. Once the load is completed the console will change from yellow to blue and the server is ready for calls to its FHRI API. The console will state the FHIR API endpoint. The default is `http://localhost:8888/fhir` 
-10. On a clean install the server on its first start-up performs a background set-up task whereby it loads all the FHIR search parameters as active search indexes into the server. While this is running the server is in read-only mode until it completes. This to prevent Resources from being committed before the indexes are ready. You can monitor the task progress by either trying to perform a POST or PUT or my doing a GET on the Task its self, Task id: set-searchParameter-definitions. e.g [base]/Task/set-searchParameter-definitions 
+10. On a clean install the server runs a background task that loads all the FHIR specification SearchParameter resources to create the active search indexes for the server. While this is running the server is in read-only mode until it completes. This is required to prevent resources from being committed through the API before the indexes are ready. You can monitor the task's progress by either attempting to perform a POST or PUT or by performing a GET on the FHIR Task resource it's self. That Task resource Id is  **set-searchParameter-definitions**. 
 
 ## Understanding the solution a little deeper ##
 
 There are three key projects you will need to understand:
 
-* `Pyro.DbManager` for database management  
-* `Pyro.ConsoleServer` as the development environment 
-* `Pyro.WebApi` as the production environment
-*  General Information about running the environments
+| Concept        | Project      |
+| :------------- |:-------------|
+| Database Management      | `Pyro.DbManager`     |
+| Development Environment  | `Pyro.ConsoleServer`|
+| Production Environment   | `Pyro.WebApi`        |
 
 
 **Database Management**
 
-The `Pyro.DbManager` project is a console application that will connect to the database and create or upgrade the database as required. This project MUST be run before the others as it will set up the database which the other projects depend upon. 
+The `Pyro.DbManager` project is a console application that will connect to the database and create or upgrade the database as required. This project MUST be run first as it will create the database which the other projects depend upon. 
 
-When running in the debugger (Visual Studio) it uses the connection string found in the `Pyro.ConsoleServer` project e.g `Pyro.ConsoleServer\App_Data\Connectons.config`. 
+When running in the debugger (Visual Studio) it uses the connection string found in the `Pyro.ConsoleServer` project file found here: `Pyro.ConsoleServer\App_Data\Connectons.config`. You must configure you database connection string in this file before running the `Pyro.DbManager` project.
 
-When running outside of the debugger it expects to find a web.config file in the parent directory from where it is run, it will use the connection string referenced from this `web.config` file which will typically be the `Connectons.config` file found in the `App_Data` directory of the same parent directory. This is true when deployed in IIS and the `Pyro.DbManager.exe` is found in the bin folder, so in this case, you just need to run the `Pyro.DbManager.exe` straight from the bin folder to create or update the production database.
+When running outside of the debugger the `Pyro.DbManager` executable expects to find a web.config file in the parent directory from where it is run, it will use the connection string referenced from this `web.config` file which will be the `Connectons.config` file found in the `App_Data` directory of the same parent directory. This is true when deployed in IIS where the `Pyro.DbManager.exe` is found in the `bin` folder. So in this case, you just need to run the `Pyro.DbManager.exe` straight from the `bin` folder to create or update the production database.
+
+_**Here is a representation of this production IIS file structure**_
+
+
+
+```
+wwwRoot
+│   web.config
+│   ...    
+│
+└───App_Data
+│   │   
+│   │   Connectons.config
+│   │   PyroApp.config
+│   │   ...
+│   
+└───bin
+    │   Pyro.DbManager.exe
+    │   ....
+```
+
 
 **Development Environment**
 
@@ -96,17 +130,17 @@ Before you run this project you will need to have configured the connection stri
 
 `Pyro.ConsoleServer\App_Data\Connectons.config`
 
-You may also like to change the `ServiceBaseURL` property which is the endpoint the FHIR server will run from. This can be done in the file:
+You may also like to change the `ServiceBaseURL` property which is the endpoint the FHIR server will run from. The default is `http://localhost:8888/fhir` This can be changed in the file:
 
 `Pyro.ConsoleServer\App_Data\PyroApp.config`
 
-Below is the documentation about this property:
+Below is the documentation about the property:
 
-Command: ServiceBaseURL
+*Command:* `ServiceBaseURL`
 
-Value: URL String
+*Value:* URL String
 
-Description: This setting sets the service's Service Base URL and must match the URL where the service is hosted. This is the URL that will host the FHIR API. Care must be taken changing this URL post the service being in operation as the physical Resources and the search indexes in the database, and any external references with still have the previous URL reference. In practice, all Resource would need to be updated and recommitted if this was to change. 
+*Description:* This setting sets the service's Service Base URL and must match the URL where the service is hosted. This is the URL that will host the FHIR API. Care must be taken changing this URL post the service being in operation as the physical Resources and the search indexes in the database, and any external references with still have the previous URL reference. In practice, all Resource would need to be updated and recommitted if this was to change. 
 Simply changing the setting here does not initiate the updating of all these references.
 
 **Production Environment**
@@ -125,20 +159,31 @@ You will also need to set the `ServiceBaseURL` property in the file below (See t
 
 **General Information**
 
-Both projects `Pyro.WebApi` and `Pyro.ConsoleServer`, require that you first run the `Pyro.DbManager` to initialise the database.
-If you do not do this, and start either `Pyro.WebApi` or `Pyro.ConsoleServer` first, they will create a database for themselves yet that database will not be seeded with the required reference data. Once you attempt to commit (PUT or POST) a FHIR resource via the API you will receive a FHIR OperationOutcome error in response which reads:
+***Database Migration Check***
 
-`The _FhirRelease database table returned no entry for the fhir Version '3.0.1', this typically occurs when the table was never seeded at the time of database creation. You must create the database using the Pyro.DbManager application and not rely on the service creating it on start-up as the service will not seed the initial data required. If this is true for you then drop your database and start again by running the Pyro.DbManager application first.`
+Both projects `Pyro.WebApi` and `Pyro.ConsoleServer`, require that you first run the `Pyro.DbManager` to initialise the database. Furthermore, if the code is updated and a database upgrade is required the `Pyro.DbManager` must be run. In general you should always run the `Pyro.DbManager` when a code update is sourced. Their is never any harm in running it many times. If you do not do run it when it is required to be run then starting either `Pyro.WebApi` or `Pyro.ConsoleServer` they will throw and log an error, and stop. That error will read:
+```
+Database upgrade is required.
+Please consider running the Pyro.DbManager to upgrade your database.
+The application must now exit
+```
 
-In general, you would only use `Pyro.Console` in your development environment and configure its connection strings and ServiceBaseURL to suit. You would then only configure the `Pyro.WebApi` connection strings and ServiceBaseURL to be for your production instance ready for deployment. 
+***Development vs production enviroment setup***
 
-_Logging:_
-The solution uses the [NLog](http://nlog-project.org/) logging framework. By default, this is configured to log to the console and to AWS Cloudwatch logs.
-You may wish to reconfigure this for your needs. There is a commented out config to have it log to the file system.
+In general, you would only use `Pyro.ConsoleServer` in your development environment and configure its connection strings and ServiceBaseURL to suit. You would then only configure the `Pyro.WebApi` connection strings and ServiceBaseURL to be for your production instance ready for deployment. 
 
-All configuration lives in the file below and the [NLog Configuration Documentation](https://github.com/nlog/NLog/wiki/Configuration-file) is at this link. 
+***Logging***
 
-`Pyro.WebApi\NLog.config` (Just search for LogFilePath)
+The solution uses the [NLog](http://nlog-project.org/) logging framework. By default, this is configured to log to the console and to AWS Cloudwatch logs for the `Pyro.WebApi` project and for the `Pyro.ConsoleServer` project it is configured to log to the console and to a system file located at `C:\PyroLogs'.
+You may wish to reconfigure this for your needs.
+
+The logging configuration lives in the following files and the [NLog Configuration Documentation](https://github.com/nlog/NLog/wiki/Configuration-file) is found at this link.
+
+*NLog logging config file locations:*
+
+`Pyro.WebApi\NLog.config`
+
+`Pyro.ConsoleServer\NLog.config`
 
 
 ## Full Solution Project Description ##
@@ -248,6 +293,8 @@ This is the project used when hosting in a production IIS instance. It is this p
 
 **SMART on FHIR and Authentication**
 I am slowly progressing to an Authentication system for the server with key elements beginning to fall in place to finally implement. I now have a SMART parser and FHIR compartments. Need to start work on the OAuth component possibly using Identity server: https://www.nuget.org/packages/IdentityServer4/
+
+**FHIR Release 4 (R4)** A FHIR R4 version of the Pyro Server is in development and should be be ready soon, see the GitHub repository branch `develop-r4`. 
 
 ## Repo owner ##
 
