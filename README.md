@@ -72,11 +72,7 @@ Resource instance operations:
 
 > **Please note**
 > 
-> On a clean install, the server runs a background task that loads all the FHIR specification SearchParameter resources to create the  
-> active search indexes for the server. While this is running the server is in read-only mode until it completes. This is required to 
-> prevent resources from being committed through the API before the resource indexes are ready. You can monitor the task's progress by 
-> either attempting to perform a POST or PUT or by performing a GET on the FHIR Task resource with the Id of: **set-searchParameter-
-> definitions**. The server can be stopped and started while this task is running and it will continue from where it last left off.
+> On a clean install, the server runs a background task that loads all the FHIR specification SearchParameter resources to create the active search indexes for the server. While this is running the server is in read-only mode until it completes. This is required to prevent resources from being committed through the API before the resource indexes are ready. You can monitor the task's progress by either attempting to perform a POST or PUT or by performing a GET on the FHIR Task resource with the Id of: **set-searchParameter-definitions**. The server can be stopped and started while this task is running and it will continue from where it last left off.
 
 ## Understanding the solution a little deeper ##
 
