@@ -20,61 +20,58 @@ See the official FHIR specification page here: [FHIR specification STU-3.0.1](ht
 
 **This server implements the following FHIR specification components** 
 
-
-
-* All Resources Types
-* All Resources search parameters
+* All resource types
+* All resource's search parameters
 * RestFul CRUD
-* Compartments (implemented from dynamic CompartmentDefinition resources)
-* Chained parameters
-* _includes & _revinclude
-* Custom Search parameters
+* Compartments 
+* Chained search parameters
+* \_includes & \_revinclude
+* Custom search parameters
+* Custom compartments
 * History
 * Conditional Create
 * Conditional Update 
 * Conditional Read 
 * Conditional Delete  
-* Bundle Transaction
-* Operations
+* Bundle Transactions
 
-**Operations**
-
-Base Operations:
+Base operations:
 * $server-indexes-set      
 * $server-indexes-index      
 * $server-indexes-report      
 * $server-resource-report   
 
-Resource Operations:
+Resource operations:
 * $validate (All ResourceTypes)
 * $x-ihisearchorvalidate (Patient ResourceTypes)
 
-Resource Instance Operations:
+Resource instance operations:
 * $validate (All ResourceTypes)
 * $x-set-compartment-active (CompartmentDefinition ResourceTypes)
 * $x-set-compartment-inactive (CompartmentDefinition ResourceTypes)
 
 
-
-## Requirements ##
+## Development requirements ##
 
 * Visual Studio 2017
 * .NET Framework 4.6  
 * Microsoft SQL Server 2016 or higher, or
 * PostgreSQL (Version 10)
 
-## How do I get this solution up and running fast ##
+## Get the solution up and running fast ##
 
-1. First clone from the GitHub repository: https://github.com/angusmillar/Pyro.git and then open in Visual Studio 2017.
+1. Clone from the GitHub repository: https://github.com/angusmillar/Pyro.git and then open in Visual Studio 2017.
 2. Right click the main solution 'Pyro' and select 'Restore Nuget packages' and then 'F6' to build the solution.
 3. You will then need to configure to your development environment database connection string by editing this file: `Pyro.ConsoleServer\App_Data\Connectons.config`
-4. Then right click the project named 'Pyro.DbManager' and select 'Set as StartUp Project'
+4. Right click the project named 'Pyro.DbManager' and select 'Set as StartUp Project'
 5. Hit 'F5' to start the 'Pyro.DbManager' console application project and follow the prompts to create the initial database.
-6. Then right click the project named 'Pyro.ConsoleServer' and select 'Set as StartUp Project'
+6. Right click the project named 'Pyro.ConsoleServer' and select 'Set as StartUp Project'
 7. Hit 'F5' to start the 'Pyro.ConsoleServer' project.
-8. A console window opens with the Pyro logo in yellow and the message "Please wait while database schema loads", this will take about 1 min.     
+8. A console window will start with the Pyro logo in yellow and the message "Please wait while database schema loads", this will take about 1 min.     
 9. Once the load is completed the console will change from yellow to blue and the server is ready for calls to its FHRI API. The console will state the FHIR API endpoint. The default is `http://localhost:8888/fhir` 
-10. On a clean install the server runs a background task that loads all the FHIR specification SearchParameter resources to create the active search indexes for the server. While this is running the server is in read-only mode until it completes. This is required to prevent resources from being committed through the API before the indexes are ready. You can monitor the task's progress by either attempting to perform a POST or PUT or by performing a GET on the FHIR Task resource it's self. That Task resource Id is  **set-searchParameter-definitions**. 
+
+**Please note**
+On a clean install, the server runs a background task that loads all the FHIR specification SearchParameter resources to create the active search indexes for the server. While this is running the server is in read-only mode until it completes. This is required to prevent resources from being committed through the API before the resource indexes are ready. You can monitor the task's progress by either attempting to perform a POST or PUT or by performing a GET on the FHIR Task resource with the Id of: **set-searchParameter-definitions**. The server can be stopped and started while this task is running and it will continue from where it last left off.
 
 ## Understanding the solution a little deeper ##
 
