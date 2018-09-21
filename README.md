@@ -70,9 +70,9 @@ Resource instance operations:
 8. A console window will start with the Pyro logo in yellow and the message "Please wait while database schema loads", this will take about 1 min.     
 9. Once the load is completed the console will change from yellow to blue and the server is ready for calls to its FHRI API. The console will state the FHIR API endpoint. The default is `http://localhost:8888/fhir` 
 
-**Please note**
-
-On a clean install, the server runs a background task that loads all the FHIR specification SearchParameter resources to create the active search indexes for the server. While this is running the server is in read-only mode until it completes. This is required to prevent resources from being committed through the API before the resource indexes are ready. You can monitor the task's progress by either attempting to perform a POST or PUT or by performing a GET on the FHIR Task resource with the Id of: **set-searchParameter-definitions**. The server can be stopped and started while this task is running and it will continue from where it last left off.
+>**Please note**
+>
+>On a clean install, the server runs a background task that loads all the FHIR specification SearchParameter resources to create the >active search indexes for the server. While this is running the server is in read-only mode until it completes. This is required to >prevent resources from being committed through the API before the resource indexes are ready. You can monitor the task's progress by >either attempting to perform a POST or PUT or by performing a GET on the FHIR Task resource with the Id of: **set-searchParameter->definitions**. The server can be stopped and started while this task is running and it will continue from where it last left off.
 
 ## Understanding the solution a little deeper ##
 
