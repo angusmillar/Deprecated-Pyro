@@ -15,12 +15,12 @@ namespace Pyro.Common.Search
     {
       this.Type = IncludeType;
     }
-    public IncludeType Type { get; private set; }
-    protected readonly string _RecurseName = "recurse";
+    public IncludeType Type { get; private set; }    
+    public static string IterateName => "iterate";
     public FHIRAllTypes SourceResourceType { get; set; }
     public List<DtoServiceSearchParameterLight> SearchParameterList { get; set; }
     public FHIRAllTypes? SearchParameterTargetResourceType { get; set; }
-    public bool IsRecurse { get; set; }
+    public bool IsIterate { get; set; }
 
     public string AsFormatedSearchParameter()
     {
@@ -38,9 +38,9 @@ namespace Pyro.Common.Search
         result = Hl7.Fhir.Rest.SearchParams.SEARCH_PARAM_REVINCLUDE;
       }
 
-      if (IsRecurse)
+      if (IsIterate)
       {
-        result += $":{_RecurseName}";
+        result += $":{IterateName}";
       }
       result += $"={SourceResourceType.GetLiteral()}";
       if (SearchParameterList != null && SearchParameterList.Count == 1)

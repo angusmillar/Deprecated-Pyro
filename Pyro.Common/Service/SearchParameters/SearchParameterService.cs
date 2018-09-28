@@ -489,12 +489,13 @@ namespace Pyro.Common.Service.SearchParameters
             });
           }
 
-          SearchParameterInclude.IsRecurse = false;
+          SearchParameterInclude.IsIterate = false;
           if (KeySplitArray.Count() > 1)
           {
-            if (KeySplitArray[1].ToLower() == "recurse")
+            // "iterate" in R4 was "recurse" in STU3, support backward name.
+            if (KeySplitArray[1].ToLower() == "recurse" || KeySplitArray[1].ToLower() == SearchParameterInclude.IterateName)
             {
-              SearchParameterInclude.IsRecurse = true;
+              SearchParameterInclude.IsIterate = true;
             }
           }
 

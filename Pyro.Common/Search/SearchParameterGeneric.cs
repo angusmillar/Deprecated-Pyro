@@ -159,8 +159,10 @@ namespace Pyro.Common.Search
 
     private Tuple<string, string> ParseIncludeSearchParameters(string Key, string Value)
     {
+      //Supporting both 'iterate' in R4 and 'recurse' from STU3
       if (Key.ToLower().Trim() == SearchParams.SEARCH_PARAM_INCLUDE ||
-          Key.ToLower().Trim() == $"{SearchParams.SEARCH_PARAM_INCLUDE}:recurse")
+          Key.ToLower().Trim() == $"{SearchParams.SEARCH_PARAM_INCLUDE}:recurse" ||
+          Key.ToLower().Trim() == $"{SearchParams.SEARCH_PARAM_INCLUDE}:{SearchParameterInclude.IterateName}")
       {
         //Check for _include, will capture all
         if (this.Include == null)
@@ -173,7 +175,8 @@ namespace Pyro.Common.Search
     private Tuple<string, string> ParseRevIncludeSearchParameters(string Key, string Value)
     {
       if (Key.ToLower().Trim() == SearchParams.SEARCH_PARAM_REVINCLUDE ||
-        Key.ToLower().Trim() == $"{SearchParams.SEARCH_PARAM_REVINCLUDE}:recurse")
+        Key.ToLower().Trim() == $"{SearchParams.SEARCH_PARAM_REVINCLUDE}:recurse" ||
+        Key.ToLower().Trim() == $"{SearchParams.SEARCH_PARAM_REVINCLUDE}:{SearchParameterInclude.IterateName}")
       {
         //Check for _RevInclude, will capture all
         if (this.RevInclude == null)

@@ -141,10 +141,10 @@ namespace Pyro.Test.IntergrationTest
         PatientResourceId = PatientResult.Id;
       }
 
-      //Here we set up 3 observations linked in a chain Obs1 -> Obs2 - > Obs3 to test recursive includes
+      //Here we set up 3 observations linked in a chain Obs1 -> Obs2 - > Obs3 to test iterate includes
 
       // Add Observation 3 Linked to no other observation
-      // This is to test recursive includes 
+      // This is to test iterate includes 
       Observation ObsResourceThree = new Observation();
       ObsResourceThree.Status = ObservationStatus.Final;
       ObsResourceThree.Code = new CodeableConcept("http://somesystem.net/ObSystem", "WCC");
@@ -167,7 +167,7 @@ namespace Pyro.Test.IntergrationTest
 
 
       // Add Observation 2 Linked to the Observation3 above and Patient above
-      // This is to test recursive includes 
+      // This is to test iterate includes 
       Observation ObsResourceTwo = new Observation();
       ObsResourceTwo.Status = ObservationStatus.Final;
       ObsResourceTwo.Code = new CodeableConcept("http://somesystem.net/ObSystem", "WCC");

@@ -88,10 +88,10 @@ namespace Pyro.Test.IntergrationTest
       OrganizationOneResourceId = OrganizationOneResult.Id;
 
 
-      //Here we set up 3 observations linked in a chain Obs1 -> Obs2 - > Obs3 to test recursive includes
+      //Here we set up 3 observations linked in a chain Obs1 -> Obs2 - > Obs3 to test iterate includes
 
       // Add Observation 3 Linked to no other observation
-      // This is to test recursive includes 
+      // This is to test iterate includes 
       Observation ObsResourceThree = new Observation();
       ObsResourceThree.Status = ObservationStatus.Final;
       ObsResourceThree.Code = new CodeableConcept("http://somesystem.net/ObSystem", "WCC");
@@ -114,7 +114,7 @@ namespace Pyro.Test.IntergrationTest
 
 
       // Add Observation 2 Linked to the Observation3 above and Patient above
-      // This is to test recursive includes 
+      // This is to test iterate includes 
       Observation ObsResourceTwo = new Observation();
       ObsResourceTwo.Status = ObservationStatus.Final;
       ObsResourceTwo.Code = new CodeableConcept("http://somesystem.net/ObSystem", "WCC");
@@ -338,15 +338,15 @@ namespace Pyro.Test.IntergrationTest
     }
 
     [Test]
-    public void Test_Recursive_Include()
+    public void Test_Iterate_Include()
     {
-      //Get Observation and use _include:recurse to get the two other Observation resources linked in a chain from the parent ====================
+      //Get Observation and use _include:iterate to get the two other Observation resources linked in a chain from the parent ====================
       Bundle BundleResult = null;
       var SearchParam = new SearchParams();
       try
       {
         SearchParam.Add("identifier", $"{StaticTestData.TestIdentiferSystem}|{ObservationOneIdentifer}");
-        SearchParam.Add($"{SearchParams.SEARCH_PARAM_INCLUDE}:recurse", $"{ResourceType.Observation.GetLiteral()}:has-member:{ResourceType.Observation.GetLiteral()}");
+        SearchParam.Add($"{SearchParams.SEARCH_PARAM_INCLUDE}:iterate", $"{ResourceType.Observation.GetLiteral()}:has-member:{ResourceType.Observation.GetLiteral()}");
         BundleResult = clientFhir.Search<Observation>(SearchParam);
       }
       catch (Exception Exec)
@@ -403,7 +403,7 @@ namespace Pyro.Test.IntergrationTest
     }
 
     [Test]
-    public void Test_RevInclude_Recurse_WithTwo()
+    public void Test_RevInclude_Iterate_WithTwo()
     {
       //Get Org and use _Revinclude to get the Observation resources that is linked as performer 
       // then use _Include to get the Patient resource linked as subject ====================
@@ -413,7 +413,7 @@ namespace Pyro.Test.IntergrationTest
       {
         SearchParam.Add("identifier", $"{StaticTestData.TestIdentiferSystem}|{OrganizationOneIdentifer}");
         SearchParam.Add(SearchParams.SEARCH_PARAM_REVINCLUDE, $"{ResourceType.Observation.GetLiteral()}:performer:{ResourceType.Organization.GetLiteral()}");
-        SearchParam.Add($"{SearchParams.SEARCH_PARAM_INCLUDE}:recurse", $"{ResourceType.Observation.GetLiteral()}:subject:{ResourceType.Patient.GetLiteral()}");
+        SearchParam.Add($"{SearchParams.SEARCH_PARAM_INCLUDE}:iterate", $"{ResourceType.Observation.GetLiteral()}:subject:{ResourceType.Patient.GetLiteral()}");
         BundleResult = clientFhir.Search<Organization>(SearchParam);
       }
       catch (Exception Exec)

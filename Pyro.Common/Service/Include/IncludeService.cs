@@ -51,15 +51,15 @@ namespace Pyro.Common.Service.Include
       TotalResourceList.AddRange(SourceInputResourceList);
 
       var IncludeResourceList = new List<DtoResource>();
-      var RecursiveIncludeList = new List<SearchParameterInclude>();
+      var IterateIncludeList = new List<SearchParameterInclude>();
       var CacheResourceIDsAlreadyCollected = new HashSet<string>();
 
-      RecursiveIncludeList = IncludeList.Where(x => x.IsRecurse == true).ToList();
+      IterateIncludeList = IncludeList.Where(x => x.IsIterate == true).ToList();
 
       //Add all the source resources to the Cache list as their is no reason to get them again as they are in the bundle list
       TotalResourceList.ForEach(x => CacheResourceIDsAlreadyCollected.Add($"{x.ResourceType.GetLiteral()}-{x.FhirId}"));
 
-      //First Pass uses non-recursive includes and recursive includes      
+      //First Pass uses non-Iterate includes and iterate includes      
       IncludeResourceList.AddRange(GetIncludes(IncludeList.Where(x => x.Type == SearchParameterInclude.IncludeType.Include).ToList(), TotalResourceList, CacheResourceIDsAlreadyCollected));
       IncludeResourceList.AddRange(GetRevIncludes(IncludeList.Where(x => x.Type == SearchParameterInclude.IncludeType.RevInclude).ToList(), TotalResourceList, CacheResourceIDsAlreadyCollected));
 
@@ -68,12 +68,12 @@ namespace Pyro.Common.Service.Include
       int CurrentIncludeCount = 0;
       int RecursionDepthCounter = 0;
       var TempResourceList = new List<DtoResource>();
-      while (CurrentIncludeCount < CacheResourceIDsAlreadyCollected.Count() && RecursiveIncludeList.Count > 0 && RecursionDepthCounter < MaxRecursionDepth)
+      while (CurrentIncludeCount < CacheResourceIDsAlreadyCollected.Count() && IterateIncludeList.Count > 0 && RecursionDepthCounter < MaxRecursionDepth)
       {
         CurrentIncludeCount = CacheResourceIDsAlreadyCollected.Count();
         TempResourceList.Clear();
-        TempResourceList.AddRange(GetIncludes(RecursiveIncludeList.Where(x => x.Type == SearchParameterInclude.IncludeType.Include).ToList(), IncludeResourceList, CacheResourceIDsAlreadyCollected));
-        TempResourceList.AddRange(GetRevIncludes(RecursiveIncludeList.Where(x => x.Type == SearchParameterInclude.IncludeType.RevInclude).ToList(), IncludeResourceList, CacheResourceIDsAlreadyCollected));
+        TempResourceList.AddRange(GetIncludes(IterateIncludeList.Where(x => x.Type == SearchParameterInclude.IncludeType.Include).ToList(), IncludeResourceList, CacheResourceIDsAlreadyCollected));
+        TempResourceList.AddRange(GetRevIncludes(IterateIncludeList.Where(x => x.Type == SearchParameterInclude.IncludeType.RevInclude).ToList(), IncludeResourceList, CacheResourceIDsAlreadyCollected));
         TotalResourceList.AddRange(TempResourceList);
         RecursionDepthCounter++;
       }
@@ -245,19 +245,16 @@ namespace Pyro.Common.Service.Include
         {
           //Here we need create a search parameter for _id={FhirId)
 
-          DtoServiceSearchParameterLight _IdSearchParamLight = IServiceSearchParameterCache.GetSearchParameterForResource(Hl7.Fhir.Model.ResourceType.Resource.GetLiteral()).SingleOrDefault(x => x.Name == "_id");
-          //var IdSearchParameter = ServiceSearchParameterFactory.BaseResourceSearchParameters().SingleOrDefault(x => x.Name == "_id");
+          DtoServiceSearchParameterLight _IdSearchParamLight = IServiceSearchParameterCache.GetSearchParameterForResource(Hl7.Fhir.Model.ResourceType.Resource.GetLiteral()).SingleOrDefault(x => x.Name == "_id");          
           var IdParameterString = new Tuple<string, string>(_IdSearchParamLight.Name, FhirId);
-          //var IdParameterString = new Tuple<string, string>(IdSearchParameter.Name, FhirId);
-
-          ISearchParameterBase SearchParam = ISearchParameterFactory.CreateSearchParameter(_IdSearchParamLight, IdParameterString);
-          //ISearchParameterBase SearchParam = ISearchParameterFactory.CreateSearchParameter(IdSearchParameter, IdParameterString);
+          
+          ISearchParameterBase SearchParam = ISearchParameterFactory.CreateSearchParameter(_IdSearchParamLight, IdParameterString);          
 
           PyroSearchParameters FhirIdSearchParameter = new PyroSearchParameters();
           FhirIdSearchParameter.SearchParametersList = new List<ISearchParameterBase>();          
           FhirIdSearchParameter.SearchParametersList.Add(SearchParam);
 
-          //And now the Compartmnet Search parameters
+          //And now the Compartment Search parameters
           PyroSearchParameters CompartmentSearchParameter = ICompartmentSearchParameterService.GetSearchParameters(this._Compartment, this._CompartmentId, IResourceRepository.RepositoryResourceType.GetLiteral());          
           DatabaseOperationOutcomeIncludes = IResourceRepository.GetResourceByCompartmentSearch(CompartmentSearchParameter, FhirIdSearchParameter, true);
         }
