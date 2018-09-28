@@ -339,6 +339,9 @@
     <Compile Include="Service\Trigger\TriggerServices\TriggerServerReadOnlyMode.cs" />
     <Compile Include="Tools\Bundles\FhirBundleSupport.cs" />
     <Compile Include="Tools\FhirGuid\FhirGuid.cs" />
+    <Compile Include="Tools\FhirPathSupport\IPyroFhirPathResolve.cs" />
+    <Compile Include="Tools\FhirPathSupport\PyroElementNavigator.cs" />
+    <Compile Include="Tools\FhirPathSupport\PyroFhirPathResolve.cs" />
     <Compile Include="Tools\FhirSpecCorrections\FhirSpecificationCorrections.cs" />
     <Compile Include="Tools\FhirSpecCorrections\IFhirSpecificationCorrections.cs" />
     <Compile Include="Tools\FhirTask\FhirTaskTool.cs" />

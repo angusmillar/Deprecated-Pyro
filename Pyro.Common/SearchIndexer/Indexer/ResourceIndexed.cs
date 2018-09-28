@@ -10,6 +10,8 @@ using System.Linq;
 using Pyro.Common.SearchIndexer.Index;
 using Pyro.Common.Search.SearchParameterEntity;
 using LinqKit;
+using Hl7.Fhir.FhirPath;
+using Pyro.Common.Tools.FhirPathSupport;
 
 namespace Pyro.Common.SearchIndexer.Indexer
 {
@@ -17,11 +19,13 @@ namespace Pyro.Common.SearchIndexer.Indexer
   {
     private readonly IServiceSearchParameterCache IServiceSearchParameterCache;
     private readonly IIndexSetterFactory IIndexSetterFactory;
+    private readonly IPyroFhirPathResolve IPyroFhirPathResolve;
 
-    public ResourceIndexed(IServiceSearchParameterCache IServiceSearchParameterCache, IIndexSetterFactory IIndexSetterFactory)
+    public ResourceIndexed(IServiceSearchParameterCache IServiceSearchParameterCache, IIndexSetterFactory IIndexSetterFactory, IPyroFhirPathResolve IPyroFhirPathResolve)
     {
       this.IServiceSearchParameterCache = IServiceSearchParameterCache;
       this.IIndexSetterFactory = IIndexSetterFactory;
+      this.IPyroFhirPathResolve = IPyroFhirPathResolve;
 
       this.IndexQuantityList = new List<IQuantityIndex>();
       this.IndexDateTimeList = new List<IDateTimeIndex>();
@@ -78,7 +82,18 @@ namespace Pyro.Common.SearchIndexer.Indexer
               Expression = Resource.TypeName + SearchParameter.Expression.TrimStart(Resource_ResourceName.ToCharArray());
             }
 
-            IEnumerable<IElementNavigator> ResultList = Navigator.Select(Expression, new EvaluationContext(Navigator));
+            //New in FHIR R4 to handle fhir path resolve()
+            //------------------------------------------------------------------------------------------
+            //Add in the extended FhirPath functions from the fhir.net API as found here Hl7.Fhir.FhirPath.FhirEvaluationContext 
+            //this adds extended support for some FHIR Path functions (hasValue, resolve, htmlchecks)                        
+            Hl7.FhirPath.FhirPathCompiler.DefaultSymbolTable.AddFhirExtensions();
+            var oFhirEvaluationContext = new Hl7.Fhir.FhirPath.FhirEvaluationContext(Navigator);
+            //The resolve() function then also needs to be provided an external resolver delegate that performs the resolve
+            //that delegate can be set as below. Here I am providing my own implementation 'IPyroFhirPathResolve.Resolver' 
+            oFhirEvaluationContext.Resolver = IPyroFhirPathResolve.Resolver;
+            IEnumerable<IElementNavigator> ResultList = Navigator.Select(Expression, oFhirEvaluationContext);
+            //------------------------------------------------------------------------------------
+            
             foreach (IElementNavigator oElement in ResultList)
             {
               if (oElement != null)

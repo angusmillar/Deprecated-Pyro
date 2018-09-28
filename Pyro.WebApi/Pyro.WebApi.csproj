@@ -260,7 +260,9 @@
     <Content Include="App_Data\Connectons.config">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="App_Data\PyroApp.config" />
+    <Content Include="App_Data\PyroApp.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="NLog.config">
       <SubType>Designer</SubType>
     </Content>

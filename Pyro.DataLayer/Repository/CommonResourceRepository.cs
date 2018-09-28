@@ -32,6 +32,8 @@ using Pyro.Common.Service.Trigger;
 using Pyro.Common.SearchIndexer;
 using Pyro.Common.SearchIndexer.Index;
 using Pyro.Common.Logging;
+using Hl7.Fhir.FhirPath;
+using Pyro.Common.Tools.FhirPathSupport;
 
 namespace Pyro.DataLayer.Repository
 {
@@ -58,6 +60,7 @@ namespace Pyro.DataLayer.Repository
     private readonly IPagingSupport IPagingSupport;
     private readonly IRepositorySwitcher IRepositorySwitcher;
     private readonly IResourceTriggerService IResourceTriggerService;
+    private readonly IPyroFhirPathResolve IPyroFhirPathResolve;
     private readonly ILog ILog;
 
     private readonly CommonRepository<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType> CommonRepository;
@@ -71,6 +74,7 @@ namespace Pyro.DataLayer.Repository
       IPagingSupport IPagingSupport,
       IRepositorySwitcher IRepositorySwitcher,
       IResourceTriggerService IResourceTriggerService,
+      IPyroFhirPathResolve IPyroFhirPathResolve,
       ILog ILog)
       : base(IPyroDbContext)
     {
@@ -83,6 +87,7 @@ namespace Pyro.DataLayer.Repository
       this.IRepositorySwitcher = IRepositorySwitcher;
       this.IResourceTriggerService = IResourceTriggerService;
       this.ILog = ILog;
+      this.IPyroFhirPathResolve = IPyroFhirPathResolve;
       this.CommonRepository = new CommonRepository<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>(IPyroDbContext, IPrimaryServiceRootCache);
     }
 
@@ -951,7 +956,7 @@ namespace Pyro.DataLayer.Repository
       Hl7.Fhir.ElementModel.PocoNavigator Navigator = new Hl7.Fhir.ElementModel.PocoNavigator(Resource);
       string Resource_ResourceName = FHIRAllTypes.Resource.GetLiteral();
       foreach (DtoServiceSearchParameterLight SearchParameter in SearchParametersList)
-      {
+      {        
         //Composite searchParameters do not require populating as they are a Composite of other SearchParameter Types
         if (SearchParameter.Type != SearchParamType.Composite)
         {
@@ -972,7 +977,19 @@ namespace Pyro.DataLayer.Repository
               Expression = Resource.TypeName + SearchParameter.Expression.TrimStart(Resource_ResourceName.ToCharArray());
             }
 
-            IEnumerable<IElementNavigator> ResultList = Navigator.Select(Expression, new EvaluationContext(Navigator));
+
+            //New in FHIR R4 to handle fhir path resolve()
+            //------------------------------------------------------------------------------------------
+            //Add in the extended FhirPath functions from the fhir.net API as found here Hl7.Fhir.FhirPath.FhirEvaluationContext 
+            //this adds extended support for some FHIR Path functions (hasValue, resolve, htmlchecks)                        
+            Hl7.FhirPath.FhirPathCompiler.DefaultSymbolTable.AddFhirExtensions();
+            var oFhirEvaluationContext = new Hl7.Fhir.FhirPath.FhirEvaluationContext(Navigator);
+            //The resolve() function then also needs to be provided an external resolver delegate that performs the resolve
+            //that delegate can be set as below. Here I am providing my own implementation 'IPyroFhirPathResolve.Resolver' 
+            oFhirEvaluationContext.Resolver = IPyroFhirPathResolve.Resolver;
+            IEnumerable<IElementNavigator> ResultList = Navigator.Select(Expression, oFhirEvaluationContext);
+            //------------------------------------------------------------------------------------
+
             foreach (IElementNavigator oElement in ResultList)
             {
               if (oElement != null)

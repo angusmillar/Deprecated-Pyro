@@ -26,7 +26,7 @@ namespace Pyro.WebApi
       //app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
       if (Pyro.Common.Global.WebConfigProperties.FHIRApiAuthentication())
       {
-        //Forces this AuthorizationAttribute on all controlers
+        //Forces this AuthorizationAttribute on all controllers
         HttpConfiguration.Filters.Add(new Pyro.WebApi.Authorization.SwitchableAuthorizationAttribute());
 
         //Connects to the external Authorization service

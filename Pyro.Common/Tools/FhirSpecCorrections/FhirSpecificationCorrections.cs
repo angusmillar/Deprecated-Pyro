@@ -11,14 +11,15 @@ namespace Pyro.Common.Tools.FhirSpecCorrections
 {
   public class FhirSpecificationCorrections : IFhirSpecificationCorrections
   {
-    private string CorrectedAuditEventPatientExpression = "AuditEvent.entity.what.where(reference.startsWith('Patient/') or reference.contains('/Patient/')) | AuditEvent.agent.who.where(reference.startsWith('Patient/') or reference.contains('/Patient/'))";
+    //private string CorrectedAuditEventPatientExpression = "AuditEvent.entity.what.where(reference.startsWith('Patient/') or reference.contains('/Patient/')) | AuditEvent.agent.who.where(reference.startsWith('Patient/') or reference.contains('/Patient/'))";
 
     public void SearchParameterCorrections(SearchParamDefinition SearchParamDefinition)
     {
-      if (SearchParamDefinition.Name == "patient" && SearchParamDefinition.Resource == ResourceType.AuditEvent.GetLiteral())
-      {
-        SearchParamDefinition.Expression = CorrectedAuditEventPatientExpression;
-      }
+      //Below no longer required as have a custom resolve implementation 
+      //if (SearchParamDefinition.Name == "patient" && SearchParamDefinition.Resource == ResourceType.AuditEvent.GetLiteral())
+      //{
+      //  SearchParamDefinition.Expression = CorrectedAuditEventPatientExpression;
+      //}
     }
 
 
@@ -39,10 +40,11 @@ namespace Pyro.Common.Tools.FhirSpecCorrections
       //This FHIRPath expression fails to work and yet this correct does work, issues found in FHRI R4 3.5.0.
       //The old Expression was :
       //Expression = AuditEvent.agent.who.where(resolve() is Patient) | AuditEvent.entity.what.where(resolve() is Patient)
-      if (SearchParameter.Name == "patient" && SearchParameter.Base.Contains(ResourceType.AuditEvent))
-      {
-        SearchParameter.Expression = CorrectedAuditEventPatientExpression;
-      }
+      //Below no longer required as have a custom resolve implementation 
+      //if (SearchParameter.Name == "patient" && SearchParameter.Base.Contains(ResourceType.AuditEvent))
+      //{
+      //  SearchParameter.Expression = CorrectedAuditEventPatientExpression;
+      //}
     }
   }
 }

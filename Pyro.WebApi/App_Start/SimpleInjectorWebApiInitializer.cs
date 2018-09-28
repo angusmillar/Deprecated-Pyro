@@ -228,7 +228,10 @@ namespace Pyro.WebApi.App_Start
       container.Register<Pyro.Common.SearchIndexer.Setter.IQuantitySetter, Pyro.Common.SearchIndexer.Setter.QuantitySetter>(Lifestyle.Scoped);
       container.Register<Pyro.Common.SearchIndexer.Setter.IUriSetter, Pyro.Common.SearchIndexer.Setter.UriSetter>(Lifestyle.Scoped);
 
-      //Here we get the databse provider from the db connection string and then load the appropirate concrete dbContext.
+      //Custom FhirPath Resolver()
+      container.Register<Common.Tools.FhirPathSupport.IPyroFhirPathResolve, Common.Tools.FhirPathSupport.PyroFhirPathResolve>(Lifestyle.Scoped);
+      
+      //Here we get the database provider from the db connection string and then load the appropriate concrete dbContext.
       RegisterDbContextForDbProvider(container);
 
       container.Register<IRequestServiceRootValidate, RequestServiceRootValidate>(Lifestyle.Scoped);
