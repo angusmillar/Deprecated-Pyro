@@ -17,18 +17,18 @@ namespace Pyro.Common.Tools.FhirPathSupport
       var PyroRequestUri = IPyroRequestUriFactory.CreateFhirRequestUri();
       if (PyroRequestUri.FhirRequestUri.Parse(url))
       {     
-        PyroElementNavigator.Name = PyroRequestUri.FhirRequestUri.ResourseName;
-        //This type property is the key property to set for resolve() as it needs to match the comparison
-        //for example 'AuditEvent.agent.who.where(resolve() is Patient)' Patient is Patient
-        PyroElementNavigator.Type = PyroRequestUri.FhirRequestUri.ResourseName;
-        PyroElementNavigator.Value = PyroRequestUri.FhirRequestUri.ResourseName;
-        PyroElementNavigator.Location = url;
-        return PyroElementNavigator;
-      }
-      else
-      {       
-        return null;
-      }            
+        if (!string.IsNullOrWhiteSpace(PyroRequestUri.FhirRequestUri.ResourseName))
+        {
+          PyroElementNavigator.Name = PyroRequestUri.FhirRequestUri.ResourseName;
+          //This type property is the key property to set for resolve() as it needs to match the comparison
+          //for example 'AuditEvent.agent.who.where(resolve() is Patient)' Patient is Patient
+          PyroElementNavigator.Type = PyroRequestUri.FhirRequestUri.ResourseName;
+          PyroElementNavigator.Value = PyroRequestUri.FhirRequestUri.ResourseName;
+          PyroElementNavigator.Location = url;
+          return PyroElementNavigator;
+        }                
+      }             
+      return null;                  
     }
   }
 }
