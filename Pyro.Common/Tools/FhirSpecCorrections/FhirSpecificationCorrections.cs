@@ -11,20 +11,35 @@ namespace Pyro.Common.Tools.FhirSpecCorrections
 {
   public class FhirSpecificationCorrections : IFhirSpecificationCorrections
   {
-    //private string CorrectedAuditEventPatientExpression = "AuditEvent.entity.what.where(reference.startsWith('Patient/') or reference.contains('/Patient/')) | AuditEvent.agent.who.where(reference.startsWith('Patient/') or reference.contains('/Patient/'))";
 
     public void SearchParameterCorrections(SearchParamDefinition SearchParamDefinition)
     {
-      //Below no longer required as have a custom resolve implementation 
-      //if (SearchParamDefinition.Name == "patient" && SearchParamDefinition.Resource == ResourceType.AuditEvent.GetLiteral())
-      //{
-      //  SearchParamDefinition.Expression = CorrectedAuditEventPatientExpression;
-      //}
+
+      //This expression was "StructureDefinition.context" which hit a backbone element and not the correct child
+      //Added .type to get the correct code value
+      if (SearchParamDefinition.Name == "ext-context" &&
+        SearchParamDefinition.Expression == "StructureDefinition.context" &&
+        SearchParamDefinition.Resource == ResourceType.StructureDefinition.GetLiteral())
+      {
+        SearchParamDefinition.Expression = "StructureDefinition.context.type";
+      }
+
     }
 
 
     public void SearchParameterCorrections(SearchParameter SearchParameter)
     {
+      //################################################################################################
+      //This expression was "StructureDefinition.context" which hit a backbone element and not the correct child
+      //Added .type to get the correct code value
+      if (SearchParameter.Name == "ext-context" &&
+        SearchParameter.Expression == "StructureDefinition.context" &&
+        SearchParameter.Base.Contains(ResourceType.StructureDefinition))
+      {
+        SearchParameter.Expression = "StructureDefinition.context.type";
+      }
+
+
       //################################################################################################
       //This is an correction to the FHIR specification SearchParameter definitions found in the  
       //definitions.xml.zip file required for STU3, I believe it is fixed in R4 and it should be removed once tested that it is not hit.
@@ -36,15 +51,6 @@ namespace Pyro.Common.Tools.FhirSpecCorrections
         BrokenComponet.Definition = CorrectCanonicalUrl;
       }
 
-      //################################################################################################
-      //This FHIRPath expression fails to work and yet this correct does work, issues found in FHRI R4 3.5.0.
-      //The old Expression was :
-      //Expression = AuditEvent.agent.who.where(resolve() is Patient) | AuditEvent.entity.what.where(resolve() is Patient)
-      //Below no longer required as have a custom resolve implementation 
-      //if (SearchParameter.Name == "patient" && SearchParameter.Base.Contains(ResourceType.AuditEvent))
-      //{
-      //  SearchParameter.Expression = CorrectedAuditEventPatientExpression;
-      //}
     }
   }
 }
