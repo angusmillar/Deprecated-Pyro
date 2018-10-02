@@ -270,6 +270,7 @@ namespace Pyro.Engine.Services.FhirTasks.FhirSpecLoader
 
     private bool CommitTransactionBundle(Bundle Bundle, string FileName)
     {
+      ILog.Info($"      {FileName} Commit");      
       try
       {
         var RequestMeta = IRequestMetaFactory.CreateRequestMeta().Set($"");
@@ -279,6 +280,7 @@ namespace Pyro.Engine.Services.FhirTasks.FhirSpecLoader
         this.IResourceTriggerService.TriggersActive = true;
         if (ResourceServiceOutcome.SuccessfulTransaction)
         {
+          ILog.Info($"      {FileName} Committed");
           return true;
         }
         else
