@@ -1,4 +1,6 @@
-## Pyro FHIR Server ##
+![][logo]
+
+[logo]: https://github.com/angusmillar/PyroWeb/blob/master/src/Images/SiteIcon/NewPyroIconLong-200.png "Pyro Server Logo"
 
 This is a C# .NET Framework 4.6, MSSQL or PostgreSQL, FHIR server implementing FHIR R4, Version 3.5.0 
 
