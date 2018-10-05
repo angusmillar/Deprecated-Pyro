@@ -1,14 +1,14 @@
 ## Pyro FHIR Server ##
 
-This is a C# .NET Framework 4.6, MSSQL or PostgreSQL, FHIR server implementing FHIR Version STU-3.0.1 
+This is a C# .NET Framework 4.6, MSSQL or PostgreSQL, FHIR server implementing FHIR R4, Version 3.5.0 
 
-See the official FHIR specification page here: [FHIR specification STU-3.0.1](http://hl7.org/fhir/STU3/index.html)
+See the official FHIR specification page here: [FHIR specification R4](http://hl7.org/fhir/2018Sep/index.html)
 
 See the publicly accessible Pyro Server instance running here: [Pyrohealth.net](https://pyrohealth.net/)
 
 **This server implements the following FHIR specification components** 
 
-> Or get the server's CapabilityStatement resource from the Pyrohealth.net server: GET https://stu3.test.pyrohealth.net/fhir/metadata
+> Or get the server's CapabilityStatement resource from the Pyrohealth.net server: GET https://r4.test.pyrohealth.net/fhir/metadata
 
 > Or read the web rendered CapabilityStatement here: [Pyro FHIR Server CapabilityStatement](https://pyrohealth.net/metadata-content)
 
@@ -69,7 +69,6 @@ PostgreSQL (Version 10)
 7. Hit 'F5' to start the 'Pyro.ConsoleServer' project.
 8. A console window opens with the Pyro logo in yellow and the message "Please wait while database schema loads", this will take about 1 min.     
 9. Once the load is completed the console will change from yellow to blue and the server is ready for calls to its FHRI API. The console will state the FHIR API endpoint. The default is `http://localhost:8888/fhir` 
-10. On a clean install the server on its first start-up performs a background set-up task whereby it loads all the FHIR search parameters as active search indexes into the server. While this is running the server is in read-only mode until it completes. This to prevent Resources from being committed before the indexes are ready. You can monitor the task progress by either trying to perform a POST or PUT or my doing a GET on the Task its self, Task id: set-searchParameter-definitions. e.g [base]/Task/set-searchParameter-definitions 
 
 ## Understanding the solution a little deeper ##
 
@@ -128,7 +127,7 @@ You will also need to set the `ServiceBaseURL` property in the file below (See t
 Both projects `Pyro.WebApi` and `Pyro.ConsoleServer`, require that you first run the `Pyro.DbManager` to initialise the database.
 If you do not do this, and start either `Pyro.WebApi` or `Pyro.ConsoleServer` first, they will create a database for themselves yet that database will not be seeded with the required reference data. Once you attempt to commit (PUT or POST) a FHIR resource via the API you will receive a FHIR OperationOutcome error in response which reads:
 
-`The _FhirRelease database table returned no entry for the fhir Version '3.0.1', this typically occurs when the table was never seeded at the time of database creation. You must create the database using the Pyro.DbManager application and not rely on the service creating it on start-up as the service will not seed the initial data required. If this is true for you then drop your database and start again by running the Pyro.DbManager application first.`
+`The _FhirRelease database table returned no entry for the fhir Version '3.5.0', this typically occurs when the table was never seeded at the time of database creation. You must create the database using the Pyro.DbManager application and not rely on the service creating it on start-up as the service will not seed the initial data required. If this is true for you then drop your database and start again by running the Pyro.DbManager application first.`
 
 In general, you would only use `Pyro.Console` in your development environment and configure its connection strings and ServiceBaseURL to suit. You would then only configure the `Pyro.WebApi` connection strings and ServiceBaseURL to be for your production instance ready for deployment. 
 
