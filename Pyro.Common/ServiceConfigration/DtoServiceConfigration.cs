@@ -12,9 +12,9 @@ namespace Pyro.Common.ServiceConfigration
     public string Parameter { get; set; }
     public string Value { get; set; }
 
-    public DateTimeOffset CreatedDate { get; set; }
+    public DateTime CreatedDate { get; set; }
     public string CreatedUser { get; set; }
-    public DateTimeOffset LastUpdated { get; set; }
+    public DateTime LastUpdated { get; set; }
     public string LastUpdatedUser { get; set; }
   }
 }

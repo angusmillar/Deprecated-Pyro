@@ -36,7 +36,7 @@ namespace Pyro.Common.PyroHealthFhirResource
     {
       List<Resource> ResourceList = new List<Resource>();
       
-      //Orginisation
+      //Organisation
       ResourceList.Add(IOrganization.PyroHealthOrganization.GetResource());
       
       //CodeSystem
@@ -50,7 +50,10 @@ namespace Pyro.Common.PyroHealthFhirResource
       //Task
       ResourceList.Add(ITask.SetCompartmentDefinitions.GetResource());
       ResourceList.Add(ITask.LoadFhirSpecificationDefinitionsTask.GetResource());
-      ResourceList.Add(ITask.SetSearchParameterDefinitions.GetResource());
+      
+      //Below is only used in development to load the specification search parameters into the database
+      //We then extract them out and make SQL seed scripts to load on database creation. 
+      //ResourceList.Add(ITask.SetSearchParameterDefinitions.GetResource());
 
 
       //CompartmentDefinition

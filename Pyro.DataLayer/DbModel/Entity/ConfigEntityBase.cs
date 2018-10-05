@@ -8,9 +8,9 @@ namespace Pyro.DataLayer.DbModel.Entity
 {
   public abstract class ConfigEntityBase : EntityBase.ModelBase, IConfigEntityBase
   {
-    public DateTimeOffset CreatedDate { get; set; }
+    public DateTime CreatedDate { get; set; }
     public string CreatedUser { get; set; }
-    public DateTimeOffset LastUpdated { get; set; }
+    public DateTime LastUpdated { get; set; }
     public string LastUpdatedUser { get; set; }
   }
 }

@@ -141,7 +141,7 @@
     <Compile Include="Search\Test_SearchParameterParse.cs" />
     <Compile Include="Search\Test_SearchParameterService.cs" />
     <Compile Include="Search\Test_DtoSearchParameterGeneric.cs" />
-    <Compile Include="Tools\Test_DateTimeSupport.cs" />
+    <Compile Include="Tools\Test_DateTimeIndexSupport.cs" />
     <Compile Include="Tools\Test_FhirDateTimeSupport.cs" />
     <Compile Include="Tools\Test_FhirNarrativeSupport.cs" />
     <Compile Include="Tools\Test_HttpHeaderSupport.cs" />

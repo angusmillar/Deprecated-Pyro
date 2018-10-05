@@ -35,11 +35,23 @@ namespace Pyro.DataLayer.DbModel.DatabaseContextConfig
         .HasColumnAnnotation(IndexAnnotation.AnnotationName,
         new IndexAnnotation(new IndexAttribute("ix_SearchParamId") { IsUnique = false }));
 
-      Property(x => x.Code)
+      if (StaticDatabaseInfo.DatabaseCreateSwitches.CaseSensitiveColumnAnnotationOn)
+      {
+        Property(x => x.Code)
         .HasMaxLength(StaticDatabaseInfo.BaseDatabaseFieldLength.CodeMaxLength)
         .IsOptional()
+        .HasColumnAnnotation("CaseSensitive", true)
         .HasColumnAnnotation(IndexAnnotation.AnnotationName,
         new IndexAnnotation(new IndexAttribute("ix_Code") { IsUnique = false }));
+      }
+      else
+      {
+        Property(x => x.Code)
+        .HasMaxLength(StaticDatabaseInfo.BaseDatabaseFieldLength.CodeMaxLength)
+        .IsOptional()        
+        .HasColumnAnnotation(IndexAnnotation.AnnotationName,
+        new IndexAnnotation(new IndexAttribute("ix_Code") { IsUnique = false }));
+      }
 
       Property(x => x.System)
         .HasMaxLength(StaticDatabaseInfo.BaseDatabaseFieldLength.StringMaxLength)

@@ -566,7 +566,8 @@ namespace Pyro.Common.FhirOperation.ServerSearchParameter
                               DtoServiceSearchParameterHeavy CodeAlreadyIndexed = _DbSearchParamListForResource.SingleOrDefault(x => x.Name == TargetSearchParameter.Code);
                               if (CodeAlreadyIndexed != null)
                               {
-                                
+                                InboundItem.CreatedDate = CodeAlreadyIndexed.CreatedDate;
+                                InboundItem.CreatedUser = CodeAlreadyIndexed.CreatedUser;
                                 if (CodeAlreadyIndexed.Expression == InboundItem.Expression && CodeAlreadyIndexed.IsIndexed)
                                 {
                                   //If the Expressions are the same and it is already indexed then just update but no need to re-index
@@ -1177,6 +1178,10 @@ namespace Pyro.Common.FhirOperation.ServerSearchParameter
           New.Description = SearchParameterResource.Description.Value;
         New.Expression = SearchParameterResource.Expression;
         New.Name = SearchParameterResource.Code;
+        New.CreatedDate = Pyro.Common.Tools.DateTimeSupport.UTCDateTimeNow();
+        New.CreatedUser = Pyro.Common.PyroHealthFhirResource.PyroHealthSystemUser.User;
+        New.LastUpdated= Pyro.Common.Tools.DateTimeSupport.UTCDateTimeNow();
+        New.LastUpdatedUser = Pyro.Common.PyroHealthFhirResource.PyroHealthSystemUser.User;
         New.Resource = Base.GetLiteral();
         New.SearchParameterResourceId = SearchParameterResource.Id;
         New.SearchParameterResourceVersion = SearchParameterResource.Meta.VersionId;

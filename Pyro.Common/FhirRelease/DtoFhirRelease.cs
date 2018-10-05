@@ -12,9 +12,9 @@ namespace Pyro.Common.FhirRelease
     public string FhirVersion { get; set; }
     public DateTime Date { get; set; }
     public string Description { get; set; }
-    public DateTimeOffset CreatedDate { get; set; }
+    public DateTime CreatedDate { get; set; }
     public string CreatedUser { get; set; }
-    public DateTimeOffset LastUpdated { get; set; }
+    public DateTime LastUpdated { get; set; }
     public string LastUpdatedUser { get; set; }
   }
 }

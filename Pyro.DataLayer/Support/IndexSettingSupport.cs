@@ -29,20 +29,13 @@ namespace Pyro.DataLayer.Support
         ResourceCurrentBase.FhirId = Resource.Id;
         Hl7.Fhir.Serialization.FhirXmlSerializer FhirXmlSerializer = new Hl7.Fhir.Serialization.FhirXmlSerializer();        
         ResourceCurrentBase.Resource = Common.Tools.GZip.GZipper.Compress(FhirXmlSerializer.SerializeToBytes(Resource));
-        ResourceCurrentBase.LastUpdated = (DateTimeOffset)Resource.Meta.LastUpdated;
-
-        // Zip to byte[]
-        //byte[] CompressedBytes = Common.Tools.GZip.GZipper.Compress(FhirXmlSerializer.SerializeToBytes(Resource));
-
-        //string ResourceString = Common.Tools.GZip.GZipper.Decompress(CompressedBytes);
-        
-        
+        ResourceCurrentBase.LastUpdated = Pyro.Common.Tools.DateTimeSupport.DateTimeOffSetToUTCDateTime((DateTimeOffset)Resource.Meta.LastUpdated);                    
       }
       else
       {
         ResourceCurrentBase.FhirId = FhirResourceId;
         ResourceCurrentBase.Resource = null;
-        ResourceCurrentBase.LastUpdated = DateTimeOffset.Now;
+        ResourceCurrentBase.LastUpdated = Pyro.Common.Tools.DateTimeSupport.UTCDateTimeNow();
       }
     }
 
@@ -103,7 +96,7 @@ namespace Pyro.DataLayer.Support
       ResourceCurrentBase.FhirReleaseId = 0;
       ResourceCurrentBase.FhirId = null;
       ResourceCurrentBase.IsDeleted = false;
-      ResourceCurrentBase.LastUpdated = DateTimeOffset.MinValue;
+      ResourceCurrentBase.LastUpdated = DateTime.MinValue;
       ResourceCurrentBase.Method = Bundle.HTTPVerb.GET;
       ResourceCurrentBase.VersionId = "Reset";
       ResourceCurrentBase.Resource = null;

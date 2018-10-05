@@ -1,2 +1,0 @@
-﻿INSERT INTO [dbo].[_FhirRelease] ([FhirVersion],[Date],[Description],[CreatedDate],[CreatedUser],[LastUpdated],[LastUpdatedUser])
-     VALUES ('3.5.0' ,'2018-08-21 00:00:00.0000000' ,'R4 Ballot #2 : Mixed Normative/Trial use (Second Normative ballot + Baltimore Connectathon)' ,SYSDATETIME() ,'PyroServerSystem' ,SYSDATETIME(), 'PyroServerSystem')

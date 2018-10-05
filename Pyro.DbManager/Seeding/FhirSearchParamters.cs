@@ -78,11 +78,15 @@ namespace Pyro.DbManager.Seeding
       string IsIndexed = Pyro.DbManager.Tools.StringSupport.GetBoolToByteString(SearchParam.IsIndexed);
       string Status = Convert.ToInt32(SearchParam.Status).ToString();
       string LastUpdated = Pyro.DbManager.Tools.StringSupport.GetPostgreSQLDateTimeOffSet(SearchParam.LastUpdated);
+      string LastUpdatedUser = Pyro.Common.PyroHealthFhirResource.PyroHealthSystemUser.User;
+      string CreatedDate = Pyro.DbManager.Tools.StringSupport.GetPostgreSQLDateTimeOffSet(SearchParam.CreatedDate);
+      string CreatedUser = Pyro.Common.PyroHealthFhirResource.PyroHealthSystemUser.User;
+
       string SearchParameterResourceId = SearchParam.SearchParameterResourceId;
       string SearchParameterResourceVersion = SearchParam.SearchParameterResourceVersion;
 
-      string Query = $"INSERT INTO [dbo].[_SearchParam] ([Resource], [Name], [Url], [Description], [Type], [XPath], [Expression], [IsIndexed], [Status], [LastUpdated]) " +
-                     $"VALUES ('{Resource}', '{Name}', '{Url}', '{Description}', '{Type}', '{XPath}', '{Expression}', '{IsIndexed}', '{Status}', '{LastUpdated}');";
+      string Query = $"INSERT INTO [dbo].[_SearchParam] ([Resource], [Name], [Url], [Description], [Type], [XPath], [Expression], [IsIndexed], [Status], [CreatedDate], [CreatedUser], [LastUpdated], [LastUpdatedUser]) " +
+                     $"VALUES ('{Resource}', '{Name}', '{Url}', '{Description}', '{Type}', '{XPath}', '{Expression}', '{IsIndexed}', '{Status}', '{CreatedDate}', '{CreatedUser}', '{LastUpdated}', '{LastUpdatedUser}');";
 
 
       return Query;
@@ -100,11 +104,14 @@ namespace Pyro.DbManager.Seeding
       string IsIndexed = Pyro.DbManager.Tools.StringSupport.GetBoolToByteString(SearchParam.IsIndexed);
       string Status = Convert.ToInt32(SearchParam.Status).ToString();
       string LastUpdated = Pyro.DbManager.Tools.StringSupport.GetPostgreSQLDateTimeOffSet(SearchParam.LastUpdated);
+      string LastUpdatedUser = Pyro.Common.PyroHealthFhirResource.PyroHealthSystemUser.User;
+      string CreatedDate = Pyro.DbManager.Tools.StringSupport.GetPostgreSQLDateTimeOffSet(SearchParam.CreatedDate);
+      string CreatedUser = Pyro.Common.PyroHealthFhirResource.PyroHealthSystemUser.User;
       string SearchParameterResourceId = SearchParam.SearchParameterResourceId;
       string SearchParameterResourceVersion = SearchParam.SearchParameterResourceVersion;
 
-      string Query = $"INSERT INTO public.\"_SearchParam\"(\"Resource\", \"Name\", \"Url\", \"Description\", \"Type\", \"XPath\", \"Expression\", \"IsIndexed\", \"Status\", \"LastUpdated\") " +
-                     $"VALUES('{Resource}', '{Name}', '{Url}', '{Description}', '{Type}', '{XPath}', '{Expression}', '{IsIndexed}', '{Status}', '{LastUpdated}');";
+      string Query = $"INSERT INTO public.\"_SearchParam\"(\"Resource\", \"Name\", \"Url\", \"Description\", \"Type\", \"XPath\", \"Expression\", \"IsIndexed\", \"Status\", \"LastUpdated\", \"LastUpdatedUser\", \"CreatedDate\", \"CreatedUser\") " +
+                     $"VALUES('{Resource}', '{Name}', '{Url}', '{Description}', '{Type}', '{XPath}', '{Expression}', '{IsIndexed}', '{Status}', '{LastUpdated}', '{LastUpdatedUser}', '{CreatedDate}', '{CreatedUser}');";
 
 
       return Query;
@@ -176,7 +183,7 @@ namespace Pyro.DbManager.Seeding
     {
       IList<DtoServiceSearchParameter> ServiceSearchParameterList = ServiceSearchParameterFactory.FhirAPISearchParameters();
       var ReturnList = new List<SearchParam>();
-      var LastUpdated = DateTimeOffset.Now;
+      var DateStamp = Common.Tools.DateTimeSupport.UTCDateTimeNow();
       foreach (var SearchParameter in ServiceSearchParameterList.Where(x => 
         x.Resource == ResourceType.Resource.GetLiteral() || 
         x.Resource == ResourceType.Task.GetLiteral() || 
@@ -193,7 +200,10 @@ namespace Pyro.DbManager.Seeding
           Url = SearchParameter.Url,
           XPath = SearchParameter.XPath,
           IsIndexed = true,
-          LastUpdated = LastUpdated,
+          LastUpdated = DateStamp,
+          LastUpdatedUser = Common.PyroHealthFhirResource.PyroHealthSystemUser.User,          
+          CreatedDate = DateStamp,
+          CreatedUser = Common.PyroHealthFhirResource.PyroHealthSystemUser.User,
           Status = PublicationStatus.Active
         };
         if (SearchParameter.TargetResourceTypeList != null && SearchParameter.TargetResourceTypeList.Count > 0)

@@ -1,14 +1,25 @@
 ﻿using Hl7.Fhir.ElementModel;
+using Hl7.Fhir.FhirPath;
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Utility;
 using Hl7.FhirPath;
+using Pyro.Common.CompositionRoot;
 using Pyro.Common.DtoEntity;
-using Pyro.Common.Search;
+using Pyro.Common.Extentions;
+using Pyro.Common.FhirRelease;
 using Pyro.Common.Interfaces.Repositories;
 using Pyro.Common.Interfaces.Service;
-using Pyro.Common.Tools.UriSupport;
+using Pyro.Common.Logging;
+using Pyro.Common.Search;
+using Pyro.Common.Search.SearchParameterEntity;
+using Pyro.Common.Service.Trigger;
 using Pyro.Common.ServiceRoot;
-using Pyro.Common.Extentions;
+using Pyro.Common.ServiceSearchParameter;
+using Pyro.Common.Tools;
+using Pyro.Common.Tools.FhirPathSupport;
+using Pyro.Common.Tools.Paging;
+using Pyro.Common.Tools.UriSupport;
+using Pyro.DataLayer.DbModel.DatabaseContext;
 using Pyro.DataLayer.DbModel.EntityBase;
 using Pyro.DataLayer.IndexSetter;
 using Pyro.DataLayer.Search.Extentions;
@@ -19,21 +30,6 @@ using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Linq.Expressions;
-using Pyro.DataLayer.DbModel.DatabaseContext;
-using Pyro.Common.ServiceSearchParameter;
-using Pyro.Common.CompositionRoot;
-using Pyro.Common.FhirRelease;
-using Pyro.Common.Tools.Paging;
-using Pyro.Common.Tools;
-using Pyro.DataLayer.DbModel.EntityGenerated;
-using LinqKit;
-using Pyro.Common.Search.SearchParameterEntity;
-using Pyro.Common.Service.Trigger;
-using Pyro.Common.SearchIndexer;
-using Pyro.Common.SearchIndexer.Index;
-using Pyro.Common.Logging;
-using Hl7.Fhir.FhirPath;
-using Pyro.Common.Tools.FhirPathSupport;
 
 namespace Pyro.DataLayer.Repository
 {
@@ -124,7 +120,7 @@ namespace Pyro.DataLayer.Repository
       var Predicate = LinqKit.PredicateBuilder.New<ResCurrentType>(true);
 
       var PredicateOne = this.CommonRepository.PredicateCurrentNotDeleted();
-      var PredicateTwo = this.CommonRepository.PredicateResourceIdAndLastUpdatedDate(DtoSearchParameters.SearchParametersList);
+      var PredicateTwo = this.CommonRepository.PredicateResourceId(DtoSearchParameters.SearchParametersList);
       var PredicateThree = this.CommonRepository.ANDSearchParameterListPredicateGenerator(DtoSearchParameters.SearchParametersList);
 
       Predicate = Predicate.And(PredicateOne);
@@ -197,7 +193,7 @@ namespace Pyro.DataLayer.Repository
         var Predicate = LinqKit.PredicateBuilder.New<ResCurrentType>(true);
         Predicate = Predicate.And(this.CommonRepository.PredicateCurrentNotDeleted());
         var ChainParanmeterList = new List<ISearchParameterBase>() { ChainedSearchParameter };
-        Predicate = Predicate.And(this.CommonRepository.PredicateResourceIdAndLastUpdatedDate(ChainParanmeterList));
+        Predicate = Predicate.And(this.CommonRepository.PredicateResourceId(ChainParanmeterList));
         Predicate = Predicate.And(this.CommonRepository.ANDSearchParameterListPredicateGenerator(ChainParanmeterList));
 
         IQueryable<ResCurrentType> ResCurrentTypeContext = IPyroDbContext.Set<ResCurrentType>();
@@ -236,11 +232,11 @@ namespace Pyro.DataLayer.Repository
 
       var Predicate = LinqKit.PredicateBuilder.New<ResCurrentType>(true);
       var PredicateCurrentResources = this.CommonRepository.PredicateCurrentNotDeleted();
-      var PredicateIdAndLastUpdated = this.CommonRepository.PredicateResourceIdAndLastUpdatedDate(NoChainedSearchParametersList);
+      var PredicateResourceId = this.CommonRepository.PredicateResourceId(NoChainedSearchParametersList);
       var PredicateSearchParameters = this.CommonRepository.ANDSearchParameterListPredicateGenerator(NoChainedSearchParametersList);
 
       Predicate = Predicate.And(PredicateCurrentResources);
-      Predicate = Predicate.And(PredicateIdAndLastUpdated);
+      Predicate = Predicate.And(PredicateResourceId);
       Predicate = Predicate.And(PredicateSearchParameters);
 
       IQueryable<ResCurrentType> CurrentResourceContext = IPyroDbContext.Set<ResCurrentType>();
@@ -301,11 +297,11 @@ namespace Pyro.DataLayer.Repository
       //SetNumberOfRecordsPerPage(DtoSearchParameters);
       var Predicate = LinqKit.PredicateBuilder.New<ResCurrentType>(true);
       var PredicateCurrentResources = this.CommonRepository.PredicateCurrentNotDeleted();
-      var PredicateIdAndLastUpdated = this.CommonRepository.PredicateResourceIdAndLastUpdatedDate(DtoSearchParameters.SearchParametersList);
+      var PredicateId = this.CommonRepository.PredicateResourceId(DtoSearchParameters.SearchParametersList);
       var PredicateSearchParameters = this.CommonRepository.ANDSearchParameterListPredicateGenerator(DtoSearchParameters.SearchParametersList);
 
       Predicate = Predicate.And(PredicateCurrentResources);
-      Predicate = Predicate.And(PredicateIdAndLastUpdated);
+      Predicate = Predicate.And(PredicateId);
       Predicate = Predicate.And(PredicateSearchParameters);
 
       int TotalRecordCount = this.CommonRepository.DbGetALLCount<ResCurrentType>(Predicate);
@@ -366,12 +362,12 @@ namespace Pyro.DataLayer.Repository
 
       var Predicate = LinqKit.PredicateBuilder.New<ResCurrentType>(true);
       var PredicateCurrentResources = this.CommonRepository.PredicateCurrentNotDeleted();
-      var PredicateIdAndLastUpdated = this.CommonRepository.PredicateResourceIdAndLastUpdatedDate(NoChainedSearchParametersList);
+      var PredicateResourceId = this.CommonRepository.PredicateResourceId(NoChainedSearchParametersList);
       var PredicateSearchParameters = this.CommonRepository.ANDSearchParameterListPredicateGenerator(NoChainedSearchParametersList);
       var PredicateCompartment = this.CommonRepository.ORSearchParameterListPredicateGenerator(CompartmentSearchParameters.SearchParametersList);
 
       Predicate = Predicate.And(PredicateCurrentResources);
-      Predicate = Predicate.And(PredicateIdAndLastUpdated);
+      Predicate = Predicate.And(PredicateResourceId);
       Predicate = Predicate.And(PredicateSearchParameters);
       Predicate = Predicate.And(PredicateCompartment);
 
@@ -562,7 +558,7 @@ namespace Pyro.DataLayer.Repository
       {
         var ResourceEntity = new ResCurrentType();
         DtoFhirRelease DtoFhirRelease = IFhirReleaseCache.GetFhirReleaseByFhirVersion(Hl7.Fhir.Model.ModelInfo.Version);
-        CheckFhirReleaseSeedIssue(DtoFhirRelease);        
+        CheckFhirReleaseSeedIssue(DtoFhirRelease);
         IndexSettingSupport.SetResourceBaseAddOrUpdate(Resource, ResourceEntity, Common.Tools.ResourceVersionNumber.FirstVersion(), false, Bundle.HTTPVerb.POST, DtoFhirRelease.Id);
         this.PopulateResourceEntity(ResourceEntity, Resource, FhirRequestUri);
         ResourceEntity.IsCurrent = true;
@@ -578,7 +574,7 @@ namespace Pyro.DataLayer.Repository
       IDatabaseOperationOutcome DatabaseOperationOutcome = IDatabaseOperationOutcomeFactory.CreateDatabaseOperationOutcome();
       ResCurrentType NewResourceEntity = new ResCurrentType();
       //Also specify which Includes to also load, only need token in this case;
-      ResCurrentType ResourceHistoryEntity = LoadCurrentResourceEntity(Resource.Id, new SearchParamType[] { SearchParamType.Token });      
+      ResCurrentType ResourceHistoryEntity = LoadCurrentResourceEntity(Resource.Id, new SearchParamType[] { SearchParamType.Token });
       ITriggerInput TriggerInput = IResourceTriggerService.TriggerInputFactory();
       TriggerInput.CrudOperationType = Common.Enum.RestEnum.CrudOperationType.Update;
       TriggerInput.InboundResource = Resource;
@@ -597,16 +593,16 @@ namespace Pyro.DataLayer.Repository
       }
       else
       {
-        ResourceHistoryEntity.IsCurrent = false;        
+        ResourceHistoryEntity.IsCurrent = false;
         DtoFhirRelease DtoFhirRelease = IFhirReleaseCache.GetFhirReleaseByFhirVersion(Hl7.Fhir.Model.ModelInfo.Version);
         CheckFhirReleaseSeedIssue(DtoFhirRelease);
         IndexSettingSupport.SetResourceBaseAddOrUpdate(Resource, NewResourceEntity, ResourceVersion, false, Bundle.HTTPVerb.PUT, DtoFhirRelease.Id);
         this.PopulateResourceEntity(NewResourceEntity, Resource, FhirRequestUri);
         NewResourceEntity.IsCurrent = true;
-        this.CommonRepository.DbAddEntity(NewResourceEntity);        
+        this.CommonRepository.DbAddEntity(NewResourceEntity);
         DatabaseOperationOutcome.ReturnedResourceList.Add(IndexSettingSupport.SetDtoResource(NewResourceEntity, this.RepositoryResourceType));
         DatabaseOperationOutcome.SingleResourceRead = true;
-        
+
         //Delete all the old Resource's Indexes
         DeleteAllResourceIndexesByResourceId(ResourceHistoryEntity.Id);
         return DatabaseOperationOutcome;
@@ -616,7 +612,7 @@ namespace Pyro.DataLayer.Repository
     public IDatabaseOperationOutcome UpdateResouceIdAsDeleted(string FhirId)
     {
       IDatabaseOperationOutcome DatabaseOperationOutcome = IDatabaseOperationOutcomeFactory.CreateDatabaseOperationOutcome();
-      var OldResourceEntity = this.LoadCurrentResourceEntity(FhirId);      
+      var OldResourceEntity = this.LoadCurrentResourceEntity(FhirId, new SearchParamType[] { SearchParamType.Token });
       ITriggerInput TriggerInput = IResourceTriggerService.TriggerInputFactory();
       TriggerInput.CrudOperationType = Common.Enum.RestEnum.CrudOperationType.Delete;
       TriggerInput.InboundResource = null;
@@ -639,7 +635,7 @@ namespace Pyro.DataLayer.Repository
         string NewDeletedResourceVersion = Common.Tools.ResourceVersionNumber.Increment(OldResourceEntity.VersionId);
         NewResourceEntity.IsCurrent = true;
         NewResourceEntity.IsDeleted = true;
-        NewResourceEntity.LastUpdated = DateTimeOffset.Now;
+        NewResourceEntity.LastUpdated = Pyro.Common.Tools.DateTimeSupport.UTCDateTimeNow();
         NewResourceEntity.Method = Bundle.HTTPVerb.DELETE;
         NewResourceEntity.Resource = null;
         NewResourceEntity.VersionId = NewDeletedResourceVersion;
@@ -662,7 +658,7 @@ namespace Pyro.DataLayer.Repository
       //Get each from the database and check for any issues from the triggers
       foreach (string ResourceId in ResourceIdCollection)
       {
-        var OldResourceEntity = this.LoadCurrentResourceEntity(ResourceId);
+        var OldResourceEntity = this.LoadCurrentResourceEntity(ResourceId, new SearchParamType[] { SearchParamType.Token });
         OldResourceEntityList.Add(OldResourceEntity);
 
         ITriggerInput TriggerInput = IResourceTriggerService.TriggerInputFactory();
@@ -683,7 +679,7 @@ namespace Pyro.DataLayer.Repository
         }
       }
 
-      //We have checked all Triggers and no isse so now delete the list.
+      //We have checked all Triggers and no issue so now delete the list.
       foreach (var OLdEntry in OldResourceEntityList)
       {
         var NewResourceEntity = new ResCurrentType();
@@ -691,7 +687,7 @@ namespace Pyro.DataLayer.Repository
         string NewDeletedResourceVersion = Common.Tools.ResourceVersionNumber.Increment(OLdEntry.VersionId);
         NewResourceEntity.IsCurrent = true;
         NewResourceEntity.IsDeleted = true;
-        NewResourceEntity.LastUpdated = DateTimeOffset.Now;
+        NewResourceEntity.LastUpdated = Pyro.Common.Tools.DateTimeSupport.UTCDateTimeNow();
         NewResourceEntity.Method = Bundle.HTTPVerb.DELETE;
         NewResourceEntity.Resource = null;
         NewResourceEntity.VersionId = NewDeletedResourceVersion;
@@ -841,7 +837,7 @@ namespace Pyro.DataLayer.Repository
       return Counter;
     }
 
-    
+
 
     public void DeleteAllResourceIndexesByResourceId(int ResourceId)
     {
@@ -851,7 +847,7 @@ namespace Pyro.DataLayer.Repository
       Counter = Counter + DeleteIndexByResourceId<ResIndexUriType>(ResourceId);
       Counter = Counter + DeleteIndexByResourceId<ResIndexReferenceType>(ResourceId);
       Counter = Counter + DeleteIndexByResourceId<ResIndexQuantityType>(ResourceId);
-      Counter = Counter + DeleteIndexByResourceId<ResIndexDateTimeType>(ResourceId);            
+      Counter = Counter + DeleteIndexByResourceId<ResIndexDateTimeType>(ResourceId);
       this.Save();
     }
 
@@ -956,16 +952,23 @@ namespace Pyro.DataLayer.Repository
       Hl7.Fhir.ElementModel.PocoNavigator Navigator = new Hl7.Fhir.ElementModel.PocoNavigator(Resource);
       string Resource_ResourceName = FHIRAllTypes.Resource.GetLiteral();
       foreach (DtoServiceSearchParameterLight SearchParameter in SearchParametersList)
-      {        
+      {
         //Composite searchParameters do not require populating as they are a Composite of other SearchParameter Types
         if (SearchParameter.Type != SearchParamType.Composite)
         {
           bool SetSearchParameterIndex = true;
-          if ((SearchParameter.Resource == Resource_ResourceName && SearchParameter.Name == "_id") ||
-            (SearchParameter.Resource == Resource_ResourceName && SearchParameter.Name == "_lastUpdated"))
+          //if ((SearchParameter.Resource == Resource_ResourceName && SearchParameter.Name == "_id") ||
+          //  (SearchParameter.Resource == Resource_ResourceName && SearchParameter.Name == "_lastUpdated"))
+          //{
+          //  SetSearchParameterIndex = false;
+          //}
+
+          if (SearchParameter.Resource == Resource_ResourceName && SearchParameter.Name == "_id")
           {
             SetSearchParameterIndex = false;
           }
+
+
 
           if (SetSearchParameterIndex)
           {
@@ -1069,7 +1072,7 @@ namespace Pyro.DataLayer.Repository
     {
       if (DtoFhirRelease == null)
       {
-        string Message = $"The _FhirRelease database table returned no entry for the fhir Version '{Hl7.Fhir.Model.ModelInfo.Version}', this typically occurs when the table was never seeded at the time of database creation. You must create the database using the Pyro.DbManager application and not rely on the service creating it on startup as the service will not seed the initial data required.` If this is true for you then drop your database and start again by running the Pyro.DbManager application first.";        
+        string Message = $"The _FhirRelease database table returned no entry for the fhir Version '{Hl7.Fhir.Model.ModelInfo.Version}', this typically occurs when the table was never seeded at the time of database creation. You must create the database using the Pyro.DbManager application and not rely on the service creating it on startup as the service will not seed the initial data required.` If this is true for you then drop your database and start again by running the Pyro.DbManager application first.";
         ILog.Fatal(Message);
         var OptOut = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Fatal, OperationOutcome.IssueType.Exception, Message);
         throw new Common.Exceptions.PyroException(System.Net.HttpStatusCode.InternalServerError, OptOut, Message);

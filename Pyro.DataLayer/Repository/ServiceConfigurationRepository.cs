@@ -30,7 +30,7 @@ namespace Pyro.DataLayer.Repository
 
     public DtoServiceConfigration UpdateServiceConfigration(DtoServiceConfigration DtoServiceConfigration)
     {
-      var DateTimeNow = System.DateTimeOffset.Now;
+      var DateTimeNow = Pyro.Common.Tools.DateTimeSupport.UTCDateTimeNow();
       _ServiceConfiguration DbServiceConfigration = IPyroDbContext.ServiceConfiguration.SingleOrDefault(x => x.Parameter == DtoServiceConfigration.Parameter);
       if (DbServiceConfigration != null)
       {
@@ -49,7 +49,7 @@ namespace Pyro.DataLayer.Repository
       return IMapper.Map<DtoServiceConfigration>(DbServiceConfigration);
     }
  
-    public bool UpdateIfNewOrModifiedServiceConfigration(string Parameter, string Value, string UserUpdating, System.DateTimeOffset UpdateingDateTime)
+    public bool UpdateIfNewOrModifiedServiceConfigration(string Parameter, string Value, string UserUpdating, System.DateTime UpdateingDateTime)
     {
       _ServiceConfiguration DbServiceConfigration = IPyroDbContext.ServiceConfiguration.SingleOrDefault(x => x.Parameter.ToLower() == Parameter.ToLower());
       if (DbServiceConfigration != null)

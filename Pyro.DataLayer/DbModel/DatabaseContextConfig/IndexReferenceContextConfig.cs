@@ -1,17 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Data.Entity;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Data.Entity.ModelConfiguration;
-using System.Data.Entity.ModelConfiguration.Conventions;
-using System.Data.Entity.Infrastructure.Annotations;
-using Pyro.DataLayer.DbModel.EntityGenerated;
-using Pyro.DataLayer.DbModel.EntityBase;
+﻿using Pyro.Common.Database;
 using Pyro.DataLayer.DbModel.Entity;
-using Pyro.Common.Database;
+using Pyro.DataLayer.DbModel.EntityBase;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Data.Entity.Infrastructure.Annotations;
+using System.Data.Entity.ModelConfiguration;
 
 namespace Pyro.DataLayer.DbModel.DatabaseContextConfig
 {
@@ -23,7 +15,7 @@ namespace Pyro.DataLayer.DbModel.DatabaseContextConfig
     where ResIndexReferenceType : ResourceIndexReference<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>
     where ResIndexQuantityType : ResourceIndexQuantity<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>
     where ResIndexDateTimeType : ResourceIndexDateTime<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>
-    
+
   {
     public IndexReferenceContextConfig()
     {
@@ -35,20 +27,35 @@ namespace Pyro.DataLayer.DbModel.DatabaseContextConfig
         .HasColumnAnnotation(IndexAnnotation.AnnotationName,
         new IndexAnnotation(new IndexAttribute("ix_SearchParamId") { IsUnique = false }));
 
-      Property(x => x.ReferenceFhirId)
-      .HasColumnAnnotation("CaseSensitive", true)
-      .HasMaxLength(StaticDatabaseInfo.BaseDatabaseFieldLength.FhirIdMaxLength)
-      .IsRequired()      
-      .HasColumnAnnotation(IndexAnnotation.AnnotationName,
-      new IndexAnnotation(new IndexAttribute("ix_RefFhirId") { IsUnique = false }));
+      if (StaticDatabaseInfo.DatabaseCreateSwitches.CaseSensitiveColumnAnnotationOn)
+      {
+        Property(x => x.ReferenceFhirId)
+        .HasColumnAnnotation("CaseSensitive", true)
+        .HasMaxLength(StaticDatabaseInfo.BaseDatabaseFieldLength.FhirIdMaxLength)
+        .IsRequired()
+        .HasColumnAnnotation(IndexAnnotation.AnnotationName,
+        new IndexAnnotation(new IndexAttribute("ix_RefFhirId") { IsUnique = false }));
 
-      Property(x => x.ReferenceResourceType).HasMaxLength(StaticDatabaseInfo.BaseDatabaseFieldLength.ResourceTypeStringMaxLength)
-        .IsRequired();      
-
-      Property(x => x.ReferenceVersionId)
+        Property(x => x.ReferenceVersionId)
         .HasColumnAnnotation("CaseSensitive", true)
         .HasMaxLength(StaticDatabaseInfo.BaseDatabaseFieldLength.FhirIdMaxLength)
         .IsOptional();
+      }
+      else
+      {
+        Property(x => x.ReferenceFhirId)
+        .HasMaxLength(StaticDatabaseInfo.BaseDatabaseFieldLength.FhirIdMaxLength)
+        .IsRequired()
+        .HasColumnAnnotation(IndexAnnotation.AnnotationName,
+        new IndexAnnotation(new IndexAttribute("ix_RefFhirId") { IsUnique = false }));
+
+        Property(x => x.ReferenceVersionId)        
+        .HasMaxLength(StaticDatabaseInfo.BaseDatabaseFieldLength.FhirIdMaxLength)
+        .IsOptional();
+      }
+
+      Property(x => x.ReferenceResourceType).HasMaxLength(StaticDatabaseInfo.BaseDatabaseFieldLength.ResourceTypeStringMaxLength)
+        .IsRequired();
 
       HasOptional(x => x.ReferenceUrl);
       HasOptional<_ServiceBaseUrl>(x => x.ReferenceUrl).WithMany().HasForeignKey(x => x.ReferenceServiceBaseUrlId);
@@ -56,7 +63,7 @@ namespace Pyro.DataLayer.DbModel.DatabaseContextConfig
         .IsOptional()
         .HasColumnAnnotation(IndexAnnotation.AnnotationName,
         new IndexAnnotation(new IndexAttribute("ix_RefBaseUrlId") { IsUnique = false }));
-      
+
     }
   }
 }

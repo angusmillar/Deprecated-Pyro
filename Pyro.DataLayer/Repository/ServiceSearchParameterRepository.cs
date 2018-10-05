@@ -98,6 +98,12 @@ namespace Pyro.DataLayer.Repository
       if (ServiceSearchParameterHeavy == null)
         return null;
 
+      var DateStamp = Pyro.Common.Tools.DateTimeSupport.UTCDateTimeNow();
+      ServiceSearchParameterHeavy.CreatedDate = DateStamp;
+      ServiceSearchParameterHeavy.CreatedUser = Pyro.Common.PyroHealthFhirResource.PyroHealthSystemUser.User;
+      ServiceSearchParameterHeavy.LastUpdated = DateStamp;
+      ServiceSearchParameterHeavy.LastUpdatedUser = Pyro.Common.PyroHealthFhirResource.PyroHealthSystemUser.User;
+
       var DbSearchParameter = PopulateDbSearchParameter(ServiceSearchParameterHeavy);      
       DbSearchParameter = IPyroDbContext.Set<_ServiceSearchParameter>().Add(DbSearchParameter);
       this.Save();
@@ -110,6 +116,8 @@ namespace Pyro.DataLayer.Repository
       if (ServiceSearchParameterHeavy == null)
         return null;
 
+      ServiceSearchParameterHeavy.LastUpdated = Pyro.Common.Tools.DateTimeSupport.UTCDateTimeNow();
+      ServiceSearchParameterHeavy.LastUpdatedUser = Pyro.Common.PyroHealthFhirResource.PyroHealthSystemUser.User;
       var DbSearchParameter = PopulateDbSearchParameter(ServiceSearchParameterHeavy);      
       DbSearchParameter = UpdateServiceSearchParameters(ServiceSearchParameterHeavy.Id, DbSearchParameter);
       ServiceSearchParameterHeavy.Id = DbSearchParameter.Id;      
@@ -122,7 +130,12 @@ namespace Pyro.DataLayer.Repository
       DbSearchParameter.Description = DtoServiceSearchParameterHeavy.Description;
       DbSearchParameter.Expression = DtoServiceSearchParameterHeavy.Expression;
       DbSearchParameter.IsIndexed = DtoServiceSearchParameterHeavy.IsIndexed;
-      DbSearchParameter.LastUpdated = DateTimeOffset.Now;
+
+      DbSearchParameter.LastUpdated = DtoServiceSearchParameterHeavy.LastUpdated;
+      DbSearchParameter.LastUpdatedUser = DtoServiceSearchParameterHeavy.LastUpdatedUser;
+      DbSearchParameter.CreatedDate = DtoServiceSearchParameterHeavy.CreatedDate;
+      DbSearchParameter.CreatedUser = DtoServiceSearchParameterHeavy.CreatedUser;
+
       DbSearchParameter.Name = DtoServiceSearchParameterHeavy.Name;
       DbSearchParameter.Resource = DtoServiceSearchParameterHeavy.Resource;
       DbSearchParameter.SearchParameterResourceId = DtoServiceSearchParameterHeavy.SearchParameterResourceId;
@@ -152,6 +165,9 @@ namespace Pyro.DataLayer.Repository
       Heavy.Status = DbServiceSearchParameter.Status;
       Heavy.IsIndexed = DbServiceSearchParameter.IsIndexed;
       Heavy.LastUpdated = DbServiceSearchParameter.LastUpdated;
+      Heavy.LastUpdatedUser = DbServiceSearchParameter.LastUpdatedUser;
+      Heavy.CreatedDate = DbServiceSearchParameter.CreatedDate;
+      Heavy.CreatedUser = DbServiceSearchParameter.CreatedUser;
       Heavy.TargetResourceTypeList = PopulateDtoTargetResourceList(DbServiceSearchParameter.TargetResourceTypeList);
       Heavy.CompositeList = PopulateDtoCompositeList(DbServiceSearchParameter.ServiceSearchParameterCompositePivotList);
       return Heavy;
@@ -187,7 +203,10 @@ namespace Pyro.DataLayer.Repository
       DbSearchParameter.Description = SearchParameter.Description;
       DbSearchParameter.Expression = SearchParameter.Expression;
       DbSearchParameter.IsIndexed = SearchParameter.IsIndexed;
-      DbSearchParameter.LastUpdated = DateTimeOffset.Now;
+      DbSearchParameter.LastUpdatedUser = SearchParameter.LastUpdatedUser;
+      DbSearchParameter.LastUpdated = SearchParameter.LastUpdated;
+      DbSearchParameter.CreatedUser = SearchParameter.CreatedUser;
+      DbSearchParameter.CreatedDate = SearchParameter.CreatedDate;
       DbSearchParameter.Name = SearchParameter.Name;
       DbSearchParameter.Resource = SearchParameter.Resource;
       DbSearchParameter.SearchParameterResourceId = SearchParameter.SearchParameterResourceId;

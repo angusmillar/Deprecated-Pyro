@@ -7,7 +7,7 @@ namespace Pyro.Common.Interfaces.Repositories
   {    
     DtoServiceConfigration GetDtoServiceConfigrationByParameter(string Parameter);
     DtoServiceConfigration UpdateServiceConfigration(DtoServiceConfigration DtoServiceConfigration);
-    bool UpdateIfNewOrModifiedServiceConfigration(string Parameter, string Value, string UserUpdating, System.DateTimeOffset UpdateingDateTime);
+    bool UpdateIfNewOrModifiedServiceConfigration(string Parameter, string Value, string UserUpdating, System.DateTime UpdateingDateTime);
     Dictionary<string, string> GetServiceConfigrationDictionary();
   }
 }

@@ -32,7 +32,7 @@ namespace Pyro.Common.Database
       public static string IsDeleted { get { return "IsDeleted"; } }
       public static string LastUpdated { get { return "LastUpdated"; } }
       public static string VersionId { get { return "VersionId"; } }
-      public static string XmlBlob { get { return "XmlBlob"; } }
+      //public static string XmlBlob { get { return "XmlBlob"; } }
       public static string Method { get { return "Method"; } }
 
       public static string IndexStringList { get { return "IndexStringList"; } }
@@ -114,6 +114,11 @@ namespace Pyro.Common.Database
     {
       public static string Code { get { return "Code"; } }      
       public static string Param { get { return "Param"; } }
+    }
+
+    public static class DatabaseCreateSwitches
+    {
+      public static bool CaseSensitiveColumnAnnotationOn { get { return true; } }      
     }
   }
 

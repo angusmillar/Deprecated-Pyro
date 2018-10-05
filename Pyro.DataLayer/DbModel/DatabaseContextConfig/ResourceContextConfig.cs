@@ -42,26 +42,46 @@ namespace Pyro.DataLayer.DbModel.DatabaseContextConfig
 
       // Should be only 64 char not 400?? Version is the same they are both id datatypes
       // They are also both CaseSensitive
-      Property(t => t.FhirId)
-          .HasColumnAnnotation("CaseSensitive", true)
-          .HasColumnName("FhirId")
-          .HasMaxLength(StaticDatabaseInfo.BaseDatabaseFieldLength.FhirIdMaxLength)
-          .IsRequired()
-          .HasUniqueIndexAnnotation("uq_FhirIdAndVersionId", 0);
+      
 
       //Note: CaseSensitive indexes must be created after the First migration with a new migration
       //      to do this just comment out the '.HasColumnAnnotation("CaseSensitive", true)' lines in this
       //file and two more in the IndexReferenceContextConfig class.
       //Then generate the First migration. Once done uncomment them out and generate
       //the a 'CaseSensitiveFhirIdIndex' migration.
-      
 
-      Property(t => t.VersionId)
+      if (StaticDatabaseInfo.DatabaseCreateSwitches.CaseSensitiveColumnAnnotationOn)
+      {
+        Property(t => t.FhirId)
+          .HasColumnAnnotation("CaseSensitive", true)
+          .HasColumnName("FhirId")
+          .HasMaxLength(StaticDatabaseInfo.BaseDatabaseFieldLength.FhirIdMaxLength)
+          .IsRequired()
+          .HasUniqueIndexAnnotation("uq_FhirIdAndVersionId", 0);
+
+        Property(t => t.VersionId)
          .HasColumnAnnotation("CaseSensitive", true)
          .HasColumnName("VersionId")
          .HasMaxLength(StaticDatabaseInfo.BaseDatabaseFieldLength.FhirIdMaxLength)
          .IsRequired()
          .HasUniqueIndexAnnotation("uq_FhirIdAndVersionId", 1);
+      }
+      else
+      {
+        Property(t => t.FhirId)        
+          .HasColumnName("FhirId")
+          .HasMaxLength(StaticDatabaseInfo.BaseDatabaseFieldLength.FhirIdMaxLength)
+          .IsRequired()
+          .HasUniqueIndexAnnotation("uq_FhirIdAndVersionId", 0);
+
+        Property(t => t.VersionId)         
+         .HasColumnName("VersionId")
+         .HasMaxLength(StaticDatabaseInfo.BaseDatabaseFieldLength.FhirIdMaxLength)
+         .IsRequired()
+         .HasUniqueIndexAnnotation("uq_FhirIdAndVersionId", 1);
+      }
+
+      
 
       Property(x => x.LastUpdated)
         .HasPrecision(StaticDatabaseInfo.BaseDatabaseFieldLength.DateTimeOffsetPrecision)
@@ -69,7 +89,7 @@ namespace Pyro.DataLayer.DbModel.DatabaseContextConfig
         .HasColumnAnnotation(IndexAnnotation.AnnotationName,
         new IndexAnnotation(new IndexAttribute("ix_LastUpdated")));
 
-      Property(x => x.XmlBlob).IsOptional();      
+      //Property(x => x.XmlBlob).IsOptional();      
       Property(x => x.Resource).IsOptional();
       Property(x => x.Method).IsRequired();
 

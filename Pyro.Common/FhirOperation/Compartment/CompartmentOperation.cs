@@ -102,7 +102,7 @@ namespace Pyro.Common.FhirOperation.Compartment
           NewServiceCompartment.CompartmentDefinitionResourceId = CompartDef.Id;
           NewServiceCompartment.CompartmentDefinitionResourceVersion = CompartDef.Meta.VersionId;
           NewServiceCompartment.Code = CompartDef.Code.GetLiteral();
-          NewServiceCompartment.LastUpdated = DateTimeOffset.Now;
+          
           NewServiceCompartment.Name = CompartDef.Name;
           //Title was removed between STU3 and R4
           //NewServiceCompartment.Title = CompartDef.Title;

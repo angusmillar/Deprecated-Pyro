@@ -824,7 +824,7 @@ namespace Pyro.Engine.Services.Resources
       ISearchParameterService SearchServiceAll = ISearchParameterServiceFactory.CreateSearchParameterService();
       ISearchParametersServiceOutcome SearchParametersServiceOutcomeAll = SearchServiceAll.ProcessResourceSearchParameters(RequestMeta.SearchParameterGeneric, SearchParameterService.SearchParameterServiceType.Base | SearchParameterService.SearchParameterServiceType.Resource, ServiceResourceType);
 
-      //If any syntax erros in Search parameters
+      //If any syntax errors in Search parameters
       if (SearchParametersServiceOutcomeAll.FhirOperationOutcome != null)
       {
         ServiceOperationOutcomeConditionalDelete.ResourceResult = SearchParametersServiceOutcomeAll.FhirOperationOutcome;

@@ -8,12 +8,12 @@ using Pyro.Common.Database;
 
 namespace Pyro.DataLayer.DbModel.DatabaseContextConfig
 {
-  public class ServiceSearchParameterConfig : EntityTypeConfiguration<_ServiceSearchParameter>
+  public class ServiceSearchParameterConfig : ConfigEntityBaseConfig<_ServiceSearchParameter>
   {
     public ServiceSearchParameterConfig()
     {
       ToTable("_SearchParam");
-      HasKey(x => x.Id).Property(x => x.Id).IsRequired();
+      
       Property(x => x.Name).HasMaxLength(StaticDatabaseInfo.BaseDatabaseFieldLength.NameMaxLength)
         .IsRequired()
         .HasUniqueIndexAnnotation("uq_ResourceAndName", 1);
@@ -27,7 +27,7 @@ namespace Pyro.DataLayer.DbModel.DatabaseContextConfig
       Property(x => x.Type).IsRequired();
       Property(x => x.Url).HasMaxLength(StaticDatabaseInfo.BaseDatabaseFieldLength.StringMaxLength).IsOptional();
       Property(x => x.XPath).IsOptional();
-      Property(x => x.LastUpdated).IsRequired();
+      
       Property(x => x.IsIndexed)
         .IsRequired()
         .HasColumnAnnotation(IndexAnnotation.AnnotationName,
@@ -44,12 +44,7 @@ namespace Pyro.DataLayer.DbModel.DatabaseContextConfig
 
       Property(x => x.SearchParameterResourceVersion)
         .HasMaxLength(StaticDatabaseInfo.BaseDatabaseFieldLength.FhirIdMaxLength)
-        .IsOptional();
-
-      //HasMany(n => n.ServiceSearchParameterCompositePivotList)
-      //  .WithRequired(g => g.ChildServiceSearchParameter)
-      //  .HasForeignKey(x => x.ChildServiceSearchParameterId)
-      //  .WillCascadeOnDelete(false);
+        .IsOptional();      
 
       HasMany(a => a.ServiceSearchParameterCompositePivotList)
         .WithRequired(g => g.ParentServiceSearchParameter)

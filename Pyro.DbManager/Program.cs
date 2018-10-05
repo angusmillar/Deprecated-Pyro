@@ -18,9 +18,13 @@ namespace Pyro.DbManager
     public static void Main(string[] args)
     {
 
-      //FhirSearchParamters test = new FhirSearchParamters();      
+      //FhirSearchParamters test = new FhirSearchParamters();
       //string SQLP = test.GetMsSQLQuerySearchParameters();
       //string SQLTR = test.GetMSSQLQuerySearchParameterTargetResources();
+
+      ////string PSQLP = test.GetPostgreSQLQuerySearchParameters();
+      ////string PSQLTR = test.GetPostgreSQLQuerySearchParameterTargetResources();
+
 
       Dictionary<string, string> Arguments = ProcessArguments(args);
       bool UnattendedMode = false;
@@ -45,7 +49,7 @@ namespace Pyro.DbManager
         if (ConnectionInfo.ProviderName == ResourceStore.MsSQLProviderName)
         {
 
-          SynchToDbUp.RunMsSQL(ConnectionInfo.ConnectionString);
+          //SynchToDbUp.RunMsSQL(ConnectionInfo.ConnectionString);
 
           EnsureDatabase.For.SqlDatabase(ConnectionInfo.ConnectionString);
           
@@ -57,7 +61,7 @@ namespace Pyro.DbManager
         }
         else if (ConnectionInfo.ProviderName == ResourceStore.PostgreSQLProviderName)
         {
-          SynchToDbUp.RunPostgreSQL(ConnectionInfo.ConnectionString);
+          //SynchToDbUp.RunPostgreSQL(ConnectionInfo.ConnectionString);
           EnsureDatabase.For.PostgresqlDatabase(ConnectionInfo.ConnectionString);
           
           TargetScriptFolder = $"{ResourceStore.BaseSqlScriptFolder}.{ResourceStore.PostgreSqlScriptFolder}";
@@ -80,7 +84,7 @@ namespace Pyro.DbManager
         var upgrader = UpgradeEngineBuilder.Build();
 
         Console.WriteLine("Building upgrade knowledge, please wait...");
-        System.Threading.Thread.Sleep(1000 * 10);        
+        System.Threading.Thread.Sleep(1000 * 5);        
         bool UpgradeRequired = upgrader.IsUpgradeRequired();
         Console.WriteLine("Database upgrade required: " + UpgradeRequired.ToString());
         if (UpgradeRequired)

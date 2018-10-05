@@ -136,9 +136,11 @@
     <Compile Include="CompositionRoot\IGenericInstanceFactory.cs" />
     <Compile Include="CompositionRoot\IIndexSetterFactory.cs" />
     <Compile Include="CompositionRoot\Concrete\IndexSetterFactory.cs" />
+    <Compile Include="DtoEntity\DtoConfigEntityBase.cs" />
     <Compile Include="DtoEntity\DtoDatabaseOperationOutcome.cs" />
     <Compile Include="DtoEntity\DtoIncludeResource.cs" />
     <Compile Include="DtoEntity\DtoIndexTypeForDelete.cs" />
+    <Compile Include="DtoEntity\DtoModelBase.cs" />
     <Compile Include="DtoEntity\DtoResource.cs" />
     <Compile Include="DtoEntity\DtoTokenIndex.cs" />
     <Compile Include="Enum\PyroProject.cs" />
@@ -147,6 +149,7 @@
     <Compile Include="Global\DbGlobalProperties.cs" />
     <Compile Include="Global\WebConfigPropertiesNames.cs" />
     <Compile Include="Global\WebConfigPropertiesDefaults.cs" />
+    <Compile Include="Interfaces\DataLayer\IConfigEntityBase.cs" />
     <Compile Include="Interfaces\DataLayer\I_ServiceSearchParameter.cs" />
     <Compile Include="Interfaces\Repositories\IMigrationHistoryRepository.cs" />
     <Compile Include="Interfaces\Repositories\IServiceConfigurationRepository.cs" />
@@ -338,6 +341,7 @@
     <Compile Include="Service\Trigger\TriggerServices\TriggerCompartmentDefinition.cs" />
     <Compile Include="Service\Trigger\TriggerServices\TriggerServerReadOnlyMode.cs" />
     <Compile Include="Tools\Bundles\FhirBundleSupport.cs" />
+    <Compile Include="Tools\DateTimeSupport.cs" />
     <Compile Include="Tools\FhirGuid\FhirGuid.cs" />
     <Compile Include="Tools\FhirPathSupport\IPyroFhirPathResolve.cs" />
     <Compile Include="Tools\FhirPathSupport\PyroElementNavigator.cs" />

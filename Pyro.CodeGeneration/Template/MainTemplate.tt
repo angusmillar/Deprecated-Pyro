@@ -121,18 +121,14 @@ using Pyro.Common.Database;
 
 namespace Pyro.DataLayer.DbModel.DatabaseContextConfig
 {
-  public class FhirReleaseContextConfig : EntityTypeConfiguration<_FhirRelease>
+  public class FhirReleaseContextConfig : ConfigEntityBaseConfig<_FhirRelease>
   {
     public FhirReleaseContextConfig()
     {
-      HasKey(x => x.Id).Property(x => x.Id).IsRequired();
+      
       Property(x => x.FhirVersion).IsRequired().HasMaxLength(StaticDatabaseInfo.BaseDatabaseFieldLength.FhirIdMaxLength);
       Property(x => x.Description).IsRequired().HasMaxLength(StaticDatabaseInfo.BaseDatabaseFieldLength.StringMaxLength);
-      Property(x => x.Date).IsRequired();
-      Property(x => x.CreatedDate).HasPrecision(StaticDatabaseInfo.BaseDatabaseFieldLength.DateTimeOffsetPrecision).IsRequired();
-      Property(x => x.CreatedUser).IsRequired();
-      Property(x => x.LastUpdated).HasPrecision(StaticDatabaseInfo.BaseDatabaseFieldLength.DateTimeOffsetPrecision).IsRequired();
-      Property(x => x.LastUpdatedUser).IsRequired();
+      Property(x => x.Date).IsRequired();     
 
   <#   
     foreach(string ResourceName in MainModel.GetResourceNameList())

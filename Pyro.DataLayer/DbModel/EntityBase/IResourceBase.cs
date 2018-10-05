@@ -9,7 +9,7 @@ namespace Pyro.DataLayer.DbModel.EntityBase
     string FhirId { get; set; }
     bool IsCurrent { get; set; }
     bool IsDeleted { get; set; }
-    DateTimeOffset LastUpdated { get; set; }
+    DateTime LastUpdated { get; set; }
     Bundle.HTTPVerb Method { get; set; }
     string VersionId { get; set; }
     

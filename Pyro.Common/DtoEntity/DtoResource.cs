@@ -13,7 +13,7 @@ namespace Pyro.Common.DtoEntity
     public byte[] Resource { get; set; }
     public string Version { get; set; }
     public bool IsDeleted { get; set; }
-    public DateTimeOffset Received { get; set; }
+    public DateTime Received { get; set; }
     public Bundle.HTTPVerb Method { get; set; }
     public FHIRAllTypes? ResourceType { get; set; }
   }

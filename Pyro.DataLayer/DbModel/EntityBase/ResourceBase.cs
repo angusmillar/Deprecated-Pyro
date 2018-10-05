@@ -14,8 +14,8 @@ namespace Pyro.DataLayer.DbModel.EntityBase
     public string FhirId { get; set; }
     public bool IsDeleted { get; set; }
     public string VersionId { get; set; }
-    public DateTimeOffset LastUpdated { get; set; }
-    public string XmlBlob { get; set; }
+    public DateTime LastUpdated { get; set; }
+    //public string XmlBlob { get; set; }
     public byte[] Resource { get; set; }
     public Bundle.HTTPVerb Method { get; set; }
     public virtual _FhirRelease FhirRelease { get; set; }

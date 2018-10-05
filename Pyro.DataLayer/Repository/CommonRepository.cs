@@ -93,7 +93,7 @@ namespace Pyro.DataLayer.Repository
       return NewPredicate.And(x => x.IsDeleted == false & x.IsCurrent == true);
     }
 
-    public ExpressionStarter<ResCurrentType> PredicateResourceIdAndLastUpdatedDate(List<ISearchParameterBase> SearchParametersList)
+    public ExpressionStarter<ResCurrentType> PredicateResourceId(List<ISearchParameterBase> SearchParametersList)
     {
       var Predicate = LinqKit.PredicateBuilder.New<ResCurrentType>(true);
       var Search = new ResourceSearchExpressionTrees<
@@ -106,14 +106,15 @@ namespace Pyro.DataLayer.Repository
         ResIndexDateTimeType>();
 
       IdSearchParameterPredicateProcessing(SearchParametersList, Search, Predicate);
-      LastUpdatedDatePredicateBuilder<
-        ResCurrentType,
-        ResIndexStringType,
-        ResIndexTokenType,
-        ResIndexUriType,
-        ResIndexReferenceType,
-        ResIndexQuantityType,
-        ResIndexDateTimeType>.Build(SearchParametersList, Search, Predicate);
+
+      //LastUpdatedDatePredicateBuilder<
+      //  ResCurrentType,
+      //  ResIndexStringType,
+      //  ResIndexTokenType,
+      //  ResIndexUriType,
+      //  ResIndexReferenceType,
+      //  ResIndexQuantityType,
+      //  ResIndexDateTimeType>.Build(SearchParametersList, Search, Predicate);
 
       return Predicate;
     }

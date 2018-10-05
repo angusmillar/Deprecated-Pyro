@@ -11,16 +11,13 @@ namespace Pyro.DataLayer.DbModel.Entity
   /// This class holds the servers active FHIR Compartments
   /// For example the Patient or Encounter Compartments
   /// </summary>
-  public class _ServiceCompartment : ModelBase
+  public class _ServiceCompartment : ConfigEntityBase
   {
     public string Url { get; set; }
     public string CompartmentDefinitionResourceId { get; set; }
     public string CompartmentDefinitionResourceVersion { get; set; }
     public string Name { get; set; }
-    //Removed STU3 to R4
-    //public string Title { get; set; }
-    public string Code { get; set; }
-    public DateTimeOffset LastUpdated { get; set; }
+    public string Code { get; set; }    
     public ICollection<_ServiceCompartmentResource> ResourceList { get; set; }
 
     public _ServiceCompartment()

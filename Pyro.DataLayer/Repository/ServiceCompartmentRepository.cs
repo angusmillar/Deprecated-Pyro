@@ -88,6 +88,12 @@ namespace Pyro.DataLayer.Repository
     public DtoServiceCompartment UpdateServiceCompartment(DtoServiceCompartment DtoServiceCompartment)
     {
       _ServiceCompartment ServiceCompartment = IMapper.Map<_ServiceCompartment>(DtoServiceCompartment);
+      var DateStamp = Common.Tools.DateTimeSupport.UTCDateTimeNow();
+      ServiceCompartment.CreatedDate = DateStamp;
+      ServiceCompartment.CreatedUser = Common.PyroHealthFhirResource.PyroHealthSystemUser.User;
+      ServiceCompartment.LastUpdated = DateStamp;
+      ServiceCompartment.LastUpdatedUser = Common.PyroHealthFhirResource.PyroHealthSystemUser.User;
+
       DeleteServiceCompartment(ServiceCompartment.Code);
       ServiceCompartment = IPyroDbContext.Set<_ServiceCompartment>().Add(ServiceCompartment);
       this.Save();

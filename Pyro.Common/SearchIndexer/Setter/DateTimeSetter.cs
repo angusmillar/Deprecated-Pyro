@@ -130,8 +130,8 @@ namespace Pyro.Common.SearchIndexer.Setter
     private Index.DateTimeIndex SetDateTimeAsUTC(Tools.DateTimeIndex item)
     {
       var ResourceIndex = new Index.DateTimeIndex(_SearchParameter);
-      ResourceIndex.LowUtcDateTime = item.Low?.UtcDateTime;
-      ResourceIndex.HighUtcDateTime = item.High?.UtcDateTime;
+      ResourceIndex.LowUtcDateTime = Tools.DateTimeSupport.DateTimeOffSetToUTCDateTime(item.Low);
+      ResourceIndex.HighUtcDateTime = Tools.DateTimeSupport.DateTimeOffSetToUTCDateTime(item.High);
       return ResourceIndex;
     }
 

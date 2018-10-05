@@ -5,7 +5,7 @@ using Hl7.Fhir.Model;
 
 namespace Pyro.Common.Search
 {
-  public interface IServiceSearchParameter
+  public interface IServiceSearchParameter : Interfaces.DataLayer.IConfigEntityBase
   {
     string Resource { get; set; }
     string Name { get; set; }
@@ -15,8 +15,7 @@ namespace Pyro.Common.Search
     string XPath { get; set; }
     string Expression { get; set; }
     bool IsIndexed { get; set; }
-    PublicationStatus Status { get; set; }
-    DateTimeOffset LastUpdated { get; set; }
+    PublicationStatus Status { get; set; }    
     string SearchParameterResourceId { get; set; }
     string SearchParameterResourceVersion { get; set; }
     List<IServiceSearchParameterTargetResource> TargetResourceTypeList { get; set; }
