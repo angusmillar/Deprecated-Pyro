@@ -359,6 +359,7 @@ namespace Pyro.WebApi.Controllers
     {
       string BaseRequestUri = this.CalculateBaseURI("${operation}");
       IResourceServiceOutcome ResourceServiceOutcome = IPyroService.OperationPostBaseWithParameters(BaseRequestUri, Request, operation, Resource);
+      SignalRHub.BackgroundProcessing.SendTaskList(ResourceServiceOutcome.BackgroundTaskList);
       return IFhirRestResponse.GetHttpResponseMessage(ResourceServiceOutcome, Request, ResourceServiceOutcome.SummaryType);
     }
 
@@ -375,6 +376,7 @@ namespace Pyro.WebApi.Controllers
     {
       string BaseRequestUri = this.CalculateBaseURI("${operation}");
       IResourceServiceOutcome ResourceServiceOutcome = IPyroService.OperationGetBaseWithParameters(BaseRequestUri, Request, operation);
+      SignalRHub.BackgroundProcessing.SendTaskList(ResourceServiceOutcome.BackgroundTaskList);
       return IFhirRestResponse.GetHttpResponseMessage(ResourceServiceOutcome, Request, ResourceServiceOutcome.SummaryType);
     }
     

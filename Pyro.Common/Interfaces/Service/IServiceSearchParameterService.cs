@@ -10,6 +10,7 @@ namespace Pyro.Common.Interfaces.Service
     List<DtoServiceSearchParameterLight> GetServiceSearchParametersForResource(string ResourceType);
     List<DtoServiceSearchParameterHeavy> GetServiceSearchParametersHeavyByIsIndexed(bool IsIndexed);
     List<DtoServiceSearchParameterHeavy> GetServiceSearchParametersHeavyForResource(string ResourceType);
+    DtoServiceSearchParameterHeavy GetServiceSearchParametersHeavyById(int Id);
     DtoServiceSearchParameterHeavy UpdateServiceSearchParametersHeavy(DtoServiceSearchParameterHeavy ServiceSearchParameterHeavy);
   }
 }

@@ -17,9 +17,13 @@ namespace Pyro.WebApi.SignalRHub
         Broadcaster Broadcaster = Pyro.WebApi.SignalRHub.Broadcaster.Instance;
         foreach (IBackgroundTaskPayloadBase TaskPayload in TaskPayloadList)
         {
-          if (TaskPayload is  ITaskPayloadHiServiceIHISearch Payload)
+          if (TaskPayload is  ITaskPayloadHiServiceIHISearch TaskPayloadHiServiceIHISearch)
           {                          
-            Broadcaster.HiServiceResolveIHI(Payload);
+            Broadcaster.HiServiceResolveIHI(TaskPayloadHiServiceIHISearch);
+          }
+          if (TaskPayload is ITaskPayloadPyroServerIndexing TaskPayloadPyroServerIndexing)
+          {
+            Broadcaster.PyroServerIndexing(TaskPayloadPyroServerIndexing);
           }
         }
       }

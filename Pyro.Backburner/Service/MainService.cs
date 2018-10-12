@@ -44,6 +44,9 @@ namespace Pyro.Backburner.Service
       Console.ForegroundColor = ConsoleColor.Cyan;
       GetPyroServerConnectionUrl();
 
+      //Run the task once on start-up
+      var IndexerServiceTaskLauncher = new IndexerServiceTaskLauncher(Container);
+      IndexerServiceTaskLauncher.Launch(new TaskPayloadPyroServerIndexing() { TaskType = BackgroundTaskType.PyroServerIndexing, TaskId = null });
       
 
       ConsoleSupport.DateTimeStampWriteLine("Database schema loaded...");
@@ -63,9 +66,16 @@ namespace Pyro.Backburner.Service
       ConsoleSupport.TimeStampWriteLine(LogMessageSupport.RegisterTask(BackgroundTaskType.HiServiceIHISearch.GetPyroLiteral()));
       hubProxy.On<TaskPayloadHiServiceIHISearch>(BackgroundTaskType.HiServiceIHISearch.GetPyroLiteral(), 
         IHiServiceResolveIHIPayload => IhiSearchServiceTaskLauncher.Launch(IHiServiceResolveIHIPayload));
-     
+
+      var IndexerServiceTaskLauncher = new IndexerServiceTaskLauncher(Container);
+      ConsoleSupport.TimeStampWriteLine(LogMessageSupport.RegisterTask(BackgroundTaskType.PyroServerIndexing.GetPyroLiteral()));
+      hubProxy.On<TaskPayloadPyroServerIndexing>(BackgroundTaskType.PyroServerIndexing.GetPyroLiteral(),
+        TaskPayloadPyroServerIndexing => IndexerServiceTaskLauncher.Launch(TaskPayloadPyroServerIndexing));
+
+
+
       // ========================================================================================
-      
+
     }
     
     public void Stop()
@@ -99,7 +109,7 @@ namespace Pyro.Backburner.Service
     private void StartupHub()
     {      
       hubConnection = new HubConnection(PyroServerConnectionUrl);
-
+      
       hubConnection.Closed += HubConnection_Closed;
       hubConnection.ConnectionSlow += HubConnection_ConnectionSlow;
       hubConnection.Error += HubConnection_Error;
@@ -131,7 +141,9 @@ namespace Pyro.Backburner.Service
         ConsoleSupport.Line();
         ConsoleSupport.DateTimeStampWriteLine("Connected to Pyro Server");
         ConsoleWriteLine($"At address: {PyroServerConnectionUrl}");
-                
+        ConsoleWriteLine($"Connection Id: {hubConnection.ConnectionId}");
+        
+
       }
       else
       {

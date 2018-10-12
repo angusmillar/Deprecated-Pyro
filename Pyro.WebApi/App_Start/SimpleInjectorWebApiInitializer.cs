@@ -291,7 +291,10 @@ namespace Pyro.WebApi.App_Start
       container.Register<ITriggerCompartmentDefinition, TriggerCompartmentDefinition>(Lifestyle.Scoped);
       container.Register<ITriggerProtectedResource, TriggerProtectedResource>(Lifestyle.Scoped);
       container.Register<ITriggerServerReadOnlyMode, TriggerServerReadOnlyMode>(Lifestyle.Scoped);
-      
+
+      //Background Task Payloads
+      container.Register<Common.BackgroundTask.Task.ITaskPayloadHiServiceIHISearch, Common.BackgroundTask.Task.TaskPayloadHiServiceIHISearch>(Lifestyle.Scoped);
+      container.Register<Common.BackgroundTask.Task.ITaskPayloadPyroServerIndexing, Common.BackgroundTask.Task.TaskPayloadPyroServerIndexing>(Lifestyle.Scoped);
 
       //Service Configuration to Db
       container.Register<IServiceConfigurationService, ServiceConfigurationService>(Lifestyle.Scoped);
@@ -305,6 +308,7 @@ namespace Pyro.WebApi.App_Start
       container.Register<Pyro.Engine.Services.FhirTasks.FhirSpecLoader.IFhirSpecificationDefinitionLoaderParameters, Pyro.Engine.Services.FhirTasks.FhirSpecLoader.FhirSpecificationDefinitionLoaderParameters>(Lifestyle.Scoped);
       container.Register<Pyro.Engine.Services.FhirTasks.SetCompartment.ISetCompartmentDefinitionTaskProcessor, Pyro.Engine.Services.FhirTasks.SetCompartment.SetCompartmentDefinitionTaskProcessor>(Lifestyle.Scoped);
       container.Register<Pyro.Engine.Services.FhirTasks.SearchParameterLoader.ISearchParameterResourceLoader, Pyro.Engine.Services.FhirTasks.SearchParameterLoader.SearchParameterResourceLoader>(Lifestyle.Scoped);
+      
 
       //Pyro FHIR Resources
       container.Register<Pyro.Common.PyroHealthFhirResource.IPyroFhirResource, Pyro.Common.PyroHealthFhirResource.PyroFhirResource>(Lifestyle.Scoped);
@@ -322,7 +326,8 @@ namespace Pyro.WebApi.App_Start
       //Pyro FHIR Resources: Tasks
       container.Register<Pyro.Common.PyroHealthFhirResource.Tasks.ILoadFhirSpecificationDefinitions, Pyro.Common.PyroHealthFhirResource.Tasks.LoadFhirSpecificationDefinitions>(Lifestyle.Scoped);
       container.Register<Pyro.Common.PyroHealthFhirResource.Tasks.ISetCompartmentDefinitions, Pyro.Common.PyroHealthFhirResource.Tasks.SetCompartmentDefinitions>(Lifestyle.Scoped);
-      container.Register<Pyro.Common.PyroHealthFhirResource.Tasks.ISetSearchParameterDefinitions, Pyro.Common.PyroHealthFhirResource.Tasks.SetSearchParameterDefinitions>(Lifestyle.Scoped);      
+      container.Register<Pyro.Common.PyroHealthFhirResource.Tasks.ISetSearchParameterDefinitions, Pyro.Common.PyroHealthFhirResource.Tasks.SetSearchParameterDefinitions>(Lifestyle.Scoped);
+      container.Register<Pyro.Common.PyroHealthFhirResource.Tasks.ISearchParameterIndexing, Pyro.Common.PyroHealthFhirResource.Tasks.SearchParameterIndexing>(Lifestyle.Scoped);      
       //Pyro FHIR Resources: Device
       container.Register<Pyro.Common.PyroHealthFhirResource.Devices.IPyroFhirServer, Pyro.Common.PyroHealthFhirResource.Devices.PyroFhirServer>(Lifestyle.Scoped);
       //Pyro Fhir Resources: CompartmentDefinition

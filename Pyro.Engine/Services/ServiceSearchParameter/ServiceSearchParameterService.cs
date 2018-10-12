@@ -29,6 +29,11 @@ namespace Pyro.Engine.Services.ServiceSearchParameter
       return IServiceSearchParameterRepository.GetServiceSearchParametersHeavyForResource(ResourceType);
     }
 
+    public DtoServiceSearchParameterHeavy GetServiceSearchParametersHeavyById(int Id)
+    {
+      return IServiceSearchParameterRepository.GetServiceSearchParametersHeavyById(Id);
+    }
+
     public DtoServiceSearchParameterHeavy AddServiceSearchParametersHeavy(DtoServiceSearchParameterHeavy ServiceSearchParameterHeavy)
     {
       return IServiceSearchParameterRepository.AddServiceSearchParametersHeavy(ServiceSearchParameterHeavy);

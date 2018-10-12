@@ -11,16 +11,17 @@ namespace Pyro.Common.BackgroundTask
   {
     [EnumLiteral("HiServiceIHISearch")]
     HiServiceIHISearch,
+    [EnumLiteral("PyroServerIndexing")]
+    PyroServerIndexing,
   }
 
   public abstract class BackgroundTaskPayloadBase : IBackgroundTaskPayloadBase
   {
-    public BackgroundTaskPayloadBase(string TaskId, BackgroundTaskType TaskType)
-    {
-      this.TaskId = TaskId;
+    public BackgroundTaskPayloadBase(BackgroundTaskType TaskType)
+    {      
       this.TaskType = TaskType;
     }
-    public abstract BackgroundTaskType TaskType { get; set; }
-    public abstract string TaskId { get; set; }
+    public BackgroundTaskType TaskType { get; set; }
+    public string TaskId { get; set; }
   }
 }

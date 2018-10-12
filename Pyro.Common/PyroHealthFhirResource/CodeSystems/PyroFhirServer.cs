@@ -11,6 +11,29 @@ namespace Pyro.Common.PyroHealthFhirResource.CodeSystems
 {
   public class PyroFhirServer : IPyroFhirServer
   {
+    public enum Codes
+    {
+      [EnumLiteral("ActiveCompartment")]
+      ActiveCompartment,
+      [EnumLiteral("CompartmentDefinition")]
+      CompartmentDefinition,
+      [EnumLiteral("HiServiceCallAudit")]
+      HiServiceCallAudit,
+      [EnumLiteral("ServerInstance")]
+      ServerInstance,
+      [EnumLiteral("Protected")]
+      Protected,
+      [EnumLiteral("ServerStartupTask")]
+      ServerStartupTask,
+      [EnumLiteral("SearchParamTableId")]
+      SearchParamTableId,
+      [EnumLiteral("ResourceType")]
+      ResourceType,
+      [EnumLiteral("SearchParameterName")]
+      SearchParameterName,
+
+    }
+
     private Dictionary<Codes, FhirModel.CodeSystem.ConceptDefinitionComponent> _Dictionary;
     private Dictionary<Codes, FhirModel.CodeSystem.ConceptDefinitionComponent> _CodeDefinitionDictionary
     {
@@ -46,7 +69,7 @@ namespace Pyro.Common.PyroHealthFhirResource.CodeSystems
               {
                  Code = Codes.CompartmentDefinition.GetPyroLiteral(),
                  Display = "CompartmentDefinition",
-                 Definition = "A FHIR CompartmentDefinition resource definied for use in a Pyro FHIR server",
+                 Definition = "A FHIR CompartmentDefinition resource defined for use in a Pyro FHIR server",
               }
             },
             {
@@ -55,7 +78,7 @@ namespace Pyro.Common.PyroHealthFhirResource.CodeSystems
               {
                  Code = Codes.HiServiceCallAudit.GetPyroLiteral(),
                  Display = "HI Service Call Audit",
-                 Definition = "An Audit event in response to a web service call made to the Australian Healthcare Identifer Service (HI Service) by a Pyro FHIR server",
+                 Definition = "An Audit event in response to a web service call made to the Australian Healthcare Identifier Service (HI Service) by a Pyro FHIR server",
               }
             },
             {
@@ -81,7 +104,7 @@ namespace Pyro.Common.PyroHealthFhirResource.CodeSystems
               new FhirModel.CodeSystem.ConceptDefinitionComponent()
               {
                  Code = Codes.ServerStartupTask.GetPyroLiteral(),
-                 Display = "Server Startup Task",
+                 Display = "Server Start-up Task",
                  Definition = "FHIR Task to be run on the start-up of the Pyro FHIR Server",
               }
             },
@@ -89,22 +112,6 @@ namespace Pyro.Common.PyroHealthFhirResource.CodeSystems
     }
     
     public PyroFhirServer(){ }
-
-    public enum Codes
-    {
-      [EnumLiteral("ActiveCompartment")]
-      ActiveCompartment,
-      [EnumLiteral("CompartmentDefinition")]
-      CompartmentDefinition,
-      [EnumLiteral("HiServiceCallAudit")]
-      HiServiceCallAudit,
-      [EnumLiteral("ServerInstance")]
-      ServerInstance,
-      [EnumLiteral("Protected")]
-      Protected,
-      [EnumLiteral("ServerStartupTask")]
-      ServerStartupTask,
-    }
 
     private static string ResourceId = "pyrofhirserver";
     public static string System = "https://pyrohealth.net/fhir/CodeSystem/pyrofhirserver";

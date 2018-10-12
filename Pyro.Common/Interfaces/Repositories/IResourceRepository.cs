@@ -13,8 +13,8 @@ namespace Pyro.Common.Interfaces.Repositories
     FHIRAllTypes RepositoryResourceType { get; }
     IDatabaseOperationOutcome GetResourceBySearch(PyroSearchParameters DtoSearchParameters, bool WithXml = false);
     IDatabaseOperationOutcome GetResourceByCompartmentSearch(PyroSearchParameters CompartmentSearchParameters, PyroSearchParameters DtoSearchParameters, bool WithXml = false);
-    IDatabaseOperationOutcome AddResource(Resource Resource, IPyroRequestUri FhirRequestUri);
-    IDatabaseOperationOutcome UpdateResource(string ResourceVersion, Resource Resource, IPyroRequestUri FhirRequestUri);
+    IDatabaseOperationOutcome AddResource(Resource Resource);
+    IDatabaseOperationOutcome UpdateResource(string ResourceVersion, Resource Resource);
     IDatabaseOperationOutcome UpdateResouceIdAsDeleted(string FhirResourceId);
     IDatabaseOperationOutcome UpdateResouceIdColectionAsDeleted(ICollection<string> ResourceIdCollection);
     IDatabaseOperationOutcome GetResourceHistoryByFhirID(string FhirId, PyroSearchParameters DtoSearchParameters);
@@ -25,8 +25,8 @@ namespace Pyro.Common.Interfaces.Repositories
     string[] GetResourceFhirIdBySearchNoPaging(PyroSearchParameters DtoSearchParameters);
     string[] GetResourceFhirIdByReferanceIndex(IEnumerable<string> FhirIdArray, string ResourceName, int SearchParameterIdArray);
 
-    int DeleteNonCurrentResourceIndexes();
-    void AddCurrentResourceIndex(List<DtoServiceSearchParameterLight> ServiceSearchParameterLightList, IPyroRequestUri FhirRequestUri);
+    
+    void AddAndUpdateResourceIndexes(List<DtoServiceSearchParameterLight> ServiceSearchParameterLightList);
     int GetTotalCurrentResourceCount();
     DateTimeOffset? GetLastCurrentResourceLastUpdatedValue();
     

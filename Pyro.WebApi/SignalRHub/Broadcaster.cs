@@ -35,6 +35,12 @@ namespace Pyro.WebApi.SignalRHub
       proxy.Invoke(Payload.TaskType.GetPyroLiteral(), Payload);
     }
 
+    public void PyroServerIndexing(ITaskPayloadPyroServerIndexing Payload)
+    {
+      IClientProxy proxy = Clients.All;
+      proxy.Invoke(Payload.TaskType.GetPyroLiteral(), Payload);
+    }
+
 
   }
 }

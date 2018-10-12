@@ -53,6 +53,7 @@ namespace Pyro.DataLayer.Repository
 
       ResourceServiceSearchParameterList = IPyroDbContext.ServiceSearchParameter
         .Include(x => x.TargetResourceTypeList)
+        .Include(x => x.ServiceSearchParameterCompositePivotList)
         .Where(y => y.IsIndexed == IsIndexed).ToList();
 
       foreach (var x in ResourceServiceSearchParameterList)
@@ -62,11 +63,25 @@ namespace Pyro.DataLayer.Repository
       return ReturnList;
     }
 
+    public DtoServiceSearchParameterHeavy GetServiceSearchParametersHeavyById(int Id)
+    {
+      _ServiceSearchParameter ServiceSearchParameter = IPyroDbContext.ServiceSearchParameter
+        .Include(x => x.TargetResourceTypeList)
+        .Include(x => x.ServiceSearchParameterCompositePivotList)
+        .SingleOrDefault(y => y.Id == Id);
+      if (ServiceSearchParameter != null)
+      {
+        return PopulateDtoSearchParameterHeavy(ServiceSearchParameter);
+      }
+      return null;
+    }
+
     public List<DtoServiceSearchParameterHeavy> GetServiceSearchParametersHeavy()
     {
       var ReturnList = new List<DtoServiceSearchParameterHeavy>();
       var ResourceServiceSearchParameterList = IPyroDbContext.ServiceSearchParameter
         .Include(x => x.TargetResourceTypeList)
+        .Include(x => x.ServiceSearchParameterCompositePivotList)
         .ToList();
 
       foreach (var x in ResourceServiceSearchParameterList)

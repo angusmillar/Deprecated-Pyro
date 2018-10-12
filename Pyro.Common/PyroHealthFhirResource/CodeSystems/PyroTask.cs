@@ -19,6 +19,8 @@ namespace Pyro.Common.PyroHealthFhirResource.CodeSystems
       SetCompartmentDefinitions,
       [EnumLiteral("SetSearchParameterDefinitions")]
       SetSearchParameterDefinitions,
+      [EnumLiteral("SearchParameterIndexing")]
+      SearchParameterIndexing,
 
     }
 
@@ -69,6 +71,15 @@ namespace Pyro.Common.PyroHealthFhirResource.CodeSystems
               Code = Codes.SetSearchParameterDefinitions.GetPyroLiteral(),
               Display = "Set Search Parameter Definitions",
               Definition = "Fhir Task that sets the all the base Search Parameter Definitions as active search indexes in the Pyro FHIR Server.",
+          }
+        },
+        {
+          Codes.SearchParameterIndexing,
+          new FhirModel.CodeSystem.ConceptDefinitionComponent()
+          {
+              Code = Codes.SearchParameterIndexing.GetPyroLiteral(),
+              Display = "Perform indexing on new or updated search parameter indexes for the FHIR server",
+              Definition = "Fhir Task that performs pending indexing for new or updated search indexes.",
           }
         },
       };
@@ -133,11 +144,10 @@ namespace Pyro.Common.PyroHealthFhirResource.CodeSystems
       }
     }
 
-    public DateTimeOffset MasterLastUpdated => new DateTimeOffset(2018, 07, 24, 10, 00, 00, new TimeSpan(8, 0, 0));
+    public DateTimeOffset MasterLastUpdated => new DateTimeOffset(2018, 10, 06, 15, 00, 00, new TimeSpan(8, 0, 0));
 
     public FhirModel.CodeSystem GetResource()
-    {
-      var CodeSystemUpdateDate = new DateTimeOffset(2018, 07, 24, 10, 00, 00, new TimeSpan(8, 0, 0));
+    {      
       var Resource = new FhirModel.CodeSystem();
       Resource.Id = "pyro-task";
       IPyroFhirServerCodeSystem.SetProtectedMetaTag(Resource);
@@ -148,7 +158,7 @@ namespace Pyro.Common.PyroHealthFhirResource.CodeSystems
       Resource.Title = "The Pyro Task CodeSystem";
       Resource.Status = FhirModel.PublicationStatus.Active;
       Resource.Experimental = false;
-      Resource.DateElement = new FhirModel.FhirDateTime(CodeSystemUpdateDate);
+      Resource.DateElement = new FhirModel.FhirDateTime(MasterLastUpdated);
       Resource.Publisher = "Pyrohealth.net";
       var AngusContactDetail = Common.PyroHealthFhirResource.Elements.PyroHealthContactDetailAngusMillar.GetContactDetail();
       Resource.Contact = new List<FhirModel.ContactDetail>() { AngusContactDetail };

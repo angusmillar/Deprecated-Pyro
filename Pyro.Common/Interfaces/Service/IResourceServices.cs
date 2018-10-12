@@ -12,8 +12,7 @@ using Pyro.Common.Enum;
 namespace Pyro.Common.Interfaces.Service
 {
   public interface IResourceServices
-  {
-    
+  {    
     //Read
     // GET: URL/FhirApi/Patient/5    
     IResourceServiceOutcome GetRead(string ResourceId, IRequestMeta RequestMeta);
@@ -50,13 +49,9 @@ namespace Pyro.Common.Interfaces.Service
     //Conditional Update
     /// PUT: URL/FhirApi/Patient?given=angus
     IResourceServiceOutcome ConditionalPut(Resource Resource, IRequestMeta RequestMeta);
-
-    //DeleteHistoryIndexes
-    // POST: URL/FhirAPI/Patient/$delete-history-indexes
-    IResourceServiceOutcome DeleteHistoryIndexes(IRequestMeta RequestMeta);
     
     //Add the given ServiceSearchParameterLight to the current resource instance
-    void AddResourceIndexs(ResourceType ResourceType, List<DtoServiceSearchParameterLight> ServiceSearchParameterLightList, IPyroRequestUri FhirRequestUri);
+    void AddAndUpdateResourceIndexes(ResourceType ResourceType, List<DtoServiceSearchParameterLight> ServiceSearchParameterLightList);
     
     //Get the dateTime that the last instance of this ResourceType was Added, Updated, Deleted in the server
     DateTimeOffset? GetLastCurrentResourceLastUpdatedValue(ResourceType ResourceType);

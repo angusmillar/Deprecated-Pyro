@@ -878,61 +878,13 @@ namespace Pyro.Engine.Services.Resources
       return ServiceOperationOutcomeConditionalDelete;
     }
 
-    //DeleteHistoryIndexes
-    //DELETE: URL/FhirApi/Patient?$ClearHistoryIndexes
-    public virtual IResourceServiceOutcome DeleteHistoryIndexes(IRequestMeta RequestMeta)
+    //This is the method to add/update new indexes
+    public virtual void AddAndUpdateResourceIndexes(ResourceType ResourceType, List<DtoServiceSearchParameterLight> ServiceSearchParameterLightList)
     {
-      if (RequestMeta.PyroRequestUri == null)
-        throw new NullReferenceException("DtoFhirRequestUri can not be null.");
-      if (RequestMeta.PyroRequestUri.FhirRequestUri == null)
-        throw new NullReferenceException("FhirRequestUri can not be null.");
-      if (RequestMeta.PyroRequestUri.FhirRequestUri.ResourceType.HasValue == false)
-        throw new NullReferenceException("FhirRequestUri.ResourceType can not be null.");
-      if (RequestMeta.SearchParameterGeneric == null)
-        throw new NullReferenceException($"SearchParameterGenericcan not be null.");
-      //Note that RequestHeaders are not required for this call but sent for consistancy
-
-      SetCurrentResourceType(RequestMeta.PyroRequestUri.FhirRequestUri.ResourceType.Value);
-
-      IResourceServiceOutcome ServiceOutcome = IResourceServiceOutcomeFactory.CreateResourceServiceOutcome();
-      // GET: URL//FhirApi/Patient?family=Smith&given=John          
-
-      ISearchParameterService SearchServiceBase = ISearchParameterServiceFactory.CreateSearchParameterService();
-      ISearchParametersServiceOutcome SearchParametersServiceOutcomeBaseOnly = SearchServiceBase.ProcessBaseSearchParameters(RequestMeta.SearchParameterGeneric);
-      if (SearchParametersServiceOutcomeBaseOnly.FhirOperationOutcome != null)
-      {
-        ServiceOutcome.ResourceResult = SearchParametersServiceOutcomeBaseOnly.FhirOperationOutcome;
-        ServiceOutcome.HttpStatusCode = SearchParametersServiceOutcomeBaseOnly.HttpStatusCode;
-        ServiceOutcome.FormatMimeType = SearchParametersServiceOutcomeBaseOnly.SearchParameters.Format;
-        return ServiceOutcome;
-      }
-      else
-      {
-        ServiceOutcome.FormatMimeType = SearchParametersServiceOutcomeBaseOnly.SearchParameters.Format;
-      }
-
-      int NumberOfIndexRowsDeleted = IResourceRepository.DeleteNonCurrentResourceIndexes();
-
-      ServiceOutcome.HttpStatusCode = System.Net.HttpStatusCode.OK;
-      ServiceOutcome.OperationType = RestEnum.CrudOperationType.Update;
-      ServiceOutcome.SuccessfulTransaction = true;
-      Parameters ParametersResult = new Parameters();
-      ParametersResult.Id = this.ServiceResourceType.GetLiteral() + "_Response";
-      ParametersResult.Parameter = new List<Parameters.ParameterComponent>();
-      var Param = new Parameters.ParameterComponent();
-      ParametersResult.Parameter.Add(Param);
-      Param.Name = $"{this.ServiceResourceType.GetLiteral()}_TotalIndexesDeletedCount";
-      var Count = new FhirDecimal();
-      Count.Value = NumberOfIndexRowsDeleted;
-      Param.Value = Count;
-      ServiceOutcome.ResourceResult = ParametersResult;      
-      return ServiceOutcome;
-    }
-
-    public virtual void AddResourceIndexs(ResourceType ResourceType, List<DtoServiceSearchParameterLight> ServiceSearchParameterLightList, IPyroRequestUri FhirRequestUri)
-    {
+      if (ServiceSearchParameterLightList.Any(x => x.Resource != ResourceType.GetLiteral()))
+        throw new ArgumentNullException("Internal Server Error: AddAndUpdateResourceIndexes must only be passed a list of ServiceSearchParameter which are all for the same ResourceType");
       SetCurrentResourceType(ResourceType);
-      IResourceRepository.AddCurrentResourceIndex(ServiceSearchParameterLightList, FhirRequestUri);
+      IResourceRepository.AddAndUpdateResourceIndexes(ServiceSearchParameterLightList);
     }
 
     public DateTimeOffset? GetLastCurrentResourceLastUpdatedValue(ResourceType ResourceType)
@@ -1050,11 +1002,11 @@ namespace Pyro.Engine.Services.Resources
       IDatabaseOperationOutcome DatabaseOperationOutcome = null;
       if (CrudOperationType == RestEnum.CrudOperationType.Update)
       {
-        DatabaseOperationOutcome = IResourceRepository.UpdateResource(ResourceVersionNumber, Resource, RequestUri);
+        DatabaseOperationOutcome = IResourceRepository.UpdateResource(ResourceVersionNumber, Resource);
       }
       else if (CrudOperationType == RestEnum.CrudOperationType.Create)
       {
-        DatabaseOperationOutcome = IResourceRepository.AddResource(Resource, RequestUri);
+        DatabaseOperationOutcome = IResourceRepository.AddResource(Resource);
       }
 
       //Trigger wants to report

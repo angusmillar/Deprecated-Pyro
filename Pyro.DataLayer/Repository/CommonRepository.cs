@@ -135,15 +135,7 @@ namespace Pyro.DataLayer.Repository
     }
 
     //---- Resource ---------------------------------------------------------------
-
-    public ResCurrentType DbGet(Expression<Func<ResCurrentType, bool>> predicate)
-    {
-      ResCurrentType ResourceEntity = null;
-      ResourceEntity = IPyroDbContext.Set<ResCurrentType>().SingleOrDefault(predicate);
-      return ResourceEntity;
-    }
-
-    public DtoResource DbGetNoXML(Expression<Func<ResCurrentType, bool>> predicate)
+    public DtoResource GetDbNoXML(Expression<Func<ResCurrentType, bool>> predicate)
     {
       return IPyroDbContext.Set<ResCurrentType>().Where(predicate).Select(x => new DtoResource
       {
@@ -157,7 +149,7 @@ namespace Pyro.DataLayer.Repository
       }).FirstOrDefault();
     }
 
-    public DtoResource DbGetWithXML(Expression<Func<ResCurrentType, bool>> predicate)
+    public DtoResource GetDbWithXML(Expression<Func<ResCurrentType, bool>> predicate)
     {
       return IPyroDbContext.Set<ResCurrentType>().AsExpandable().Where(predicate).Select(x => new DtoResource
       {
@@ -172,35 +164,21 @@ namespace Pyro.DataLayer.Repository
       }).FirstOrDefault();
     }
 
-    public IQueryable<ResIndexReferenceType> DbGetIndexAll(Expression<Func<ResIndexReferenceType, bool>> predicate)
+    public IQueryable<ResIndexReferenceType> GetDbIndexAll(Expression<Func<ResIndexReferenceType, bool>> predicate)
     {
       IQueryable<ResIndexReferenceType> ResourceIndexEntity = null;
       ResourceIndexEntity = IPyroDbContext.Set<ResIndexReferenceType>().AsExpandable().Where(predicate);
       return ResourceIndexEntity;
     }
 
-    public IQueryable<ResCurrentType> DbGetAll(Expression<Func<ResCurrentType, bool>> predicate)
+    public ResCurrentType GetDbEntity(Expression<Func<ResCurrentType, bool>> predicate)
     {
-      IQueryable<ResCurrentType> ResourceEntity = null;
-      ResourceEntity = IPyroDbContext.Set<ResCurrentType>().AsExpandable().Where(predicate);
+      ResCurrentType ResourceEntity = null;
+      ResourceEntity = IPyroDbContext.Set<ResCurrentType>().SingleOrDefault(predicate);
       return ResourceEntity;
     }
 
-    public int DbGetALLCount<ResourceBaseType>(Expression<Func<ResourceBaseType, bool>> predicate)
-      where ResourceBaseType : ResourceBase
-    {
-      IQueryable<ResourceBaseType> ResourceEntity = null;
-      ResourceEntity = IPyroDbContext.Set<ResourceBaseType>().AsExpandable().Where(predicate);
-      return ResourceEntity.Count();
-    }
-    
-    public void DbAddEntity(ResCurrentType Entity)
-    {
-      IPyroDbContext.Set<ResCurrentType>().Add(Entity);
-      this.Save();
-    }
-
-    public ResCurrentType DbQueryEntityWithInclude(Expression<Func<ResCurrentType, bool>> predicate, List<Expression<Func<ResCurrentType, object>>> IncludeList)
+    public ResCurrentType GetDbEntityWithInclude(Expression<Func<ResCurrentType, bool>> predicate, List<Expression<Func<ResCurrentType, object>>> IncludeList)
     {
       ResCurrentType ResourceEntity = null;
 
@@ -214,6 +192,38 @@ namespace Pyro.DataLayer.Repository
       return ResourceEntity;
 
     }
+
+    public IQueryable<ResCurrentType> GetDbEntityAllQuery(Expression<Func<ResCurrentType, bool>> predicate)
+    {
+      IQueryable<ResCurrentType> Query = null;
+      Query = IPyroDbContext.Set<ResCurrentType>().AsExpandable().Where(predicate);
+      return Query;
+    }
+
+    public IQueryable<ResCurrentType> GetDbQueryEntityListWithIncludeQuery(Expression<Func<ResCurrentType, bool>> predicate, List<Expression<Func<ResCurrentType, object>>> IncludeList)
+    {
+      IQueryable<ResCurrentType> Query = IPyroDbContext.Set<ResCurrentType>();
+
+      foreach (Expression<Func<ResCurrentType, object>> include in IncludeList)
+        Query = Query.Include<ResCurrentType, object>(include);
+
+      return Query.AsExpandable().Where(predicate);
+    }
+
+    public int GetDbALLCount<ResourceBaseType>(Expression<Func<ResourceBaseType, bool>> predicate)
+      where ResourceBaseType : ResourceBase
+    {
+      IQueryable<ResourceBaseType> ResourceEntity = null;
+      ResourceEntity = IPyroDbContext.Set<ResourceBaseType>().AsExpandable().Where(predicate);
+      return ResourceEntity.Count();
+    }
+    
+    public void AddDbEntity(ResCurrentType Entity)
+    {
+      IPyroDbContext.Set<ResCurrentType>().Add(Entity);
+      this.Save();
+    }
+     
 
     private static void IdSearchParameterPredicateProcessing(List<ISearchParameterBase> SearchParametersList, ResourceSearchExpressionTrees<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType> Search, ExpressionStarter<ResCurrentType> MainPredicate)
     {

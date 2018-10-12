@@ -140,7 +140,9 @@
     <Compile Include="BackgroundTask\BackgroundTaskPayloadBase.cs" />
     <Compile Include="BackgroundTask\IBackgroundTaskPayloadBase.cs" />
     <Compile Include="BackgroundTask\Task\ITaskPayloadHiServiceIHISearch.cs" />
+    <Compile Include="BackgroundTask\Task\ITaskPayloadPyroServerIndexing.cs" />
     <Compile Include="BackgroundTask\Task\TaskPayloadHiServiceIHISearch.cs" />
+    <Compile Include="BackgroundTask\Task\TaskPayloadPyroServerIndexing.cs" />
     <Compile Include="CommonResource.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -207,10 +209,12 @@
     <Compile Include="PyroHealthFhirResource\Organizations\IPyroHealth.cs" />
     <Compile Include="PyroHealthFhirResource\PyroFhirResource.cs" />
     <Compile Include="PyroHealthFhirResource\Organizations\PyroHealth.cs" />
+    <Compile Include="PyroHealthFhirResource\Tasks\ISearchParameterIndexing.cs" />
     <Compile Include="PyroHealthFhirResource\Tasks\ILoadFhirSpecificationDefinitions.cs" />
     <Compile Include="PyroHealthFhirResource\Tasks\IPyroTask.cs" />
     <Compile Include="PyroHealthFhirResource\Tasks\ISetCompartmentDefinitions.cs" />
     <Compile Include="PyroHealthFhirResource\Tasks\ISetSearchParameterDefinitions.cs" />
+    <Compile Include="PyroHealthFhirResource\Tasks\SearchParameterIndexing.cs" />
     <Compile Include="PyroHealthFhirResource\Tasks\SetSearchParameterDefinitions.cs" />
     <Compile Include="PyroHealthFhirResource\Tasks\SetCompartmentDefinitions.cs" />
     <Compile Include="PyroHealthFhirResource\Tasks\LoadFhirSpecificationDefinitions.cs" />
