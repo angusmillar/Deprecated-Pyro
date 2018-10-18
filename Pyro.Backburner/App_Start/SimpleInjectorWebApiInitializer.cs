@@ -74,12 +74,7 @@ namespace Pyro.Backburner.App_Start
       //=================== Backburner Only ====================================================================            
       //========================================================================================================
 
-      //Lifestyle.Scoped      
-      container.Register<ServiceTask.HiService.IIhiSearchService, ServiceTask.HiService.IhiSearchService>(Lifestyle.Scoped);
-      container.Register<ServiceTask.SearchParameterIndexer.IIndexerService, ServiceTask.SearchParameterIndexer.IndexerService>(Lifestyle.Scoped);
       
-      container.Register<ServiceTask.FhirApiDiscovery.IFhirApiDiscoveryService, ServiceTask.FhirApiDiscovery.FhirApiDiscoveryService>(Lifestyle.Scoped);
-     
     }
 
     /// <summary>
@@ -136,7 +131,7 @@ namespace Pyro.Backburner.App_Start
       container.Register<Pyro.Common.CompositionRoot.IFhirResourceInstanceOperationServiceFactory, FhirResourceInstanceOperationServiceFactory>(Lifestyle.Singleton);
       container.Register<Pyro.Common.CompositionRoot.IFhirResourceOperationServiceFactory, FhirResourceOperationServiceFactory>(Lifestyle.Singleton);
       container.Register<Pyro.Common.CompositionRoot.IServerSearchParameterServiceFactory, ServerSearchParameterServiceFactory>(Lifestyle.Singleton);
-
+      container.Register<Common.CompositionRoot.IIndexerTaskFactory, IndexerTaskFactory>(Lifestyle.Singleton);
 
       container.Register<Pyro.Identifiers.Australian.MedicareNumber.IMedicareNumberParser, Pyro.Identifiers.Australian.MedicareNumber.MedicareNumberParser>(Lifestyle.Singleton);
       container.Register<Pyro.Identifiers.Australian.DepartmentVeteransAffairs.IDVANumberParser, Pyro.Identifiers.Australian.DepartmentVeteransAffairs.DVANumberParser>(Lifestyle.Singleton);
@@ -228,7 +223,7 @@ namespace Pyro.Backburner.App_Start
       container.Register<IIncludeService, IncludeService>(Lifestyle.Scoped);
       container.Register<Pyro.ADHA.Api.IIhiSearchValidateConfig, Pyro.Common.ADHA.Api.IhiSearchValidateConfig>(Lifestyle.Scoped);
       container.Register<Pyro.ADHA.Api.IHiServiceApi, Pyro.ADHA.Api.HiServiceApi>(Lifestyle.Scoped);
-
+      container.Register<IServiceBackburnerConnection, Engine.Services.BackburnerConnection.ServiceBackburnerConnection>(Lifestyle.Scoped);      
 
       //Scoped: Operations Locator 
       container.Register<IFhirBaseOperationService, FhirBaseOperationService>(Lifestyle.Scoped);
@@ -252,18 +247,19 @@ namespace Pyro.Backburner.App_Start
       //Scoped: Load all the FHIR Validation Resolvers       
       container.Collection.Register<IResourceResolver>(new[] { typeof(InternalServerProfileResolver), typeof(AustralianFhirProfileResolver), typeof(ZipSourceResolver) });
 
-      //Scoped: Bellow returns all CommonResourceRepository types to be registered in contaioner
+      //Scoped: Repositories 
       var CommonResourceRepositoryTypeList = Pyro.DataLayer.DbModel.EntityGenerated.CommonResourceRepositoryTypeList.GetTypeList();
       container.Register(typeof(ICommonResourceRepository<,,,,,,>), CommonResourceRepositoryTypeList.ToArray(), Lifestyle.Scoped);
-
       container.Register<Pyro.DataLayer.Repository.Interfaces.IServiceBaseUrlRepository, ServiceBaseUrlRepository>(Lifestyle.Scoped);
       container.Register<IServicePrimaryBaseUrlRepository, ServiceBaseUrlRepository>(Lifestyle.Scoped);
-
       container.Register<IServiceSearchParameterRepository, ServiceSearchParameterRepository>(Lifestyle.Scoped);
-      container.Register<IServiceCompartmentRepository, ServiceCompartmentRepository>(Lifestyle.Scoped);
-      container.Register<ICompartmentSearchParameterService, CompartmentSearchParameterService>(Lifestyle.Scoped);
+      container.Register<IServiceCompartmentRepository, ServiceCompartmentRepository>(Lifestyle.Scoped);      
       container.Register<IFhirReleaseRepository, FhirReleaseRepository>(Lifestyle.Scoped);
       container.Register<IMigrationHistoryRepository, MigrationHistoryRepository>(Lifestyle.Scoped);
+      container.Register<IBackburnerConnectionRepository, BackburnerConnectionRepository>(Lifestyle.Scoped);
+
+
+      container.Register<ICompartmentSearchParameterService, CompartmentSearchParameterService>(Lifestyle.Scoped);
 
       //Scoped Trigger Services
       container.Register<IResourceTriggerService, ResourceTriggerService>(Lifestyle.Scoped);
@@ -272,8 +268,13 @@ namespace Pyro.Backburner.App_Start
       container.Register<ITriggerServerReadOnlyMode, TriggerServerReadOnlyMode>(Lifestyle.Scoped);
 
       //Background Task Payloads
-      container.Register<Common.BackgroundTask.Task.ITaskPayloadHiServiceIHISearch, Common.BackgroundTask.Task.TaskPayloadHiServiceIHISearch>(Lifestyle.Scoped);
-      container.Register<Common.BackgroundTask.Task.ITaskPayloadPyroServerIndexing, Common.BackgroundTask.Task.TaskPayloadPyroServerIndexing>(Lifestyle.Scoped);
+      container.Register<Common.BackgroundTask.TaskPayload.ITaskPayloadHiServiceIHISearch, Common.BackgroundTask.TaskPayload.TaskPayloadHiServiceIHISearch>(Lifestyle.Scoped);
+      container.Register<Common.BackgroundTask.TaskPayload.ITaskPayloadPyroServerIndexing, Common.BackgroundTask.TaskPayload.TaskPayloadPyroServerIndexing>(Lifestyle.Scoped);
+
+      //Background Task Services            
+      container.Register<Pyro.Common.BackgroundTask.TaskService.HiService.IIhiSearchService, Pyro.Common.BackgroundTask.TaskService.HiService.IhiSearchService>(Lifestyle.Scoped);
+      container.Register<Pyro.Common.BackgroundTask.TaskService.Indexer.IIndexerService, Pyro.Common.BackgroundTask.TaskService.Indexer.IndexerService>(Lifestyle.Scoped);
+      container.Register<Pyro.Common.BackgroundTask.TaskService.FhirApiDiscovery.IFhirApiDiscoveryService, Pyro.Common.BackgroundTask.TaskService.FhirApiDiscovery.FhirApiDiscoveryService>(Lifestyle.Scoped);
 
       //Service Configuration to Db
       container.Register<IServiceConfigurationService, ServiceConfigurationService>(Lifestyle.Scoped);
@@ -294,6 +295,8 @@ namespace Pyro.Backburner.App_Start
       container.Register<Pyro.Common.PyroHealthFhirResource.ITask, Pyro.Common.PyroHealthFhirResource.Task>(Lifestyle.Scoped);
       container.Register<Pyro.Common.PyroHealthFhirResource.IDevice, Pyro.Common.PyroHealthFhirResource.Device>(Lifestyle.Scoped);
       container.Register<Pyro.Common.PyroHealthFhirResource.ICompartmentDefinition, Pyro.Common.PyroHealthFhirResource.CompartmentDefinition>(Lifestyle.Scoped);
+      container.Register<Pyro.Common.PyroHealthFhirResource.IOperationDefinition, Pyro.Common.PyroHealthFhirResource.OperationDefinition>(Lifestyle.Scoped);
+
       //Pyro FHIR Resources: CodeSystems
       container.Register<Pyro.Common.PyroHealthFhirResource.CodeSystems.IPyroFhirServer, Pyro.Common.PyroHealthFhirResource.CodeSystems.PyroFhirServer>(Lifestyle.Scoped);
       container.Register<Pyro.Common.PyroHealthFhirResource.CodeSystems.IPyroTask, Pyro.Common.PyroHealthFhirResource.CodeSystems.PyroTask>(Lifestyle.Scoped);
@@ -313,7 +316,9 @@ namespace Pyro.Backburner.App_Start
       container.Register<Pyro.Common.PyroHealthFhirResource.CompartmentDefinitions.IPyroCompartmentDefinitionPatient, Pyro.Common.PyroHealthFhirResource.CompartmentDefinitions.PyroCompartmentDefinitionPatient>(Lifestyle.Scoped);
       container.Register<Pyro.Common.PyroHealthFhirResource.CompartmentDefinitions.IPyroCompartmentDefinitionPractitioner, Pyro.Common.PyroHealthFhirResource.CompartmentDefinitions.PyroCompartmentDefinitionPractitioner>(Lifestyle.Scoped);
       container.Register<Pyro.Common.PyroHealthFhirResource.CompartmentDefinitions.IPyroCompartmentDefinitionRelatedPerson, Pyro.Common.PyroHealthFhirResource.CompartmentDefinitions.PyroCompartmentDefinitionRelatedPerson>(Lifestyle.Scoped);
-
+      //Pyro Fhir Resources: CompartmentDefinition
+      container.Register<Pyro.Common.PyroHealthFhirResource.OperationDefinitions.IServerIndexesSet, Pyro.Common.PyroHealthFhirResource.OperationDefinitions.ServerIndexesSet>(Lifestyle.Scoped);
+      container.Register<Pyro.Common.PyroHealthFhirResource.OperationDefinitions.IServerIndexesIndex, Pyro.Common.PyroHealthFhirResource.OperationDefinitions.ServerIndexesIndex>(Lifestyle.Scoped);
     }
 
     private static void RegisterDbContextForDbProvider(Container container)

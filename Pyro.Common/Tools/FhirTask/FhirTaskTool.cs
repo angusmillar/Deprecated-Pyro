@@ -57,8 +57,8 @@ namespace Pyro.Common.Tools.FhirTask
         }
         else if (PutResourceServiceOutcome.HttpStatusCode == System.Net.HttpStatusCode.Conflict)
         {
-          ILog.Error($"Internal Server Error: UpdateTaskAsStatus failed due to Version Conflict, Task reference was: {Task.ResourceType.GetLiteral()}/{Task.Id}/_history/{Task.VersionId}.");
-          return true;
+          ILog.Warn($"Version conflict on Task status update, Task reference was: {Task.ResourceType.GetLiteral()}/{Task.Id}/_history/{Task.VersionId}.");
+          return false;
         }
         else if (PutResourceServiceOutcome.HttpStatusCode == System.Net.HttpStatusCode.Created)
         {

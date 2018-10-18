@@ -1,6 +1,6 @@
 ﻿using Hl7.Fhir.Model;
 using Hl7.Fhir.Rest;
-using Pyro.Common.BackgroundTask;
+using Pyro.Common.BackgroundTask.TaskPayload;
 using Pyro.Common.Enum;
 using Pyro.Common.Exceptions;
 using Pyro.Common.Tools.UriSupport;

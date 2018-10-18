@@ -4,7 +4,7 @@ using Hl7.Fhir.Model;
 using Hl7.Fhir.Rest;
 using Pyro.Common.Tools.UriSupport;
 using System.Collections.Generic;
-using Pyro.Common.BackgroundTask;
+using Pyro.Common.BackgroundTask.TaskPayload;
 
 namespace Pyro.Common.Service.ResourceService
 {

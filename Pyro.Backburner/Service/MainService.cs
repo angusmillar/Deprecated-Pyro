@@ -1,17 +1,11 @@
 ﻿using Microsoft.AspNet.SignalR.Client;
-//using Hl7.Fhir.Rest;
 using System;
 using System.Threading;
-using Pyro.Common.BackgroundTask.Task;
-using Pyro.Common.BackgroundTask;
+using Pyro.Common.BackgroundTask.TaskPayload;
 using Pyro.Common.Enum;
 using SimpleInjector;
-using SimpleInjector.Lifestyles;
 using Pyro.Backburner.ServiceTaskLaunch;
-using Pyro.Backburner.ServiceTask;
-using System.Threading.Tasks;
-using Pyro.Backburner.Tools;
-using Pyro.Common.Global;
+using Pyro.Common.Tools;
 
 namespace Pyro.Backburner.Service
 {
@@ -45,9 +39,11 @@ namespace Pyro.Backburner.Service
       GetPyroServerConnectionUrl();
 
       //Run the task once on start-up
-      var IndexerServiceTaskLauncher = new IndexerServiceTaskLauncher(Container);
-      IndexerServiceTaskLauncher.Launch(new TaskPayloadPyroServerIndexing() { TaskType = BackgroundTaskType.PyroServerIndexing, TaskId = null });
-      
+      //var IndexerServiceTaskLauncher = new IndexerServiceTaskLauncher(Container);
+      //IndexerServiceTaskLauncher.Launch(new TaskPayloadPyroServerIndexing() { TaskType = BackgroundTaskType.PyroServerIndexing, TaskId = null }, "[None]");
+
+      Container.GetInstance<Common.CompositionRoot.IIndexerTaskFactory>()
+        .Create(new TaskPayloadPyroServerIndexing() { TaskType = BackgroundTaskType.PyroServerIndexing, TaskId = null }, "[None]");
 
       ConsoleSupport.DateTimeStampWriteLine("Database schema loaded...");
       _timer = new Timer(InitilizeHub, null, _StartupDelay, _StartupDelay);            
@@ -56,21 +52,27 @@ namespace Pyro.Backburner.Service
     private void LoadTasks()
     {
       var hubProxy = hubConnection.CreateHubProxy("BroadcastHub");
-      Tools.ConsoleSupport.TimeStampWriteLine("Registered Tasks:");      
+      ConsoleSupport.TimeStampWriteLine("Registered Tasks:");      
       // ========================================================================================
       // ==============  Registered each task Launcher to run ====================================
       // ========================================================================================
 
       // IHI Search Service
       var IhiSearchServiceTaskLauncher = new IhiSearchServiceTaskLauncher(Container);
-      ConsoleSupport.TimeStampWriteLine(LogMessageSupport.RegisterTask(BackgroundTaskType.HiServiceIHISearch.GetPyroLiteral()));
+      ConsoleSupport.TimeStampWriteLine(BackgroundTaskLogMessageSupport.RegisterTask(BackgroundTaskType.HiServiceIHISearch.GetPyroLiteral()));
       hubProxy.On<TaskPayloadHiServiceIHISearch>(BackgroundTaskType.HiServiceIHISearch.GetPyroLiteral(), 
         IHiServiceResolveIHIPayload => IhiSearchServiceTaskLauncher.Launch(IHiServiceResolveIHIPayload));
+      
 
-      var IndexerServiceTaskLauncher = new IndexerServiceTaskLauncher(Container);
-      ConsoleSupport.TimeStampWriteLine(LogMessageSupport.RegisterTask(BackgroundTaskType.PyroServerIndexing.GetPyroLiteral()));
+      ConsoleSupport.TimeStampWriteLine(BackgroundTaskLogMessageSupport.RegisterTask(BackgroundTaskType.PyroServerIndexing.GetPyroLiteral()));            
+
       hubProxy.On<TaskPayloadPyroServerIndexing>(BackgroundTaskType.PyroServerIndexing.GetPyroLiteral(),
-        TaskPayloadPyroServerIndexing => IndexerServiceTaskLauncher.Launch(TaskPayloadPyroServerIndexing));
+        TaskPayloadPyroServerIndexing => Container.GetInstance<Common.CompositionRoot.IIndexerTaskFactory>()
+        .Create(TaskPayloadPyroServerIndexing, hubConnection.ConnectionId));
+
+
+      //hubProxy.On<TaskPayloadPyroServerIndexing>(  .PyroServerIndexing.GetPyroLiteral(),
+      //  TaskPayloadPyroServerIndexing => IndexerServiceTaskLauncher.Launch(TaskPayloadPyroServerIndexing, hubConnection.ConnectionId));
 
 
 
@@ -142,7 +144,7 @@ namespace Pyro.Backburner.Service
         ConsoleSupport.DateTimeStampWriteLine("Connected to Pyro Server");
         ConsoleWriteLine($"At address: {PyroServerConnectionUrl}");
         ConsoleWriteLine($"Connection Id: {hubConnection.ConnectionId}");
-        
+        Pyro.Backburner.App_Start.BackburnerConectionIdUpdate.RunTask(Container, hubConnection.ConnectionId, true);
 
       }
       else
@@ -157,7 +159,7 @@ namespace Pyro.Backburner.Service
     {
       // FhirApiDiscoveryTask
       var FhirApiDiscoveryTaskLauncher = new FhirApiDiscoveryTaskLauncher(Container);
-      ConsoleSupport.TimeStampWriteLine(LogMessageSupport.RegisterTask("FhirApiDiscoveryTaskLauncher"));
+      ConsoleSupport.TimeStampWriteLine(BackgroundTaskLogMessageSupport.RegisterTask("FhirApiDiscoveryTaskLauncher"));
       PyroServerConnectionUrl = FhirApiDiscoveryTaskLauncher.Launch();
     }
 

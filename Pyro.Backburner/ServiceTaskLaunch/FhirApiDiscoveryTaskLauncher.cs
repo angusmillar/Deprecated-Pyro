@@ -1,15 +1,13 @@
 ﻿using System.Threading.Tasks;
 using SimpleInjector;
 using SimpleInjector.Lifestyles;
-using Pyro.Common.BackgroundTask.Task;
-using Pyro.Common.Enum;
-using Pyro.Backburner.ServiceTask.FhirApiDiscovery;
-using Pyro.Backburner.Tools;
+using Pyro.Common.BackgroundTask.TaskService.FhirApiDiscovery;
+using Pyro.Common.Tools;
 using System;
 
 namespace Pyro.Backburner.ServiceTaskLaunch
 {
-  public class FhirApiDiscoveryTaskLauncher
+  public class FhirApiDiscoveryTaskLauncher : BaseTaskLauncher
   {
     private readonly Container Container;
 
@@ -35,9 +33,10 @@ namespace Pyro.Backburner.ServiceTaskLaunch
     /// <param name="TaskPayloadHiServiceIHISearch"></param>
     public string Launch()
     {
+      
       ConsoleSupport.TimeStampWriteLine("Launched FhirApiDiscoveryTaskLauncher" );
       var TaskResults = Task.Factory.StartNew(() =>
-      {
+      {        
         try
         {
           using (AsyncScopedLifestyle.BeginScope(Container))
@@ -51,6 +50,7 @@ namespace Pyro.Backburner.ServiceTaskLaunch
         }
         return "FailedReturn";
       });
+      
       return TaskResults.Result;
     }
   }

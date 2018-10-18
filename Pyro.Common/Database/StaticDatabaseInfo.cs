@@ -118,6 +118,7 @@ namespace Pyro.Common.Database
 
     public static class DatabaseCreateSwitches
     {
+      public static bool DevelopmentOnlyGenerateMigrations { get { return true; } }
       public static bool CaseSensitiveColumnAnnotationOn { get { return true; } }      
     }
   }

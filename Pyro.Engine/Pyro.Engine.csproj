@@ -106,6 +106,7 @@
     <Compile Include="Operation\FhirBaseOperationService.cs" />
     <Compile Include="Operation\FhirResourceInstanceOperationService.cs" />
     <Compile Include="Operation\FhirResourceOperationService.cs" />
+    <Compile Include="Services\BackburnerConnection\ServiceBackburnerConnection.cs" />
     <Compile Include="Services\FhirTasks\SearchParameterLoader\ISearchParameterResourceLoader.cs" />
     <Compile Include="Services\FhirTasks\SearchParameterLoader\SearchParameterResourceLoader.cs" />
     <Compile Include="Services\FhirTasks\SetCompartment\ISetCompartmentDefinitionTaskProcessor.cs" />

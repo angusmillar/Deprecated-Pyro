@@ -1,10 +1,9 @@
 ﻿using System.Threading.Tasks;
 using SimpleInjector;
 using SimpleInjector.Lifestyles;
-using Pyro.Common.BackgroundTask.Task;
-using Pyro.Common.Enum;
-using Pyro.Backburner.ServiceTask.HiService;
-using Pyro.Backburner.Tools;
+using Pyro.Common.BackgroundTask.TaskPayload;
+using Pyro.Common.BackgroundTask.TaskService.HiService;
+using Pyro.Common.Tools;
 using System;
 
 namespace Pyro.Backburner.ServiceTaskLaunch
@@ -35,7 +34,7 @@ namespace Pyro.Backburner.ServiceTaskLaunch
     /// <param name="TaskPayloadHiServiceIHISearch"></param>
     public void Launch(ITaskPayloadHiServiceIHISearch TaskPayloadHiServiceIHISearch)
     {
-      ConsoleSupport.TimeStampWriteLine(LogMessageSupport.TaskReceived(TaskPayloadHiServiceIHISearch));
+      ConsoleSupport.TimeStampWriteLine(BackgroundTaskLogMessageSupport.TaskReceived(TaskPayloadHiServiceIHISearch));
       Task.Factory.StartNew(() =>
       {
         try

@@ -1,4 +1,5 @@
-﻿using Pyro.Common.Extentions;
+﻿using Pyro.Common.BackgroundTask;
+using Pyro.Common.Extentions;
 using Pyro.Common.FhirHttpResponse;
 using Pyro.Common.Service.ResourceService;
 using Pyro.Engine.Services.PyroServiceApi;
@@ -20,13 +21,15 @@ namespace Pyro.WebApi.Controllers
   {    
     private readonly IPyroService IPyroService;
     private readonly IFhirRestResponse IFhirRestResponse;
+    private readonly ITaskPerformerNegotiator ITaskPerformerNegotiator;
     private readonly Pyro.Common.Logging.ILog Log;
     //Constructor for dependence injection inject container into 
-    public FhirController(IPyroService IPyroService, IFhirRestResponse IFhirRestResponse, Pyro.Common.Logging.ILog Log)
+    public FhirController(IPyroService IPyroService, IFhirRestResponse IFhirRestResponse, ITaskPerformerNegotiator ITaskPerformerNegotiator, Pyro.Common.Logging.ILog Log)
     {    
       this.IPyroService = IPyroService;
+      this.ITaskPerformerNegotiator = ITaskPerformerNegotiator;
       this.IFhirRestResponse = IFhirRestResponse;
-      this.Log = Log;
+      this.Log = Log;      
       //Log.Info($"Test logging");
     }
 
@@ -40,7 +43,7 @@ namespace Pyro.WebApi.Controllers
                      type = c.Type,
                      value = c.Value
                    };
-
+      
       return Json(claims);
     }
 
@@ -99,7 +102,7 @@ namespace Pyro.WebApi.Controllers
       string BaseRequestUri = this.CalculateBaseURI("{ResourceName}");
       IResourceServiceOutcome ResourceServiceOutcome = IPyroService.Get(BaseRequestUri, Request, ResourceName, id);
       //Below is only testing at this stage. No real tasks going as yet.
-      SignalRHub.BackgroundProcessing.SendTaskList(ResourceServiceOutcome.BackgroundTaskList);
+      SignalRHub.BackgroundProcessing.SendTaskList(ResourceServiceOutcome.BackgroundTaskList, ITaskPerformerNegotiator, this.Configuration.DependencyResolver);      
       return IFhirRestResponse.GetHttpResponseMessage(ResourceServiceOutcome, Request, ResourceServiceOutcome.SummaryType);      
     }
 
@@ -359,7 +362,7 @@ namespace Pyro.WebApi.Controllers
     {
       string BaseRequestUri = this.CalculateBaseURI("${operation}");
       IResourceServiceOutcome ResourceServiceOutcome = IPyroService.OperationPostBaseWithParameters(BaseRequestUri, Request, operation, Resource);
-      SignalRHub.BackgroundProcessing.SendTaskList(ResourceServiceOutcome.BackgroundTaskList);
+      SignalRHub.BackgroundProcessing.SendTaskList(ResourceServiceOutcome.BackgroundTaskList, ITaskPerformerNegotiator, Configuration.DependencyResolver);
       return IFhirRestResponse.GetHttpResponseMessage(ResourceServiceOutcome, Request, ResourceServiceOutcome.SummaryType);
     }
 
@@ -376,7 +379,7 @@ namespace Pyro.WebApi.Controllers
     {
       string BaseRequestUri = this.CalculateBaseURI("${operation}");
       IResourceServiceOutcome ResourceServiceOutcome = IPyroService.OperationGetBaseWithParameters(BaseRequestUri, Request, operation);
-      SignalRHub.BackgroundProcessing.SendTaskList(ResourceServiceOutcome.BackgroundTaskList);
+      SignalRHub.BackgroundProcessing.SendTaskList(ResourceServiceOutcome.BackgroundTaskList, ITaskPerformerNegotiator, Configuration.DependencyResolver);
       return IFhirRestResponse.GetHttpResponseMessage(ResourceServiceOutcome, Request, ResourceServiceOutcome.SummaryType);
     }
     

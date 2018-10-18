@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.SignalR.Hubs;
-using Pyro.Common.BackgroundTask.Task;
+using Pyro.Common.BackgroundTask.TaskPayload;
 using Pyro.Common.Enum;
 
 namespace Pyro.WebApi.SignalRHub

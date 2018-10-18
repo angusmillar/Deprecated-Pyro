@@ -16,6 +16,9 @@ namespace Pyro.WebApi.SignalRHub
       {        
         Console.WriteLine($"{DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss.fff")}: Pyro Backburner service connected:");
         Console.WriteLine($" - Client connection Id: {Context.ConnectionId}");
+        //Note that the Backburner instance updated the database that it is connected, not the FHIR Server here
+        //The FHIR Server only updates on disconnect, this save the server resource slightly and ensures the backburner
+        //instance only begins work when it is connected, not when the server things it is connected. Its a small thing but feels correct.       
       }
       return base.OnConnected();
     }
@@ -34,10 +37,17 @@ namespace Pyro.WebApi.SignalRHub
           Console.WriteLine($"{DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss.fff")}: Pyro Backburner service has lost connection to this server");
           Console.WriteLine($"Client Id: {Context.ConnectionId}");
         }
-      }
-        
+        UpdateConnectionInDatabase(Context.ConnectionId, false);
+      }        
       return base.OnDisconnected(stopCalled);
     }
+
+    private void UpdateConnectionInDatabase(string ConnectionId, bool IsConnected)
+    {
+      Pyro.WebApi.App_Start.BackburnerConectionIdUpdate.RunTask(Startup.HttpConfiguration.DependencyResolver, ConnectionId, IsConnected);            
+    }
+
+
 
   }
 }

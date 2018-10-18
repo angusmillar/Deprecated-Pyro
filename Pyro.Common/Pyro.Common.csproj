@@ -137,21 +137,32 @@
     <Compile Include="ADHA\Api\IhiRequestData.cs" />
     <Compile Include="ADHA\Api\IhiSearchValidateConfig.cs" />
     <Compile Include="Attributes\EnumLiteralAttribute.cs" />
-    <Compile Include="BackgroundTask\BackgroundTaskPayloadBase.cs" />
-    <Compile Include="BackgroundTask\IBackgroundTaskPayloadBase.cs" />
-    <Compile Include="BackgroundTask\Task\ITaskPayloadHiServiceIHISearch.cs" />
-    <Compile Include="BackgroundTask\Task\ITaskPayloadPyroServerIndexing.cs" />
-    <Compile Include="BackgroundTask\Task\TaskPayloadHiServiceIHISearch.cs" />
-    <Compile Include="BackgroundTask\Task\TaskPayloadPyroServerIndexing.cs" />
+    <Compile Include="BackgroundTask\ITaskPerformerNegotiator.cs" />
+    <Compile Include="BackgroundTask\TaskPayload\BackgroundTaskPayloadBase.cs" />
+    <Compile Include="BackgroundTask\TaskPayload\IBackgroundTaskPayloadBase.cs" />
+    <Compile Include="BackgroundTask\TaskPayload\ITaskPayloadHiServiceIHISearch.cs" />
+    <Compile Include="BackgroundTask\TaskPayload\ITaskPayloadPyroServerIndexing.cs" />
+    <Compile Include="BackgroundTask\TaskPayload\TaskPayloadHiServiceIHISearch.cs" />
+    <Compile Include="BackgroundTask\TaskPayload\TaskPayloadPyroServerIndexing.cs" />
+    <Compile Include="BackgroundTask\TaskPerformerNegotiator.cs" />
+    <Compile Include="BackgroundTask\TaskService\FhirApiDiscovery\FhirApiDiscoveryService.cs" />
+    <Compile Include="BackgroundTask\TaskService\FhirApiDiscovery\IFhirApiDiscoveryService.cs" />
+    <Compile Include="BackgroundTask\TaskService\HiService\IhiSearchService.cs" />
+    <Compile Include="BackgroundTask\TaskService\HiService\IIhiSearchService.cs" />
+    <Compile Include="BackgroundTask\TaskService\Indexer\IIndexerService.cs" />
+    <Compile Include="BackgroundTask\TaskService\Indexer\IndexerService.cs" />
     <Compile Include="CommonResource.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>CommonResource.resx</DependentUpon>
     </Compile>
     <Compile Include="CompositionRoot\Concrete\GenericInstanceFactory.cs" />
+    <Compile Include="CompositionRoot\Concrete\IndexerTaskFactory.cs" />
     <Compile Include="CompositionRoot\IGenericInstanceFactory.cs" />
     <Compile Include="CompositionRoot\IIndexSetterFactory.cs" />
     <Compile Include="CompositionRoot\Concrete\IndexSetterFactory.cs" />
+    <Compile Include="CompositionRoot\IIndexerTaskFactory.cs" />
+    <Compile Include="DtoEntity\DtoBackburnerConnection.cs" />
     <Compile Include="DtoEntity\DtoConfigEntityBase.cs" />
     <Compile Include="DtoEntity\DtoDatabaseOperationOutcome.cs" />
     <Compile Include="DtoEntity\DtoIncludeResource.cs" />
@@ -167,8 +178,10 @@
     <Compile Include="Global\WebConfigPropertiesDefaults.cs" />
     <Compile Include="Interfaces\DataLayer\IConfigEntityBase.cs" />
     <Compile Include="Interfaces\DataLayer\I_ServiceSearchParameter.cs" />
+    <Compile Include="Interfaces\Repositories\IBackburnerConnectionRepository.cs" />
     <Compile Include="Interfaces\Repositories\IMigrationHistoryRepository.cs" />
     <Compile Include="Interfaces\Repositories\IServiceConfigurationRepository.cs" />
+    <Compile Include="Interfaces\Service\IServiceBackburnerConnection.cs" />
     <Compile Include="Interfaces\Service\IServiceConfigurationService.cs" />
     <Compile Include="ProductText\PyroWarmUpMessages.cs" />
     <Compile Include="PyroHealthFhirResource\CompartmentDefinition.cs" />
@@ -193,8 +206,15 @@
     <Compile Include="PyroHealthFhirResource\Elements\PyroHealthCanonicalUrl.cs" />
     <Compile Include="PyroHealthFhirResource\ICompartmentDefinition.cs" />
     <Compile Include="PyroHealthFhirResource\IDevice.cs" />
+    <Compile Include="PyroHealthFhirResource\IOperationDefinition.cs" />
     <Compile Include="PyroHealthFhirResource\IPyroResource.cs" />
     <Compile Include="PyroHealthFhirResource\ITask.cs" />
+    <Compile Include="PyroHealthFhirResource\OperationDefinitions\IPyroOperationDefinition.cs" />
+    <Compile Include="PyroHealthFhirResource\OperationDefinitions\IServerIndexesIndex.cs" />
+    <Compile Include="PyroHealthFhirResource\OperationDefinitions\IServerIndexesSet.cs" />
+    <Compile Include="PyroHealthFhirResource\OperationDefinitions\ServerIndexesIndex.cs" />
+    <Compile Include="PyroHealthFhirResource\OperationDefinitions\ServerIndexesSet.cs" />
+    <Compile Include="PyroHealthFhirResource\OperationDefinition.cs" />
     <Compile Include="PyroHealthFhirResource\Organizations\IPyroOrganization.cs" />
     <Compile Include="PyroHealthFhirResource\Task.cs" />
     <Compile Include="PyroHealthFhirResource\CodeSystem.cs" />
@@ -359,6 +379,7 @@
     <Compile Include="Service\Trigger\TriggerServices\TriggerCompartmentDefinition.cs" />
     <Compile Include="Service\Trigger\TriggerServices\TriggerServerReadOnlyMode.cs" />
     <Compile Include="Tools\Bundles\FhirBundleSupport.cs" />
+    <Compile Include="Tools\ConsoleSupport.cs" />
     <Compile Include="Tools\DateTimeSupport.cs" />
     <Compile Include="Tools\FhirGuid\FhirGuid.cs" />
     <Compile Include="Tools\FhirPathSupport\IPyroFhirPathResolve.cs" />
@@ -388,6 +409,7 @@
     <Compile Include="FhirOperation\ConnectathonAnswer\IConnectathonAnswerOperation.cs" />
     <Compile Include="Service\SearchParameters\ISearchParameterService.cs" />
     <Compile Include="Tools\IntegerExtensions.cs" />
+    <Compile Include="Tools\BackgroundTaskLogMessageSupport.cs" />
     <Compile Include="Tools\Paging\IPagingSupport.cs" />
     <Compile Include="Tools\ResourceNameResolutionSupport.cs" />
     <Compile Include="Tools\UriSupport\PyroRequestUri.cs" />
@@ -561,6 +583,7 @@
   <ItemGroup>
     <None Include="Resources\PyroCompartmentDefinitionDevice.xml" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -100,9 +100,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DbModel\AutoMapperProfile\FhirReleaseProfile.cs" />
+    <Compile Include="DbModel\AutoMapperProfile\BackburnerConnectionProfile.cs" />
     <Compile Include="DbModel\AutoMapperProfile\ServiceConfigurationProfile.cs" />
     <Compile Include="DbModel\AutoMapperProfile\ServiceCompartmentResourceProfile.cs" />
     <Compile Include="DbModel\AutoMapperProfile\ServiceCompartmentProfile.cs" />
+    <Compile Include="DbModel\DatabaseContextConfig\BackburnerConnectionConfig.cs" />
     <Compile Include="DbModel\DatabaseContextConfig\ConfigEntityBaseConfig.cs" />
     <Compile Include="DbModel\DatabaseContextConfig\DatabaseContextConfigGenerated.cs">
       <DependentUpon>MainTemplate.txt4</DependentUpon>
@@ -144,6 +146,7 @@
     <Compile Include="DbModel\EntityBase\IResourceIndexToken.cs" />
     <Compile Include="DbModel\EntityBase\IResourceIndexQuantity.cs" />
     <Compile Include="DbModel\EntityBase\IResourceIndexString.cs" />
+    <Compile Include="DbModel\Entity\BackburnerConnection.cs" />
     <Compile Include="DbModel\Entity\ServiceSearchParameterCompositePivot.cs" />
     <Compile Include="DbModel\Entity\ConfigEntityBase.cs" />
     <Compile Include="DbModel\Entity\FhirRelease.cs" />
@@ -202,6 +205,10 @@
     <Compile Include="MigrationsMicrosoftSQLServer\201810041523325_CaseSensitive.Designer.cs">
       <DependentUpon>201810041523325_CaseSensitive.cs</DependentUpon>
     </Compile>
+    <Compile Include="MigrationsMicrosoftSQLServer\201810150238292_AddBackburnerConnectionTable.cs" />
+    <Compile Include="MigrationsMicrosoftSQLServer\201810150238292_AddBackburnerConnectionTable.Designer.cs">
+      <DependentUpon>201810150238292_AddBackburnerConnectionTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="MigrationsPostgre\201810040456161_First.cs" />
     <Compile Include="MigrationsPostgre\201810040456161_First.Designer.cs">
       <DependentUpon>201810040456161_First.cs</DependentUpon>
@@ -210,10 +217,15 @@
     <Compile Include="MigrationsPostgre\201810040514351_CaseSensitive.Designer.cs">
       <DependentUpon>201810040514351_CaseSensitive.cs</DependentUpon>
     </Compile>
+    <Compile Include="MigrationsPostgre\201810161101408_AddBackburnerConnectionTable.cs" />
+    <Compile Include="MigrationsPostgre\201810161101408_AddBackburnerConnectionTable.Designer.cs">
+      <DependentUpon>201810161101408_AddBackburnerConnectionTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="MigrationsPostgre\ConfigurationPostgre.cs" />
     <Compile Include="MigrationsMicrosoftSQLServer\ConfigurationMsSql.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\BaseRepository.cs" />
+    <Compile Include="Repository\BackburnerConnectionRepository.cs" />
     <Compile Include="Repository\ICommonResourcePredicate.cs" />
     <Compile Include="Repository\MigrationHistoryRepository.cs" />
     <Compile Include="Repository\ServiceConfigurationRepository.cs" />
@@ -264,11 +276,17 @@
     <EmbeddedResource Include="MigrationsMicrosoftSQLServer\201810041523325_CaseSensitive.resx">
       <DependentUpon>201810041523325_CaseSensitive.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="MigrationsMicrosoftSQLServer\201810150238292_AddBackburnerConnectionTable.resx">
+      <DependentUpon>201810150238292_AddBackburnerConnectionTable.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MigrationsPostgre\201810040456161_First.resx">
       <DependentUpon>201810040456161_First.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MigrationsPostgre\201810040514351_CaseSensitive.resx">
       <DependentUpon>201810040514351_CaseSensitive.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MigrationsPostgre\201810161101408_AddBackburnerConnectionTable.resx">
+      <DependentUpon>201810161101408_AddBackburnerConnectionTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

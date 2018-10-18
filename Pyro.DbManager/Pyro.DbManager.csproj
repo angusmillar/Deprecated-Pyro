@@ -179,6 +179,12 @@
     <EmbeddedResource Include="SqlScripts\MsSQL\_201810041600300_SearchParam.sql" />
     <EmbeddedResource Include="SqlScripts\MsSQL\_201810041600200_Hl7OrgBaseUrl.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="SqlScripts\MsSQL\_201810150238292_AddBackburnerConnectionTable.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="SqlScripts\PostgreSql\_201810161101408_AddBackburnerConnectionTable.sql" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

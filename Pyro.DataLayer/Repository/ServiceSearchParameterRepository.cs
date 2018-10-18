@@ -94,12 +94,12 @@ namespace Pyro.DataLayer.Repository
     public List<DtoServiceSearchParameterHeavy> GetServiceSearchParametersHeavyForResource(string ResourceType)
     {
       var ReturnList = new List<DtoServiceSearchParameterHeavy>();
-      
+
       var ResourceServiceSearchParameterList = IPyroDbContext.ServiceSearchParameter
                                                   .Where(x => x.Resource == ResourceType)
                                                   .Include(x => x.TargetResourceTypeList)
-                                                  .Include(x => x.ServiceSearchParameterCompositePivotList)
-                                                  .ToList();
+                                                  .Include(x => x.ServiceSearchParameterCompositePivotList);
+                                                  //.ToList();
 
       foreach (var x in ResourceServiceSearchParameterList)
       {

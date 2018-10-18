@@ -12,18 +12,21 @@ namespace Pyro.Common.PyroHealthFhirResource
     private readonly ITask ITask;
     private readonly IDevice IDevice;
     private readonly ICompartmentDefinition ICompartmentDefinition;
+    private readonly IOperationDefinition IOperationDefinition;
 
     public PyroFhirResource(IOrganization IOrganization, 
       ICodeSystem ICodeSystem, 
       ITask ITask, 
       IDevice IDevice,
-      ICompartmentDefinition ICompartmentDefinition)
+      ICompartmentDefinition ICompartmentDefinition,
+      IOperationDefinition IOperationDefinition)
     {
       this.IOrganization = IOrganization;
       this.ICodeSystem = ICodeSystem;
       this.ITask = ITask;
       this.IDevice = IDevice;
       this.ICompartmentDefinition = ICompartmentDefinition;
+      this.IOperationDefinition = IOperationDefinition;
     }
     
     public IOrganization Organization => IOrganization;
@@ -31,6 +34,7 @@ namespace Pyro.Common.PyroHealthFhirResource
     public ITask Task => ITask;
     public IDevice Device => IDevice;
     public ICompartmentDefinition CompartmentDefinition => ICompartmentDefinition;
+    public IOperationDefinition OperationDefinition => IOperationDefinition;
 
     public IEnumerable<Resource> ResourceToLoadOnStartupList()
     {
@@ -62,6 +66,10 @@ namespace Pyro.Common.PyroHealthFhirResource
       ResourceList.Add(ICompartmentDefinition.PyroCompartmentDefinitionPatient.GetResource());
       ResourceList.Add(ICompartmentDefinition.PyroCompartmentDefinitionPractitioner.GetResource());
       ResourceList.Add(ICompartmentDefinition.PyroCompartmentDefinitionRelatedPerson.GetResource());
+
+      //OperationDefinition
+      ResourceList.Add(IOperationDefinition.ServerIndexesSet.GetResource());
+      ResourceList.Add(IOperationDefinition.ServerIndexesIndex.GetResource());
 
       return ResourceList;      
     }

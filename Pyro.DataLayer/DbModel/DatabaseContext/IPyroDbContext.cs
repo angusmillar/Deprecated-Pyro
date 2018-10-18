@@ -18,6 +18,7 @@ namespace Pyro.DataLayer.DbModel.DatabaseContext
     DbSet<_ServiceCompartment> ServiceCompartment { get; set; }
     DbSet<_ServiceCompartmentResource> ServiceCompartmentResource { get; set; }
     DbSet<_FhirRelease> FhirRelease { get; set; }
+    DbSet<_BackburnerConnection> BackburnerConnection { get; set; }
 
   }
 }

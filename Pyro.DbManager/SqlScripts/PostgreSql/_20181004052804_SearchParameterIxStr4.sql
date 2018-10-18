@@ -835,4 +835,4 @@ INSERT INTO "public"."SearchParameterIxStr" ("Id", "String", "ServiceSearchParam
 INSERT INTO "public"."SearchParameterIxStr" ("Id", "String", "ServiceSearchParameterId", "ResourceId") VALUES (3808, 'a use context type and value assigned to the test script', 28, 1270);
 INSERT INTO "public"."SearchParameterIxStr" ("Id", "String", "ServiceSearchParameterId", "ResourceId") VALUES (3809, 'context-type-value', 30, 1270);
 INSERT INTO "public"."SearchParameterIxStr" ("Id", "String", "ServiceSearchParameterId", "ResourceId") VALUES (3810, 'health level seven international (fhir infrastructure)', 31, 1270);
-ALTER SEQUENCE "SearchParameterIxTok_Id_seq" RESTART WITH 3810;
+ALTER SEQUENCE "SearchParameterIxStr_Id_seq" RESTART WITH 3811;

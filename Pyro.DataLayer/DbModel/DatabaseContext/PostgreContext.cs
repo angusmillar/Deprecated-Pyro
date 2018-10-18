@@ -14,7 +14,7 @@ namespace Pyro.DataLayer.DbModel.DatabaseContext
       //To obtain a new SQL migration script for a database upgrade follow these steps:
       //-----------------------------------------------------------------------------------
       //1. Set Pyro.ConsoleServer as the StartUp project
-      //2. Set the 'GenerateMigration' boolean below to True
+      //2. Set the 'DevelopmentOnlyGenerateMigrations' boolean to True
       //3. Open the Package Manager Console under the tools menu in Visual Studio
       //4. Set the 'Default Project' drop-down in the Package Manager Console to 'Pyro.DataLayer'
       //5. Run the following command to create a new Migration class: 
@@ -28,14 +28,8 @@ namespace Pyro.DataLayer.DbModel.DatabaseContext
       //10. Run the Pyro.DbManager project to upgrade the database.
       //-----------------------------------------------------------------------------------
 
-      bool GenerateMigration = false;
-      if (GenerateMigration)
+      if (Common.Database.StaticDatabaseInfo.DatabaseCreateSwitches.DevelopmentOnlyGenerateMigrations)
       {
-        if (!System.Diagnostics.Debugger.IsAttached)
-        {
-          throw new System.ApplicationException("Oh no, the developer has left a development only setting of 'GenerateMigration' for Microsoft SQL Server as True and this code appears to be running outside of the development environment. " +
-            "Unfortunately this is not allowed. Please contact your system administrator.");
-        }
         DbContextUtils<PostgreContext>.SetInitializer(new MigrateDatabaseToLatestVersion<PostgreContext, MigrationsPostgre.ConfigurationPostgre>());
       }
       else

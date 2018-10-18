@@ -130,7 +130,7 @@ namespace Pyro.Engine.Services.Metadata
 
       RestComponent.Resource = new List<CapabilityStatement.ResourceComponent>();
 
-      List<DtoServiceSearchParameterHeavy> DtoServiceSearchParameterHeavyList = IServiceSearchParameterService.GetServiceSearchParametersHeavyByIsIndexed(true);
+      //List<DtoServiceSearchParameterHeavy> DtoServiceSearchParameterHeavyList = IServiceSearchParameterService.GetServiceSearchParametersHeavyByIsIndexed(true);
 
       var ResourceTypeList = Enum.GetValues(typeof(ResourceType));
       foreach (ResourceType ResourceType in ResourceTypeList)
@@ -165,15 +165,16 @@ namespace Pyro.Engine.Services.Metadata
         ReferenceHandlingPolicyList.Add(CapabilityStatement.ReferenceHandlingPolicy.Literal);
         ReferenceHandlingPolicyList.Add(CapabilityStatement.ReferenceHandlingPolicy.Local);
         ResourceComponent.ReferencePolicy = ReferenceHandlingPolicyList;
-        
-        List<DtoServiceSearchParameterHeavy> DtoServiceSearchParameterHeavyForResourceList = DtoServiceSearchParameterHeavyList.Where(x => x.Resource == CurrentResourceString || x.Resource == FHIRAllTypes.Resource.GetLiteral()).ToList();
 
-        //List<ServiceSearchParameterHeavy> DtoServiceSearchParameterHeavyForResourceList = ICommonServices.GetServiceSearchParametersHeavyForResource(FhirType.Value.GetLiteral());
-        //DtoServiceSearchParameterHeavyForResourceList.AddRange(ICommonServices.GetServiceSearchParametersHeavyForResource(FHIRAllTypes.Resource.GetLiteral()));
+        List<DtoServiceSearchParameterHeavy> DtoServiceSearchParameterHeavyList = IServiceSearchParameterService
+          .GetServiceSearchParametersHeavyForResource(CurrentResourceString)
+          .Where(x => x.IsIndexed == true)
+          .ToList();        
+
         ResourceComponent.SearchParam = new List<CapabilityStatement.SearchParamComponent>();
         List<string> IncludesList = null;
         List<string> RevIncludesList = null;
-        foreach (var SupportedSearchParam in DtoServiceSearchParameterHeavyForResourceList)
+        foreach (var SupportedSearchParam in DtoServiceSearchParameterHeavyList)
         {
           if (SupportedSearchParam.IsIndexed && (SupportedSearchParam.Status == PublicationStatus.Active || SupportedSearchParam.Status == PublicationStatus.Draft))
           {
@@ -228,6 +229,20 @@ namespace Pyro.Engine.Services.Metadata
 
         ResourceComponent.SearchRevInclude = RevIncludesList;
       }
+
+      //System Level Operations
+      RestComponent.Operation = new List<CapabilityStatement.OperationComponent>()
+      {
+         new CapabilityStatement.OperationComponent(){
+           Definition = Common.PyroHealthFhirResource.OperationDefinitions.ServerIndexesSet.CanonicalUrl,
+           Name = Common.PyroHealthFhirResource.OperationDefinitions.ServerIndexesSet.ResourceId
+         },
+         new CapabilityStatement.OperationComponent(){
+           Definition = Common.PyroHealthFhirResource.OperationDefinitions.ServerIndexesIndex.CanonicalUrl,
+           Name = Common.PyroHealthFhirResource.OperationDefinitions.ServerIndexesIndex.ResourceId
+         }
+      };
+
       ConstructConformanceResourceNarrative(Conformance);
 
       IDatabaseOperationOutcome DatabaseOperationOutcome = IDatabaseOperationOutcomeFactory.CreateDatabaseOperationOutcome();

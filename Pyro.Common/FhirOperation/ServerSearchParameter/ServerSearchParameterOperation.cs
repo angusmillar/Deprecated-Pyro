@@ -1,6 +1,6 @@
 ﻿using Hl7.Fhir.Model;
 using Hl7.Fhir.Utility;
-using Pyro.Common.BackgroundTask.Task;
+using Pyro.Common.BackgroundTask.TaskPayload;
 using Pyro.Common.Cache;
 using Pyro.Common.CompositionRoot;
 using Pyro.Common.Enum;

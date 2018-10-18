@@ -242,12 +242,14 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Start\BackburnerConectionIdUpdate.cs" />
+    <Compile Include="App_Start\StartupBackburnerClearConnections.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\SimpleInjectorWebApiInitializer.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\StartupPyroDatabaseMigrationCheck.cs" />
     <Compile Include="App_Start\StartupPyroConfirgrationSynch.cs" />
-    <Compile Include="App_Start\StarupPyroTaskRunner.cs" />
+    <Compile Include="App_Start\StartupPyroTaskRunner.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Attributes\ActionLogAttribute.cs" />
     <Compile Include="Authorization\SwitchableAuthorizationAttribute .cs" />
@@ -266,7 +268,7 @@
     <Compile Include="SignalRHub\Broadcaster.cs" />
     <Compile Include="SignalRHub\BroadcastHub.cs" />
     <Compile Include="Startup.cs" />
-    <Compile Include="App_Start\StarupPyroResourceSeeding.cs" />
+    <Compile Include="App_Start\StartupPyroResourceSeeding.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\Connectons.config">

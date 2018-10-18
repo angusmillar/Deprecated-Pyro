@@ -118,6 +118,18 @@ namespace Pyro.WebApi
         WarmUpMessages.Start("Pyro FHIR Server", $"Version: {System.Diagnostics.FileVersionInfo.GetVersionInfo(typeof(Pyro.Common.Global.GlobalProperties).Assembly.Location).ProductVersion}");
       }
 
+      //Check that we did not leave the Migration switch on for production.
+      if (!System.Diagnostics.Debugger.IsAttached && Common.Database.StaticDatabaseInfo.DatabaseCreateSwitches.DevelopmentOnlyGenerateMigrations)
+      {
+        string Message = "Oh no, the developer has left a development only setting of 'DevelopmentOnlyGenerateMigrations' as True and this code appears to be running outside of the development environment. " +
+          "Unfortunately this is not allowed and the server will not be able to start-up. Please contact your system administrator.";
+        Pyro.Common.Logging.Logger.Log.Fatal(Message);
+        throw new System.ApplicationException(Message);
+      }
+
+      Pyro.Common.Logging.Logger.Log.Info("********************************************************************************");
+      Pyro.Common.Logging.Logger.Log.Info("             -=# The Pyro FHIR Server is starting up. #=-                       ");
+      Pyro.Common.Logging.Logger.Log.Info("********************************************************************************");
       //Check the database migrations are up-to-date with the application 
       Pyro.Common.Logging.Logger.Log.Info("Server start-up: Check the Database Migrations are run.");
       if (App_Start.StartupPyroDatabaseMigrationCheck.RunTask(HttpConfiguration))
@@ -147,14 +159,18 @@ namespace Pyro.WebApi
       Pyro.Common.Logging.Logger.Log.Info("Server start-up: Synchronise the web.config file to database table ServiceConfiguration.");
       App_Start.StartupPyroConfirgrationSynch.RunTask(HttpConfiguration);
 
+      //Synch the Web Configuration file 
+      Pyro.Common.Logging.Logger.Log.Info("Server start-up: Reset Pyro.Backburner connection records.");
+      App_Start.StartupBackburnerClearConnections.RunTask(HttpConfiguration);
+
       //Check seeded FHIR Resource and update if required      
       Pyro.Common.Logging.Logger.Log.Info("Server start-up: Seed reference FHIR resources as required.");
-      App_Start.StarupPyroResourceSeeding.RunTask(HttpConfiguration);
+      App_Start.StartupPyroResourceSeeding.RunTask(HttpConfiguration);
 
       //Check for any FHIR task to process on start-up
       //NOTE: This Task runs asynchronous, it does not stop the server from starting. 
       Pyro.Common.Logging.Logger.Log.Info("Server start-up: Run pending FHIR Tasks.");
-      App_Start.StarupPyroTaskRunner.RunTask(HttpConfiguration);      
+      App_Start.StartupPyroTaskRunner.RunTask(HttpConfiguration);      
 
       if (!Console.IsOutputRedirected)
       {
