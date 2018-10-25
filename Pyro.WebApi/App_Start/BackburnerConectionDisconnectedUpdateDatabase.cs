@@ -7,31 +7,24 @@ using SimpleInjector.Lifestyles;
 
 namespace Pyro.WebApi.App_Start
 {
-  public static class BackburnerConectionIdUpdate
+  public static class BackburnerConectionDisconnectedUpdateDatabase
   {
-    public static bool RunTask(IDependencyResolver DependencyResolver, string ConnectionId, bool IsConnected)
+    public static bool RunTask(IDependencyResolver DependencyResolver, string ConnectionId)
     {
-      Task<bool> BackburnerConectionIdUpdateTaskResults = Task<bool>.Factory.StartNew(() =>
+      Task<bool> ConectionUpdateTaskResults = Task<bool>.Factory.StartNew(() =>
       {
         try
         {
           using (DependencyResolver.BeginScope())
-          {            
-            IServiceBackburnerConnection IServiceBackburnerConnection = (IServiceBackburnerConnection)DependencyResolver.GetService(typeof(IServiceBackburnerConnection));
-            if (IsConnected)
-            {
-              IServiceBackburnerConnection.AddConnectionAsConnected(ConnectionId);
-            }
-            else
-            {
-              IServiceBackburnerConnection.UpdateAsDisconnected(ConnectionId);
-            }
+          {
+            IServiceFhirTaskWorkerManager IServiceFhirTaskWorkerManager = (IServiceFhirTaskWorkerManager)DependencyResolver.GetService(typeof(IServiceFhirTaskWorkerManager));            
+            IServiceFhirTaskWorkerManager.WorkerDisconnected(ConnectionId);              
             return true;
           }
         }
         catch (Exception Exec)
         {
-          Pyro.Common.Logging.Logger.Log.Error(Exec, "BackburnerConectionIdUpdate failed.");
+          Pyro.Common.Logging.Logger.Log.Error(Exec, "BackburnerConectionDisconnectedUpdateDatabase failed.");
           throw Exec;
         }
         //End of Task Thread.
@@ -40,8 +33,8 @@ namespace Pyro.WebApi.App_Start
       try
       {
         //Here we are catching any exceptions that occurred inside the Task thread above.
-        BackburnerConectionIdUpdateTaskResults.Wait();
-        return BackburnerConectionIdUpdateTaskResults.Result;        
+        ConectionUpdateTaskResults.Wait();
+        return ConectionUpdateTaskResults.Result;        
       }
       catch (Exception Exec)
       {

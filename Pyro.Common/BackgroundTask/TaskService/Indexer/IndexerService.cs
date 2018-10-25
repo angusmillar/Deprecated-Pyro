@@ -15,6 +15,9 @@ using Hl7.Fhir.Utility;
 using Pyro.Common.Enum;
 using System.Collections.Generic;
 using System.Linq;
+using Pyro.Common.DtoEntity;
+using static Pyro.Common.Enum.BackgroundTaskEnum;
+using System.Threading;
 
 namespace Pyro.Common.BackgroundTask.TaskService.Indexer
 {
@@ -25,13 +28,17 @@ namespace Pyro.Common.BackgroundTask.TaskService.Indexer
     private readonly IRequestMetaFactory IRequestMetaFactory;
     private readonly IFhirTaskTool IFhirTaskTool;
     private readonly IServiceSearchParameterService IServiceSearchParameterService;
+    private readonly IServiceFhirTaskQueue IServiceFhirTaskQueue;
+    private readonly IFhirTaskWorkerRepository IFhirTaskWorkerRepository;
     private readonly ILog ILog;
 
     private bool _ErrorDetected = false;
     private string _ErrorMessage = string.Empty;
     private string _TaskStatusCodeSystem = "http://hl7.org/fhir/task-status";
-    private string _ConnectionId = "[None]";
-    private ITaskPayloadPyroServerIndexing _TaskPayloadPyroServerIndexing;
+    private string _ConnectionId = string.Empty;
+    private CancellationTokenSource _CancellationToken;
+    private BackgroundTaskType _TaskType;
+    private IBackgroundTaskPayload _BackgroundTaskPayload;
     private List<Common.Search.DtoServiceSearchParameterHeavy> _SearchParameterList;
 
     public IndexerService(IUnitOfWork IUnitOfWork, 
@@ -39,7 +46,9 @@ namespace Pyro.Common.BackgroundTask.TaskService.Indexer
       IRequestMetaFactory IRequestMetaFactory, 
       ILog ILog, 
       IFhirTaskTool IFhirTaskTool, 
-      IServiceSearchParameterService IServiceSearchParameterService)
+      IServiceSearchParameterService IServiceSearchParameterService,
+      IServiceFhirTaskQueue IServiceFhirTaskQueue, 
+      IFhirTaskWorkerRepository IFhirTaskWorkerRepository)
     {
       this.IUnitOfWork = IUnitOfWork;      
       this.IResourceServices = IResourceApiServices;
@@ -47,28 +56,75 @@ namespace Pyro.Common.BackgroundTask.TaskService.Indexer
       this.ILog = ILog;
       this.IFhirTaskTool = IFhirTaskTool;
       this.IServiceSearchParameterService = IServiceSearchParameterService;
+      this.IServiceFhirTaskQueue = IServiceFhirTaskQueue;
+      this.IFhirTaskWorkerRepository = IFhirTaskWorkerRepository;
     }
     
-    public void Run(ITaskPayloadPyroServerIndexing TaskPayloadPyroServerIndexing, string ConnectionId)
+    
+    public void Run(IBackgroundTaskPayload BackgroundTaskPayload, string ConnectionId, CancellationTokenSource CancellationToken)
     {
-      _TaskPayloadPyroServerIndexing = TaskPayloadPyroServerIndexing;
+      _BackgroundTaskPayload = BackgroundTaskPayload;
+      _TaskType = _BackgroundTaskPayload.TaskType;
       _ConnectionId = ConnectionId;
+      _CancellationToken = CancellationToken;
+      bool MoreWorkTodo = true;
+      bool WasAnyWorkDone = false;
+      try
+      {
+        while (MoreWorkTodo)
+        {
+          _CancellationToken.Token.ThrowIfCancellationRequested();
+          //This is the list of Ready or In-Progress (What do we do with inError, I think we need a skip bool)
+          List<DtoFhirTaskQueue> FhirTaskQueueList = IServiceFhirTaskQueue.GetPendingQueueList(_BackgroundTaskPayload.TaskType, 50);
+          foreach (var FhirTaskQueue in FhirTaskQueueList)
+          {
+            CancellationToken.Token.ThrowIfCancellationRequested();
+            Task.TaskStatus TaskStatusOutcome = ProcessTask(FhirTaskQueue.TaskFhirId, _ConnectionId);
+            WasAnyWorkDone = true;
+          }
+          if (FhirTaskQueueList.Count == 0)
+            MoreWorkTodo = false;
+        }        
+        if (!WasAnyWorkDone)
+        {
+          ILog.Info($"ConnectionId: {_ConnectionId} found no queued tasks to perform for task type: {_TaskType.GetPyroLiteral()}");
+        }
+        if (IFhirTaskWorkerRepository.AttemptToUnClaim(_BackgroundTaskPayload.TaskType, ConnectionId))
+        {
+          ILog.Info($"ConnectionId: {ConnectionId} has unclaimed the task worker of type: {_TaskType.GetPyroLiteral()}  based on the triggered task Id of : {_BackgroundTaskPayload.TaskId}");          
+        }
+      }      
+      catch (OperationCanceledException CancelExec)
+      {        
+        IFhirTaskWorkerRepository.AttemptToUnClaim(_BackgroundTaskPayload.TaskType, ConnectionId);
+        throw CancelExec;
+      }      
+    }
 
-
-
+    private Task.TaskStatus ProcessTask(string TaskFhirId, string ConnectionId)
+    {
+      
       //First get the Task to process
       Task MainIndexTask = null;
-      MainIndexTask = GetFhirTaskAndMarkAsInProgress(_TaskPayloadPyroServerIndexing.TaskId, MainIndexTask);
-
-      //If there is a Task to process then begin that processing
+      
+      if (IServiceFhirTaskQueue.AttemptToUpdateFhirTaskQueueWithPerfomersConnectionId(TaskFhirId, _TaskType.GetPyroLiteral(), ConnectionId, Task.TaskStatus.InProgress))
+      {
+        ILog.Info($"ConnectionId: {_ConnectionId} Claimed the Task with Id: {TaskFhirId}");
+        MainIndexTask = IFhirTaskTool.GetFhirTaskAndMarkAsInProgress(TaskFhirId, ConnectionId, _TaskType, MainIndexTask);
+      }
+      
+      //If there is a no Task then this for this connection ID then report as Completed
       if (MainIndexTask == null)
       {
-        ILog.Info($"ConnectionId: {_ConnectionId}, Task Type: {_TaskPayloadPyroServerIndexing.TaskType.GetPyroLiteral()}, Resource: Task/{_TaskPayloadPyroServerIndexing.TaskId}, no work to be performed.");
-        ILog.Info($"ConnectionId: {_ConnectionId}, Completed Task Type: {_TaskPayloadPyroServerIndexing.TaskType.GetPyroLiteral()}, Resource: Task/{_TaskPayloadPyroServerIndexing.TaskId}");
-        ConsoleSupport.TimeStampWriteLine(BackgroundTaskLogMessageSupport.TaskOutCome(_TaskPayloadPyroServerIndexing, Task.TaskStatus.Completed));
+        ILog.Info($"ConnectionId: {_ConnectionId}, Task Type: {_TaskType.GetPyroLiteral()}, Resource: Task/{TaskFhirId}, no work to be performed.");
+        ILog.Info($"ConnectionId: {_ConnectionId}, Completed Task Type: {_BackgroundTaskPayload.TaskType.GetPyroLiteral()}, Resource: Task/{TaskFhirId}");
+        ConsoleSupport.TimeStampWriteLine(BackgroundTaskLogMessageSupport.TaskOutCome(_BackgroundTaskPayload, Task.TaskStatus.Completed));
+        return Task.TaskStatus.Completed;
       }
       else
       {
+        //Else process the FHIR Task
+        
         //Gets the key info we require from the FHIR Task
         List<TaskIndexItem> TaskInputList = GetTaskInputDetail(MainIndexTask);
 
@@ -76,7 +132,7 @@ namespace Pyro.Common.BackgroundTask.TaskService.Indexer
         var TaskInputListGroupedByResourceType = TaskInputList.GroupBy(x => x.ResourceType);
         foreach (var InputItemForResourceList in TaskInputListGroupedByResourceType)
         {
-          GetResourceTypeSearchParameterDbRecords(InputItemForResourceList);          
+          GetResourceTypeSearchParameterDbRecords(InputItemForResourceList, TaskFhirId);          
           if (_ErrorDetected)
           {
             //There are two loops here, so if an error here we need to break again and report.
@@ -92,23 +148,28 @@ namespace Pyro.Common.BackgroundTask.TaskService.Indexer
                 //This does the grunt work to update and add the indexes for all resource of said type
                 var LightList = _SearchParameterList.Cast<Common.Search.DtoServiceSearchParameterLight>().ToList();
                 ResourceType ResourceType = Common.Tools.ResourceNameResolutionSupport.GetResourceType(InputItemForResourceList.Key);
-                IResourceServices.AddAndUpdateResourceIndexes(ResourceType, LightList);
+                IResourceServices.AddAndUpdateResourceIndexes(ResourceType, LightList, _CancellationToken);
                 Transaction.Commit();
 
                 //Update the indexes we have completed 
                 var CompletedTaskItems = TaskInputList.Where(x => _SearchParameterList.Any(s => s.Id == x.SearchParamTableId));
                 foreach (var TaskItem in CompletedTaskItems)
                 {
-                  ILog.Info($"ConnectionId: {_ConnectionId}, Task Type: {_TaskPayloadPyroServerIndexing.TaskType.GetPyroLiteral()}, Resource: Task/{MainIndexTask.Id}, Finished indexing Search Parameter: Resource: {TaskItem.ResourceType}, Name: {TaskItem.SearchParameterName}, _SearchParamId: {TaskItem.SearchParamTableId}.");                  
+                  ILog.Info($"ConnectionId: {_ConnectionId}, Task Type: {_TaskType.GetPyroLiteral()}, Resource: Task/{MainIndexTask.Id}, Finished indexing Search Parameter: Resource: {TaskItem.ResourceType}, Name: {TaskItem.SearchParameterName}, _SearchParamId: {TaskItem.SearchParamTableId}.");                  
                   TaskItem.TaskStatus = Task.TaskStatus.Completed;
                 }
                 //Does not commit only updates the Task resource in memory
                 UpdateTasksResourceWithProgress(MainIndexTask, Task.TaskStatus.InProgress, TaskInputList);
               }
+              catch (OperationCanceledException CancelExec)
+              {                
+                Transaction.Rollback();
+                throw CancelExec;
+              }
               catch (Exception Exec)
               {
                 _ErrorDetected = true;
-                _ErrorMessage = $"ConnectionId: {_ConnectionId}, FHIR Task ID: {MainIndexTask.Id} of type {_TaskPayloadPyroServerIndexing.TaskType.GetPyroLiteral()} has failed. " +
+                _ErrorMessage = $"ConnectionId: {_ConnectionId}, FHIR Task ID: {MainIndexTask.Id} of type {_TaskType.GetPyroLiteral()} has failed. " +
                   $"Error in updating the FHIR servers' resource indexes. See exception message in server logs for more information.";
                 ILog.Error(Exec, _ErrorMessage);
 
@@ -120,6 +181,7 @@ namespace Pyro.Common.BackgroundTask.TaskService.Indexer
                 }
                 //Does not commit only updates the Task resource in memory
                 UpdateTasksResourceWithProgress(MainIndexTask, Task.TaskStatus.Failed, TaskInputList);
+                Transaction.Rollback();
                 break;
               }
             }
@@ -143,7 +205,7 @@ namespace Pyro.Common.BackgroundTask.TaskService.Indexer
               catch (Exception Exec)
               {
                 _ErrorDetected = true;
-                _ErrorMessage = $"ConnectionId: {_ConnectionId}, FHIR Task ID: {MainIndexTask.Id} of type {_TaskPayloadPyroServerIndexing.TaskType.GetPyroLiteral()} has failed. " +
+                _ErrorMessage = $"ConnectionId: {_ConnectionId}, FHIR Task ID: {MainIndexTask.Id} of type {_TaskType.GetPyroLiteral()} has failed. " +
                   $"Error updating servers' SearchParameter IsIndexed to true post re-indexing. See exception message in server logs for more information.";
                 ILog.Error(Exec, _ErrorMessage);
               }
@@ -154,33 +216,59 @@ namespace Pyro.Common.BackgroundTask.TaskService.Indexer
 
         if (!_ErrorDetected)
         {
-          ConsoleSupport.TimeStampWriteLine(BackgroundTaskLogMessageSupport.TaskOutCome(_TaskPayloadPyroServerIndexing, Task.TaskStatus.Completed));
+          ConsoleSupport.TimeStampWriteLine(BackgroundTaskLogMessageSupport.TaskOutCome(_BackgroundTaskPayload, Task.TaskStatus.Completed));
           using (DbContextTransaction Transaction = IUnitOfWork.BeginTransaction())
           {            
             if (IFhirTaskTool.UpdateTaskAsStatus(Task.TaskStatus.Completed, MainIndexTask))
+            {             
+              ILog.Info($"ConnectionId: {_ConnectionId}, Completed Task Type: {_TaskType.GetPyroLiteral()}, Resource: Task/{TaskFhirId}");
+              if (IServiceFhirTaskQueue.AttemptToUpdateFhirTaskQueueStatus(TaskFhirId, _TaskType.GetPyroLiteral(), ConnectionId, Task.TaskStatus.Completed))
+              {
+                Transaction.Commit();
+                return Task.TaskStatus.Completed;
+              }
+              else
+              {
+                throw new ApplicationException($"Unable to update the FhirTaskQueue status as Completed after completing the tasks work, FHIR Task reference was: Task/{TaskFhirId} using connection id: {ConnectionId} for task type: {_TaskType.GetPyroLiteral()}");
+              }                            
+            }
+            else
             {
-              Transaction.Commit();
+              throw new ApplicationException($"Unable to update the FHIR Task status after completing the tasks work, FHIR Task reference was: Task/{TaskFhirId} for task type: {_TaskType.GetPyroLiteral()}");              
             }
           }
-          ILog.Info($"ConnectionId: {_ConnectionId}, Completed Task Type: {_TaskPayloadPyroServerIndexing.TaskType.GetPyroLiteral()}, Resource: Task/{_TaskPayloadPyroServerIndexing.TaskId}");
+          
         }
         else
         {          
           using (DbContextTransaction Transaction = IUnitOfWork.BeginTransaction())
           {
             if (IFhirTaskTool.UpdateTaskAsStatus(Task.TaskStatus.Failed, MainIndexTask))
-            {
-              Transaction.Commit();
+            {                            
+              ConsoleSupport.TimeStampWriteLine(BackgroundTaskLogMessageSupport.TaskOutCome(_BackgroundTaskPayload, Task.TaskStatus.Failed));
+              ILog.Info($"ConnectionId: {_ConnectionId}, Failed Task Type: {_TaskType.GetPyroLiteral()}, Resource: Task/{TaskFhirId}");
+              if (IServiceFhirTaskQueue.AttemptToUpdateFhirTaskQueueStatus(TaskFhirId, _TaskType.GetPyroLiteral(), ConnectionId, Task.TaskStatus.Failed))
+              {
+                Transaction.Commit();
+                return Task.TaskStatus.Failed;
+              }
+              else
+              {
+                throw new ApplicationException($"Unable to update the FhirTaskQueue status as Failed after error performing the tasks work, FHIR Task reference was: Task/{TaskFhirId} using connection id: {ConnectionId} for task type: {_TaskType.GetPyroLiteral()}");
+              }              
             }
-          }
-          //every thing now completed
-          ConsoleSupport.TimeStampWriteLine(BackgroundTaskLogMessageSupport.TaskOutCome(_TaskPayloadPyroServerIndexing, Task.TaskStatus.Failed));
-          ILog.Info($"ConnectionId: {_ConnectionId}, Failed Task Type: {_TaskPayloadPyroServerIndexing.TaskType.GetPyroLiteral()}, Resource: Task/{_TaskPayloadPyroServerIndexing.TaskId}");
+            else
+            {
+              throw new ApplicationException($"Unable to update the FHIR Task status after as failed, FHIR Task reference was: Task/{TaskFhirId} for task type: {_TaskType.GetPyroLiteral()}");
+            }
+          }          
         }
       }
     }
 
-    private void GetResourceTypeSearchParameterDbRecords(IGrouping<string, TaskIndexItem> InputItemForResourceList)
+    
+
+    private void GetResourceTypeSearchParameterDbRecords(IGrouping<string, TaskIndexItem> InputItemForResourceList, string TaskFhirId)
     {      
       _SearchParameterList = new List<Common.Search.DtoServiceSearchParameterHeavy>();
       //Get each Search Parameter record for the same resource type from the database _SearchParam table 
@@ -198,7 +286,7 @@ namespace Pyro.Common.BackgroundTask.TaskService.Indexer
           else
           {
             _ErrorDetected = true;
-            _ErrorMessage = $"ConnectionId: {_ConnectionId}, FHIR Task ID: {_TaskPayloadPyroServerIndexing.TaskId} of type {_TaskPayloadPyroServerIndexing.TaskType.GetPyroLiteral()} has failed. " +
+            _ErrorMessage = $"ConnectionId: {_ConnectionId}, FHIR Task ID: {TaskFhirId} of type {_TaskType.GetPyroLiteral()} has failed. " +
               $"Unable to get DtoServiceSearchParameterHeavy with the Id: {TaskIndexItemForResource.SearchParamTableId}, for ResourceType {TaskIndexItemForResource.ResourceType}, SearchName: {TaskIndexItemForResource.SearchParameterName}.";
             ILog.Error(_ErrorMessage);
             break;
@@ -207,83 +295,14 @@ namespace Pyro.Common.BackgroundTask.TaskService.Indexer
         catch (Exception Exec)
         {
           _ErrorDetected = true;
-          _ErrorMessage = $"ConnectionId: {_ConnectionId}, FHIR Task ID: {_TaskPayloadPyroServerIndexing.TaskId} of type {_TaskPayloadPyroServerIndexing.TaskType.GetPyroLiteral()} has failed. " +
+          _ErrorMessage = $"ConnectionId: {_ConnectionId}, FHIR Task ID: {TaskFhirId} of type {_TaskType.GetPyroLiteral()} has failed. " +
             $"Unable to get DtoServiceSearchParameterHeavy with the Id: {TaskIndexItemForResource.SearchParamTableId}, for ResourceType {TaskIndexItemForResource.ResourceType}, SearchName: {TaskIndexItemForResource.SearchParameterName}. See Exception Message for more info.";
           ILog.Error(Exec, _ErrorMessage);
           break;
         }
       }      
     }
-
-    private Task GetFhirTaskAndMarkAsInProgress(string TaskId, Task MainIndexTask)
-    {
-      using (DbContextTransaction Transaction = IUnitOfWork.BeginTransaction())
-      {
-        try
-        {
-          if (TaskId != null)
-          {
-            ILog.Info($"ConnectionId: {_ConnectionId}, Received Task Type: {_TaskPayloadPyroServerIndexing.TaskType.GetPyroLiteral()}, Resource: Task/{_TaskPayloadPyroServerIndexing.TaskId}");
-            //If the TaskId is not null then it is a triggered run with a known Task ID
-            IRequestMeta RequestMeta = IRequestMetaFactory.CreateRequestMeta().Set(ResourceType.Task, TaskId);
-            IResourceServiceOutcome ResourceServiceOutcome = IResourceServices.GetRead(TaskId, RequestMeta);
-            ResourceServiceOutcome.SummaryType = RequestMeta.SearchParameterGeneric.SummaryType;
-            if (ResourceServiceOutcome.HttpStatusCode == System.Net.HttpStatusCode.OK && ResourceServiceOutcome.ResourceResult is Task IndexTask)
-            {
-              //If this returns false we assume another thread has started the task and we can do nothing. 
-              if (IFhirTaskTool.UpdateTaskAsStatus(Task.TaskStatus.InProgress, IndexTask))
-              {
-                Transaction.Commit();
-                MainIndexTask = IndexTask;
-              }
-            }
-          }
-          else
-          {            
-            //If the TaskId is null then it is a run on BackBurner start-up, we search for a single task
-            IRequestMeta RequestMeta = IRequestMetaFactory.CreateRequestMeta().Set($"{ResourceType.Task.GetLiteral()}?" +
-              $"code={Common.PyroHealthFhirResource.CodeSystems.PyroTask.System}|{Common.PyroHealthFhirResource.CodeSystems.PyroTask.Codes.SearchParameterIndexing.GetPyroLiteral()}&" +
-              $"status={Task.TaskStatus.Ready.GetLiteral()}");
-            IResourceServiceOutcome ResourceServiceOutcome = IResourceServices.GetSearch(RequestMeta);
-            ResourceServiceOutcome.SummaryType = RequestMeta.SearchParameterGeneric.SummaryType;
-            if (ResourceServiceOutcome.HttpStatusCode == System.Net.HttpStatusCode.OK && ResourceServiceOutcome.ResourceResult is Bundle IndexTaskBundle)
-            {
-              if (IndexTaskBundle.Total == 1)
-              {
-                
-                var IndexTask = IndexTaskBundle.Entry[0].Resource as Task;
-                //If this returns false we assume another thread has started the task and we can do nothing. 
-                ILog.Info($"ConnectionId: {_ConnectionId}, Found Task Type: {_TaskPayloadPyroServerIndexing.TaskType.GetPyroLiteral()}, Resource: Task/{IndexTask.Id}");
-                if (IFhirTaskTool.UpdateTaskAsStatus(Task.TaskStatus.InProgress, IndexTask))
-                {
-                  Transaction.Commit();
-                  MainIndexTask = IndexTask;
-                }
-              }
-              else if (IndexTaskBundle.Total > 1)
-              {
-                string FhirIdList = string.Empty;
-                foreach (var Res in IndexTaskBundle.Entry)
-                {
-                  FhirIdList = $"{Res.Resource.Id}, {FhirIdList}";
-                }
-
-                ILog.Error($"ConnectionId: {_ConnectionId}, Error detected by background search parameter indexer service. More than one Fhir Task with " +
-                  $"code={Common.PyroHealthFhirResource.CodeSystems.PyroTask.System}|{Common.PyroHealthFhirResource.CodeSystems.PyroTask.Codes.SearchParameterIndexing.GetPyroLiteral()} and " +
-                  $"status={Task.TaskStatus.Ready.GetLiteral()}. There must only be one Ready task at any time. The list of FHIR Task Ids found is: {FhirIdList}");
-              }
-            }
-          }
-        }
-        catch (Exception Exec)
-        {
-          ILog.Error(Exec, $"ConnectionId: {_ConnectionId}, Error in obtaining or setting Task status");
-        }
-      }
-
-      return MainIndexTask;
-    }
-
+    
     private void UpdateTasksResourceWithProgress(Task MainIndexTask, Task.TaskStatus TaskStatus, List<TaskIndexItem> TaskIndexItemList)
     {
       MainIndexTask.Status = TaskStatus;
@@ -455,12 +474,12 @@ namespace Pyro.Common.BackgroundTask.TaskService.Indexer
       return ReturnList;
     }
 
-    private string FormatLogMessage(ITaskPayloadPyroServerIndexing TaskPayloadPyroServerIndexing)
+    private string FormatLogMessage(IBackgroundTaskPayload BackgroundTaskPayload)
     {
-      if (TaskPayloadPyroServerIndexing.TaskId == null)
-        return $"ConnectionId: {_ConnectionId}, Run on start-up, Task Type: {TaskPayloadPyroServerIndexing.TaskType.GetPyroLiteral()}";
+      if (BackgroundTaskPayload.TaskId == null)
+        return $"ConnectionId: {_ConnectionId}, Run on start-up, Task Type: {BackgroundTaskPayload.TaskType.GetPyroLiteral()}";
       else
-        return $"ConnectionId: {_ConnectionId}, Received Task Type: {TaskPayloadPyroServerIndexing.TaskType.GetPyroLiteral()}, Resource: Task/{TaskPayloadPyroServerIndexing.TaskId}";
+        return $"ConnectionId: {_ConnectionId}, Received Task Type: {BackgroundTaskPayload.TaskType.GetPyroLiteral()}, Resource: Task/{BackgroundTaskPayload.TaskId}";
     }
     private class TaskIndexItem : ICloneable
     {

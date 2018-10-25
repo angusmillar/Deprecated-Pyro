@@ -107,10 +107,13 @@
     <Compile Include="Operation\FhirResourceInstanceOperationService.cs" />
     <Compile Include="Operation\FhirResourceOperationService.cs" />
     <Compile Include="Services\BackburnerConnection\ServiceBackburnerConnection.cs" />
+    <Compile Include="Services\FhirTaskQueue\ServiceFhirTaskQueue.cs" />
     <Compile Include="Services\FhirTasks\SearchParameterLoader\ISearchParameterResourceLoader.cs" />
     <Compile Include="Services\FhirTasks\SearchParameterLoader\SearchParameterResourceLoader.cs" />
     <Compile Include="Services\FhirTasks\SetCompartment\ISetCompartmentDefinitionTaskProcessor.cs" />
     <Compile Include="Services\FhirTasks\SetCompartment\SetCompartmentDefinitionTaskProcessor.cs" />
+    <Compile Include="Services\FhirTaskWorker\ServiceFhirTaskWorkerManager.cs" />
+    <Compile Include="Services\FhirTaskWorker\ServiceFhirTaskWorker.cs" />
     <Compile Include="Services\PyroServiceApi\IPyroService.cs" />
     <Compile Include="Services\FhirTasks\FhirSpecLoader\FhirSpecificationDefinitionLoaderParameters.cs" />
     <Compile Include="Services\FhirTasks\FhirSpecLoader\IFhirSpecificationDefinitionLoader.cs" />

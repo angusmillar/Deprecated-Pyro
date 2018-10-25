@@ -15,11 +15,9 @@ namespace Pyro.WebApi.App_Start
         try
         {
           using (HttpConfiguration.DependencyResolver.BeginScope())
-          {            
-            IServiceBackburnerConnection IServiceBackburnerConnection = (IServiceBackburnerConnection)HttpConfiguration.DependencyResolver.GetService(typeof(IServiceBackburnerConnection));
-            int CountOfDisconnected = IServiceBackburnerConnection.UpdateAllConnectedAsDisconnected();
-            Pyro.Common.Logging.Logger.Log.Info($"Server start-up: Total Pyro.Backburner connections reset: {CountOfDisconnected}.");
-            IServiceBackburnerConnection.CleanConnections();
+          {
+            IServiceFhirTaskWorkerManager IServiceFhirTaskWorkerManager = (IServiceFhirTaskWorkerManager)HttpConfiguration.DependencyResolver.GetService(typeof(IServiceFhirTaskWorkerManager));
+            IServiceFhirTaskWorkerManager.PyroServerStartup();            
             return true;
           }
         }

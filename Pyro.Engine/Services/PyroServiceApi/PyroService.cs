@@ -119,10 +119,11 @@ namespace Pyro.Engine.Services.PyroServiceApi
           ResourceServiceOutcome.SummaryType = RequestMeta.SearchParameterGeneric.SummaryType;
 
 
-          Common.BackgroundTask.TaskPayload.ITaskPayloadHiServiceIHISearch Payload = new Common.BackgroundTask.TaskPayload.TaskPayloadHiServiceIHISearch();
-          Payload.PatientId = "ba58c03b-4ff6-4e86-8883-8851f40fb8f7";
-          Payload.TaskId = "92e74b38-1bb3-4e0c-b056-7ca7c1bd7810";
-          ResourceServiceOutcome.BackgroundTaskList.Add(Payload);
+          //Common.BackgroundTask.TaskPayload.IBackgroundTaskPayload Payload = new Common.BackgroundTask.TaskPayload.BackgroundTaskPayload();
+          //Payload.TaskType = Common.Enum.BackgroundTaskEnum.BackgroundTaskType.HiServiceIHISearch;
+          ////Payload.PatientId = "ba58c03b-4ff6-4e86-8883-8851f40fb8f7";
+          //Payload.TaskId = "92e74b38-1bb3-4e0c-b056-7ca7c1bd7810";
+          //ResourceServiceOutcome.BackgroundTaskList.Add(Payload);
 
           Transaction.Commit();
           return ResourceServiceOutcome;

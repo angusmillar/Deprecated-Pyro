@@ -29,7 +29,9 @@ namespace Pyro.WebApi.CompositionRoot
       MapperConfigurationExpression.AddProfile<FhirReleaseProfile>();
       MapperConfigurationExpression.AddProfile<ServiceConfigurationProfile>();
       MapperConfigurationExpression.AddProfile<BackburnerConnectionProfile>();
-
+      MapperConfigurationExpression.AddProfile<FhirTaskQueueProfile>();
+      MapperConfigurationExpression.AddProfile<FhirTaskWorkerProfile>();
+      
       var MapperConfiguration = new MapperConfiguration(MapperConfigurationExpression);
       
       //Validates the map profiles

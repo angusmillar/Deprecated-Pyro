@@ -99,6 +99,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DbModel\AutoMapperProfile\FhirTaskWorkerProfile.cs" />
+    <Compile Include="DbModel\AutoMapperProfile\FhirTaskQueueProfile.cs" />
     <Compile Include="DbModel\AutoMapperProfile\FhirReleaseProfile.cs" />
     <Compile Include="DbModel\AutoMapperProfile\BackburnerConnectionProfile.cs" />
     <Compile Include="DbModel\AutoMapperProfile\ServiceConfigurationProfile.cs" />
@@ -109,6 +111,8 @@
     <Compile Include="DbModel\DatabaseContextConfig\DatabaseContextConfigGenerated.cs">
       <DependentUpon>MainTemplate.txt4</DependentUpon>
     </Compile>
+    <Compile Include="DbModel\DatabaseContextConfig\FhirTaskWorkerConfig.cs" />
+    <Compile Include="DbModel\DatabaseContextConfig\FhirTaskQueueConfig.cs" />
     <Compile Include="DbModel\DatabaseContextConfig\IndexReferenceContextConfig.cs" />
     <Compile Include="DbModel\DatabaseContextConfig\IndexQuantityContextConfig.cs" />
     <Compile Include="DbModel\DatabaseContextConfig\IndexDateTimeContextConfig.cs" />
@@ -147,6 +151,8 @@
     <Compile Include="DbModel\EntityBase\IResourceIndexQuantity.cs" />
     <Compile Include="DbModel\EntityBase\IResourceIndexString.cs" />
     <Compile Include="DbModel\Entity\BackburnerConnection.cs" />
+    <Compile Include="DbModel\Entity\FhirTaskWorker.cs" />
+    <Compile Include="DbModel\Entity\FhirTaskQueue.cs" />
     <Compile Include="DbModel\Entity\ServiceSearchParameterCompositePivot.cs" />
     <Compile Include="DbModel\Entity\ConfigEntityBase.cs" />
     <Compile Include="DbModel\Entity\FhirRelease.cs" />
@@ -221,11 +227,21 @@
     <Compile Include="MigrationsPostgre\201810161101408_AddBackburnerConnectionTable.Designer.cs">
       <DependentUpon>201810161101408_AddBackburnerConnectionTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="MigrationsPostgre\201810180757124_AddFhirTaskQueueTable.cs" />
+    <Compile Include="MigrationsPostgre\201810180757124_AddFhirTaskQueueTable.Designer.cs">
+      <DependentUpon>201810180757124_AddFhirTaskQueueTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MigrationsPostgre\201810211412127_AddFhirTaskWorkerTable.cs" />
+    <Compile Include="MigrationsPostgre\201810211412127_AddFhirTaskWorkerTable.Designer.cs">
+      <DependentUpon>201810211412127_AddFhirTaskWorkerTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="MigrationsPostgre\ConfigurationPostgre.cs" />
     <Compile Include="MigrationsMicrosoftSQLServer\ConfigurationMsSql.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\FhirTaskQueueRepository.cs" />
     <Compile Include="Repository\BaseRepository.cs" />
     <Compile Include="Repository\BackburnerConnectionRepository.cs" />
+    <Compile Include="Repository\FhirTaskWorkerRepository.cs" />
     <Compile Include="Repository\ICommonResourcePredicate.cs" />
     <Compile Include="Repository\MigrationHistoryRepository.cs" />
     <Compile Include="Repository\ServiceConfigurationRepository.cs" />
@@ -287,6 +303,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MigrationsPostgre\201810161101408_AddBackburnerConnectionTable.resx">
       <DependentUpon>201810161101408_AddBackburnerConnectionTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MigrationsPostgre\201810180757124_AddFhirTaskQueueTable.resx">
+      <DependentUpon>201810180757124_AddFhirTaskQueueTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MigrationsPostgre\201810211412127_AddFhirTaskWorkerTable.resx">
+      <DependentUpon>201810211412127_AddFhirTaskWorkerTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

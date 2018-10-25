@@ -6,6 +6,6 @@ namespace Pyro.Common.BackgroundTask
 {
   public interface ITaskPerformerNegotiator
   {
-    bool SendToBackburner(IEnumerable<IBackgroundTaskPayloadBase> TaskPayloadList, IDependencyResolver DependencyResolver);
+    bool SendToBackburner(IEnumerable<IBackgroundTaskPayload> TaskPayloadList, IDependencyResolver DependencyResolver);
   }
 }

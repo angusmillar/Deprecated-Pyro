@@ -19,6 +19,8 @@ namespace Pyro.Common.PyroHealthFhirResource.CodeSystems
       PyroHealth,
       [EnumLiteral("PyroFhirServer")]
       PyroFhirServer,
+      [EnumLiteral("PyroBackburner")]
+      PyroBackburner,
 
     }
     private Dictionary<Codes, FhirModel.CodeSystem.ConceptDefinitionComponent> _Dictionary;

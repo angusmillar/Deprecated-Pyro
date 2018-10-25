@@ -23,6 +23,11 @@ namespace Pyro.WebApi.App_Start
                Common.PyroHealthFhirResource.CodeSystems.PyroFhirServer.Codes.ServerStartupTask
             };                         
             ITaskRunner.Run(IdentifierTypesToRun);
+
+
+
+            //SignalRHub.BackgroundProcessing.SendTaskList(ResourceServiceOutcome.BackgroundTaskList, ITaskPerformerNegotiator, Configuration.DependencyResolver);
+
             return true;
           }
           catch (Exception Exec)

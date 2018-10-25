@@ -27,13 +27,14 @@ namespace Pyro.Common.FhirOperation.ServerSearchParameter
     private readonly ISearchParameterServiceFactory ISearchParameterServiceFactory;
     private readonly ICacheClear ICacheClear;
     private readonly ISearchParameterIndexing ISearchParameterIndexing;
-    private readonly ITaskPayloadPyroServerIndexing ITaskPayloadPyroServerIndexing;
+    private readonly IBackgroundTaskPayload IBackgroundTaskPayload;
+    private readonly IServiceFhirTaskQueue IServiceFhirTaskQueue;
 
     private const string _ParameterName = "ResourceType";
     private SearchParameter TargetSearchParameter;
     private List<DtoServiceSearchParameterHeavy> _DbSearchParamListForResource;
 
-    public ServerSearchParameterOperation(IResourceServices IResourceServices, IRequestMetaFactory IRequestMetaFactory, IResourceServiceOutcomeFactory IResourceServiceOutcomeFactory, IPyroFhirUriFactory IPyroFhirUriFactory, ICacheClear ICacheClear, ISearchParameterServiceFactory ISearchParameterServiceFactory, IServiceSearchParameterService IServiceSearchParameterService, ISearchParameterIndexing ISearchParameterIndexing, ITaskPayloadPyroServerIndexing ITaskPayloadPyroServerIndexing)
+    public ServerSearchParameterOperation(IResourceServices IResourceServices, IRequestMetaFactory IRequestMetaFactory, IResourceServiceOutcomeFactory IResourceServiceOutcomeFactory, IPyroFhirUriFactory IPyroFhirUriFactory, ICacheClear ICacheClear, ISearchParameterServiceFactory ISearchParameterServiceFactory, IServiceSearchParameterService IServiceSearchParameterService, ISearchParameterIndexing ISearchParameterIndexing, IBackgroundTaskPayload IBackgroundTaskPayload, IServiceFhirTaskQueue IServiceFhirTaskQueue)
     {
       this.IResourceServices = IResourceServices;
       this.IRequestMetaFactory = IRequestMetaFactory;
@@ -43,7 +44,8 @@ namespace Pyro.Common.FhirOperation.ServerSearchParameter
       this.ISearchParameterServiceFactory = ISearchParameterServiceFactory;
       this.IServiceSearchParameterService = IServiceSearchParameterService;
       this.ISearchParameterIndexing = ISearchParameterIndexing;
-      this.ITaskPayloadPyroServerIndexing = ITaskPayloadPyroServerIndexing;
+      this.IBackgroundTaskPayload = IBackgroundTaskPayload;
+      this.IServiceFhirTaskQueue = IServiceFhirTaskQueue;
     }
 
     /// <summary>
@@ -196,8 +198,17 @@ namespace Pyro.Common.FhirOperation.ServerSearchParameter
           ResourceServiceOutcome.IsDeleted = false;
           ResourceServiceOutcome.RequestUri = RequestUri.FhirRequestUri;
           //Create a BackgroundTask to trigger the work to be performed out of band.
-          ITaskPayloadPyroServerIndexing.TaskId = PostOutcome.ResourceResult.Id;
-          ResourceServiceOutcome.BackgroundTaskList.Add(ITaskPayloadPyroServerIndexing);
+          IBackgroundTaskPayload.TaskId = PostOutcome.ResourceResult.Id;
+          IBackgroundTaskPayload.TaskType = BackgroundTaskEnum.BackgroundTaskType.PyroServerIndexing;
+          ResourceServiceOutcome.BackgroundTaskList.Add(IBackgroundTaskPayload);
+
+          IServiceFhirTaskQueue.AddFhirTaskQueue(new DtoEntity.DtoFhirTaskQueue()
+          {
+            TaskFhirId = IBackgroundTaskPayload.TaskId,
+            TaskType = IBackgroundTaskPayload.TaskType.GetPyroLiteral(),
+            Status = Task.TaskStatus.Ready.GetLiteral()
+          });
+
           return ResourceServiceOutcome;
         }
         else

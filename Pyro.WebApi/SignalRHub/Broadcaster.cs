@@ -28,18 +28,24 @@ namespace Pyro.WebApi.SignalRHub
     {
       Clients.All.Broadcast(x);
     }
-    
-    public void HiServiceResolveIHI(ITaskPayloadHiServiceIHISearch Payload)
+
+    public void BackgroundTask(IBackgroundTaskPayload Payload)
     {
       IClientProxy proxy = Clients.All;
-      proxy.Invoke(Payload.TaskType.GetPyroLiteral(), Payload);
+      proxy.Invoke(BackgroundTaskEnum.BroadcastType.BackgroundTask.GetPyroLiteral(), Payload);
     }
 
-    public void PyroServerIndexing(ITaskPayloadPyroServerIndexing Payload)
-    {
-      IClientProxy proxy = Clients.All;
-      proxy.Invoke(Payload.TaskType.GetPyroLiteral(), Payload);
-    }
+    //public void HiServiceResolveIHI(ITaskPayloadHiServiceIHISearch Payload)
+    //{
+    //  IClientProxy proxy = Clients.All;
+    //  proxy.Invoke(Payload.TaskType.GetPyroLiteral(), Payload);
+    //}
+
+    //public void PyroServerIndexing(ITaskPayloadPyroServerIndexing Payload)
+    //{
+    //  IClientProxy proxy = Clients.All;
+    //  proxy.Invoke(Payload.TaskType.GetPyroLiteral(), Payload);
+    //}
 
 
   }

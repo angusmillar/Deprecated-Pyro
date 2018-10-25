@@ -1,7 +1,7 @@
 ﻿using Pyro.DataLayer.DbModel.Entity;
 using Pyro.DataLayer.Support;
 using System.Data.Entity;
-
+using Npgsql.TypeMapping;
 
 namespace Pyro.DataLayer.DbModel.DatabaseContext
 {

@@ -48,7 +48,7 @@ namespace Pyro.Common.Service.ResourceService
     public string FormatMimeType { get; set; }
     public SummaryType? SummaryType { get; set; }
     public bool SuccessfulTransaction { get; set; }
-    public IList<IBackgroundTaskPayloadBase> BackgroundTaskList { get; set; }
+    public IList<IBackgroundTaskPayload> BackgroundTaskList { get; set; }
     #endregion
 
     #region Constructor
@@ -57,7 +57,7 @@ namespace Pyro.Common.Service.ResourceService
       this.OperationType = RestEnum.CrudOperationType.None;
       this.FormatMimeType = null;
       this.SuccessfulTransaction = false;
-      this.BackgroundTaskList = new List<IBackgroundTaskPayloadBase>();
+      this.BackgroundTaskList = new List<IBackgroundTaskPayload>();
     }
     #endregion
 

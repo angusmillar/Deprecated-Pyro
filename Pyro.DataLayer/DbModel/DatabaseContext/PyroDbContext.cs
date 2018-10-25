@@ -35,9 +35,13 @@ namespace Pyro.DataLayer.DbModel.DatabaseContext
     public DbSet<_ServiceCompartmentResource> ServiceCompartmentResource { get; set; }
     public DbSet<_FhirRelease> FhirRelease { get; set; }
     public DbSet<_BackburnerConnection> BackburnerConnection { get; set; }
+    public DbSet<_FhirTaskQueue> FhirTaskQueue { get; set; }
+    public DbSet<_FhirTaskWorker> FhirTaskWorker { get; set; }
+
 
     private void OnModelCreatingExtra(DbModelBuilder Mb)
     {      
+      
       Mb.Conventions.Remove<PluralizingTableNameConvention>();
 
       Mb.Configurations.Add(new ServiceConfigurationContextConfig());
@@ -52,6 +56,9 @@ namespace Pyro.DataLayer.DbModel.DatabaseContext
       Mb.Configurations.Add(new ServiceCompartmentResourceContextConfig());
 
       Mb.Configurations.Add(new BackburnerConnectionConfig());
+
+      Mb.Configurations.Add(new FhirTaskQueueConfig());
+      Mb.Configurations.Add(new FhirTaskWorkerConfig());
     }
   }  
 }

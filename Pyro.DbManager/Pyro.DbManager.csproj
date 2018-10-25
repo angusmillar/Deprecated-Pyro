@@ -185,6 +185,12 @@
   <ItemGroup>
     <EmbeddedResource Include="SqlScripts\PostgreSql\_201810161101408_AddBackburnerConnectionTable.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="SqlScripts\PostgreSql\_201810180757124_AddFhirTaskQueueTable.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="SqlScripts\PostgreSql\_201810211412127_AddFhirTaskWorkerTable.sql" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

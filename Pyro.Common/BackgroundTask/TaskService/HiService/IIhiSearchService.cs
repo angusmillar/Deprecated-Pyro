@@ -2,8 +2,8 @@
 
 namespace Pyro.Common.BackgroundTask.TaskService.HiService
 {
-  public interface IIhiSearchService
+  public interface IIhiSearchService : IBackgroundTaskService
   {
-    void Run(ITaskPayloadHiServiceIHISearch TaskPayloadHiServiceIHISearch);
-  }
+
+  }    
 }

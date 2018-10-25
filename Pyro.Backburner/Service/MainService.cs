@@ -6,6 +6,7 @@ using Pyro.Common.Enum;
 using SimpleInjector;
 using Pyro.Backburner.ServiceTaskLaunch;
 using Pyro.Common.Tools;
+using static Pyro.Common.Enum.BackgroundTaskEnum;
 
 namespace Pyro.Backburner.Service
 {
@@ -17,7 +18,9 @@ namespace Pyro.Backburner.Service
     private Timer _timer;
     private string PyroServerConnectionUrl = string.Empty;
     private Container Container;
-    
+    private CancellationTokenSource CancellationToken;
+    private string _StartUpConnectionId = string.Empty;
+
     public MainService()
     {
     }
@@ -38,12 +41,7 @@ namespace Pyro.Backburner.Service
       Console.ForegroundColor = ConsoleColor.Cyan;
       GetPyroServerConnectionUrl();
 
-      //Run the task once on start-up
-      //var IndexerServiceTaskLauncher = new IndexerServiceTaskLauncher(Container);
-      //IndexerServiceTaskLauncher.Launch(new TaskPayloadPyroServerIndexing() { TaskType = BackgroundTaskType.PyroServerIndexing, TaskId = null }, "[None]");
-
-      Container.GetInstance<Common.CompositionRoot.IIndexerTaskFactory>()
-        .Create(new TaskPayloadPyroServerIndexing() { TaskType = BackgroundTaskType.PyroServerIndexing, TaskId = null }, "[None]");
+      
 
       ConsoleSupport.DateTimeStampWriteLine("Database schema loaded...");
       _timer = new Timer(InitilizeHub, null, _StartupDelay, _StartupDelay);            
@@ -52,29 +50,18 @@ namespace Pyro.Backburner.Service
     private void LoadTasks()
     {
       var hubProxy = hubConnection.CreateHubProxy("BroadcastHub");
-      ConsoleSupport.TimeStampWriteLine("Registered Tasks:");      
-      // ========================================================================================
-      // ==============  Registered each task Launcher to run ====================================
-      // ========================================================================================
+      ConsoleSupport.TimeStampWriteLine("Registered Tasks:");
 
-      // IHI Search Service
-      var IhiSearchServiceTaskLauncher = new IhiSearchServiceTaskLauncher(Container);
-      ConsoleSupport.TimeStampWriteLine(BackgroundTaskLogMessageSupport.RegisterTask(BackgroundTaskType.HiServiceIHISearch.GetPyroLiteral()));
-      hubProxy.On<TaskPayloadHiServiceIHISearch>(BackgroundTaskType.HiServiceIHISearch.GetPyroLiteral(), 
-        IHiServiceResolveIHIPayload => IhiSearchServiceTaskLauncher.Launch(IHiServiceResolveIHIPayload));
+      // ========================================================================================
+      // ==============  Registered each BroadcastType Launcher =================================
+      // ========================================================================================      
+
+      //ConsoleSupport.TimeStampWriteLine(BackgroundTaskLogMessageSupport.RegisterTask(BackgroundTaskType.PyroServerIndexing.GetPyroLiteral()));            
+
+      hubProxy.On<BackgroundTaskPayload>(BroadcastType.BackgroundTask.GetPyroLiteral(),
+        TaskPayload => Container.GetInstance<Common.CompositionRoot.IBackgroundTaskFactory>()
+        .Create(TaskPayload, hubConnection.ConnectionId, CancellationToken));
       
-
-      ConsoleSupport.TimeStampWriteLine(BackgroundTaskLogMessageSupport.RegisterTask(BackgroundTaskType.PyroServerIndexing.GetPyroLiteral()));            
-
-      hubProxy.On<TaskPayloadPyroServerIndexing>(BackgroundTaskType.PyroServerIndexing.GetPyroLiteral(),
-        TaskPayloadPyroServerIndexing => Container.GetInstance<Common.CompositionRoot.IIndexerTaskFactory>()
-        .Create(TaskPayloadPyroServerIndexing, hubConnection.ConnectionId));
-
-
-      //hubProxy.On<TaskPayloadPyroServerIndexing>(  .PyroServerIndexing.GetPyroLiteral(),
-      //  TaskPayloadPyroServerIndexing => IndexerServiceTaskLauncher.Launch(TaskPayloadPyroServerIndexing, hubConnection.ConnectionId));
-
-
 
       // ========================================================================================
 
@@ -119,7 +106,9 @@ namespace Pyro.Backburner.Service
       hubConnection.Reconnected += HubConnection_Reconnected;
       hubConnection.Reconnecting += HubConnection_Reconnecting;
       hubConnection.StateChanged += HubConnection_StateChanged;
+      CancellationToken = new CancellationTokenSource();
       LoadTasks();
+      
 
       ConsoleWriteLine($"Connecting to Pyro Server at : {PyroServerConnectionUrl}");
       try
@@ -132,6 +121,25 @@ namespace Pyro.Backburner.Service
       }
     }
 
+    private void RunTasksOnConnected()
+    {
+      //Temporary Unique for this Pyro.Backburner instance Connection ID for start-up task running 
+      _StartUpConnectionId = $"{Common.PyroHealthFhirResource.CodeSystems.PyroHealth.Codes.PyroBackburner.GetPyroLiteral()}_StartUp_{Common.Tools.FhirGuid.FhirGuid.NewFhirGuid()}";
+
+      Container.GetInstance<Common.CompositionRoot.IBackgroundTaskFactory>()
+        .Create(new BackgroundTaskPayload() { TaskType = BackgroundTaskType.PyroServerIndexing, TaskId = _StartUpConnectionId },
+        _StartUpConnectionId,
+        CancellationToken);
+
+      Container.GetInstance<Common.CompositionRoot.IBackgroundTaskFactory>()
+        .Create(new BackgroundTaskPayload() { TaskType = BackgroundTaskType.HiServiceIHISearch, TaskId = _StartUpConnectionId },
+        _StartUpConnectionId,
+        CancellationToken);
+    }
+
+
+
+
     private void HubConnection_StateChanged(StateChange obj)
     {
       if (obj.NewState == ConnectionState.Connected)
@@ -143,12 +151,17 @@ namespace Pyro.Backburner.Service
         ConsoleSupport.Line();
         ConsoleSupport.DateTimeStampWriteLine("Connected to Pyro Server");
         ConsoleWriteLine($"At address: {PyroServerConnectionUrl}");
-        ConsoleWriteLine($"Connection Id: {hubConnection.ConnectionId}");
-        Pyro.Backburner.App_Start.BackburnerConectionIdUpdate.RunTask(Container, hubConnection.ConnectionId, true);
+        ConsoleWriteLine($"Connection Id: {hubConnection.ConnectionId}");        
+        Pyro.Backburner.App_Start.BackburnerConectionConnectedUpdateDatabase.RunTask(Container, hubConnection.ConnectionId);
+        RunTasksOnConnected();
 
       }
       else
       {
+        if (obj.NewState == ConnectionState.Disconnected)
+        {
+          CancellationToken.Cancel();
+        }
         ConsoleWriteLine($"Contection state changed:");
         ConsoleWriteLine($"  Old state: {obj.OldState.ToString()}");
         ConsoleWriteLine($"  New state: {obj.NewState.ToString()}");        

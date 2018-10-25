@@ -9,6 +9,12 @@ namespace Pyro.Common.Database
 {
   public static class StaticDatabaseInfo
   {
+    public static class DatabaseCreateSwitches
+    {
+      public static bool DevelopmentOnlyGenerateMigrations { get { return false; } }
+      public static bool CaseSensitiveColumnAnnotationOn { get { return true; } }
+    }
+
     public static class BaseDatabaseFieldLength
     {
       public static int ResourceTypeStringMaxLength { get { return 50; } }
@@ -116,11 +122,6 @@ namespace Pyro.Common.Database
       public static string Param { get { return "Param"; } }
     }
 
-    public static class DatabaseCreateSwitches
-    {
-      public static bool DevelopmentOnlyGenerateMigrations { get { return true; } }
-      public static bool CaseSensitiveColumnAnnotationOn { get { return true; } }      
-    }
   }
 
 }

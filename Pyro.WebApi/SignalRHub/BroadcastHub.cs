@@ -37,14 +37,14 @@ namespace Pyro.WebApi.SignalRHub
           Console.WriteLine($"{DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss.fff")}: Pyro Backburner service has lost connection to this server");
           Console.WriteLine($"Client Id: {Context.ConnectionId}");
         }
-        UpdateConnectionInDatabase(Context.ConnectionId, false);
+        UpdateConnectionInDatabase(Context.ConnectionId);
       }        
       return base.OnDisconnected(stopCalled);
     }
 
-    private void UpdateConnectionInDatabase(string ConnectionId, bool IsConnected)
+    private void UpdateConnectionInDatabase(string ConnectionId)
     {
-      Pyro.WebApi.App_Start.BackburnerConectionIdUpdate.RunTask(Startup.HttpConfiguration.DependencyResolver, ConnectionId, IsConnected);            
+      Pyro.WebApi.App_Start.BackburnerConectionDisconnectedUpdateDatabase.RunTask(Startup.HttpConfiguration.DependencyResolver, ConnectionId);            
     }
 
 

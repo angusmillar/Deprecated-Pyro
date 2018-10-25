@@ -26,7 +26,7 @@ namespace Pyro.Backburner.Service
         });
 
 
-        //Setup Account that window service use to run.  
+        //Set-up Account that window service use to run.  
         configure.RunAsLocalSystem();
         configure.SetServiceName("PyroBackburner");
         configure.SetDisplayName("Pyro.Backburner");

@@ -11,7 +11,7 @@ namespace Pyro.WebApi.SignalRHub
   public static class BackgroundProcessing
   {
     
-    public static void SendTaskList(IEnumerable<IBackgroundTaskPayloadBase> TaskPayloadList, ITaskPerformerNegotiator ITaskPerformerNegotiator, IDependencyResolver DependencyResolver)
+    public static void SendTaskList(IEnumerable<IBackgroundTaskPayload> TaskPayloadList, ITaskPerformerNegotiator ITaskPerformerNegotiator, IDependencyResolver DependencyResolver)
     {
       if (TaskPayloadList != null && TaskPayloadList.Count() != 0)
       {
@@ -20,16 +20,9 @@ namespace Pyro.WebApi.SignalRHub
         if (ITaskPerformerNegotiator.SendToBackburner(TaskPayloadList, DependencyResolver))
         {
           Broadcaster Broadcaster = SignalRHub.Broadcaster.Instance;
-          foreach (IBackgroundTaskPayloadBase TaskPayload in TaskPayloadList)
+          foreach (IBackgroundTaskPayload TaskPayload in TaskPayloadList)
           {
-            if (TaskPayload is ITaskPayloadHiServiceIHISearch TaskPayloadHiServiceIHISearch)
-            {
-              Broadcaster.HiServiceResolveIHI(TaskPayloadHiServiceIHISearch);
-            }
-            if (TaskPayload is ITaskPayloadPyroServerIndexing TaskPayloadPyroServerIndexing)
-            {
-              Broadcaster.PyroServerIndexing(TaskPayloadPyroServerIndexing);
-            }
+            Broadcaster.BackgroundTask(TaskPayload);            
           }
         }        
       }

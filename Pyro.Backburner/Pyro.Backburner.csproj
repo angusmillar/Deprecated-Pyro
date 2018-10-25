@@ -136,12 +136,10 @@
     <Compile Include="..\Pyro.WebApi\CompositionRoot\ResourceRepositoryFactory.cs">
       <Link>CompositionRoot\ResourceRepositoryFactory.cs</Link>
     </Compile>
-    <Compile Include="App_Start\BackburnerConectionIdUpdate.cs" />
+    <Compile Include="App_Start\BackburnerConectionConnectedUpdateDatabase.cs" />
     <Compile Include="App_Start\SimpleInjectorWebApiInitializer.cs" />
     <Compile Include="ServiceTaskLaunch\BaseTaskLauncher.cs" />
     <Compile Include="ServiceTaskLaunch\FhirApiDiscoveryTaskLauncher.cs" />
-    <Compile Include="ServiceTaskLaunch\IndexerServiceTaskLauncher.cs" />
-    <Compile Include="ServiceTaskLaunch\IhiSearchServiceTaskLauncher.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\MainServiceConfiguration.cs" />

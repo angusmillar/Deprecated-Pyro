@@ -19,7 +19,7 @@ namespace Pyro.WebApi
       int RequestCounter = 1;
       app.Use(async (environment, next) =>
       {
-        //Note: Console.IsOutputRedirected is true in IIS, check becasue if you fiddel with the console buffer while in IIS you get an exception.
+        //Note: Console.IsOutputRedirected is true in IIS, check because if you fiddle with the console buffer while in IIS you get an exception.
         if (!Console.IsOutputRedirected)
         {
           var QueryString = environment.Environment["owin.RequestQueryString"] as string;
@@ -167,7 +167,7 @@ namespace Pyro.WebApi
       Pyro.Common.Logging.Logger.Log.Info("Server start-up: Seed reference FHIR resources as required.");
       App_Start.StartupPyroResourceSeeding.RunTask(HttpConfiguration);
 
-      //Check for any FHIR task to process on start-up
+      //Check for any FHIR start-up task to process on start-up
       //NOTE: This Task runs asynchronous, it does not stop the server from starting. 
       Pyro.Common.Logging.Logger.Log.Info("Server start-up: Run pending FHIR Tasks.");
       App_Start.StartupPyroTaskRunner.RunTask(HttpConfiguration);      

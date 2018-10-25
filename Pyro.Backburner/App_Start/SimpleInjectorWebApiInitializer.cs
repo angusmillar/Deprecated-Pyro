@@ -131,7 +131,7 @@ namespace Pyro.Backburner.App_Start
       container.Register<Pyro.Common.CompositionRoot.IFhirResourceInstanceOperationServiceFactory, FhirResourceInstanceOperationServiceFactory>(Lifestyle.Singleton);
       container.Register<Pyro.Common.CompositionRoot.IFhirResourceOperationServiceFactory, FhirResourceOperationServiceFactory>(Lifestyle.Singleton);
       container.Register<Pyro.Common.CompositionRoot.IServerSearchParameterServiceFactory, ServerSearchParameterServiceFactory>(Lifestyle.Singleton);
-      container.Register<Common.CompositionRoot.IIndexerTaskFactory, IndexerTaskFactory>(Lifestyle.Singleton);
+      container.Register<Common.CompositionRoot.IBackgroundTaskFactory, BackgroundTaskFactory>(Lifestyle.Singleton);
 
       container.Register<Pyro.Identifiers.Australian.MedicareNumber.IMedicareNumberParser, Pyro.Identifiers.Australian.MedicareNumber.MedicareNumberParser>(Lifestyle.Singleton);
       container.Register<Pyro.Identifiers.Australian.DepartmentVeteransAffairs.IDVANumberParser, Pyro.Identifiers.Australian.DepartmentVeteransAffairs.DVANumberParser>(Lifestyle.Singleton);
@@ -223,7 +223,10 @@ namespace Pyro.Backburner.App_Start
       container.Register<IIncludeService, IncludeService>(Lifestyle.Scoped);
       container.Register<Pyro.ADHA.Api.IIhiSearchValidateConfig, Pyro.Common.ADHA.Api.IhiSearchValidateConfig>(Lifestyle.Scoped);
       container.Register<Pyro.ADHA.Api.IHiServiceApi, Pyro.ADHA.Api.HiServiceApi>(Lifestyle.Scoped);
-      container.Register<IServiceBackburnerConnection, Engine.Services.BackburnerConnection.ServiceBackburnerConnection>(Lifestyle.Scoped);      
+      container.Register<IServiceBackburnerConnection, Engine.Services.BackburnerConnection.ServiceBackburnerConnection>(Lifestyle.Scoped);
+      container.Register<IServiceFhirTaskQueue, Engine.Services.FhirTaskQueue.ServiceFhirTaskQueue>(Lifestyle.Scoped);
+      container.Register<IServiceFhirTaskWorker, Engine.Services.FhirTaskWorker.ServiceFhirTaskWorker>(Lifestyle.Scoped);
+      container.Register<IServiceFhirTaskWorkerManager, Engine.Services.FhirTaskWorker.ServiceFhirTaskWorkerManager>(Lifestyle.Scoped);
 
       //Scoped: Operations Locator 
       container.Register<IFhirBaseOperationService, FhirBaseOperationService>(Lifestyle.Scoped);
@@ -257,7 +260,8 @@ namespace Pyro.Backburner.App_Start
       container.Register<IFhirReleaseRepository, FhirReleaseRepository>(Lifestyle.Scoped);
       container.Register<IMigrationHistoryRepository, MigrationHistoryRepository>(Lifestyle.Scoped);
       container.Register<IBackburnerConnectionRepository, BackburnerConnectionRepository>(Lifestyle.Scoped);
-
+      container.Register<IFhirTaskQueueRepository, FhirTaskQueueRepository>(Lifestyle.Scoped);
+      container.Register<IFhirTaskWorkerRepository, FhirTaskWorkerRepository>(Lifestyle.Scoped);
 
       container.Register<ICompartmentSearchParameterService, CompartmentSearchParameterService>(Lifestyle.Scoped);
 
@@ -268,8 +272,7 @@ namespace Pyro.Backburner.App_Start
       container.Register<ITriggerServerReadOnlyMode, TriggerServerReadOnlyMode>(Lifestyle.Scoped);
 
       //Background Task Payloads
-      container.Register<Common.BackgroundTask.TaskPayload.ITaskPayloadHiServiceIHISearch, Common.BackgroundTask.TaskPayload.TaskPayloadHiServiceIHISearch>(Lifestyle.Scoped);
-      container.Register<Common.BackgroundTask.TaskPayload.ITaskPayloadPyroServerIndexing, Common.BackgroundTask.TaskPayload.TaskPayloadPyroServerIndexing>(Lifestyle.Scoped);
+      container.Register<Common.BackgroundTask.TaskPayload.IBackgroundTaskPayload, Common.BackgroundTask.TaskPayload.BackgroundTaskPayload>(Lifestyle.Scoped);      
 
       //Background Task Services            
       container.Register<Pyro.Common.BackgroundTask.TaskService.HiService.IIhiSearchService, Pyro.Common.BackgroundTask.TaskService.HiService.IhiSearchService>(Lifestyle.Scoped);

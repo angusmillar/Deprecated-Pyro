@@ -14,14 +14,14 @@ namespace Pyro.Common.BackgroundTask
   public class TaskPerformerNegotiator : ITaskPerformerNegotiator
   {
     private readonly IServiceBackburnerConnection IServiceBackburnerConnection;
-    private readonly IIndexerTaskFactory IIndexerTaskFactory;
-    public TaskPerformerNegotiator(IServiceBackburnerConnection IServiceBackburnerConnection, IIndexerTaskFactory IIndexerTaskFactory)    
+    private readonly IBackgroundTaskFactory IBackgroundTaskFactory;
+    public TaskPerformerNegotiator(IServiceBackburnerConnection IServiceBackburnerConnection, IBackgroundTaskFactory IBackgroundTaskFactory)    
     {
       this.IServiceBackburnerConnection = IServiceBackburnerConnection;
-      this.IIndexerTaskFactory = IIndexerTaskFactory;
+      this.IBackgroundTaskFactory = IBackgroundTaskFactory;
     }
 
-    public bool SendToBackburner(IEnumerable<IBackgroundTaskPayloadBase> TaskPayloadList, IDependencyResolver DependencyResolver)
+    public bool SendToBackburner(IEnumerable<IBackgroundTaskPayload> TaskPayloadList, IDependencyResolver DependencyResolver)
     {
       if (TaskPayloadList.Count() == 0)
       {
@@ -38,21 +38,14 @@ namespace Pyro.Common.BackgroundTask
       }
       else
       {
-        //If the ConnectedCount == 0 then we must spawn a Task/thread and perform the Task on the Pyro Server 
-        foreach (IBackgroundTaskPayloadBase TaskPayload in TaskPayloadList)
+        //this CancellationToken need to somehow link into the IIS shut-down event as it will never cancel from here!! 
+        var CancellationToken = new System.Threading.CancellationTokenSource();        
+        // Temporary Unique for this Pyro.Backburner instance Connection ID for start - up task running 
+        string StartUpConnectionId = $"{PyroHealthFhirResource.CodeSystems.PyroHealth.Codes.PyroFhirServer.GetPyroLiteral()}_{Tools.FhirGuid.FhirGuid.NewFhirGuid()}";
+        //If the ConnectedCount == 0 then we must spawn a Task/thread and perform the Task on the Pyro Server, IBackgroundTaskFactory does this for us 
+        foreach (IBackgroundTaskPayload TaskPayload in TaskPayloadList)
         {
-          if (TaskPayload is ITaskPayloadHiServiceIHISearch TaskPayloadHiServiceIHISearch)
-          {
-            //Broadcaster.HiServiceResolveIHI(TaskPayloadHiServiceIHISearch);            
-          }
-          else if (TaskPayload is ITaskPayloadPyroServerIndexing TaskPayloadPyroServerIndexing)
-          {
-            IIndexerTaskFactory.Create(TaskPayloadPyroServerIndexing, Common.PyroHealthFhirResource.CodeSystems.PyroHealth.Codes.PyroFhirServer.GetPyroLiteral());    
-          }
-          else
-          {
-            throw new System.ApplicationException($"Unhanded IBackgroundTaskPayloadBase instance of type: {TaskPayload.TaskType.GetPyroLiteral()}"); 
-          }
+          IBackgroundTaskFactory.Create(TaskPayload, StartUpConnectionId, CancellationToken);
         }
         return false;
       }

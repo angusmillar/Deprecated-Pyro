@@ -770,7 +770,7 @@ namespace Pyro.DataLayer.Repository
         return null;
     }
 
-    public void AddAndUpdateResourceIndexes(List<DtoServiceSearchParameterLight> ServiceSearchParameterLightList)
+    public void AddAndUpdateResourceIndexes(List<DtoServiceSearchParameterLight> ServiceSearchParameterLightList, System.Threading.CancellationTokenSource CancellationToken = null)
     {
       int ChunkSize = 100;
       int ProgressCount = 0;      
@@ -785,8 +785,13 @@ namespace Pyro.DataLayer.Repository
                              .Take(ChunkSize);
 
         foreach (var Entity in EntityList.ToList())
-        {          
-          foreach(var SearchParam in ServiceSearchParameterLightList)
+        {
+          //If we have a CancellationToken then check it, this will throw and exception 
+          //is a cancel is called for. The higher level task should roll-back the database transaction based on this exception type.  
+          if (CancellationToken != null)
+            CancellationToken.Token.ThrowIfCancellationRequested();
+
+          foreach (var SearchParam in ServiceSearchParameterLightList)
           {
             DeleteAllResourceIndexesByResourceIdSearchParameterIdAndIndexType(Entity.Id, SearchParam.Id, SearchParam.Type);
           }

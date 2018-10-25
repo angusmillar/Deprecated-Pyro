@@ -25,5 +25,17 @@ namespace Pyro.Common.Tools
     {
       return DateTimeOffset.Now.UtcDateTime;
     }
+
+    public static string UTCDateTimeNowPostgreFormat()
+    {
+      //2018-10-18 08:12:47.27152
+      return UTCDateTimeNow().ToString("yyyy-MM-dd HH:mm:ss.FFFFFF");
+    }
+
+    public static string UTCDateTimeNowMSSQLFormat()
+    {
+      //2018-10-18 08:12:47.27152
+      return UTCDateTimeNow().ToString("yyyy-MM-dd HH:mm:ss.FFF");
+    }
   }
 }

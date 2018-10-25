@@ -21,6 +21,6 @@ namespace Pyro.Common.Service.ResourceService
     string FormatMimeType { get; set; }
     SummaryType? SummaryType { get; set; }
     bool SuccessfulTransaction { get; set; }
-    IList<IBackgroundTaskPayloadBase> BackgroundTaskList { get; set; }
+    IList<IBackgroundTaskPayload> BackgroundTaskList { get; set; }
 }
 }

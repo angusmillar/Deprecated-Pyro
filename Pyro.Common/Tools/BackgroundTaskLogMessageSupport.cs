@@ -14,7 +14,7 @@ namespace Pyro.Common.Tools
       return $" - {TaskName}";
     }
 
-    public static string TaskReceived(IBackgroundTaskPayloadBase BackgroundTaskPayloadBase)
+    public static string TaskReceived(IBackgroundTaskPayload BackgroundTaskPayloadBase)
     {
       if (BackgroundTaskPayloadBase.TaskId == null)
       {
@@ -27,12 +27,12 @@ namespace Pyro.Common.Tools
       
     }
 
-    public static string TaskOutCome(IBackgroundTaskPayloadBase BackgroundTaskPayloadBase, Hl7.Fhir.Model.Task.TaskStatus TaskStatus)
+    public static string TaskOutCome(IBackgroundTaskPayload BackgroundTaskPayloadBase, Hl7.Fhir.Model.Task.TaskStatus TaskStatus)
     {
       return $"{Environment.NewLine}Task processed : {BackgroundTaskPayloadBase.TaskType.GetPyroLiteral()}{Environment.NewLine}Task Status    : {TaskStatus.GetLiteral()}{Environment.NewLine}Task Ref       : Task/{BackgroundTaskPayloadBase.TaskId}";
     }
 
-    public static string TaskException(IBackgroundTaskPayloadBase BackgroundTaskPayloadBase, Hl7.Fhir.Model.Task.TaskStatus TaskStatus, string ExceptionMessage = null)
+    public static string TaskException(IBackgroundTaskPayload BackgroundTaskPayloadBase, Hl7.Fhir.Model.Task.TaskStatus TaskStatus, string ExceptionMessage = null)
     {
       string temp = $"{Environment.NewLine}Task's Exception: {BackgroundTaskPayloadBase.TaskType.GetPyroLiteral()}{Environment.NewLine}Task Status      : {TaskStatus.GetLiteral()}{Environment.NewLine} Task Ref        : Task/{BackgroundTaskPayloadBase.TaskId}";
       if (!string.IsNullOrWhiteSpace(ExceptionMessage))

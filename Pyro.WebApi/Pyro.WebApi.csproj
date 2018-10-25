@@ -242,7 +242,7 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_Start\BackburnerConectionIdUpdate.cs" />
+    <Compile Include="App_Start\BackburnerConectionDisconnectedUpdateDatabase.cs" />
     <Compile Include="App_Start\StartupBackburnerClearConnections.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\SimpleInjectorWebApiInitializer.cs" />
