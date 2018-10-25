@@ -191,6 +191,9 @@
   <ItemGroup>
     <EmbeddedResource Include="SqlScripts\PostgreSql\_201810211412127_AddFhirTaskWorkerTable.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="SqlScripts\MsSQL\_201810251007355_AddFHIRTaskQueueAndWorkerTables.sql" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

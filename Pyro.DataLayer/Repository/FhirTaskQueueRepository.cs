@@ -117,7 +117,7 @@ namespace Pyro.DataLayer.Repository
         {
           LastUpdatedString = Common.Tools.DateTimeSupport.UTCDateTimeNowMSSQLFormat();
           Query = $"UPDATE [_FhirTaskQueue] SET [Status] = '{TaskStatusString}', [LastUpdated] = '{LastUpdatedString}' " +
-                  $"WHERE [Id] = {DbFhirTaskQueue.Id} and [PerfomrerConnectionId] '{ConnectionId}'";
+                  $"WHERE [Id] = {DbFhirTaskQueue.Id} and [PerfomrerConnectionId] = '{ConnectionId}'";
         }
         else if (DatabaseConnection.CurrentProviderName() == DatabaseConnection.PostgreSQLProvider)
         {
