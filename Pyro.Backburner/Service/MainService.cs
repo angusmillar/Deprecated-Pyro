@@ -26,42 +26,49 @@ namespace Pyro.Backburner.Service
     }
 
     public void Start()
-    {
+    { 
       // write code here that runs when the Windows Service starts up.  
-      Console.Clear();
-      Console.ForegroundColor = ConsoleColor.DarkYellow;
-      Console.Write(Common.ProductText.PyroText.PyroTextLogo("Pyro Backburner", "MyVersion"));
-      Console.ResetColor();         
-      ConsoleSupport.DateTimeStampWriteLine("Starting...");
-      var WarmUpMessages = new Pyro.Common.ProductText.PyroWarmUpMessages();
-      WarmUpMessages.Start("Pyro Backburner", $"Version: {System.Diagnostics.FileVersionInfo.GetVersionInfo(typeof(Pyro.Common.Global.GlobalProperties).Assembly.Location).ProductVersion}");
+      Pyro.Common.ProductText.PyroWarmUpMessages WarmUpMessages = null;
+      if (!Console.IsOutputRedirected)
+      {
+        Console.Clear();
+        Console.ForegroundColor = ConsoleColor.DarkYellow;
+        Console.Write(Common.ProductText.PyroText.PyroTextLogo("Pyro Backburner", "MyVersion"));
+        Console.ResetColor();
+        ConsoleSupport.DateTimeStampWriteLine("Starting...");
+        WarmUpMessages = new Pyro.Common.ProductText.PyroWarmUpMessages();
+        WarmUpMessages.Start("Pyro Backburner", $"Version: {System.Diagnostics.FileVersionInfo.GetVersionInfo(typeof(Pyro.Common.Global.GlobalProperties).Assembly.Location).ProductVersion}");
+      }
+
       Container = new Container();
       App_Start.SimpleInjectorWebApiInitializer.Initialize(Container);
-      WarmUpMessages.Stop();
-      Console.ForegroundColor = ConsoleColor.Cyan;
-      GetPyroServerConnectionUrl();
 
+      if (!Console.IsOutputRedirected)
+      {
+        WarmUpMessages.Stop();
+        Console.ForegroundColor = ConsoleColor.Cyan;
+      }
       
+      GetPyroServerConnectionUrl();
 
       ConsoleSupport.DateTimeStampWriteLine("Database schema loaded...");
       _timer = new Timer(InitilizeHub, null, _StartupDelay, _StartupDelay);            
     }
 
     private void LoadTasks()
-    {
+    {      
       var hubProxy = hubConnection.CreateHubProxy("BroadcastHub");
-      ConsoleSupport.TimeStampWriteLine("Registered Tasks:");
+      ConsoleSupport.TimeStampWriteLine("Registered Tasks:");      
 
       // ========================================================================================
       // ==============  Registered each BroadcastType Launcher =================================
       // ========================================================================================      
 
-      //ConsoleSupport.TimeStampWriteLine(BackgroundTaskLogMessageSupport.RegisterTask(BackgroundTaskType.PyroServerIndexing.GetPyroLiteral()));            
+      ConsoleSupport.TimeStampWriteLine(BackgroundTaskLogMessageSupport.RegisterTask(BackgroundTaskType.PyroServerIndexing.GetPyroLiteral()));            
 
       hubProxy.On<BackgroundTaskPayload>(BroadcastType.BackgroundTask.GetPyroLiteral(),
         TaskPayload => Container.GetInstance<Common.CompositionRoot.IBackgroundTaskFactory>()
         .Create(TaskPayload, hubConnection.ConnectionId, CancellationToken));
-      
 
       // ========================================================================================
 
@@ -105,11 +112,11 @@ namespace Pyro.Backburner.Service
       hubConnection.Received += HubConnection_Received;
       hubConnection.Reconnected += HubConnection_Reconnected;
       hubConnection.Reconnecting += HubConnection_Reconnecting;
-      hubConnection.StateChanged += HubConnection_StateChanged;
+      hubConnection.StateChanged += HubConnection_StateChanged;      
       CancellationToken = new CancellationTokenSource();
+      
       LoadTasks();
       
-
       ConsoleWriteLine($"Connecting to Pyro Server at : {PyroServerConnectionUrl}");
       try
       {
@@ -135,23 +142,23 @@ namespace Pyro.Backburner.Service
         .Create(new BackgroundTaskPayload() { TaskType = BackgroundTaskType.HiServiceIHISearch, TaskId = _StartUpConnectionId },
         _StartUpConnectionId,
         CancellationToken);
-    }
-
-
-
+    }    
 
     private void HubConnection_StateChanged(StateChange obj)
     {
       if (obj.NewState == ConnectionState.Connected)
       {        
-        Console.Clear();
-        Console.WriteLine();
-        Console.Write(Common.ProductText.PyroText.PyroTextLogo("Pyro Backburner", "MyVersion"));
-        Console.WriteLine();
-        ConsoleSupport.Line();
-        ConsoleSupport.DateTimeStampWriteLine("Connected to Pyro Server");
-        ConsoleWriteLine($"At address: {PyroServerConnectionUrl}");
-        ConsoleWriteLine($"Connection Id: {hubConnection.ConnectionId}");        
+        if (!Console.IsOutputRedirected)
+        {
+          Console.Clear();
+          Console.WriteLine();
+          Console.Write(Common.ProductText.PyroText.PyroTextLogo("Pyro Backburner", "MyVersion"));
+          Console.WriteLine();
+          ConsoleSupport.Line();
+          ConsoleSupport.DateTimeStampWriteLine("Connected to Pyro Server");
+          ConsoleWriteLine($"At address: {PyroServerConnectionUrl}");
+          ConsoleWriteLine($"Connection Id: {hubConnection.ConnectionId}");
+        }
         Pyro.Backburner.App_Start.BackburnerConectionConnectedUpdateDatabase.RunTask(Container, hubConnection.ConnectionId);
         RunTasksOnConnected();
 

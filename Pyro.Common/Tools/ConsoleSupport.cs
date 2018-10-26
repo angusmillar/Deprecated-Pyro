@@ -27,25 +27,34 @@ namespace Pyro.Common.Tools
 
     public static void Line()
     {
-      Console.ForegroundColor = ConsoleColor.Cyan;
-      Console.WriteLine(Line('-'));
+      if (!Console.IsOutputRedirected)
+      {
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.WriteLine(Line('-'));
+      }
     }
 
     public static void TimeStampWriteLine(string message)
     {
-      Console.ForegroundColor = ConsoleColor.Cyan;
-      Console.Write($"{TimeStamp}: ");
-      Console.ForegroundColor = ConsoleColor.White;
-      Console.WriteLine($"{message}");
-      Line();
+      if (!Console.IsOutputRedirected)
+      {
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.Write($"{TimeStamp}: ");
+        Console.ForegroundColor = ConsoleColor.White;
+        Console.WriteLine($"{message}");
+        Line();
+      }
     }
 
     public static void DateTimeStampWriteLine(string message)
     {
-      Console.ForegroundColor = ConsoleColor.Cyan;
-      Console.WriteLine($"{DateTimeStamp}: ");
-      Console.ForegroundColor = ConsoleColor.White;
-      Console.WriteLine($"{message}");
+      if (!Console.IsOutputRedirected)
+      {
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.WriteLine($"{DateTimeStamp}: ");
+        Console.ForegroundColor = ConsoleColor.White;
+        Console.WriteLine($"{message}");
+      }
     }
 
   }
