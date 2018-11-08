@@ -51,7 +51,7 @@ namespace Pyro.Common.Interfaces.Service
     IResourceServiceOutcome ConditionalPut(Resource Resource, IRequestMeta RequestMeta);
 
     //Add the given ServiceSearchParameterLight to the current resource instance
-    void AddAndUpdateResourceIndexes(ResourceType ResourceType, List<DtoServiceSearchParameterLight> ServiceSearchParameterLightList, System.Threading.CancellationTokenSource CancellationToken = null);    
+    void AddAndUpdateResourceIndexes(ResourceType ResourceType, List<DtoServiceSearchParameterHeavy> ServiceSearchParameterHeavyList, System.Threading.CancellationTokenSource CancellationToken = null);    
     
     //Get the dateTime that the last instance of this ResourceType was Added, Updated, Deleted in the server
     DateTimeOffset? GetLastCurrentResourceLastUpdatedValue(ResourceType ResourceType);

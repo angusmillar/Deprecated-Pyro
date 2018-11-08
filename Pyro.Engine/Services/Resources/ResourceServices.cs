@@ -879,12 +879,12 @@ namespace Pyro.Engine.Services.Resources
     }
 
     //This is the method to add/update new indexes
-    public virtual void AddAndUpdateResourceIndexes(ResourceType ResourceType, List<DtoServiceSearchParameterLight> ServiceSearchParameterLightList, System.Threading.CancellationTokenSource CancellationToken = null)
+    public virtual void AddAndUpdateResourceIndexes(ResourceType ResourceType, List<DtoServiceSearchParameterHeavy> ServiceSearchParameterHeavy, System.Threading.CancellationTokenSource CancellationToken = null)
     {
-      if (ServiceSearchParameterLightList.Any(x => x.Resource != ResourceType.GetLiteral()))
+      if (ServiceSearchParameterHeavy.Any(x => x.Resource != ResourceType.GetLiteral()))
         throw new ArgumentNullException("Internal Server Error: AddAndUpdateResourceIndexes must only be passed a list of ServiceSearchParameter which are all for the same ResourceType");
       SetCurrentResourceType(ResourceType);
-      IResourceRepository.AddAndUpdateResourceIndexes(ServiceSearchParameterLightList, CancellationToken);
+      IResourceRepository.AddAndUpdateResourceIndexes(ServiceSearchParameterHeavy, CancellationToken);
     }
 
     public DateTimeOffset? GetLastCurrentResourceLastUpdatedValue(ResourceType ResourceType)

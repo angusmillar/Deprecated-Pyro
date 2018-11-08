@@ -770,7 +770,7 @@ namespace Pyro.DataLayer.Repository
         return null;
     }
 
-    public void AddAndUpdateResourceIndexes(List<DtoServiceSearchParameterLight> ServiceSearchParameterLightList, System.Threading.CancellationTokenSource CancellationToken = null)
+    public void AddAndUpdateResourceIndexes(List<DtoServiceSearchParameterHeavy> ServiceSearchParameterHeavyList, System.Threading.CancellationTokenSource CancellationToken = null)
     {
       int ChunkSize = 100;
       int ProgressCount = 0;      
@@ -791,13 +791,17 @@ namespace Pyro.DataLayer.Repository
           if (CancellationToken != null)
             CancellationToken.Token.ThrowIfCancellationRequested();
 
-          foreach (var SearchParam in ServiceSearchParameterLightList)
+          foreach (var SearchParam in ServiceSearchParameterHeavyList)
           {
             DeleteAllResourceIndexesByResourceIdSearchParameterIdAndIndexType(Entity.Id, SearchParam.Id, SearchParam.Type);
           }
 
+          //Only re-index SearchParameters that in a status of Active or Draft, although as above we do want to delete all. 
+          ServiceSearchParameterHeavyList = ServiceSearchParameterHeavyList.Where(x => x.Status == PublicationStatus.Draft || x.Status == PublicationStatus.Active).ToList();
+
           Resource Resource = Common.Tools.FhirResourceSerializationSupport.DeSerializeFromGZip(Entity.Resource);
-          AddResourceIndexes(Entity, Resource, ServiceSearchParameterLightList);
+          var LightList = ServiceSearchParameterHeavyList.Cast<Common.Search.DtoServiceSearchParameterLight>().ToList();
+          _PopulateResourceEntity(Entity, Resource, LightList);
         }
         this.Save();
         ProgressCount = ProgressCount + ChunkSize;
@@ -903,12 +907,7 @@ namespace Pyro.DataLayer.Repository
       IList<DtoServiceSearchParameterLight> SearchParmeters = IServiceSearchParameterCache.GetSearchParameterForResource(Resource.ResourceType.GetLiteral());
       _PopulateResourceEntity(ResourceEntity, Resource, SearchParmeters);
     }
-
-    public void AddResourceIndexes(ResCurrentType ResourceEntity, Resource Resource, IList<DtoServiceSearchParameterLight> SearchParmeters)
-    {
-      _PopulateResourceEntity(ResourceEntity, Resource, SearchParmeters);
-    }
-
+    
     private void _PopulateResourceEntity(ResCurrentType ResourceEntity, Resource Resource, IList<DtoServiceSearchParameterLight> SearchParametersList)
     {
       Hl7.Fhir.ElementModel.PocoNavigator Navigator = new Hl7.Fhir.ElementModel.PocoNavigator(Resource);

@@ -25,7 +25,7 @@ namespace Pyro.Common.Interfaces.Repositories
     string[] GetResourceFhirIdBySearchNoPaging(PyroSearchParameters DtoSearchParameters);
     string[] GetResourceFhirIdByReferanceIndex(IEnumerable<string> FhirIdArray, string ResourceName, int SearchParameterIdArray);
 
-    void AddAndUpdateResourceIndexes(List<DtoServiceSearchParameterLight> ServiceSearchParameterLightList, System.Threading.CancellationTokenSource CancellationToken = null);    
+    void AddAndUpdateResourceIndexes(List<DtoServiceSearchParameterHeavy> ServiceSearchParameterHeavy, System.Threading.CancellationTokenSource CancellationToken = null);    
     int GetTotalCurrentResourceCount();
     DateTimeOffset? GetLastCurrentResourceLastUpdatedValue();
     

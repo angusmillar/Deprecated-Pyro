@@ -146,9 +146,9 @@ namespace Pyro.Common.BackgroundTask.TaskService.Indexer
               try
               {
                 //This does the grunt work to update and add the indexes for all resource of said type
-                var LightList = _SearchParameterList.Cast<Common.Search.DtoServiceSearchParameterLight>().ToList();
+                //var LightList = _SearchParameterList.Cast<Common.Search.DtoServiceSearchParameterLight>().ToList();
                 ResourceType ResourceType = Common.Tools.ResourceNameResolutionSupport.GetResourceType(InputItemForResourceList.Key);
-                IResourceServices.AddAndUpdateResourceIndexes(ResourceType, LightList, _CancellationToken);
+                IResourceServices.AddAndUpdateResourceIndexes(ResourceType, _SearchParameterList, _CancellationToken);
                 Transaction.Commit();
 
                 //Update the indexes we have completed 
