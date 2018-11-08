@@ -8,7 +8,7 @@ namespace Pyro.Common.Extentions
   {
     public static List<ResourceReference> AllReferences(this IEnumerable<Bundle.EntryComponent> EntryComponentList)
     {
-      //Cache ClassMappings's PropertyList as likley to have same resource again in the bundle entrie list
+      //Cache ClassMappings's PropertyList as likely to have same resource again in the bundle entries list
       var ClassPropertyMappingListCache = new Dictionary<int, IEnumerable<Hl7.Fhir.Introspection.PropertyMapping>>();
 
       var ReferenceResultList = new List<ResourceReference>();
@@ -36,7 +36,7 @@ namespace Pyro.Common.Extentions
       if (FhirBase == null)
         return ReferenceResultList;
 
-      //If DomainResource or Extension then drill through all extentions and collect all referances
+      //If DomainResource or Extension then drill through all extensions and collect all references
       if (FhirBase is DomainResource DomainResource)
       {
         ReferenceResultList.AddRange(DomainResource.Extension.AllExtensionListReferences());
@@ -46,7 +46,7 @@ namespace Pyro.Common.Extentions
         ReferenceResultList.AddRange(Extension.AllExtensionReferences());
       }
 
-      //Cache ClassMappings's PropertyList as likley to have same resource again in the bundle entries
+      //Cache ClassMappings's PropertyList as likely to have same resource again in the bundle entries
       IEnumerable<Hl7.Fhir.Introspection.PropertyMapping> PropertyMappingList = ClassPropertyMappingListCache.SingleOrDefault(x => x.Key == FhirBase.TypeName.GetHashCode()).Value;
       if (PropertyMappingList == null)
       {
@@ -75,7 +75,7 @@ namespace Pyro.Common.Extentions
             {
               //Why Does 'PropertyItem.GetValue(FhirBase)' throw an exception?
               //for no we are ignoring the exception as not sure what else to do, could be some 
-              //ResourceReferences in transation bunudles are not updated.
+              //ResourceReferences in transaction bundles are not updated.
             }
           }
           else
@@ -89,7 +89,7 @@ namespace Pyro.Common.Extentions
             {
               //Why Does 'PropertyItem.GetValue(FhirBase)' throw an exception?
               //for no we are ignoring the exception as not sure what else to do, could be some 
-              //ResourceReferences in transation bunudles are not updated.
+              //ResourceReferences in transaction bundles are not updated.
             }
           }
         }
@@ -97,14 +97,21 @@ namespace Pyro.Common.Extentions
         {
           try
           {
-            if (PropertyItem.GetValue(FhirBase) is ResourceReference rr)
-              ReferenceResultList.Add(rr);
+            if (PropertyItem.GetValue(FhirBase) is ResourceReference SingleRef)
+              ReferenceResultList.Add(SingleRef);
+            if (PropertyItem.GetValue(FhirBase) is ICollection<ResourceReference> ResourceReferenceList)
+            {
+              foreach(ResourceReference Ref in ResourceReferenceList)
+              {
+                ReferenceResultList.Add(Ref);
+              }
+            }
           }
           catch (System.Exception)
           {
             //Why Does 'PropertyItem.GetValue(FhirBase)' throw an exception?
             //for no we are ignoring the exception as not sure what else to do, could be some 
-            //ResourceReferences in transation bunudles are not updated.
+            //ResourceReferences in translation bundles are not updated.
           }
         }
         Count++;
