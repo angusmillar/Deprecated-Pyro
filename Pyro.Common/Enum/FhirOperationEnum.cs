@@ -19,8 +19,7 @@ namespace Pyro.Common.Enum
 
     public enum OperationType
     {
-      [EnumLiteral("server-indexes-delete-history-indexes")]
-      ServerIndexesDeleteHistoryIndexes,
+
       [EnumLiteral("server-indexes-set")]
       ServerIndexesSet,
       [EnumLiteral("server-indexes-index")]
@@ -45,8 +44,7 @@ namespace Pyro.Common.Enum
     public static Dictionary<string, OperationType> GetOperationTypeByString()
     {
       return new Dictionary<string, OperationType>()
-      {
-        {OperationType.ServerIndexesDeleteHistoryIndexes.GetPyroLiteral(), OperationType.ServerIndexesDeleteHistoryIndexes},
+      {        
         {OperationType.ServerIndexesSet.GetPyroLiteral(), OperationType.ServerIndexesSet},
         {OperationType.ServerIndexesIndex.GetPyroLiteral(), OperationType.ServerIndexesIndex},
         {OperationType.ServerSearchParameterIndexReport.GetPyroLiteral(), OperationType.ServerSearchParameterIndexReport},
