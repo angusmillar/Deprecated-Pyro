@@ -31,6 +31,7 @@ namespace Pyro.DataLayer.DbModel.DatabaseContext
     public DbSet<_ServiceConfiguration> ServiceConfiguration { get; set; }    
     public DbSet<_ServiceSearchParameter> ServiceSearchParameter { get; set; }
     public DbSet<_ServiceSearchParameterCompositePivot> ServiceSearchParameterCompositePivot { get; set; }
+    public DbSet<_ServiceSearchParameterTargetResource> ServiceSearchParameterTargetResource { get; set; }
     public DbSet<_ServiceCompartment> ServiceCompartment { get; set; }
     public DbSet<_ServiceCompartmentResource> ServiceCompartmentResource { get; set; }
     public DbSet<_FhirRelease> FhirRelease { get; set; }

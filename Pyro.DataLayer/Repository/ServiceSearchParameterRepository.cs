@@ -46,66 +46,61 @@ namespace Pyro.DataLayer.Repository
 
     // SearchParameterHeavy Methods =================================================================
     public List<DtoServiceSearchParameterHeavy> GetServiceSearchParametersHeavyByIsIndexed(bool IsIndexed)
-    {
-      var ReturnList = new List<DtoServiceSearchParameterHeavy>();
-
-      List<_ServiceSearchParameter> ResourceServiceSearchParameterList;
-
-      ResourceServiceSearchParameterList = IPyroDbContext.ServiceSearchParameter
-        .Include(x => x.TargetResourceTypeList)
-        .Include(x => x.ServiceSearchParameterCompositePivotList)
-        .Where(y => y.IsIndexed == IsIndexed).ToList();
-
-      foreach (var x in ResourceServiceSearchParameterList)
-      {
-        ReturnList.Add(PopulateDtoSearchParameterHeavy(x));
-      }     
-      return ReturnList;
+    {           
+      List<_ServiceSearchParameter> ResourceServiceSearchParameterList = IPyroDbContext.ServiceSearchParameter.Where(y => y.IsIndexed == IsIndexed).ToList();
+      return LoadSearchParameterTypeElements(ResourceServiceSearchParameterList);      
     }
 
     public DtoServiceSearchParameterHeavy GetServiceSearchParametersHeavyById(int Id)
     {
-      _ServiceSearchParameter ServiceSearchParameter = IPyroDbContext.ServiceSearchParameter
-        .Include(x => x.TargetResourceTypeList)
-        .Include(x => x.ServiceSearchParameterCompositePivotList)
-        .SingleOrDefault(y => y.Id == Id);
+      _ServiceSearchParameter ServiceSearchParameter = IPyroDbContext.ServiceSearchParameter.SingleOrDefault(y => y.Id == Id);
       if (ServiceSearchParameter != null)
       {
-        return PopulateDtoSearchParameterHeavy(ServiceSearchParameter);
+        return LoadSearchParameterTypeElements(ServiceSearchParameter);        
       }
       return null;
     }
 
     public List<DtoServiceSearchParameterHeavy> GetServiceSearchParametersHeavy()
     {
-      var ReturnList = new List<DtoServiceSearchParameterHeavy>();
-      var ResourceServiceSearchParameterList = IPyroDbContext.ServiceSearchParameter
-        .Include(x => x.TargetResourceTypeList)
-        .Include(x => x.ServiceSearchParameterCompositePivotList)
-        .ToList();
+      List<_ServiceSearchParameter> ResourceServiceSearchParameterList = IPyroDbContext.ServiceSearchParameter.ToList();
+      return LoadSearchParameterTypeElements(ResourceServiceSearchParameterList);      
+    }
 
-      foreach (var x in ResourceServiceSearchParameterList)
+    private DtoServiceSearchParameterHeavy LoadSearchParameterTypeElements(_ServiceSearchParameter SearchParameter)
+    {
+      if (SearchParameter.Type == SearchParamType.Reference)
       {
-        ReturnList.Add(PopulateDtoSearchParameterHeavy(x));
+        var TargetResourceList = IPyroDbContext.ServiceSearchParameterTargetResource.Where(z => z.ServiceSearchParameterId == SearchParameter.Id).ToList();
+        return PopulateDtoSearchParameterHeavy(SearchParameter, TargetResourceList, null);
+      }
+      else if (SearchParameter.Type == SearchParamType.Composite)
+      {
+        var CompositeList = IPyroDbContext.ServiceSearchParameterCompositePivot.Where(z => z.ParentServiceSearchParameterId == SearchParameter.Id).ToList();
+        return PopulateDtoSearchParameterHeavy(SearchParameter, null, CompositeList);
+      }
+      else
+      {
+        return PopulateDtoSearchParameterHeavy(SearchParameter, null, null);
+      }
+    }
+
+    private List<DtoServiceSearchParameterHeavy> LoadSearchParameterTypeElements(List<_ServiceSearchParameter> SearchParameterList)
+    {
+      var ReturnList = new List<DtoServiceSearchParameterHeavy>();
+      foreach (var SearchParameter in SearchParameterList)
+      {
+        ReturnList.Add(LoadSearchParameterTypeElements(SearchParameter));
       }
       return ReturnList;
     }
 
+
     public List<DtoServiceSearchParameterHeavy> GetServiceSearchParametersHeavyForResource(string ResourceType)
     {
       var ReturnList = new List<DtoServiceSearchParameterHeavy>();
-
-      var ResourceServiceSearchParameterList = IPyroDbContext.ServiceSearchParameter
-                                                  .Where(x => x.Resource == ResourceType)
-                                                  .Include(x => x.TargetResourceTypeList)
-                                                  .Include(x => x.ServiceSearchParameterCompositePivotList);
-                                                  //.ToList();
-
-      foreach (var x in ResourceServiceSearchParameterList)
-      {
-        ReturnList.Add(PopulateDtoSearchParameterHeavy(x));
-      }
-      return ReturnList;
+      var ResourceServiceSearchParameterList = IPyroDbContext.ServiceSearchParameter.Where(x => x.Resource == ResourceType).ToList();
+      return LoadSearchParameterTypeElements(ResourceServiceSearchParameterList);
     }
 
     public DtoServiceSearchParameterHeavy AddServiceSearchParametersHeavy(DtoServiceSearchParameterHeavy ServiceSearchParameterHeavy)
@@ -164,7 +159,9 @@ namespace Pyro.DataLayer.Repository
       return DbSearchParameter;
     }
 
-    public DtoServiceSearchParameterHeavy PopulateDtoSearchParameterHeavy(_ServiceSearchParameter DbServiceSearchParameter)
+    public DtoServiceSearchParameterHeavy PopulateDtoSearchParameterHeavy(_ServiceSearchParameter DbServiceSearchParameter, 
+      List<_ServiceSearchParameterTargetResource> TargetResourceList = null,
+      List<_ServiceSearchParameterCompositePivot> CompositeList = null)
     {
       var Heavy = new DtoServiceSearchParameterHeavy();
       Heavy.Id = DbServiceSearchParameter.Id;
@@ -183,8 +180,8 @@ namespace Pyro.DataLayer.Repository
       Heavy.LastUpdatedUser = DbServiceSearchParameter.LastUpdatedUser;
       Heavy.CreatedDate = DbServiceSearchParameter.CreatedDate;
       Heavy.CreatedUser = DbServiceSearchParameter.CreatedUser;
-      Heavy.TargetResourceTypeList = PopulateDtoTargetResourceList(DbServiceSearchParameter.TargetResourceTypeList);
-      Heavy.CompositeList = PopulateDtoCompositeList(DbServiceSearchParameter.ServiceSearchParameterCompositePivotList);
+      Heavy.TargetResourceTypeList = PopulateDtoTargetResourceList(TargetResourceList);
+      Heavy.CompositeList = PopulateDtoCompositeList(CompositeList);
       return Heavy;
     }
 
