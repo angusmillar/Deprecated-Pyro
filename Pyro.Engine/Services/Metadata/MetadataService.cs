@@ -371,7 +371,7 @@ namespace Pyro.Engine.Services.Metadata
       Conformance.Text.Status = Narrative.NarrativeStatus.Generated;
     }
 
-    private static void CreateValuePairHTML(string Label, string Value, XmlDocument XDoc, XmlElement Xroot)
+    private void CreateValuePairHTML(string Label, string Value, XmlDocument XDoc, XmlElement Xroot)
     {      
       var BoldElement = XDoc.CreateElement("p");
       Xroot.AppendChild(BoldElement);
