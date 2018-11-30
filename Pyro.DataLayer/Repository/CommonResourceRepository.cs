@@ -951,71 +951,85 @@ namespace Pyro.DataLayer.Repository
             //The resolve() function then also needs to be provided an external resolver delegate that performs the resolve
             //that delegate can be set as below. Here I am providing my own implementation 'IPyroFhirPathResolve.Resolver' 
             oFhirEvaluationContext.Resolver = IPyroFhirPathResolve.Resolver;
-            IEnumerable<IElementNavigator> ResultList = Navigator.Select(Expression, oFhirEvaluationContext);
-            //------------------------------------------------------------------------------------
+            IEnumerable<IElementNavigator> ResultList = null;
 
-            foreach (IElementNavigator oElement in ResultList)
+            try
             {
-              if (oElement != null)
+              ResultList = Navigator.Select(Expression, oFhirEvaluationContext);
+            }
+            catch(Exception Exec)
+            {
+              string mesage = Exec.Message;
+              ILog.Error(Exec, "Seems to be a FHRI API FHIR Path internal issue. Have put logging here to investigate. Have seen it coming up intermittently on AuditEvent commits.");
+            }
+
+            //------------------------------------------------------------------------------------
+            //This null check of ResultList is only here due to the exception issue above.
+            if (ResultList != null)
+            {
+              foreach (IElementNavigator oElement in ResultList)
               {
-                switch (SearchParameter.Type)
+                if (oElement != null)
                 {
-                  case SearchParamType.Number:
-                    {
-                      ICollection<ResIndexQuantityType> ResourceIndexQuantity = IDbIndexSetterFactory.CreateNumberSetter().Set(oElement, SearchParameter);
-                      if (ResourceIndexQuantity != null)
-                        ResourceEntity.IndexQuantityList.AddRange(ResourceIndexQuantity);
-                      break;
-                    }
-                  case SearchParamType.Date:
-                    {
-                      ICollection<ResIndexDateTimeType> ResourceIndexDateTime = IDbIndexSetterFactory.CreateDateTimeSetter().Set(oElement, SearchParameter);
-                      if (ResourceIndexDateTime != null)
-                        ResourceEntity.IndexDateTimeList.AddRange(ResourceIndexDateTime);
-                      break;
-                    }
-                  case SearchParamType.String:
-                    {
-                      ICollection<ResIndexStringType> ResourceIndexString = IDbIndexSetterFactory.CreateStringSetter().Set(oElement, SearchParameter);
-                      if (ResourceIndexString != null)
-                        ResourceEntity.IndexStringList.AddRange(ResourceIndexString);
-                      break;
-                    }
-                  case SearchParamType.Token:
-                    {
-                      ICollection<ResIndexTokenType> ResourceIndexToken = IDbIndexSetterFactory.CreateTokenSetter().Set(oElement, SearchParameter);
-                      if (ResourceIndexToken != null)
-                        ResourceEntity.IndexTokenList.AddRange(ResourceIndexToken);
-                      break;
-                    }
-                  case SearchParamType.Reference:
-                    {
-                      ICollection<ResIndexReferenceType> ResourceIndexReference = IDbIndexSetterFactory.CreateReferenceSetter().Set(oElement, SearchParameter);
-                      if (ResourceIndexReference != null)
-                        ResourceEntity.IndexReferenceList.AddRange(ResourceIndexReference);
-                      break;
-                    }
-                  case SearchParamType.Composite:
-                    {
-                      //Composite searchParameters do not require populating as they are a Composite of other SearchParameter Types
-                      break;
-                    }
-                  case SearchParamType.Quantity:
-                    {
-                      ICollection<ResIndexQuantityType> ResourceIndexQuantity = IDbIndexSetterFactory.CreateQuantitySetter().Set(oElement, SearchParameter);
-                      if (ResourceIndexQuantity != null)
-                        ResourceEntity.IndexQuantityList.AddRange(ResourceIndexQuantity);
-                      break;
-                    }
-                  case SearchParamType.Uri:
-                    {
-                      ICollection<ResIndexUriType> ResourceIndexUri = IDbIndexSetterFactory.CreateUriSetter().Set(oElement, SearchParameter);
-                      if (ResourceIndexUri != null)
-                        ResourceEntity.IndexUriList.AddRange(ResourceIndexUri);
-                      break;
-                    }
-                  default:
-                    throw new System.ComponentModel.InvalidEnumArgumentException(SearchParameter.Type.ToString(), (int)SearchParameter.Type, typeof(SearchParamType));
+                  switch (SearchParameter.Type)
+                  {
+                    case SearchParamType.Number:
+                      {
+                        ICollection<ResIndexQuantityType> ResourceIndexQuantity = IDbIndexSetterFactory.CreateNumberSetter().Set(oElement, SearchParameter);
+                        if (ResourceIndexQuantity != null)
+                          ResourceEntity.IndexQuantityList.AddRange(ResourceIndexQuantity);
+                        break;
+                      }
+                    case SearchParamType.Date:
+                      {
+                        ICollection<ResIndexDateTimeType> ResourceIndexDateTime = IDbIndexSetterFactory.CreateDateTimeSetter().Set(oElement, SearchParameter);
+                        if (ResourceIndexDateTime != null)
+                          ResourceEntity.IndexDateTimeList.AddRange(ResourceIndexDateTime);
+                        break;
+                      }
+                    case SearchParamType.String:
+                      {
+                        ICollection<ResIndexStringType> ResourceIndexString = IDbIndexSetterFactory.CreateStringSetter().Set(oElement, SearchParameter);
+                        if (ResourceIndexString != null)
+                          ResourceEntity.IndexStringList.AddRange(ResourceIndexString);
+                        break;
+                      }
+                    case SearchParamType.Token:
+                      {
+                        ICollection<ResIndexTokenType> ResourceIndexToken = IDbIndexSetterFactory.CreateTokenSetter().Set(oElement, SearchParameter);
+                        if (ResourceIndexToken != null)
+                          ResourceEntity.IndexTokenList.AddRange(ResourceIndexToken);
+                        break;
+                      }
+                    case SearchParamType.Reference:
+                      {
+                        ICollection<ResIndexReferenceType> ResourceIndexReference = IDbIndexSetterFactory.CreateReferenceSetter().Set(oElement, SearchParameter);
+                        if (ResourceIndexReference != null)
+                          ResourceEntity.IndexReferenceList.AddRange(ResourceIndexReference);
+                        break;
+                      }
+                    case SearchParamType.Composite:
+                      {
+                        //Composite searchParameters do not require populating as they are a Composite of other SearchParameter Types
+                        break;
+                      }
+                    case SearchParamType.Quantity:
+                      {
+                        ICollection<ResIndexQuantityType> ResourceIndexQuantity = IDbIndexSetterFactory.CreateQuantitySetter().Set(oElement, SearchParameter);
+                        if (ResourceIndexQuantity != null)
+                          ResourceEntity.IndexQuantityList.AddRange(ResourceIndexQuantity);
+                        break;
+                      }
+                    case SearchParamType.Uri:
+                      {
+                        ICollection<ResIndexUriType> ResourceIndexUri = IDbIndexSetterFactory.CreateUriSetter().Set(oElement, SearchParameter);
+                        if (ResourceIndexUri != null)
+                          ResourceEntity.IndexUriList.AddRange(ResourceIndexUri);
+                        break;
+                      }
+                    default:
+                      throw new System.ComponentModel.InvalidEnumArgumentException(SearchParameter.Type.ToString(), (int)SearchParameter.Type, typeof(SearchParamType));
+                  }
                 }
               }
             }
