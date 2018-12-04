@@ -130,22 +130,22 @@ namespace Pyro.Engine.Services.Metadata
 
       RestComponent.Resource = new List<CapabilityStatement.ResourceComponent>();
 
-      //      List<DtoServiceSearchParameterHeavy> AllServiceSearchParameterHeavyList = IServiceSearchParameterService.GetServiceSearchParametersHeavyByIsIndexed(true);
-      List<DtoServiceSearchParameterHeavy> AllServiceSearchParameterHeavyList = new List<DtoServiceSearchParameterHeavy>();
+      List<DtoServiceSearchParameterHeavy> AllServiceSearchParameterHeavyList = IServiceSearchParameterService.GetServiceSearchParametersHeavyByIsIndexed(true);
+      //List<DtoServiceSearchParameterHeavy> AllServiceSearchParameterHeavyList = new List<DtoServiceSearchParameterHeavy>();
 
       var ResourceTypeList = Enum.GetValues(typeof(ResourceType));
-      foreach (ResourceType ResourceType in ResourceTypeList)
-      {
-        //Yes we are loading one after the other as it performs better this way.
-        List<DtoServiceSearchParameterHeavy> SearchParametersForResource = IServiceSearchParameterService
-          .GetServiceSearchParametersHeavyForResource(ResourceType.GetLiteral())
-          .Where(x => x.IsIndexed == true)
-          .ToList();
 
-        AllServiceSearchParameterHeavyList.AddRange(SearchParametersForResource);
-      }
-      
-      
+      //foreach (ResourceType ResourceType in ResourceTypeList)
+      //{
+      //  //Yes we are loading one after the other as it performs better this way.
+      //  List<DtoServiceSearchParameterHeavy> SearchParametersForResource = IServiceSearchParameterService.GetServiceSearchParametersHeavyForResource(ResourceType.GetLiteral())
+      //    .Where(x => x.IsIndexed == true)
+      //    .ToList();
+
+      //  AllServiceSearchParameterHeavyList.AddRange(SearchParametersForResource);
+      //}
+
+
       foreach (ResourceType ResourceType in ResourceTypeList)
       {
         string CurrentResourceString = ResourceType.GetLiteral();
@@ -179,8 +179,9 @@ namespace Pyro.Engine.Services.Metadata
         ReferenceHandlingPolicyList.Add(CapabilityStatement.ReferenceHandlingPolicy.Local);
         ResourceComponent.ReferencePolicy = ReferenceHandlingPolicyList;
         
-        IEnumerable<DtoServiceSearchParameterHeavy> CurrentresourceServiceSearchParameterHeavyList = AllServiceSearchParameterHeavyList.Where(x => x.Resource == CurrentResourceString);
-        
+        IEnumerable<DtoServiceSearchParameterHeavy> CurrentresourceServiceSearchParameterHeavyList = AllServiceSearchParameterHeavyList
+          .Where(x => x.Resource == CurrentResourceString || x.Resource == Hl7.Fhir.Model.ResourceType.Resource.GetLiteral());        
+
         ResourceComponent.SearchParam = new List<CapabilityStatement.SearchParamComponent>();
         List<string> IncludesList = null;
         List<string> RevIncludesList = null;
@@ -193,17 +194,10 @@ namespace Pyro.Engine.Services.Metadata
             {
               if (IncludesList == null)
                 IncludesList = new List<string>();
-              if (SupportedSearchParam.TargetResourceTypeList.Count > 1)
-              {
                 foreach (var Target in SupportedSearchParam.TargetResourceTypeList)
                 {
                   IncludesList.Add($"{SupportedSearchParam.Resource}:{SupportedSearchParam.Name}:{Target.ResourceType.GetLiteral()}");
                 }
-              }
-              else
-              {
-                IncludesList.Add($"{SupportedSearchParam.Resource}:{SupportedSearchParam.Name}");
-              }
             }
 
             CapabilityStatement.SearchParamComponent SearchParamComponent = new CapabilityStatement.SearchParamComponent();
@@ -218,31 +212,18 @@ namespace Pyro.Engine.Services.Metadata
         }
         ResourceComponent.SearchInclude = IncludesList;
 
-        //RevIncludes
-        //var RevIncludeSearchParameterList = DtoServiceSearchParameterHeavyList.Where(x =>
-        //  x.Type == SearchParamType.Reference &&
-        //  x.TargetResourceTypeList != null &&
-        //  x.TargetResourceTypeList.Any(c => c.ResourceType == ResourceType));
-
-
         var RevIncludeSearchParameterList = AllServiceSearchParameterHeavyList.Where(x =>
           x.Type == SearchParamType.Reference &&
           x.TargetResourceTypeList != null &&
           x.TargetResourceTypeList.Any(c => c.ResourceType == ResourceType));
 
-
         foreach (var Rev in RevIncludeSearchParameterList)
         {
           if (RevIncludesList == null)
+          {
             RevIncludesList = new List<string>();
-          if (Rev.TargetResourceTypeList.Count > 1)
-          {
-            RevIncludesList.Add($"{Rev.Resource}:{Rev.Name}:{CurrentResourceString}");
-          }
-          else
-          {
-            RevIncludesList.Add($"{Rev.Resource}:{Rev.Name}");
-          }
+          }            
+          RevIncludesList.Add($"{Rev.Resource}:{Rev.Name}:{CurrentResourceString}");
         }
 
         ResourceComponent.SearchRevInclude = RevIncludesList;
