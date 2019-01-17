@@ -22,7 +22,7 @@ namespace Pyro.Common.Interfaces.Repositories
     IDatabaseOperationOutcome GetResourceByFhirID(string FhirId, bool WithXml = false, bool IncludeDeleted = true);
 
     string[] GetResourceFhirIdByResourceIdAndIndexReferance(int ResourceId, int[] SearchParameterIdArray, string ResourceName = "");
-    string[] GetResourceFhirIdBySearchNoPaging(PyroSearchParameters DtoSearchParameters);
+    //string[] GetResourceFhirIdBySearchNoPaging(PyroSearchParameters DtoSearchParameters);
     string[] GetResourceFhirIdByReferanceIndex(IEnumerable<string> FhirIdArray, string ResourceName, int SearchParameterIdArray);
 
     void AddAndUpdateResourceIndexes(List<DtoServiceSearchParameterHeavy> ServiceSearchParameterHeavy, System.Threading.CancellationTokenSource CancellationToken = null);    

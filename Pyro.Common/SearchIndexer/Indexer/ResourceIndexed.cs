@@ -52,10 +52,11 @@ namespace Pyro.Common.SearchIndexer.Indexer
       this.FhirID = Resource.Id;
       string ResourceName = Resource.ResourceType.GetLiteral();
       IList<DtoServiceSearchParameterLight> SearchParametersList = IServiceSearchParameterCache.GetSearchParameterForResource(ResourceName);
-      //Filter the list by only the searech parameters provided, do not inex for all
+      //Filter the list by only the search parameters provided, do not index for all
       if (DtoSearchParameters != null)
         SearchParametersList = SearchParametersList.Where(x => DtoSearchParameters.SearchParametersList.Any(d => d.Id == x.Id)).ToList();
 
+      
       PocoNavigator Navigator = new PocoNavigator(Resource);
       
       string Resource_ResourceName = FHIRAllTypes.Resource.GetLiteral();
@@ -66,11 +67,12 @@ namespace Pyro.Common.SearchIndexer.Indexer
         if (SearchParameter.Type != SearchParamType.Composite)
         {
           bool SetSearchParameterIndex = true;
-          //if ((SearchParameter.Resource == Resource_ResourceName && SearchParameter.Name == "_id") ||
-          //  (SearchParameter.Resource == Resource_ResourceName && SearchParameter.Name == "_lastUpdated"))
-          //{
-          //  SetSearchParameterIndex = false;
-          //}
+         //We exclude the _id search parameter here because it is not indexed by the Token indexer but rather is on the Main resource table 
+          //where the blob is stored. We must do this as all Token Codes are lower-cased and yet Resource Id is case sensitive.
+          if (SearchParameter.Resource == Resource_ResourceName && SearchParameter.Name == "_id")
+          {
+            SetSearchParameterIndex = false;
+          }
 
           if (SetSearchParameterIndex)
           {
@@ -86,7 +88,7 @@ namespace Pyro.Common.SearchIndexer.Indexer
             //------------------------------------------------------------------------------------------
             //Add in the extended FhirPath functions from the fhir.net API as found here Hl7.Fhir.FhirPath.FhirEvaluationContext 
             //this adds extended support for some FHIR Path functions (hasValue, resolve, htmlchecks)                        
-            Hl7.FhirPath.FhirPathCompiler.DefaultSymbolTable.AddFhirExtensions();
+            FhirPathCompiler.DefaultSymbolTable.AddFhirExtensions();
             var oFhirEvaluationContext = new Hl7.Fhir.FhirPath.FhirEvaluationContext(Navigator);
             //The resolve() function then also needs to be provided an external resolver delegate that performs the resolve
             //that delegate can be set as below. Here I am providing my own implementation 'IPyroFhirPathResolve.Resolver' 

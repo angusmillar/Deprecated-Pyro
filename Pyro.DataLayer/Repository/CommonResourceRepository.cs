@@ -113,29 +113,7 @@ namespace Pyro.DataLayer.Repository
       var Result = Query.Select(x => x.FhirId).ToArray();
       return Result;
     }
-
-    //Used for Primary Chain Searching
-    public string[] GetResourceFhirIdBySearchNoPaging(PyroSearchParameters DtoSearchParameters)
-    {
-      var Predicate = LinqKit.PredicateBuilder.New<ResCurrentType>(true);
-
-      var PredicateOne = this.CommonRepository.PredicateCurrentNotDeleted();
-      var PredicateTwo = this.CommonRepository.PredicateResourceId(DtoSearchParameters.SearchParametersList);
-      var PredicateThree = this.CommonRepository.ANDSearchParameterListPredicateGenerator(DtoSearchParameters.SearchParametersList);
-
-      Predicate = Predicate.And(PredicateOne);
-      Predicate = Predicate.And(PredicateTwo);
-      Predicate = Predicate.And(PredicateThree);
-
-
-
-
-      var Query = this.CommonRepository.GetDbEntityAllQuery(Predicate);
-
-      string[] FhirIdResultArray = Query.Select(x => x.FhirId).ToArray();
-      return FhirIdResultArray;
-    }
-
+    
     public IQueryable<OtherResCurrentType> ChainRecursion<OtherResCurrentType, OtherResIndexStringType, OtherResIndexTokenType, OtherResIndexUriType, OtherResIndexReferenceType, OtherResIndexQuantityType, OtherResIndexDateTimeType>
       (IQueryable<OtherResCurrentType> OtherResourceContext, ISearchParameterBase ChainedSearchParameter)
       where OtherResCurrentType : ResourceCurrentBase<OtherResCurrentType, OtherResIndexStringType, OtherResIndexTokenType, OtherResIndexUriType, OtherResIndexReferenceType, OtherResIndexQuantityType, OtherResIndexDateTimeType>, new()
@@ -146,17 +124,17 @@ namespace Pyro.DataLayer.Repository
       where OtherResIndexQuantityType : ResourceIndexQuantity<OtherResCurrentType, OtherResIndexStringType, OtherResIndexTokenType, OtherResIndexUriType, OtherResIndexReferenceType, OtherResIndexQuantityType, OtherResIndexDateTimeType>, new()
       where OtherResIndexDateTimeType : ResourceIndexDateTime<OtherResCurrentType, OtherResIndexStringType, OtherResIndexTokenType, OtherResIndexUriType, OtherResIndexReferenceType, OtherResIndexQuantityType, OtherResIndexDateTimeType>, new()
     {
-      // This method is recursive and works through each chain in the chain serach parameter
+      // This method is recursive and works through each chain in the chain search parameter
       //For debug the query example is:
       //[base]/DiagnosticReport?result:Observation.performer:Organization.name = Friday Computer Club Organisation
-      // Which in this method results in the follow setup:
+      // Which in this method results in the follow set-up:
       //  OtherResourceContext = DiagnosticReport  
       //  ResCurrentTypeContext = Observation
-      //  RootChainSearch = Orginsation 
+      //  RootChainSearch = Organisation 
 
       if (ChainedSearchParameter.ChainedSearchParameter != null)
       {
-        //Recursivly move through each child chain search parameter until at the end and child is null
+        //Recursively move through each child chain search parameter until at the end and child is null
         //The last one is the root search at the end of the chain, performer:Organization.name from the example. 
         string DummayResourceName = ChainedSearchParameter.ChainedSearchParameter.Resource;
         FHIRAllTypes InnnerResourceType = Common.Tools.ResourceNameResolutionSupport.GetResourceFhirAllType(Common.Tools.ResourceNameResolutionSupport.GetResourceType(DummayResourceName));
@@ -290,68 +268,7 @@ namespace Pyro.DataLayer.Repository
       DatabaseOperationOutcome.PageRequested = ClaculatedPageRequired;
       DatabaseOperationOutcome.ReturnedResourceList = DtoResourceList;
       return DatabaseOperationOutcome;
-    }
-
-    public IDatabaseOperationOutcome GetResourceBySearchOld(PyroSearchParameters DtoSearchParameters, bool WithXml = false)
-    {
-      //SetNumberOfRecordsPerPage(DtoSearchParameters);
-      var Predicate = LinqKit.PredicateBuilder.New<ResCurrentType>(true);
-      var PredicateCurrentResources = this.CommonRepository.PredicateCurrentNotDeleted();
-      var PredicateId = this.CommonRepository.PredicateResourceId(DtoSearchParameters.SearchParametersList);
-      var PredicateSearchParameters = this.CommonRepository.ANDSearchParameterListPredicateGenerator(DtoSearchParameters.SearchParametersList);
-
-      Predicate = Predicate.And(PredicateCurrentResources);
-      Predicate = Predicate.And(PredicateId);
-      Predicate = Predicate.And(PredicateSearchParameters);
-
-      int TotalRecordCount = this.CommonRepository.GetDbALLCount<ResCurrentType>(Predicate);
-      var Query = this.CommonRepository.GetDbEntityAllQuery(Predicate);
-
-      //Todo: Sort not implemented just defaulting to last update order      
-      Query = Query.OrderBy(x => x.LastUpdated);
-
-      int ClaculatedPageRequired = IPagingSupport.CalculatePageRequired(DtoSearchParameters.RequiredPageNumber, DtoSearchParameters.CountOfRecordsRequested, TotalRecordCount);
-
-      Query = Query.Paging(ClaculatedPageRequired, IPagingSupport.SetNumberOfRecordsPerPage(DtoSearchParameters.CountOfRecordsRequested));
-      var DtoResourceList = new List<DtoResource>();
-      if (WithXml)
-      {
-        DtoResourceList = Query.Select(x => new DtoResource
-        {
-          Id = x.Id,
-          FhirId = x.FhirId,
-          IsDeleted = x.IsDeleted,
-          IsCurrent = true,
-          Version = x.VersionId,
-          Received = x.LastUpdated,
-          Method = x.Method,
-          ResourceType = this.RepositoryResourceType,
-          Resource = x.Resource
-        }).ToList();
-      }
-      else
-      {
-        DtoResourceList = Query.Select(x => new DtoResource
-        {
-          Id = x.Id,
-          FhirId = x.FhirId,
-          IsDeleted = x.IsDeleted,
-          IsCurrent = true,
-          Version = x.VersionId,
-          Received = x.LastUpdated,
-          Method = x.Method,
-          ResourceType = this.RepositoryResourceType
-        }).ToList();
-      }
-
-      IDatabaseOperationOutcome DatabaseOperationOutcome = IDatabaseOperationOutcomeFactory.CreateDatabaseOperationOutcome();
-      DatabaseOperationOutcome.SingleResourceRead = false;
-      DatabaseOperationOutcome.SearchTotal = TotalRecordCount;
-      DatabaseOperationOutcome.PagesTotal = IPagingSupport.CalculateTotalPages(DtoSearchParameters.CountOfRecordsRequested, TotalRecordCount); ;
-      DatabaseOperationOutcome.PageRequested = ClaculatedPageRequired;
-      DatabaseOperationOutcome.ReturnedResourceList = DtoResourceList;
-      return DatabaseOperationOutcome;
-    }
+    }   
 
     public IDatabaseOperationOutcome GetResourceByCompartmentSearch(PyroSearchParameters CompartmentSearchParameters, PyroSearchParameters DtoSearchParameters, bool WithXml = false)
     {
@@ -918,18 +835,13 @@ namespace Pyro.DataLayer.Repository
         if (SearchParameter.Type != SearchParamType.Composite)
         {
           bool SetSearchParameterIndex = true;
-          //if ((SearchParameter.Resource == Resource_ResourceName && SearchParameter.Name == "_id") ||
-          //  (SearchParameter.Resource == Resource_ResourceName && SearchParameter.Name == "_lastUpdated"))
-          //{
-          //  SetSearchParameterIndex = false;
-          //}
 
+          //We exclude the _id search parameter here because it is not indexed by the Token indexer but rather is on the Main resource table 
+          //where the blob is stored. We must do this as all Token Codes are lower-cased and yet Resource Id is case sensitive.
           if (SearchParameter.Resource == Resource_ResourceName && SearchParameter.Name == "_id")
           {
             SetSearchParameterIndex = false;
           }
-
-
 
           if (SetSearchParameterIndex)
           {
@@ -960,7 +872,7 @@ namespace Pyro.DataLayer.Repository
             catch(Exception Exec)
             {
               string mesage = Exec.Message;
-              ILog.Error(Exec, "Seems to be a FHRI API FHIR Path internal issue. Have put logging here to investigate. Have seen it coming up intermittently on AuditEvent commits.");
+              ILog.Error(Exec, $"Seems to be a FHRI API FHIR Path internal issue. Have put logging here to investigate. Have seen it coming up intermittently on AuditEvent commits. Details: ResourceName: {Resource.TypeName}, SearchParameterName: {SearchParameter.Name}, FhirPathExpression: {SearchParameter.Expression}");
             }
 
             //------------------------------------------------------------------------------------
