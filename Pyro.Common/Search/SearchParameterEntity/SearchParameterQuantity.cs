@@ -103,7 +103,7 @@ namespace Pyro.Common.Search.SearchParameterEntity
             if (Decimal.TryParse(Number, out TempDouble))
             {
               DtoSearchParameterNumber.Value = TempDouble;
-              if (string.IsNullOrWhiteSpace(Split[1].Trim()))
+              if (!string.IsNullOrWhiteSpace(Split[1].Trim()))
               {
                 DtoSearchParameterNumber.System = Split[1].Trim();
               }
@@ -129,7 +129,7 @@ namespace Pyro.Common.Search.SearchParameterEntity
             if (Decimal.TryParse(Number, out TempDouble))
             {
               DtoSearchParameterNumber.Value = TempDouble;
-              if (string.IsNullOrWhiteSpace(Split[1].Trim()))
+              if (!string.IsNullOrWhiteSpace(Split[1].Trim()))
               {
                 DtoSearchParameterNumber.System = Split[1].Trim();
               }
@@ -138,7 +138,7 @@ namespace Pyro.Common.Search.SearchParameterEntity
                 DtoSearchParameterNumber.System = null;
               }
 
-              if (string.IsNullOrWhiteSpace(Split[2].Trim()))
+              if (!string.IsNullOrWhiteSpace(Split[2].Trim()))
               {
                 DtoSearchParameterNumber.Code = Split[2].Trim();
               }
