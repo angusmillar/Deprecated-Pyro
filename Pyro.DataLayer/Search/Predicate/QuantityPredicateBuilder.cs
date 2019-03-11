@@ -18,7 +18,7 @@ namespace Pyro.DataLayer.Search.Predicate
       where ResIndexDateTimeType : ResourceIndexDateTime<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>
       
   {
-    public static ExpressionStarter<ResCurrentType> Build(ResourceSearchExpressionTrees<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType> Search, ExpressionStarter<ResCurrentType> NewPredicate, SearchParameterBase SearchItem)
+    public static ExpressionStarter<ResCurrentType> Build(ResourceSearchQuantityExpressionTrees<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType> Search, ExpressionStarter<ResCurrentType> NewPredicate, SearchParameterBase SearchItem)
     {
       if (SearchItem is SearchParameterQuantity)
       {
@@ -71,13 +71,14 @@ namespace Pyro.DataLayer.Search.Predicate
               case SearchParameter.SearchModifierCode.Missing:
                 if (SearchValue.Prefix.HasValue == false)
                 {
+                  var CommonExpression = new ResourceSearchCommonExpressionTrees<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>();
                   if (SearchValue.IsMissing)
-                  {
-                    NewPredicate = NewPredicate.Or(Search.SearchParameterIsNull<ResIndexQuantityType>(SearchTypeNumber.Id));
+                  {                    
+                    NewPredicate = NewPredicate.Or(CommonExpression.SearchParameterIsNull<ResIndexQuantityType>(SearchTypeNumber.Id));
                   }
                   else
                   {
-                    NewPredicate = NewPredicate.Or(Search.SearchParameterIdIsNotNull<ResIndexQuantityType>(SearchTypeNumber.Id));
+                    NewPredicate = NewPredicate.Or(CommonExpression.SearchParameterIdIsNotNull<ResIndexQuantityType>(SearchTypeNumber.Id));
                   }
                 }
                 else
@@ -132,7 +133,7 @@ namespace Pyro.DataLayer.Search.Predicate
       return NewPredicate;
     }
 
-    private static ExpressionStarter<ResCurrentType> CollectionEqualToPredicate(ResourceSearchExpressionTrees<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType> Search, ExpressionStarter<ResCurrentType> NewPredicate, SearchParameterQuantity SearchTypeNumber, SearchParameterQuantityValue SearchValue)
+    private static ExpressionStarter<ResCurrentType> CollectionEqualToPredicate(ResourceSearchQuantityExpressionTrees<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType> Search, ExpressionStarter<ResCurrentType> NewPredicate, SearchParameterQuantity SearchTypeNumber, SearchParameterQuantityValue SearchValue)
     {
       var Expression = Search.QuantityCollectionAnyEqualTo(
          SearchTypeNumber.Id,
@@ -146,7 +147,7 @@ namespace Pyro.DataLayer.Search.Predicate
       return NewPredicate;
     }
 
-    private static ExpressionStarter<ResCurrentType> CollectionNotEqualToPredicate(ResourceSearchExpressionTrees<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType> Search, ExpressionStarter<ResCurrentType> NewPredicate, SearchParameterQuantity SearchTypeNumber, SearchParameterQuantityValue SearchValue)
+    private static ExpressionStarter<ResCurrentType> CollectionNotEqualToPredicate(ResourceSearchQuantityExpressionTrees<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType> Search, ExpressionStarter<ResCurrentType> NewPredicate, SearchParameterQuantity SearchTypeNumber, SearchParameterQuantityValue SearchValue)
     {
       var NotEqualTo_Expression = Search.QuantityCollectionAllNotEqualTo(
          SearchTypeNumber.Id,
@@ -156,7 +157,8 @@ namespace Pyro.DataLayer.Search.Predicate
          SearchValue.System,
          SearchValue.Code);
 
-      var CollectionNotNull_Expression2 = Search.SearchParameterIdIsNotNull<ResIndexQuantityType>(SearchTypeNumber.Id);
+      var CommonExpression = new ResourceSearchCommonExpressionTrees<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType>();
+      var CollectionNotNull_Expression2 = CommonExpression.SearchParameterIdIsNotNull<ResIndexQuantityType>(SearchTypeNumber.Id);
 
       ExpressionStarter<ResCurrentType> NewAndPredicate = LinqKit.PredicateBuilder.New<ResCurrentType>();
       NewAndPredicate = NewAndPredicate.And(NotEqualTo_Expression);

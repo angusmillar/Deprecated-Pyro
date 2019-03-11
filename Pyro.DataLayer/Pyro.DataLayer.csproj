@@ -303,6 +303,8 @@
     <Compile Include="Search\Predicate\TokenPredicateBuilder.cs" />
     <Compile Include="Search\Predicate\UriPredicateBuilder.cs" />
     <Compile Include="Search\ResourceSearch.cs" />
+    <Compile Include="Search\ResourceSearchCommonExpressionTrees.cs" />
+    <Compile Include="Search\ResourceSearchQuantityExpressionTrees.cs" />
     <Compile Include="Search\ResourceSearchExpressionTrees.cs" />
     <Compile Include="Support\IndexSettingSupport.cs" />
     <Compile Include="Support\DbContextUtils.cs" />
