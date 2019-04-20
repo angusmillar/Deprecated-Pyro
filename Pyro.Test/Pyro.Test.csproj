@@ -132,6 +132,7 @@
     <Compile Include="IntergrationTest\StaticTestData.cs" />
     <Compile Include="IntergrationTest\TestStartup.cs" />
     <Compile Include="IntergrationTest\Test_ChainedSearching.cs" />
+    <Compile Include="IntergrationTest\Test_Concurrency.cs" />
     <Compile Include="IntergrationTest\Test_Metadata.cs" />
     <Compile Include="IntergrationTest\Test_IncludesAndRevIncludes.cs" />
     <Compile Include="IntergrationTest\Test_BundleTransactions.cs" />
