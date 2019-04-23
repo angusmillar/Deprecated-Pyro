@@ -28,7 +28,7 @@ namespace Pyro.DataLayer.IndexSetter
       this.IUriSetter = IUriSetter;
     }
 
-    public IList<ResIndexUriType> Set(IElementNavigator oElement, DtoServiceSearchParameterLight SearchParameter)
+    public IList<ResIndexUriType> Set(ITypedElement oElement, DtoServiceSearchParameterLight SearchParameter)
     {
       var UriIndexList = IUriSetter.Set(oElement, SearchParameter);
 

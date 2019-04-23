@@ -1009,11 +1009,12 @@ namespace Pyro.Common.FhirOperation.IhiSearch
       }
       else
       {
+        var Now = DateTimeOffset.Now;
         return TempList.Where(x =>
             x.Period == null ||
-            (x.Period.Start != null && x.Period.StartElement.ToDateTimeOffset().Date < Date.Value && x.Period.End == null) ||
-            (x.Period.End != null && x.Period.EndElement.ToDateTimeOffset().Date > Date.Value && x.Period.Start == null) ||
-            (x.Period.Start != null && x.Period.StartElement.ToDateTimeOffset().Date < Date.Value && x.Period.End != null && x.Period.EndElement.ToDateTimeOffset().Date > Date.Value)
+            (x.Period.Start != null && x.Period.StartElement.ToDateTimeOffset(Now.Offset).Date < Date.Value && x.Period.End == null) ||
+            (x.Period.End != null && x.Period.EndElement.ToDateTimeOffset(Now.Offset).Date > Date.Value && x.Period.Start == null) ||
+            (x.Period.Start != null && x.Period.StartElement.ToDateTimeOffset(Now.Offset).Date < Date.Value && x.Period.End != null && x.Period.EndElement.ToDateTimeOffset(Now.Offset).Date > Date.Value)
           );
       }
     }
@@ -1037,11 +1038,12 @@ namespace Pyro.Common.FhirOperation.IhiSearch
       }
       else
       {
+        var NowDateTime = DateTimeOffset.Now;
         return TempList.Where(x =>
             x.Period == null ||
-            (x.Period.Start != null && x.Period.StartElement.ToDateTimeOffset().Date < Date.Value && x.Period.End == null) ||
-            (x.Period.End != null && x.Period.EndElement.ToDateTimeOffset().Date > Date.Value && x.Period.Start == null) ||
-            (x.Period.Start != null && x.Period.StartElement.ToDateTimeOffset().Date < Date.Value && x.Period.End != null && x.Period.EndElement.ToDateTimeOffset().Date > Date.Value)
+            (x.Period.Start != null && x.Period.StartElement.ToDateTimeOffset(NowDateTime.Offset).Date < Date.Value && x.Period.End == null) ||
+            (x.Period.End != null && x.Period.EndElement.ToDateTimeOffset(NowDateTime.Offset).Date > Date.Value && x.Period.Start == null) ||
+            (x.Period.Start != null && x.Period.StartElement.ToDateTimeOffset(NowDateTime.Offset).Date < Date.Value && x.Period.End != null && x.Period.EndElement.ToDateTimeOffset(NowDateTime.Offset).Date > Date.Value)
           );
       }
     }

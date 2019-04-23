@@ -37,7 +37,7 @@ namespace Pyro.DataLayer.IndexSetter
       this.IReferenceSetter = IReferenceSetter;
     }
 
-    public IList<ResIndexReferenceType> Set(IElementNavigator oElement, IServiceSearchParameterLight SearchParameter)
+    public IList<ResIndexReferenceType> Set(ITypedElement oElement, IServiceSearchParameterLight SearchParameter)
     {
       var ReferenceIndexList = IReferenceSetter.Set(oElement, SearchParameter);
       if (ReferenceIndexList.Count == 0)

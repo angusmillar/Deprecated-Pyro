@@ -7,6 +7,6 @@ namespace Pyro.Common.SearchIndexer.Setter
 {
   public interface IReferenceSetter
   {
-    IList<IReferenceIndex> Set(IElementNavigator oElement, IServiceSearchParameterLight SearchParameter);
+    IList<IReferenceIndex> Set(ITypedElement oElement, IServiceSearchParameterLight SearchParameter);
   }
 }

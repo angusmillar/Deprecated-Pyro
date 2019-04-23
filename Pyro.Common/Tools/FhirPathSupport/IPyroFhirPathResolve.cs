@@ -4,6 +4,6 @@ namespace Pyro.Common.Tools.FhirPathSupport
 {
   public interface IPyroFhirPathResolve
   {
-    IElementNavigator Resolver(string url);
+    ITypedElement Resolver(string url);
   }
 }

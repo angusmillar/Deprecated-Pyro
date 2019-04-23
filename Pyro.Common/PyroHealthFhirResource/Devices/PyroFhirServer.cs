@@ -76,7 +76,7 @@ namespace Pyro.Common.PyroHealthFhirResource.Devices
       Resource.Url = IGlobalProperties.ServiceBaseURL;
       Resource.Note = new List<FhirModel.Annotation>();
       var Annotation = new FhirModel.Annotation();
-      Annotation.Text = "This device is a Medical Record FHIR server.";
+      Annotation.Text = new FhirModel.Markdown("This device is a Medical Record FHIR server.");
       return Resource;
     }
     

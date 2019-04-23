@@ -36,7 +36,7 @@ namespace Pyro.Common.Search
           var DtoServiceSearchParameter = new DtoServiceSearchParameter()
           {
             Name = SearchParameter.Name,
-            Description = SearchParameter.Description,
+            Description = SearchParameter.Description.Value,
             Expression = SearchParameter.Expression,
             Resource = SearchParameter.Resource,
             Type = SearchParameter.Type,

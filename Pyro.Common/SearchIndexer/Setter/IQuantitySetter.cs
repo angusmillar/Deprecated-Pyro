@@ -7,6 +7,6 @@ namespace Pyro.Common.SearchIndexer.Setter
 {
   public interface IQuantitySetter
   {
-    IList<IQuantityIndex> Set(IElementNavigator oElement, DtoServiceSearchParameterLight SearchParameter);
+    IList<IQuantityIndex> Set(ITypedElement oElement, IServiceSearchParameterLight SearchParameter);
   }
 }

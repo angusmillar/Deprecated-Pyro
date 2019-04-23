@@ -7,6 +7,6 @@ namespace Pyro.Common.SearchIndexer.Setter
 {
   public interface ITokenSetter
   {
-    IList<ITokenIndex> Set(IElementNavigator oElement, DtoServiceSearchParameterLight SearchParameter);
+    IList<ITokenIndex> Set(ITypedElement oElement, IServiceSearchParameterLight SearchParameter);
   }
 }

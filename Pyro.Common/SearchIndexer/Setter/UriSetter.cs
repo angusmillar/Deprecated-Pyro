@@ -12,35 +12,41 @@ namespace Pyro.Common.SearchIndexer.Setter
   {
     private IServiceSearchParameterLight _SearchParameter;
     public UriSetter() { }
-    public IList<IUriIndex> Set(IElementNavigator oElement, DtoServiceSearchParameterLight SearchParameter)
+
+    public IList<IUriIndex> Set(ITypedElement oElement, IServiceSearchParameterLight SearchParameter)
     {
+      var ResourceIndexList = new List<IUriIndex>();
       _SearchParameter = SearchParameter;
 
-      var ResourceIndexList = new List<IUriIndex>();
-      var ServiceSearchParameterId = SearchParameter.Id;
-
-      if (oElement is Hl7.Fhir.ElementModel.PocoNavigator Poco && Poco.FhirValue != null)
+      FHIRAllTypes? FhirType = ModelInfo.FhirTypeNameToFhirType(oElement.InstanceType);
+      if (FhirType.HasValue)
       {
-        if (Poco.FhirValue is FhirUri FhirUri)
+        switch (FhirType.Value)
         {
-          SetUri(FhirUri, ResourceIndexList);
+          case FHIRAllTypes.Uri:
+            if (oElement.Value is FhirUri FhirUri)
+            {
+              SetUri(FhirUri, ResourceIndexList);
+            }
+            break;
+          case FHIRAllTypes.Oid:
+            if (oElement.Value is Oid Oid)
+            {
+              SetOid(Oid, ResourceIndexList);
+            }
+            break;          
+          default:
+            throw new FormatException($"No cast for FhirType of : '{oElement.InstanceType}' for SearchParameterType: '{SearchParameter.Type}'");
         }
-        else if (Poco.FhirValue is Oid Oid)
-        {
-          SetOid(Oid, ResourceIndexList);
-        }
-        else
-        {
-          throw new FormatException($"Unknown FhirType: '{oElement.Type}' for SearchParameterType: '{SearchParameter.Type}'");
-        }        
         return ResourceIndexList;
       }
       else
       {
-        throw new FormatException($"Unknown Navigator FhirType: '{oElement.Type}' for SearchParameterType: '{SearchParameter.Type}'");
+        throw new FormatException($"Unknown FhirType of: '{oElement.InstanceType}' for SearchParameterType: '{SearchParameter.Type}'");
       }
-    }
 
+    }
+    
     private void SetOid(Oid Oid, IList<IUriIndex> ResourceIndexList)
     {
       if (!string.IsNullOrWhiteSpace(Oid.Value))

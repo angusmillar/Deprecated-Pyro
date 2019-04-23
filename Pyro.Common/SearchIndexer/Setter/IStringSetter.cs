@@ -7,6 +7,6 @@ namespace Pyro.Common.SearchIndexer.Setter
 {
   public interface IStringSetter
   {
-    IList<IStringIndex> Set(IElementNavigator oElement, DtoServiceSearchParameterLight SearchParameter);
+    IList<IStringIndex> Set(ITypedElement oElement, IServiceSearchParameterLight SearchParameter);
   }
 }

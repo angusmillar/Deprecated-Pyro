@@ -14,46 +14,99 @@ namespace Pyro.Common.SearchIndexer.Setter
 
     public QuantitySetter() { }
 
-    public IList<IQuantityIndex> Set(IElementNavigator oElement, DtoServiceSearchParameterLight SearchParameter)
+    public IList<IQuantityIndex> Set(ITypedElement oElement, IServiceSearchParameterLight SearchParameter)
     {
+      var ResourceIndexList = new List<IQuantityIndex>();
       _SearchParameter = SearchParameter;
 
-      var ResourceIndexList = new List<IQuantityIndex>();
-      var ServiceSearchParameterId = SearchParameter.Id;
-
-      if (oElement is Hl7.Fhir.ElementModel.PocoNavigator Poco && Poco.FhirValue != null)
+      FHIRAllTypes? FhirType = ModelInfo.FhirTypeNameToFhirType(oElement.InstanceType);
+      if (FhirType.HasValue)
       {
-        if (Poco.FhirValue is Money Money)
+        switch (FhirType.Value)
         {
-          SetMoney(Money, ResourceIndexList);
+          case FHIRAllTypes.Money:
+            if (oElement.Value is Money Money)
+            {
+              SetMoney(Money, ResourceIndexList);
+            }
+            break;
+          case FHIRAllTypes.SimpleQuantity:
+            if (oElement.Value is SimpleQuantity SimpleQuantity)
+            {
+              SetSimpleQuantity(SimpleQuantity, ResourceIndexList);
+            }
+            break;
+          case FHIRAllTypes.Quantity:
+            if (oElement.Value is Quantity Quantity)
+            {
+              SetQuantity(Quantity, ResourceIndexList);
+            }            
+            break;
+          case FHIRAllTypes.Location:
+            if (oElement.Value is Location.PositionComponent PositionComponent)
+            {
+              SetPositionComponent(PositionComponent, ResourceIndexList);
+            }
+            break;
+          case FHIRAllTypes.Range:
+            if (oElement.Value is Range Range)
+            {
+              SetRange(Range, ResourceIndexList);
+            }
+            break;          
+          default:
+            throw new FormatException($"No cast for FhirType of : '{oElement.InstanceType}' for SearchParameterType: '{SearchParameter.Type}'");
         }
-        else if (Poco.FhirValue is SimpleQuantity SimpleQuantity)
-        {
-          SetSimpleQuantity(SimpleQuantity, ResourceIndexList);
-        }
-        else if (Poco.FhirValue is Quantity Quantity)
-        {
-          SetQuantity(Quantity, ResourceIndexList);
-        }
-        else if (Poco.FhirValue is Location.PositionComponent PositionComponent)
-        {
-          SetPositionComponent(PositionComponent, ResourceIndexList);
-        }
-        else if (Poco.FhirValue is Range Range)
-        {
-          SetRange(Range, ResourceIndexList);
-        }
-        else
-        {
-          throw new FormatException($"Unknown FhirType: '{oElement.Type}' for SearchParameterType: '{SearchParameter.Type}'");
-        }        
         return ResourceIndexList;
       }
       else
       {
-        throw new FormatException($"Unknown Navigator FhirType: '{oElement.Type}' for SearchParameterType: '{SearchParameter.Type}'");
+        throw new FormatException($"Unknown FhirType of: '{oElement.InstanceType}' for SearchParameterType: '{SearchParameter.Type}'");
       }
+
     }
+
+
+    //public IList<IQuantityIndex> Set(IElementNavigator oElement, DtoServiceSearchParameterLight SearchParameter)
+    //{
+    //  _SearchParameter = SearchParameter;
+
+    //  var ResourceIndexList = new List<IQuantityIndex>();
+    //  var ServiceSearchParameterId = SearchParameter.Id;
+
+    //  if (oElement is Hl7.Fhir.ElementModel.PocoNavigator Poco && Poco.FhirValue != null)
+    //  {
+    //    if (Poco.FhirValue is Money Money)
+    //    {
+    //      SetMoney(Money, ResourceIndexList);
+    //    }
+    //    else if (Poco.FhirValue is SimpleQuantity SimpleQuantity)
+    //    {
+    //      SetSimpleQuantity(SimpleQuantity, ResourceIndexList);
+    //    }
+    //    else if (Poco.FhirValue is Quantity Quantity)
+    //    {
+    //      SetQuantity(Quantity, ResourceIndexList);
+    //    }
+    //    else if (Poco.FhirValue is Location.PositionComponent PositionComponent)
+    //    {
+    //      SetPositionComponent(PositionComponent, ResourceIndexList);
+    //    }
+    //    else if (Poco.FhirValue is Range Range)
+    //    {
+    //      SetRange(Range, ResourceIndexList);
+    //    }
+    //    else
+    //    {
+    //      throw new FormatException($"Unknown FhirType: '{oElement.Type}' for SearchParameterType: '{SearchParameter.Type}'");
+    //    }        
+    //    return ResourceIndexList;
+    //  }
+    //  else
+    //  {
+    //    throw new FormatException($"Unknown Navigator FhirType: '{oElement.Type}' for SearchParameterType: '{SearchParameter.Type}'");
+    //  }
+    //}
 
     private void SetRange(Range Range, IList<IQuantityIndex> ResourceIndexList)
     {

@@ -57,7 +57,7 @@ namespace Pyro.Common.PyroHealthFhirResource
       
       //Below is only used in development to load the specification search parameters into the database
       //We then extract them out and make SQL seed scripts to load on database creation. 
-      //ResourceList.Add(ITask.SetSearchParameterDefinitions.GetResource());
+      ResourceList.Add(ITask.SetSearchParameterDefinitions.GetResource());
 
 
       //CompartmentDefinition

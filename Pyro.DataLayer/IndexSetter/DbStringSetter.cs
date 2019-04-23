@@ -29,7 +29,7 @@ namespace Pyro.DataLayer.IndexSetter
       this.IStringSetter = IStringSetter;
     }
 
-    public IList<ResIndexStringType> Set(IElementNavigator oElement, DtoServiceSearchParameterLight SearchParameter)
+    public IList<ResIndexStringType> Set(ITypedElement oElement, DtoServiceSearchParameterLight SearchParameter)
     {      
       var StringIndexList = IStringSetter.Set(oElement, SearchParameter);
 

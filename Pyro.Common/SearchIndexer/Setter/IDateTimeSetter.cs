@@ -7,6 +7,6 @@ namespace Pyro.Common.SearchIndexer.Setter
 {
   public interface IDateTimeSetter
   {
-    IList<IDateTimeIndex> Set(IElementNavigator oElement, DtoServiceSearchParameterLight SearchParameter);
+    IList<IDateTimeIndex> Set(ITypedElement oElement, IServiceSearchParameterLight SearchParameter);
   }
 }

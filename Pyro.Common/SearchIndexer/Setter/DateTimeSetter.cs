@@ -10,51 +10,65 @@ namespace Pyro.Common.SearchIndexer.Setter
   public class DateTimeSetter : IDateTimeSetter
   {
     private IServiceSearchParameterLight _SearchParameter;
-    
-    public IList<IDateTimeIndex> Set(IElementNavigator oElement, DtoServiceSearchParameterLight SearchParameter)
+
+    public IList<IDateTimeIndex> Set(ITypedElement oElement, IServiceSearchParameterLight SearchParameter)
     {
       var ResourceIndexList = new List<IDateTimeIndex>();
       _SearchParameter = SearchParameter;
-      
-      if (oElement is Hl7.Fhir.ElementModel.PocoNavigator Poco && Poco.FhirValue != null)
+
+      FHIRAllTypes? FhirType = ModelInfo.FhirTypeNameToFhirType(oElement.InstanceType);
+      if (FhirType.HasValue)
+      {
+        switch (FhirType.Value)
         {
-        if (Poco.FhirValue is Date Date)
-        {
-          SetDate(Date, ResourceIndexList);
+          case FHIRAllTypes.Date:
+            if (oElement.Value is Date Date)
+            {
+              SetDate(Date, ResourceIndexList);
+            }
+            break;
+          case FHIRAllTypes.Period:
+            if (oElement.Value is Period Period)
+            {
+              SetPeriod(Period, ResourceIndexList);
+            }
+            break;
+          case FHIRAllTypes.DateTime:
+            if (oElement.Value is FhirDateTime FhirDateTime)
+            {
+              SetDateTime(FhirDateTime, ResourceIndexList);
+            }
+            break;
+          case FHIRAllTypes.String:
+            if (oElement.Value is FhirString FhirString)
+            {
+              SetString(FhirString, ResourceIndexList);
+            }
+            break;
+          case FHIRAllTypes.Instant:
+            if (oElement.Value is Instant Instant)
+            {
+              SetInstant(Instant, ResourceIndexList);
+            }
+            break;
+          case FHIRAllTypes.Timing:
+            if (oElement.Value is Timing Timing)
+            {
+              SetTiming(Timing, ResourceIndexList);
+            }
+            break;
+          default:
+            throw new FormatException($"No cast for FhirType of : '{oElement.InstanceType}' for SearchParameterType: '{SearchParameter.Type}'");
         }
-        else if (Poco.FhirValue is Period Period)
-        {
-          SetPeriod(Period, ResourceIndexList);
-        }
-        else if (Poco.FhirValue is FhirDateTime FhirDateTime)
-        {
-          SetDateTime(FhirDateTime, ResourceIndexList);
-        }
-        else if (Poco.FhirValue is FhirString FhirString)
-        {
-          SetString(FhirString, ResourceIndexList);
-        }
-        else if (Poco.FhirValue is Instant Instant)
-        {
-          SetInstant(Instant, ResourceIndexList);
-        }
-        else if (Poco.FhirValue is Timing Timing)
-        {
-          SetTiming(Timing, ResourceIndexList);
-        }
-        else
-        {
-          throw new FormatException($"Unknown FhirType: '{oElement.Type}' for SearchParameterType: '{SearchParameter.Type}'");
-        }
-        
         return ResourceIndexList;
       }
       else
       {
-        throw new FormatException($"Unknown Navigator FhirType: '{oElement.Type}' for SearchParameterType: '{SearchParameter.Type}'");
+        throw new FormatException($"Unknown FhirType of: '{oElement.InstanceType}' for SearchParameterType: '{SearchParameter.Type}'");
       }
-    }
 
+    }
+    
     private void SetTiming(Timing Timing, IList<IDateTimeIndex> ResourceIndexList)
     {
       var ResourceIndex = new DateTimeIndex(_SearchParameter);

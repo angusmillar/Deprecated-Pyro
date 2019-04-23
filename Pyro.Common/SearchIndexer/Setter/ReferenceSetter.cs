@@ -22,50 +22,64 @@ namespace Pyro.Common.SearchIndexer.Setter
       this.IPrimaryServiceRootCache = IPrimaryServiceRootCache;
     }
 
-    public IList<IReferenceIndex> Set(IElementNavigator oElement, IServiceSearchParameterLight SearchParameter)
+    public IList<IReferenceIndex> Set(ITypedElement oElement, IServiceSearchParameterLight SearchParameter)
     {
-      List<IReferenceIndex> ResourceIndexList = new List<IReferenceIndex>();
+      var ResourceIndexList = new List<IReferenceIndex>();
       _SearchParameter = SearchParameter;
 
-      if (oElement is Hl7.Fhir.ElementModel.PocoNavigator Poco && Poco.FhirValue != null)
+      FHIRAllTypes? FhirType = ModelInfo.FhirTypeNameToFhirType(oElement.InstanceType);
+      if (FhirType.HasValue)
       {
-        if (Poco.FhirValue is FhirUri FhirUri)
+        switch (FhirType.Value)
         {
-          SetFhirUri(FhirUri, ResourceIndexList);
+          case FHIRAllTypes.Uri:
+            if (oElement.Value is FhirUri FhirUri)
+            {
+              SetFhirUri(FhirUri, ResourceIndexList);
+            }
+            break;
+          case FHIRAllTypes.Reference:
+            if (oElement.Value is ResourceReference ResourceReference)
+            {
+              SetResourcereference(ResourceReference, ResourceIndexList);
+            }
+            break;
+          case FHIRAllTypes.Canonical:
+            if (oElement.Value is Canonical Canonical)
+            {
+              SetCanonical(Canonical, ResourceIndexList);
+            }
+            break;
+          case FHIRAllTypes.Resource:
+            if (oElement.Value is Resource Resource)
+            {
+              SetResource(Resource, ResourceIndexList);
+            }
+            break;
+          case FHIRAllTypes.Attachment:
+            if (oElement.Value is Attachment Attachment)
+            {
+              SetUri(Attachment, ResourceIndexList);
+            }
+            break;
+          case FHIRAllTypes.Identifier:
+            if (oElement.Value is Identifier Identifier)
+            {
+              SetIdentifier(Identifier, ResourceIndexList);
+            }
+            break;
+          default:
+            throw new FormatException($"No cast for FhirType of : '{oElement.InstanceType}' for SearchParameterType: '{SearchParameter.Type}'");
         }
-        else if (Poco.FhirValue is ResourceReference ResourceReference)
-        {
-          SetResourcereference(ResourceReference, ResourceIndexList);
-        }
-        else if (Poco.FhirValue is Canonical Canonical)
-        {
-          SetCanonical(Canonical, ResourceIndexList);
-        }
-        else if (Poco.FhirValue is Resource Resource)
-        {
-          SetResource(Resource, ResourceIndexList);
-        }
-        else if (Poco.FhirValue is Attachment Attachment)
-        {
-          SetUri(Attachment, ResourceIndexList);
-        }
-        else if (Poco.FhirValue is Identifier Identifier)
-        {
-          SetIdentifier(Identifier, ResourceIndexList);
-        }
-        else
-        {
-          throw new FormatException($"Unknown FhirType: '{oElement.Type}' for SearchParameterType: '{SearchParameter.Type}'");
-        }
-        //ResourceIndexList.ForEach(x => x.ServiceSearchParameterId = ServiceSearchParameterId);
         return ResourceIndexList;
       }
       else
       {
-        throw new FormatException($"Unknown Navigator FhirType: '{oElement.Type}' for SearchParameterType: '{SearchParameter.Type}'");
+        throw new FormatException($"Unknown FhirType of: '{oElement.InstanceType}' for SearchParameterType: '{SearchParameter.Type}'");
       }
-    }
 
+    }
+    
     private void SetCanonical(Canonical Canonical, List<IReferenceIndex> ResourceIndexList)
     {
       if (!string.IsNullOrWhiteSpace(Canonical.Value))

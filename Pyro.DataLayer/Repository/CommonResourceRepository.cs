@@ -825,9 +825,10 @@ namespace Pyro.DataLayer.Repository
       _PopulateResourceEntity(ResourceEntity, Resource, SearchParmeters);
     }
     
-    private void _PopulateResourceEntity(ResCurrentType ResourceEntity, Resource Resource, IList<DtoServiceSearchParameterLight> SearchParametersList)
+    private void _PopulateResourceEntity(ResCurrentType ResourceEntity, Resource CurrentResource, IList<DtoServiceSearchParameterLight> SearchParametersList)
     {
-      Hl7.Fhir.ElementModel.PocoNavigator Navigator = new Hl7.Fhir.ElementModel.PocoNavigator(Resource);
+      ITypedElement TypedElement = CurrentResource.ToTypedElement();
+      //Hl7.Fhir.ElementModel.PocoNavigator Navigator = new Hl7.Fhir.ElementModel.PocoNavigator(CurrentResource);
       string Resource_ResourceName = FHIRAllTypes.Resource.GetLiteral();
       foreach (DtoServiceSearchParameterLight SearchParameter in SearchParametersList)
       {
@@ -850,7 +851,7 @@ namespace Pyro.DataLayer.Repository
             {
               //If the Expression is one with a parent resource of Resource then swap it for the actual current resource name
               //For example make 'Resource._tag' be 'Observation._tag' for Observation resources.
-              Expression = Resource.TypeName + SearchParameter.Expression.TrimStart(Resource_ResourceName.ToCharArray());
+              Expression = CurrentResource.TypeName + SearchParameter.Expression.TrimStart(Resource_ResourceName.ToCharArray());
             }
 
 
@@ -858,28 +859,36 @@ namespace Pyro.DataLayer.Repository
             //------------------------------------------------------------------------------------------
             //Add in the extended FhirPath functions from the fhir.net API as found here Hl7.Fhir.FhirPath.FhirEvaluationContext 
             //this adds extended support for some FHIR Path functions (hasValue, resolve, htmlchecks)                        
-            Hl7.FhirPath.FhirPathCompiler.DefaultSymbolTable.AddFhirExtensions();
-            var oFhirEvaluationContext = new Hl7.Fhir.FhirPath.FhirEvaluationContext(Navigator);
+            //Hl7.FhirPath.FhirPathCompiler.DefaultSymbolTable.AddFhirExtensions();
+            //var oFhirEvaluationContext = new Hl7.Fhir.FhirPath.FhirEvaluationContext(Navigator);
             //The resolve() function then also needs to be provided an external resolver delegate that performs the resolve
             //that delegate can be set as below. Here I am providing my own implementation 'IPyroFhirPathResolve.Resolver' 
-            oFhirEvaluationContext.Resolver = IPyroFhirPathResolve.Resolver;
-            IEnumerable<IElementNavigator> ResultList = null;
+            //oFhirEvaluationContext.Resolver = IPyroFhirPathResolve.Resolver;
+            
 
+            FhirPathCompiler.DefaultSymbolTable.AddFhirExtensions();
+            var oFhirEvaluationContext = new Hl7.Fhir.FhirPath.FhirEvaluationContext(TypedElement);
+            //The resolve() function then also needs to be provided an external resolver delegate that performs the resolve
+            //that delegate can be set as below. Here I am providing my own implementation 'IPyroFhirPathResolve.Resolver' 
+            oFhirEvaluationContext.ElementResolver = IPyroFhirPathResolve.Resolver;
+            IEnumerable<ITypedElement> ResultList = null;
+            
             try
             {
-              ResultList = Navigator.Select(Expression, oFhirEvaluationContext);
+              ResultList = TypedElement.Select(Expression, oFhirEvaluationContext);
+              //ResultList = Navigator.Select(Expression, oFhirEvaluationContext);
             }
             catch(Exception Exec)
             {
               string mesage = Exec.Message;
-              ILog.Error(Exec, $"Seems to be a FHRI API FHIR Path internal issue. Have put logging here to investigate. Have seen it coming up intermittently on AuditEvent commits. Details: ResourceName: {Resource.TypeName}, SearchParameterName: {SearchParameter.Name}, FhirPathExpression: {SearchParameter.Expression}");
+              ILog.Error(Exec, $"Seems to be a FHRI API FHIR Path internal issue. Have put logging here to investigate. Have seen it coming up intermittently on AuditEvent commits. Details: ResourceName: {CurrentResource.TypeName}, SearchParameterName: {SearchParameter.Name}, FhirPathExpression: {SearchParameter.Expression}");
             }
 
             //------------------------------------------------------------------------------------
             //This null check of ResultList is only here due to the exception issue above.
             if (ResultList != null)
             {
-              foreach (IElementNavigator oElement in ResultList)
+              foreach (ITypedElement oElement in ResultList)
               {
                 if (oElement != null)
                 {

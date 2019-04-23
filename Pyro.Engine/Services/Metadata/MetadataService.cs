@@ -93,12 +93,8 @@ namespace Pyro.Engine.Services.Metadata
       Conformance.Implementation = new CapabilityStatement.ImplementationComponent();
       Conformance.Implementation.Description = $"{ServerName} is an implementation of a FHIR server supporting V{Hl7.Fhir.Model.ModelInfo.Version} of the specification. This instance is a publicly available testing server and its resource may be cleared at any time.";
       Conformance.Implementation.Url = $"{Https}{IPrimaryServiceRootCache.GetPrimaryRootUrlStoreFromDatabase().Url}";
-
-      Conformance.FhirVersion = Hl7.Fhir.Model.ModelInfo.Version; //Must be formated as just the number '3.0.1' as touchstone does not like the V3.0.1
-
-      //Removed between STU3 and R4
-      //Conformance.AcceptUnknown = CapabilityStatement.UnknownContentCode.Extensions;
-
+      Conformance.FhirVersion = Enum.GetValues(typeof(FHIRVersion)).Cast<FHIRVersion>().Max(); //= Hl7.Fhir.Model.ModelInfo.Version; //Must be formated as just the number '3.0.1' as touchstone does not like the V3.0.1
+      
       var ContentFormatList = new List<string>();
       foreach (var mediaType in Hl7.Fhir.Rest.ContentType.XML_CONTENT_HEADERS)
         ContentFormatList.Add(mediaType);
@@ -277,7 +273,9 @@ namespace Pyro.Engine.Services.Metadata
       CreateValuePairHTML("Date Published", Conformance.Date, XDoc, Xroot);
       CreateValuePairHTML("CapabilityStatment Url", Conformance.Url, XDoc, Xroot);
       CreateValuePairHTML("Server Version", Conformance.Version, XDoc, Xroot);
-      CreateValuePairHTML("Fhir Version", Conformance.FhirVersion, XDoc, Xroot);
+      
+      CreateValuePairHTML("Fhir Version", Enum.GetValues(typeof(FHIRVersion)).Cast<FHIRVersion>().Max().GetLiteral(), XDoc, Xroot);
+      
       CreateValuePairHTML("Status", Conformance.Status.GetLiteral(), XDoc, Xroot);
       CreateValuePairHTML("Experimental", Conformance.Experimental?.ToString(), XDoc, Xroot);
       CreateValuePairHTML("Purpose", Conformance.Purpose?.Value, XDoc, Xroot);

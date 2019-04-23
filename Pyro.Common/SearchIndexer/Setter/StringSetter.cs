@@ -16,64 +16,80 @@ namespace Pyro.Common.SearchIndexer.Setter
     private const string ItemDelimeter = " ";
     public StringSetter() { }
 
-    public IList<IStringIndex> Set(IElementNavigator oElement, DtoServiceSearchParameterLight SearchParameter)
+    public IList<IStringIndex> Set(ITypedElement oElement, IServiceSearchParameterLight SearchParameter)
     {
+      var ResourceIndexList = new List<IStringIndex>();
       _SearchParameter = SearchParameter;
 
-      var ResourceIndexList = new List<IStringIndex>();
-      var ServiceSearchParameterId = SearchParameter.Id;
-
-      if (oElement is Hl7.Fhir.ElementModel.PocoNavigator Poco && Poco.FhirValue != null)
+      FHIRAllTypes? FhirType = ModelInfo.FhirTypeNameToFhirType(oElement.InstanceType);
+      if (FhirType.HasValue)
       {
-        if (Poco.FhirValue is FhirString FhirString)
-        {
-          SetFhirString(FhirString, ResourceIndexList);
+        switch (FhirType.Value)
+        {          
+          case FHIRAllTypes.String:
+            if (oElement.Value is FhirString FhirString)
+            {
+              SetFhirString(FhirString, ResourceIndexList);
+            }
+            break;
+          case FHIRAllTypes.Address:
+            if (oElement.Value is Address Address)
+            {
+              SetAddress(Address, ResourceIndexList);
+            }
+            break;
+          case FHIRAllTypes.HumanName:
+            if (oElement.Value is HumanName HumanName)
+            {
+              SetHumanName(HumanName, ResourceIndexList);
+            }
+            break;
+          case FHIRAllTypes.Markdown:
+            if (oElement.Value is Markdown Markdown)
+            {
+              SetMarkdown(Markdown, ResourceIndexList);
+            }
+            break;
+          case FHIRAllTypes.Annotation:
+            if (oElement.Value is Annotation Annotation)
+            {
+              SetAnnotation(Annotation, ResourceIndexList);
+            }
+            break;
+          case FHIRAllTypes.Base64Binary:
+            if (oElement.Value is Base64Binary Base64Binary)
+            {
+              //No good purpose to index base64 content as a search index
+            }
+            break;
+          //case FHIRAllTypes.Boolean:
+          //  if (oElement.Value is FhirBoolean FhirBoolean)
+          //  {
+          //    var ResourceIndex = new StringIndex(_SearchParameter);
+          //    ResourceIndex.String = LowerTrimRemoveDiacriticsAndTruncate(FhirBoolean.Value.ToString());
+          //    ResourceIndexList.Add(ResourceIndex);
+          //  }
+          //  break;
+          case FHIRAllTypes.Boolean:
+            if (oElement.Value is bool Bool)
+            {
+              var ResourceIndex = new StringIndex(_SearchParameter);
+              ResourceIndex.String = LowerTrimRemoveDiacriticsAndTruncate(Bool.ToString());
+              ResourceIndexList.Add(ResourceIndex);
+            }
+            break;
+          default:
+            throw new FormatException($"No cast for FhirType of : '{oElement.InstanceType}' for SearchParameterType: '{SearchParameter.Type}'");
         }
-        else if (Poco.FhirValue is Address address)
-        {
-          SetAddress(address, ResourceIndexList);
-        }
-        else if (Poco.FhirValue is HumanName HumanName)
-        {
-          SetHumanName(HumanName, ResourceIndexList);
-        }
-        else if (Poco.FhirValue is Markdown Markdown)
-        {
-          SetMarkdown(Markdown, ResourceIndexList);
-        }
-        else if (Poco.FhirValue is Annotation Annotation)
-        {
-          SetAnnotation(Annotation, ResourceIndexList);
-        }
-        else if (Poco.FhirValue is Base64Binary Base64Binary)
-        {
-          //No good purpose to index base64 content as a search index          
-        }
-        else
-        {
-          throw new FormatException($"Unknown FhirType: '{oElement.Type}' for SearchParameterType: '{SearchParameter.Type}'");
-        }
-      }
-      else if (oElement.Value is Hl7.FhirPath.ConstantValue ConstantValue)
-      {
-        var ResourceIndex = new StringIndex(_SearchParameter);
-        ResourceIndex.String = LowerTrimRemoveDiacriticsAndTruncate(ConstantValue.Type.ToString());
-        ResourceIndexList.Add(ResourceIndex);
-      }
-      else if (oElement.Value is bool Bool)
-      {
-        var ResourceIndex = new StringIndex(_SearchParameter);
-        ResourceIndex.String = LowerTrimRemoveDiacriticsAndTruncate(Bool.ToString());
-        ResourceIndexList.Add(ResourceIndex);
+        return ResourceIndexList;
       }
       else
       {
-        throw new FormatException($"Unknown Navigator FhirType: '{oElement.Type}' for SearchParameterType: '{SearchParameter.Type}'");
+        throw new FormatException($"Unknown FhirType of: '{oElement.InstanceType}' for SearchParameterType: '{SearchParameter.Type}'");
       }
-      
-      return ResourceIndexList;
-    }
 
+    }
+    
     private void SetFhirString(FhirString FhirString, IList<IStringIndex> ResourceIndexList)
     {
       if (!string.IsNullOrWhiteSpace(FhirString.Value))
@@ -85,10 +101,10 @@ namespace Pyro.Common.SearchIndexer.Setter
     }
     private void SetAnnotation(Annotation Annotation, IList<IStringIndex> ResourceIndexList)
     {
-      if (!string.IsNullOrWhiteSpace(Annotation.Text))
+      if (!string.IsNullOrWhiteSpace(Annotation.Text.Value))
       {
         var ResourceIndex = new StringIndex(_SearchParameter);
-        ResourceIndex.String = LowerTrimRemoveDiacriticsAndTruncate(Annotation.Text);        
+        ResourceIndex.String = LowerTrimRemoveDiacriticsAndTruncate(Annotation.Text.Value);        
         ResourceIndexList.Add(ResourceIndex);
       }
     }
