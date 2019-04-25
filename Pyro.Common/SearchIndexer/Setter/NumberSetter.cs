@@ -12,100 +12,47 @@ namespace Pyro.Common.SearchIndexer.Setter
     private IServiceSearchParameterLight _SearchParameter;
 
     public NumberSetter() { }
-
+    
     public IList<IQuantityIndex> Set(ITypedElement oElement, IServiceSearchParameterLight SearchParameter)
     {
       var ResourceIndexList = new List<IQuantityIndex>();
       _SearchParameter = SearchParameter;
 
-      FHIRAllTypes? FhirType = ModelInfo.FhirTypeNameToFhirType(oElement.InstanceType);
-      if (FhirType.HasValue)
+      if (oElement is IFhirValueProvider FhirValueProvider && FhirValueProvider.FhirValue != null)
       {
-        switch (FhirType.Value)
+        if (FhirValueProvider.FhirValue is Integer Integer)
         {
-          case FHIRAllTypes.Integer :
-            if (oElement.Value is Integer Integer)
-            {
-              SetInteger(Integer, ResourceIndexList);
-            }
-            break;
-          case FHIRAllTypes.PositiveInt:
-            if (oElement.Value is PositiveInt PositiveInt)
-            {
-              SetPositiveInt(PositiveInt, ResourceIndexList);
-            }
-            break;
-          case FHIRAllTypes.Duration:
-            if (oElement.Value is Duration Duration)
-            {
-              SetDuration(Duration, ResourceIndexList);
-            }
-            break;
-          case FHIRAllTypes.Decimal:
-            if (oElement.Value is FhirDecimal FhirDecimal)
-            {
-              SetFhirDecimal(FhirDecimal, ResourceIndexList);
-            }
-            break;
-          case FHIRAllTypes.Range:
-            if (oElement.Value is Range Range)
-            {
-              SetRange(Range, ResourceIndexList);
-            }
-            break;
-          default:
-            throw new FormatException($"No cast for FhirType of : '{oElement.InstanceType}' for SearchParameterType: '{SearchParameter.Type}'");            
+          SetInteger(Integer, ResourceIndexList);
         }
+        else if (FhirValueProvider.FhirValue is PositiveInt PositiveInt)
+        {
+          SetPositiveInt(PositiveInt, ResourceIndexList);
+        }
+        else if (FhirValueProvider.FhirValue is Duration Duration)
+        {
+          SetDuration(Duration, ResourceIndexList);
+        }
+        else if (FhirValueProvider.FhirValue is FhirDecimal FhirDecimal)
+        {
+          SetFhirDecimal(FhirDecimal, ResourceIndexList);
+        }
+        else if (FhirValueProvider.FhirValue is Range Range)
+        {
+          SetRange(Range, ResourceIndexList);
+        }
+        else
+        {
+          throw new FormatException($"Unknown FhirType: '{oElement.InstanceType}' for SearchParameterType: '{SearchParameter.Type}'");
+        }
+
         return ResourceIndexList;
       }
       else
       {
-        throw new FormatException($"Unknown FhirType of: '{oElement.InstanceType}' for SearchParameterType: '{SearchParameter.Type}'");
+        throw new FormatException($"Unknown Navigator FhirType: '{oElement.InstanceType}' for SearchParameterType: '{SearchParameter.Type}'");
       }
-      
     }
-
-
-    //public IList<IQuantityIndex> Set(IElementNavigator oElement, IServiceSearchParameterLight SearchParameter)
-    //{
-    //  var ResourceIndexList = new List<IQuantityIndex>();
-    //  _SearchParameter = SearchParameter;
-
-    //  if (oElement is Hl7.Fhir.ElementModel.PocoNavigator Poco && Poco.FhirValue != null)
-    //  {
-    //    if (Poco.FhirValue is Integer Integer)
-    //    {
-    //      SetInteger(Integer, ResourceIndexList);
-    //    }
-    //    else if (Poco.FhirValue is PositiveInt PositiveInt)
-    //    {
-    //      SetPositiveInt(PositiveInt, ResourceIndexList);
-    //    }
-    //    else if (Poco.FhirValue is Duration Duration)
-    //    {
-    //      SetDuration(Duration, ResourceIndexList);
-    //    }
-    //    else if (Poco.FhirValue is FhirDecimal FhirDecimal)
-    //    {
-    //      SetFhirDecimal(FhirDecimal, ResourceIndexList);
-    //    }
-    //    else if (Poco.FhirValue is Range Range)
-    //    {
-    //      SetRange(Range, ResourceIndexList);
-    //    }
-    //    else
-    //    {
-    //      throw new FormatException($"Unknown FhirType: '{oElement.Type}' for SearchParameterType: '{SearchParameter.Type}'");
-    //    }
-        
-    //    return ResourceIndexList;
-    //  }
-    //  else
-    //  {
-    //    throw new FormatException($"Unknown Navigator FhirType: '{oElement.Type}' for SearchParameterType: '{SearchParameter.Type}'");
-    //  }
-    //}
-
+    
     private void SetFhirDecimal(FhirDecimal FhirDecimal, IList<IQuantityIndex> ResourceIndexList)
     {
       if (FhirDecimal.Value.HasValue)

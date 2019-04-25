@@ -21,6 +21,7 @@ namespace Pyro.DataLayer.DbModel.DatabaseContext
       //     Update-Database -TargetMigration [Migration Name] -Script -ConfigurationTypeName ConfigurationMsSql 
       //7. Copy the generated SQL script into a new file in the project Pyro.DbManager under the folder 'SqlScripts\MsSQL, 
       //   use the same file name as that generated Migration class, only changing the extension from .cs to .sql'
+      //   add prefix the file name with an underscore e.g: '_[filename].sql'
       //8. Set the Build Action of the new .sql file in the Pyro.DbManager project to 'Embedded Resource'
       //9. Set the 'GenerateMigration' boolean below back to False.
       //10. Run the Pyro.DbManager project to upgrade the database.

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Hl7.Fhir.ElementModel;
+
 using Hl7.Fhir.Model;
 using Hl7.Fhir.Utility;
 using Pyro.Common.Search;
@@ -15,193 +16,90 @@ namespace Pyro.Common.SearchIndexer.Setter
 
     public IList<ITokenIndex> Set(ITypedElement oElement, IServiceSearchParameterLight SearchParameter)
     {
-      var ResourceIndexList = new List<ITokenIndex>();
       _SearchParameter = SearchParameter;
+      
+      var ResourceIndexList = new List<ITokenIndex>();
+      var ServiceSearchParameterId = SearchParameter.Id;
 
-      FHIRAllTypes? FhirType = ModelInfo.FhirTypeNameToFhirType(oElement.InstanceType);
-      if (FhirType.HasValue)
+      if (oElement is IFhirValueProvider FhirValueProvider && FhirValueProvider.FhirValue != null)
       {
-        switch (FhirType.Value)
+        if (FhirValueProvider.FhirValue is Code Code)
         {
-          case FHIRAllTypes.Code:
-            if (oElement.Value is Code Code)
-            {
-              SetCode(Code, ResourceIndexList);
-            }
-            break;
-          case FHIRAllTypes.CodeableConcept:
-            if (oElement.Value is CodeableConcept CodeableConcept)
-            {
-              SetCodeableConcept(CodeableConcept, ResourceIndexList);
-            }
-            break;
-          case FHIRAllTypes.Coding:
-            if (oElement.Value is Coding Coding)
-            {
-              SetCoding(Coding, ResourceIndexList);
-            }
-            break;
-          case FHIRAllTypes.ContactPoint:
-            if (oElement.Value is ContactPoint ContactPoint)
-            {
-              SetContactPoint(ContactPoint, ResourceIndexList);
-            }
-            break;
-          case FHIRAllTypes.Boolean:
-            if (oElement.Value is FhirBoolean FhirBoolean)
-            {
-              SetFhirBoolean(FhirBoolean, ResourceIndexList);
-            }
-            break;
-          case FHIRAllTypes.DateTime:
-            if (oElement.Value is FhirDateTime FhirDateTime)
-            {
-              SetFhirDateTime(FhirDateTime, ResourceIndexList);
-            }
-            break;
-          case FHIRAllTypes.String:
-            if (oElement.Value is FhirString FhirString)
-            {
-              SetFhirString(FhirString, ResourceIndexList);
-            }
-            break;
-          case FHIRAllTypes.Id:
-            if (oElement.Value is Id Id)
-            {
-              SetId(Id, ResourceIndexList);
-            }
-            break;
-          case FHIRAllTypes.Identifier:
-            if (oElement.Value is Identifier Identifier)
-            {
-              SetIdentifier(Identifier, ResourceIndexList);
-            }
-            break;
-          case FHIRAllTypes.PositiveInt:
-            if (oElement.Value is PositiveInt PositiveInt)
-            {
-              SetPositiveInt(PositiveInt, ResourceIndexList);
-            }
-            break;
-          case FHIRAllTypes.Quantity:
-            if (oElement.Value is Quantity Quantity)
-            {
-              SetQuantity(Quantity, ResourceIndexList);
-            }
-            break;
-          case FHIRAllTypes.Range:
-            if (oElement.Value is Range Range)
-            {
-              SetRange(Range, ResourceIndexList);
-            }
-            break;
-          case FHIRAllTypes.Location:
-            if (oElement.Value is Location.PositionComponent PositionComponent )
-            {
-              SePositionComponent(PositionComponent, ResourceIndexList);
-            }
-            break;
-          default:
-            throw new FormatException($"No cast for FhirType of : '{oElement.InstanceType}' for SearchParameterType: '{SearchParameter.Type}'");
+          SetCode(Code, ResourceIndexList);
+        }
+        else if (FhirValueProvider.FhirValue is CodeableConcept CodeableConcept)
+        {
+          SetCodeableConcept(CodeableConcept, ResourceIndexList);
+        }
+        else if (FhirValueProvider.FhirValue is Coding Coding)
+        {
+          SetCoding(Coding, ResourceIndexList);
+        }
+        else if (FhirValueProvider.FhirValue.TypeName == "code")
+        {
+          if (oElement.Value is string CodeValue)
+            SetCodeTypeT(CodeValue, ResourceIndexList);
+        }
+        else if (FhirValueProvider.FhirValue is ContactPoint ContactPoint)
+        {
+          SetContactPoint(ContactPoint, ResourceIndexList);
+        }
+        else if (FhirValueProvider.FhirValue is FhirBoolean FhirBoolean)
+        {
+          SetFhirBoolean(FhirBoolean, ResourceIndexList);
+        }
+        else if (FhirValueProvider.FhirValue is FhirDateTime FhirDateTime)
+        {
+          SetFhirDateTime(FhirDateTime, ResourceIndexList);
+        }
+        else if (FhirValueProvider.FhirValue is FhirString FhirString)
+        {
+          SetFhirString(FhirString, ResourceIndexList);
+        }
+        else if (FhirValueProvider.FhirValue is Id Id)
+        {
+          SetId(Id, ResourceIndexList);
+        }
+        else if (FhirValueProvider.FhirValue is Identifier Identifier)
+        {
+          SetIdentifier(Identifier, ResourceIndexList);
+        }
+        else if (FhirValueProvider.FhirValue is PositiveInt PositiveInt)
+        {
+          SetPositiveInt(PositiveInt, ResourceIndexList);
+        }
+        else if (FhirValueProvider.FhirValue is Quantity Quantity)
+        {
+          SetQuantity(Quantity, ResourceIndexList);
+        }
+        else if (FhirValueProvider.FhirValue is Range Range)
+        {
+          SetRange(Range, ResourceIndexList);
+        }
+        else if (FhirValueProvider.FhirValue is Location.PositionComponent PositionComponent)
+        {
+          SePositionComponent(PositionComponent, ResourceIndexList);
+        }
+        else
+        {
+          throw new FormatException($"Unknown FhirType: '{oElement.InstanceType}' for SearchParameterType: '{SearchParameter.Type}'");
         }
         return ResourceIndexList;
+      }      
+      else if (oElement.Value is bool Bool)
+      {
+        var FhirBool = new FhirBoolean(Bool);
+        SetFhirBoolean(FhirBool, ResourceIndexList);
       }
       else
       {
-        throw new FormatException($"Unknown FhirType of: '{oElement.InstanceType}' for SearchParameterType: '{SearchParameter.Type}'");
+        throw new FormatException($"Unknown Navigator FhirType: '{oElement.InstanceType}' for SearchParameterType: '{SearchParameter.Type}'");
       }
 
+      return ResourceIndexList;
     }
 
-    //public IList<ITokenIndex> Set(IElementNavigator oElement, DtoServiceSearchParameterLight SearchParameter)
-    //{
-    //  _SearchParameter = SearchParameter;
-
-    //  var ResourceIndexList = new List<ITokenIndex>();
-    //  var ServiceSearchParameterId = SearchParameter.Id;
-
-    //  if (oElement is Hl7.Fhir.ElementModel.PocoNavigator Poco && Poco.FhirValue != null)
-    //  {
-    //    if (Poco.FhirValue is Code Code)
-    //    {
-    //      SetCode(Code, ResourceIndexList);
-    //    }
-    //    else if (Poco.FhirValue is CodeableConcept CodeableConcept)
-    //    {
-    //      SetCodeableConcept(CodeableConcept, ResourceIndexList);
-    //    }
-    //    else if (Poco.FhirValue is Coding Coding)
-    //    {
-    //      SetCoding(Coding, ResourceIndexList);
-    //    }
-    //    else if (Poco.FhirValue.TypeName == "code")
-    //    {
-    //      if (Poco.Value is string CodeValue)
-    //        SetCodeTypeT(CodeValue, ResourceIndexList);
-    //    }
-    //    else if (Poco.FhirValue is ContactPoint ContactPoint)
-    //    {
-    //      SetContactPoint(ContactPoint, ResourceIndexList);
-    //    }
-    //    else if (Poco.FhirValue is FhirBoolean FhirBoolean)
-    //    {
-    //      SetFhirBoolean(FhirBoolean, ResourceIndexList);
-    //    }
-    //    else if (Poco.FhirValue is FhirDateTime FhirDateTime)
-    //    {
-    //      SetFhirDateTime(FhirDateTime, ResourceIndexList);
-    //    }
-    //    else if (Poco.FhirValue is FhirString FhirString)
-    //    {
-    //      SetFhirString(FhirString, ResourceIndexList);
-    //    }
-    //    else if (Poco.FhirValue is Id Id)
-    //    {
-    //      SetId(Id, ResourceIndexList);
-    //    }
-    //    else if (Poco.FhirValue is Identifier Identifier)
-    //    {
-    //      SetIdentifier(Identifier, ResourceIndexList);
-    //    }
-    //    else if (Poco.FhirValue is PositiveInt PositiveInt)
-    //    {
-    //      SetPositiveInt(PositiveInt, ResourceIndexList);
-    //    }
-    //    else if (Poco.FhirValue is Quantity Quantity)
-    //    {
-    //      SetQuantity(Quantity, ResourceIndexList);
-    //    }
-    //    else if (Poco.FhirValue is Range Range)
-    //    {
-    //      SetRange(Range, ResourceIndexList);
-    //    }
-    //    else if (Poco.FhirValue is Location.PositionComponent PositionComponent)
-    //    {
-    //      SePositionComponent(PositionComponent, ResourceIndexList);
-    //    }
-    //    else
-    //    {
-    //      throw new FormatException($"Unknown FhirType: '{oElement.Type}' for SearchParameterType: '{SearchParameter.Type}'");
-    //    }        
-    //    return ResourceIndexList;
-    //  }
-    //  //else if (oElement.Value is Hl7.FhirPath.ConstantValue ConstantValue)
-    //  //{
-    //  //  var FhirString = new FhirString(ConstantValue.ToString());
-    //  //}
-    //  else if (oElement.Value is bool Bool)
-    //  {
-    //    var FhirBool = new FhirBoolean(Bool);
-    //    SetFhirBoolean(FhirBool, ResourceIndexList);
-    //  }
-    //  else
-    //  {
-    //    throw new FormatException($"Unknown Navigator FhirType: '{oElement.Type}' for SearchParameterType: '{SearchParameter.Type}'");
-    //  }
-      
-    //  return ResourceIndexList;
-    //}
-
+   
     private void SetCodeTypeT(string CodeValue, IList<ITokenIndex> ResourceIndexList)
     {
       if (!string.IsNullOrWhiteSpace(CodeValue))

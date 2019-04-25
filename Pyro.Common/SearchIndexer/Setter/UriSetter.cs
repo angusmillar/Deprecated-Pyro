@@ -15,36 +15,31 @@ namespace Pyro.Common.SearchIndexer.Setter
 
     public IList<IUriIndex> Set(ITypedElement oElement, IServiceSearchParameterLight SearchParameter)
     {
-      var ResourceIndexList = new List<IUriIndex>();
       _SearchParameter = SearchParameter;
 
-      FHIRAllTypes? FhirType = ModelInfo.FhirTypeNameToFhirType(oElement.InstanceType);
-      if (FhirType.HasValue)
+      var ResourceIndexList = new List<IUriIndex>();
+      var ServiceSearchParameterId = SearchParameter.Id;
+
+      if (oElement is IFhirValueProvider FhirValueProvider && FhirValueProvider.FhirValue != null)
       {
-        switch (FhirType.Value)
+        if (FhirValueProvider.FhirValue is FhirUri FhirUri)
         {
-          case FHIRAllTypes.Uri:
-            if (oElement.Value is FhirUri FhirUri)
-            {
-              SetUri(FhirUri, ResourceIndexList);
-            }
-            break;
-          case FHIRAllTypes.Oid:
-            if (oElement.Value is Oid Oid)
-            {
-              SetOid(Oid, ResourceIndexList);
-            }
-            break;          
-          default:
-            throw new FormatException($"No cast for FhirType of : '{oElement.InstanceType}' for SearchParameterType: '{SearchParameter.Type}'");
+          SetUri(FhirUri, ResourceIndexList);
+        }
+        else if (FhirValueProvider.FhirValue is Oid Oid)
+        {
+          SetOid(Oid, ResourceIndexList);
+        }
+        else
+        {
+          throw new FormatException($"Unknown FhirType: '{oElement.InstanceType}' for SearchParameterType: '{SearchParameter.Type}'");
         }
         return ResourceIndexList;
       }
       else
       {
-        throw new FormatException($"Unknown FhirType of: '{oElement.InstanceType}' for SearchParameterType: '{SearchParameter.Type}'");
+        throw new FormatException($"Unknown Navigator FhirType: '{oElement.InstanceType}' for SearchParameterType: '{SearchParameter.Type}'");
       }
-
     }
     
     private void SetOid(Oid Oid, IList<IUriIndex> ResourceIndexList)

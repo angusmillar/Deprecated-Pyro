@@ -7,13 +7,13 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class AddFHIRTaskQueueAndWorkerTables : IMigrationMetadata
+    public sealed partial class First : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(AddFHIRTaskQueueAndWorkerTables));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(First));
         
         string IMigrationMetadata.Id
         {
-            get { return "201810251007355_AddFHIRTaskQueueAndWorkerTables"; }
+            get { return "201904230456148_First"; }
         }
         
         string IMigrationMetadata.Source

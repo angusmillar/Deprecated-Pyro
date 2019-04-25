@@ -1,11 +1,11 @@
 <CompartmentDefinition xmlns="http://hl7.org/fhir">
   <id value="patient"/>
   <url value="http://hl7.org/fhir/CompartmentDefinition/patient"/>
-  <version value="3.5.0-14907"/>
+  <version value="4.0.0"/>
   <name value="Base FHIR compartment definition for Patient"/>
   <status value="draft"/>
   <experimental value="true"/>
-  <date value="2018-08-19T21:48:56+10:00"/>
+  <date value="2018-12-27T22:37:54+11:00"/>
   <publisher value="FHIR Project Team"/>
   <contact>
     <telecom>
@@ -80,6 +80,9 @@
     <param value="participant"/>
   </resource>
   <resource>
+    <code value="CatalogEntry"/>
+  </resource>
+  <resource>
     <code value="ChargeItem"/>
     <param value="subject"/>
   </resource>
@@ -152,6 +155,7 @@
   </resource>
   <resource>
     <code value="CoverageEligibilityResponse"/>
+    <param value="patient"/>
   </resource>
   <resource>
     <code value="DetectedIssue"/>
@@ -182,12 +186,16 @@
   <resource>
     <code value="DocumentManifest"/>
     <param value="subject"/>
-    <param value="agent"/>
+    <param value="author"/>
     <param value="recipient"/>
   </resource>
   <resource>
     <code value="DocumentReference"/>
     <param value="subject"/>
+    <param value="author"/>
+  </resource>
+  <resource>
+    <code value="EffectEvidenceSynthesis"/>
   </resource>
   <resource>
     <code value="Encounter"/>
@@ -204,14 +212,17 @@
     <code value="EnrollmentResponse"/>
   </resource>
   <resource>
-    <code value="EntryDefinition"/>
-  </resource>
-  <resource>
     <code value="EpisodeOfCare"/>
     <param value="patient"/>
   </resource>
   <resource>
     <code value="EventDefinition"/>
+  </resource>
+  <resource>
+    <code value="Evidence"/>
+  </resource>
+  <resource>
+    <code value="EvidenceVariable"/>
   </resource>
   <resource>
     <code value="ExampleScenario"/>
@@ -275,10 +286,6 @@
     <param value="recipient"/>
   </resource>
   <resource>
-    <code value="ItemInstance"/>
-    <param value="subject"/>
-  </resource>
-  <resource>
     <code value="Library"/>
   </resource>
   <resource>
@@ -336,13 +343,7 @@
     <code value="MedicinalProductAuthorization"/>
   </resource>
   <resource>
-    <code value="MedicinalProductClinicals"/>
-  </resource>
-  <resource>
     <code value="MedicinalProductContraindication"/>
-  </resource>
-  <resource>
-    <code value="MedicinalProductDeviceSpec"/>
   </resource>
   <resource>
     <code value="MedicinalProductIndication"/>
@@ -370,6 +371,10 @@
   </resource>
   <resource>
     <code value="MessageHeader"/>
+  </resource>
+  <resource>
+    <code value="MolecularSequence"/>
+    <param value="patient"/>
   </resource>
   <resource>
     <code value="NamingSystem"/>
@@ -427,12 +432,6 @@
     <param value="performer"/>
   </resource>
   <resource>
-    <code value="ProcessRequest"/>
-  </resource>
-  <resource>
-    <code value="ProcessResponse"/>
-  </resource>
-  <resource>
     <code value="Provenance"/>
     <param value="patient"/>
   </resource>
@@ -454,6 +453,12 @@
     <param value="participant"/>
   </resource>
   <resource>
+    <code value="ResearchDefinition"/>
+  </resource>
+  <resource>
+    <code value="ResearchElementDefinition"/>
+  </resource>
+  <resource>
     <code value="ResearchStudy"/>
   </resource>
   <resource>
@@ -465,14 +470,14 @@
     <param value="subject"/>
   </resource>
   <resource>
+    <code value="RiskEvidenceSynthesis"/>
+  </resource>
+  <resource>
     <code value="Schedule"/>
     <param value="actor"/>
   </resource>
   <resource>
     <code value="SearchParameter"/>
-  </resource>
-  <resource>
-    <code value="Sequence"/>
   </resource>
   <resource>
     <code value="ServiceRequest"/>
@@ -502,10 +507,19 @@
     <code value="Substance"/>
   </resource>
   <resource>
+    <code value="SubstanceNucleicAcid"/>
+  </resource>
+  <resource>
     <code value="SubstancePolymer"/>
   </resource>
   <resource>
+    <code value="SubstanceProtein"/>
+  </resource>
+  <resource>
     <code value="SubstanceReferenceInformation"/>
+  </resource>
+  <resource>
+    <code value="SubstanceSourceMaterial"/>
   </resource>
   <resource>
     <code value="SubstanceSpecification"/>
@@ -516,7 +530,7 @@
   </resource>
   <resource>
     <code value="SupplyRequest"/>
-    <param value="requester"/>
+    <param value="subject"/>
   </resource>
   <resource>
     <code value="Task"/>
@@ -529,11 +543,6 @@
   </resource>
   <resource>
     <code value="TestScript"/>
-  </resource>
-  <resource>
-    <code value="UserSession"/>
-    <param value="user"/>
-    <param value="focus"/>
   </resource>
   <resource>
     <code value="ValueSet"/>

@@ -16,57 +16,43 @@ namespace Pyro.Common.SearchIndexer.Setter
       var ResourceIndexList = new List<IDateTimeIndex>();
       _SearchParameter = SearchParameter;
 
-      FHIRAllTypes? FhirType = ModelInfo.FhirTypeNameToFhirType(oElement.InstanceType);
-      if (FhirType.HasValue)
+      if (oElement is IFhirValueProvider FhirValueProvider && FhirValueProvider.FhirValue != null)
       {
-        switch (FhirType.Value)
+        if (FhirValueProvider.FhirValue is Date Date)
         {
-          case FHIRAllTypes.Date:
-            if (oElement.Value is Date Date)
-            {
-              SetDate(Date, ResourceIndexList);
-            }
-            break;
-          case FHIRAllTypes.Period:
-            if (oElement.Value is Period Period)
-            {
-              SetPeriod(Period, ResourceIndexList);
-            }
-            break;
-          case FHIRAllTypes.DateTime:
-            if (oElement.Value is FhirDateTime FhirDateTime)
-            {
-              SetDateTime(FhirDateTime, ResourceIndexList);
-            }
-            break;
-          case FHIRAllTypes.String:
-            if (oElement.Value is FhirString FhirString)
-            {
-              SetString(FhirString, ResourceIndexList);
-            }
-            break;
-          case FHIRAllTypes.Instant:
-            if (oElement.Value is Instant Instant)
-            {
-              SetInstant(Instant, ResourceIndexList);
-            }
-            break;
-          case FHIRAllTypes.Timing:
-            if (oElement.Value is Timing Timing)
-            {
-              SetTiming(Timing, ResourceIndexList);
-            }
-            break;
-          default:
-            throw new FormatException($"No cast for FhirType of : '{oElement.InstanceType}' for SearchParameterType: '{SearchParameter.Type}'");
+          SetDate(Date, ResourceIndexList);
         }
+        else if (FhirValueProvider.FhirValue is Period Period)
+        {
+          SetPeriod(Period, ResourceIndexList);
+        }
+        else if (FhirValueProvider.FhirValue is FhirDateTime FhirDateTime)
+        {
+          SetDateTime(FhirDateTime, ResourceIndexList);
+        }
+        else if (FhirValueProvider.FhirValue is FhirString FhirString)
+        {
+          SetString(FhirString, ResourceIndexList);
+        }
+        else if (FhirValueProvider.FhirValue is Instant Instant)
+        {
+          SetInstant(Instant, ResourceIndexList);
+        }
+        else if (FhirValueProvider.FhirValue is Timing Timing)
+        {
+          SetTiming(Timing, ResourceIndexList);
+        }
+        else
+        {
+          throw new FormatException($"Unknown FhirType: '{oElement.InstanceType}' for SearchParameterType: '{SearchParameter.Type}'");
+        }
+
         return ResourceIndexList;
       }
       else
       {
-        throw new FormatException($"Unknown FhirType of: '{oElement.InstanceType}' for SearchParameterType: '{SearchParameter.Type}'");
+        throw new FormatException($"Unknown Navigator FhirType: '{oElement.InstanceType}' for SearchParameterType: '{SearchParameter.Type}'");
       }
-
     }
     
     private void SetTiming(Timing Timing, IList<IDateTimeIndex> ResourceIndexList)

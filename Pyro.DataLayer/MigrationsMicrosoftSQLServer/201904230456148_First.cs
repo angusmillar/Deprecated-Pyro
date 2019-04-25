@@ -2033,6 +2033,143 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
                 .Index(t => t.ResourceId);
             
             CreateTable(
+                "dbo.CatalogEntryRes",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        IsCurrent = c.Boolean(nullable: false),
+                        FhirId = c.String(nullable: false, maxLength: 128),
+                        IsDeleted = c.Boolean(nullable: false),
+                        VersionId = c.String(nullable: false, maxLength: 128),
+                        LastUpdated = c.DateTime(nullable: false, precision: 3, storeType: "datetime2"),
+                        Resource = c.Binary(),
+                        Method = c.Int(nullable: false),
+                        FhirReleaseId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo._FhirRelease", t => t.FhirReleaseId, cascadeDelete: true)
+                .Index(t => t.IsCurrent, name: "ix_IsCurrent")
+                .Index(t => new { t.FhirId, t.VersionId }, unique: true, name: "uq_FhirIdAndVersionId")
+                .Index(t => t.IsDeleted, name: "ix_IsDeleted")
+                .Index(t => t.LastUpdated, name: "ix_LastUpdated")
+                .Index(t => t.FhirReleaseId);
+            
+            CreateTable(
+                "dbo.CatalogEntryIxDT",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        LowUtcDateTime = c.DateTime(precision: 3, storeType: "datetime2"),
+                        HighUtcDateTime = c.DateTime(precision: 3, storeType: "datetime2"),
+                        ServiceSearchParameterId = c.Int(nullable: false),
+                        ResourceId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
+                .ForeignKey("dbo.CatalogEntryRes", t => t.ResourceId, cascadeDelete: true)
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
+                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
+                .Index(t => t.ResourceId);
+            
+            CreateTable(
+                "dbo.CatalogEntryIxQty",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Comparator = c.Int(),
+                        Quantity = c.Decimal(precision: 28, scale: 14),
+                        Code = c.String(maxLength: 128),
+                        System = c.String(maxLength: 450),
+                        Unit = c.String(maxLength: 450),
+                        ComparatorHigh = c.Int(),
+                        QuantityHigh = c.Decimal(precision: 28, scale: 14),
+                        CodeHigh = c.String(maxLength: 128),
+                        SystemHigh = c.String(maxLength: 450),
+                        UnitHigh = c.String(maxLength: 64),
+                        ServiceSearchParameterId = c.Int(nullable: false),
+                        ResourceId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
+                .ForeignKey("dbo.CatalogEntryRes", t => t.ResourceId, cascadeDelete: true)
+                .Index(t => t.Code, name: "ix_Code")
+                .Index(t => t.System, name: "ix_System")
+                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
+                .Index(t => t.ResourceId);
+            
+            CreateTable(
+                "dbo.CatalogEntryIxRef",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        ReferenceFhirId = c.String(nullable: false, maxLength: 128),
+                        ReferenceResourceType = c.String(nullable: false, maxLength: 50),
+                        ReferenceServiceBaseUrlId = c.Int(),
+                        ReferenceVersionId = c.String(maxLength: 128),
+                        ServiceSearchParameterId = c.Int(nullable: false),
+                        ResourceId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo._BaseUrl", t => t.ReferenceServiceBaseUrlId)
+                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
+                .ForeignKey("dbo.CatalogEntryRes", t => t.ResourceId, cascadeDelete: true)
+                .Index(t => t.ReferenceFhirId, name: "ix_RefFhirId")
+                .Index(t => t.ReferenceServiceBaseUrlId, name: "ix_RefBaseUrlId")
+                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
+                .Index(t => t.ResourceId);
+            
+            CreateTable(
+                "dbo.CatalogEntryIxStr",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        String = c.String(nullable: false, maxLength: 450),
+                        ServiceSearchParameterId = c.Int(nullable: false),
+                        ResourceId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
+                .ForeignKey("dbo.CatalogEntryRes", t => t.ResourceId, cascadeDelete: true)
+                .Index(t => t.String, name: "ix_String")
+                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
+                .Index(t => t.ResourceId);
+            
+            CreateTable(
+                "dbo.CatalogEntryIxTok",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Code = c.String(maxLength: 128),
+                        System = c.String(maxLength: 450),
+                        ServiceSearchParameterId = c.Int(nullable: false),
+                        ResourceId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
+                .ForeignKey("dbo.CatalogEntryRes", t => t.ResourceId, cascadeDelete: true)
+                .Index(t => t.Code, name: "ix_Code")
+                .Index(t => t.System, name: "ix_System")
+                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
+                .Index(t => t.ResourceId);
+            
+            CreateTable(
+                "dbo.CatalogEntryIxUri",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Uri = c.String(nullable: false, maxLength: 450),
+                        ServiceSearchParameterId = c.Int(nullable: false),
+                        ResourceId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
+                .ForeignKey("dbo.CatalogEntryRes", t => t.ResourceId, cascadeDelete: true)
+                .Index(t => t.Uri, name: "ix_Uri")
+                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
+                .Index(t => t.ResourceId);
+            
+            CreateTable(
                 "dbo.ChargeItemDefinitionRes",
                 c => new
                     {
@@ -5595,6 +5732,143 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
                 .Index(t => t.ResourceId);
             
             CreateTable(
+                "dbo.EffectEvidenceSynthesisRes",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        IsCurrent = c.Boolean(nullable: false),
+                        FhirId = c.String(nullable: false, maxLength: 128),
+                        IsDeleted = c.Boolean(nullable: false),
+                        VersionId = c.String(nullable: false, maxLength: 128),
+                        LastUpdated = c.DateTime(nullable: false, precision: 3, storeType: "datetime2"),
+                        Resource = c.Binary(),
+                        Method = c.Int(nullable: false),
+                        FhirReleaseId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo._FhirRelease", t => t.FhirReleaseId, cascadeDelete: true)
+                .Index(t => t.IsCurrent, name: "ix_IsCurrent")
+                .Index(t => new { t.FhirId, t.VersionId }, unique: true, name: "uq_FhirIdAndVersionId")
+                .Index(t => t.IsDeleted, name: "ix_IsDeleted")
+                .Index(t => t.LastUpdated, name: "ix_LastUpdated")
+                .Index(t => t.FhirReleaseId);
+            
+            CreateTable(
+                "dbo.EffectEvidenceSynthesisIxDT",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        LowUtcDateTime = c.DateTime(precision: 3, storeType: "datetime2"),
+                        HighUtcDateTime = c.DateTime(precision: 3, storeType: "datetime2"),
+                        ServiceSearchParameterId = c.Int(nullable: false),
+                        ResourceId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
+                .ForeignKey("dbo.EffectEvidenceSynthesisRes", t => t.ResourceId, cascadeDelete: true)
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
+                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
+                .Index(t => t.ResourceId);
+            
+            CreateTable(
+                "dbo.EffectEvidenceSynthesisIxQty",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Comparator = c.Int(),
+                        Quantity = c.Decimal(precision: 28, scale: 14),
+                        Code = c.String(maxLength: 128),
+                        System = c.String(maxLength: 450),
+                        Unit = c.String(maxLength: 450),
+                        ComparatorHigh = c.Int(),
+                        QuantityHigh = c.Decimal(precision: 28, scale: 14),
+                        CodeHigh = c.String(maxLength: 128),
+                        SystemHigh = c.String(maxLength: 450),
+                        UnitHigh = c.String(maxLength: 64),
+                        ServiceSearchParameterId = c.Int(nullable: false),
+                        ResourceId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
+                .ForeignKey("dbo.EffectEvidenceSynthesisRes", t => t.ResourceId, cascadeDelete: true)
+                .Index(t => t.Code, name: "ix_Code")
+                .Index(t => t.System, name: "ix_System")
+                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
+                .Index(t => t.ResourceId);
+            
+            CreateTable(
+                "dbo.EffectEvidenceSynthesisIxRef",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        ReferenceFhirId = c.String(nullable: false, maxLength: 128),
+                        ReferenceResourceType = c.String(nullable: false, maxLength: 50),
+                        ReferenceServiceBaseUrlId = c.Int(),
+                        ReferenceVersionId = c.String(maxLength: 128),
+                        ServiceSearchParameterId = c.Int(nullable: false),
+                        ResourceId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo._BaseUrl", t => t.ReferenceServiceBaseUrlId)
+                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
+                .ForeignKey("dbo.EffectEvidenceSynthesisRes", t => t.ResourceId, cascadeDelete: true)
+                .Index(t => t.ReferenceFhirId, name: "ix_RefFhirId")
+                .Index(t => t.ReferenceServiceBaseUrlId, name: "ix_RefBaseUrlId")
+                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
+                .Index(t => t.ResourceId);
+            
+            CreateTable(
+                "dbo.EffectEvidenceSynthesisIxStr",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        String = c.String(nullable: false, maxLength: 450),
+                        ServiceSearchParameterId = c.Int(nullable: false),
+                        ResourceId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
+                .ForeignKey("dbo.EffectEvidenceSynthesisRes", t => t.ResourceId, cascadeDelete: true)
+                .Index(t => t.String, name: "ix_String")
+                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
+                .Index(t => t.ResourceId);
+            
+            CreateTable(
+                "dbo.EffectEvidenceSynthesisIxTok",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Code = c.String(maxLength: 128),
+                        System = c.String(maxLength: 450),
+                        ServiceSearchParameterId = c.Int(nullable: false),
+                        ResourceId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
+                .ForeignKey("dbo.EffectEvidenceSynthesisRes", t => t.ResourceId, cascadeDelete: true)
+                .Index(t => t.Code, name: "ix_Code")
+                .Index(t => t.System, name: "ix_System")
+                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
+                .Index(t => t.ResourceId);
+            
+            CreateTable(
+                "dbo.EffectEvidenceSynthesisIxUri",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Uri = c.String(nullable: false, maxLength: 450),
+                        ServiceSearchParameterId = c.Int(nullable: false),
+                        ResourceId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
+                .ForeignKey("dbo.EffectEvidenceSynthesisRes", t => t.ResourceId, cascadeDelete: true)
+                .Index(t => t.Uri, name: "ix_Uri")
+                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
+                .Index(t => t.ResourceId);
+            
+            CreateTable(
                 "dbo.EncounterRes",
                 c => new
                     {
@@ -6143,143 +6417,6 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
                 .Index(t => t.ResourceId);
             
             CreateTable(
-                "dbo.EntryDefinitionRes",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        IsCurrent = c.Boolean(nullable: false),
-                        FhirId = c.String(nullable: false, maxLength: 128),
-                        IsDeleted = c.Boolean(nullable: false),
-                        VersionId = c.String(nullable: false, maxLength: 128),
-                        LastUpdated = c.DateTime(nullable: false, precision: 3, storeType: "datetime2"),
-                        Resource = c.Binary(),
-                        Method = c.Int(nullable: false),
-                        FhirReleaseId = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo._FhirRelease", t => t.FhirReleaseId, cascadeDelete: true)
-                .Index(t => t.IsCurrent, name: "ix_IsCurrent")
-                .Index(t => new { t.FhirId, t.VersionId }, unique: true, name: "uq_FhirIdAndVersionId")
-                .Index(t => t.IsDeleted, name: "ix_IsDeleted")
-                .Index(t => t.LastUpdated, name: "ix_LastUpdated")
-                .Index(t => t.FhirReleaseId);
-            
-            CreateTable(
-                "dbo.EntryDefinitionIxDT",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        LowUtcDateTime = c.DateTime(precision: 3, storeType: "datetime2"),
-                        HighUtcDateTime = c.DateTime(precision: 3, storeType: "datetime2"),
-                        ServiceSearchParameterId = c.Int(nullable: false),
-                        ResourceId = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
-                .ForeignKey("dbo.EntryDefinitionRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
-                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
-                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
-                .Index(t => t.ResourceId);
-            
-            CreateTable(
-                "dbo.EntryDefinitionIxQty",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Comparator = c.Int(),
-                        Quantity = c.Decimal(precision: 28, scale: 14),
-                        Code = c.String(maxLength: 128),
-                        System = c.String(maxLength: 450),
-                        Unit = c.String(maxLength: 450),
-                        ComparatorHigh = c.Int(),
-                        QuantityHigh = c.Decimal(precision: 28, scale: 14),
-                        CodeHigh = c.String(maxLength: 128),
-                        SystemHigh = c.String(maxLength: 450),
-                        UnitHigh = c.String(maxLength: 64),
-                        ServiceSearchParameterId = c.Int(nullable: false),
-                        ResourceId = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
-                .ForeignKey("dbo.EntryDefinitionRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.Code, name: "ix_Code")
-                .Index(t => t.System, name: "ix_System")
-                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
-                .Index(t => t.ResourceId);
-            
-            CreateTable(
-                "dbo.EntryDefinitionIxRef",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        ReferenceFhirId = c.String(nullable: false, maxLength: 128),
-                        ReferenceResourceType = c.String(nullable: false, maxLength: 50),
-                        ReferenceServiceBaseUrlId = c.Int(),
-                        ReferenceVersionId = c.String(maxLength: 128),
-                        ServiceSearchParameterId = c.Int(nullable: false),
-                        ResourceId = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo._BaseUrl", t => t.ReferenceServiceBaseUrlId)
-                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
-                .ForeignKey("dbo.EntryDefinitionRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.ReferenceFhirId, name: "ix_RefFhirId")
-                .Index(t => t.ReferenceServiceBaseUrlId, name: "ix_RefBaseUrlId")
-                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
-                .Index(t => t.ResourceId);
-            
-            CreateTable(
-                "dbo.EntryDefinitionIxStr",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        String = c.String(nullable: false, maxLength: 450),
-                        ServiceSearchParameterId = c.Int(nullable: false),
-                        ResourceId = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
-                .ForeignKey("dbo.EntryDefinitionRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.String, name: "ix_String")
-                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
-                .Index(t => t.ResourceId);
-            
-            CreateTable(
-                "dbo.EntryDefinitionIxTok",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Code = c.String(maxLength: 128),
-                        System = c.String(maxLength: 450),
-                        ServiceSearchParameterId = c.Int(nullable: false),
-                        ResourceId = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
-                .ForeignKey("dbo.EntryDefinitionRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.Code, name: "ix_Code")
-                .Index(t => t.System, name: "ix_System")
-                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
-                .Index(t => t.ResourceId);
-            
-            CreateTable(
-                "dbo.EntryDefinitionIxUri",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Uri = c.String(nullable: false, maxLength: 450),
-                        ServiceSearchParameterId = c.Int(nullable: false),
-                        ResourceId = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
-                .ForeignKey("dbo.EntryDefinitionRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.Uri, name: "ix_Uri")
-                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
-                .Index(t => t.ResourceId);
-            
-            CreateTable(
                 "dbo.EpisodeOfCareRes",
                 c => new
                     {
@@ -6549,6 +6686,280 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("dbo.EventDefinitionRes", t => t.ResourceId, cascadeDelete: true)
+                .Index(t => t.Uri, name: "ix_Uri")
+                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
+                .Index(t => t.ResourceId);
+            
+            CreateTable(
+                "dbo.EvidenceRes",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        IsCurrent = c.Boolean(nullable: false),
+                        FhirId = c.String(nullable: false, maxLength: 128),
+                        IsDeleted = c.Boolean(nullable: false),
+                        VersionId = c.String(nullable: false, maxLength: 128),
+                        LastUpdated = c.DateTime(nullable: false, precision: 3, storeType: "datetime2"),
+                        Resource = c.Binary(),
+                        Method = c.Int(nullable: false),
+                        FhirReleaseId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo._FhirRelease", t => t.FhirReleaseId, cascadeDelete: true)
+                .Index(t => t.IsCurrent, name: "ix_IsCurrent")
+                .Index(t => new { t.FhirId, t.VersionId }, unique: true, name: "uq_FhirIdAndVersionId")
+                .Index(t => t.IsDeleted, name: "ix_IsDeleted")
+                .Index(t => t.LastUpdated, name: "ix_LastUpdated")
+                .Index(t => t.FhirReleaseId);
+            
+            CreateTable(
+                "dbo.EvidenceIxDT",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        LowUtcDateTime = c.DateTime(precision: 3, storeType: "datetime2"),
+                        HighUtcDateTime = c.DateTime(precision: 3, storeType: "datetime2"),
+                        ServiceSearchParameterId = c.Int(nullable: false),
+                        ResourceId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
+                .ForeignKey("dbo.EvidenceRes", t => t.ResourceId, cascadeDelete: true)
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
+                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
+                .Index(t => t.ResourceId);
+            
+            CreateTable(
+                "dbo.EvidenceIxQty",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Comparator = c.Int(),
+                        Quantity = c.Decimal(precision: 28, scale: 14),
+                        Code = c.String(maxLength: 128),
+                        System = c.String(maxLength: 450),
+                        Unit = c.String(maxLength: 450),
+                        ComparatorHigh = c.Int(),
+                        QuantityHigh = c.Decimal(precision: 28, scale: 14),
+                        CodeHigh = c.String(maxLength: 128),
+                        SystemHigh = c.String(maxLength: 450),
+                        UnitHigh = c.String(maxLength: 64),
+                        ServiceSearchParameterId = c.Int(nullable: false),
+                        ResourceId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
+                .ForeignKey("dbo.EvidenceRes", t => t.ResourceId, cascadeDelete: true)
+                .Index(t => t.Code, name: "ix_Code")
+                .Index(t => t.System, name: "ix_System")
+                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
+                .Index(t => t.ResourceId);
+            
+            CreateTable(
+                "dbo.EvidenceIxRef",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        ReferenceFhirId = c.String(nullable: false, maxLength: 128),
+                        ReferenceResourceType = c.String(nullable: false, maxLength: 50),
+                        ReferenceServiceBaseUrlId = c.Int(),
+                        ReferenceVersionId = c.String(maxLength: 128),
+                        ServiceSearchParameterId = c.Int(nullable: false),
+                        ResourceId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo._BaseUrl", t => t.ReferenceServiceBaseUrlId)
+                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
+                .ForeignKey("dbo.EvidenceRes", t => t.ResourceId, cascadeDelete: true)
+                .Index(t => t.ReferenceFhirId, name: "ix_RefFhirId")
+                .Index(t => t.ReferenceServiceBaseUrlId, name: "ix_RefBaseUrlId")
+                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
+                .Index(t => t.ResourceId);
+            
+            CreateTable(
+                "dbo.EvidenceIxStr",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        String = c.String(nullable: false, maxLength: 450),
+                        ServiceSearchParameterId = c.Int(nullable: false),
+                        ResourceId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
+                .ForeignKey("dbo.EvidenceRes", t => t.ResourceId, cascadeDelete: true)
+                .Index(t => t.String, name: "ix_String")
+                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
+                .Index(t => t.ResourceId);
+            
+            CreateTable(
+                "dbo.EvidenceIxTok",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Code = c.String(maxLength: 128),
+                        System = c.String(maxLength: 450),
+                        ServiceSearchParameterId = c.Int(nullable: false),
+                        ResourceId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
+                .ForeignKey("dbo.EvidenceRes", t => t.ResourceId, cascadeDelete: true)
+                .Index(t => t.Code, name: "ix_Code")
+                .Index(t => t.System, name: "ix_System")
+                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
+                .Index(t => t.ResourceId);
+            
+            CreateTable(
+                "dbo.EvidenceIxUri",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Uri = c.String(nullable: false, maxLength: 450),
+                        ServiceSearchParameterId = c.Int(nullable: false),
+                        ResourceId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
+                .ForeignKey("dbo.EvidenceRes", t => t.ResourceId, cascadeDelete: true)
+                .Index(t => t.Uri, name: "ix_Uri")
+                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
+                .Index(t => t.ResourceId);
+            
+            CreateTable(
+                "dbo.EvidenceVariableRes",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        IsCurrent = c.Boolean(nullable: false),
+                        FhirId = c.String(nullable: false, maxLength: 128),
+                        IsDeleted = c.Boolean(nullable: false),
+                        VersionId = c.String(nullable: false, maxLength: 128),
+                        LastUpdated = c.DateTime(nullable: false, precision: 3, storeType: "datetime2"),
+                        Resource = c.Binary(),
+                        Method = c.Int(nullable: false),
+                        FhirReleaseId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo._FhirRelease", t => t.FhirReleaseId, cascadeDelete: true)
+                .Index(t => t.IsCurrent, name: "ix_IsCurrent")
+                .Index(t => new { t.FhirId, t.VersionId }, unique: true, name: "uq_FhirIdAndVersionId")
+                .Index(t => t.IsDeleted, name: "ix_IsDeleted")
+                .Index(t => t.LastUpdated, name: "ix_LastUpdated")
+                .Index(t => t.FhirReleaseId);
+            
+            CreateTable(
+                "dbo.EvidenceVariableIxDT",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        LowUtcDateTime = c.DateTime(precision: 3, storeType: "datetime2"),
+                        HighUtcDateTime = c.DateTime(precision: 3, storeType: "datetime2"),
+                        ServiceSearchParameterId = c.Int(nullable: false),
+                        ResourceId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
+                .ForeignKey("dbo.EvidenceVariableRes", t => t.ResourceId, cascadeDelete: true)
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
+                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
+                .Index(t => t.ResourceId);
+            
+            CreateTable(
+                "dbo.EvidenceVariableIxQty",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Comparator = c.Int(),
+                        Quantity = c.Decimal(precision: 28, scale: 14),
+                        Code = c.String(maxLength: 128),
+                        System = c.String(maxLength: 450),
+                        Unit = c.String(maxLength: 450),
+                        ComparatorHigh = c.Int(),
+                        QuantityHigh = c.Decimal(precision: 28, scale: 14),
+                        CodeHigh = c.String(maxLength: 128),
+                        SystemHigh = c.String(maxLength: 450),
+                        UnitHigh = c.String(maxLength: 64),
+                        ServiceSearchParameterId = c.Int(nullable: false),
+                        ResourceId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
+                .ForeignKey("dbo.EvidenceVariableRes", t => t.ResourceId, cascadeDelete: true)
+                .Index(t => t.Code, name: "ix_Code")
+                .Index(t => t.System, name: "ix_System")
+                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
+                .Index(t => t.ResourceId);
+            
+            CreateTable(
+                "dbo.EvidenceVariableIxRef",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        ReferenceFhirId = c.String(nullable: false, maxLength: 128),
+                        ReferenceResourceType = c.String(nullable: false, maxLength: 50),
+                        ReferenceServiceBaseUrlId = c.Int(),
+                        ReferenceVersionId = c.String(maxLength: 128),
+                        ServiceSearchParameterId = c.Int(nullable: false),
+                        ResourceId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo._BaseUrl", t => t.ReferenceServiceBaseUrlId)
+                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
+                .ForeignKey("dbo.EvidenceVariableRes", t => t.ResourceId, cascadeDelete: true)
+                .Index(t => t.ReferenceFhirId, name: "ix_RefFhirId")
+                .Index(t => t.ReferenceServiceBaseUrlId, name: "ix_RefBaseUrlId")
+                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
+                .Index(t => t.ResourceId);
+            
+            CreateTable(
+                "dbo.EvidenceVariableIxStr",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        String = c.String(nullable: false, maxLength: 450),
+                        ServiceSearchParameterId = c.Int(nullable: false),
+                        ResourceId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
+                .ForeignKey("dbo.EvidenceVariableRes", t => t.ResourceId, cascadeDelete: true)
+                .Index(t => t.String, name: "ix_String")
+                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
+                .Index(t => t.ResourceId);
+            
+            CreateTable(
+                "dbo.EvidenceVariableIxTok",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Code = c.String(maxLength: 128),
+                        System = c.String(maxLength: 450),
+                        ServiceSearchParameterId = c.Int(nullable: false),
+                        ResourceId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
+                .ForeignKey("dbo.EvidenceVariableRes", t => t.ResourceId, cascadeDelete: true)
+                .Index(t => t.Code, name: "ix_Code")
+                .Index(t => t.System, name: "ix_System")
+                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
+                .Index(t => t.ResourceId);
+            
+            CreateTable(
+                "dbo.EvidenceVariableIxUri",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Uri = c.String(nullable: false, maxLength: 450),
+                        ServiceSearchParameterId = c.Int(nullable: false),
+                        ResourceId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
+                .ForeignKey("dbo.EvidenceVariableRes", t => t.ResourceId, cascadeDelete: true)
                 .Index(t => t.Uri, name: "ix_Uri")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
@@ -8746,143 +9157,6 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
                 .Index(t => t.ResourceId);
             
             CreateTable(
-                "dbo.ItemInstanceRes",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        IsCurrent = c.Boolean(nullable: false),
-                        FhirId = c.String(nullable: false, maxLength: 128),
-                        IsDeleted = c.Boolean(nullable: false),
-                        VersionId = c.String(nullable: false, maxLength: 128),
-                        LastUpdated = c.DateTime(nullable: false, precision: 3, storeType: "datetime2"),
-                        Resource = c.Binary(),
-                        Method = c.Int(nullable: false),
-                        FhirReleaseId = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo._FhirRelease", t => t.FhirReleaseId, cascadeDelete: true)
-                .Index(t => t.IsCurrent, name: "ix_IsCurrent")
-                .Index(t => new { t.FhirId, t.VersionId }, unique: true, name: "uq_FhirIdAndVersionId")
-                .Index(t => t.IsDeleted, name: "ix_IsDeleted")
-                .Index(t => t.LastUpdated, name: "ix_LastUpdated")
-                .Index(t => t.FhirReleaseId);
-            
-            CreateTable(
-                "dbo.ItemInstanceIxDT",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        LowUtcDateTime = c.DateTime(precision: 3, storeType: "datetime2"),
-                        HighUtcDateTime = c.DateTime(precision: 3, storeType: "datetime2"),
-                        ServiceSearchParameterId = c.Int(nullable: false),
-                        ResourceId = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
-                .ForeignKey("dbo.ItemInstanceRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
-                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
-                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
-                .Index(t => t.ResourceId);
-            
-            CreateTable(
-                "dbo.ItemInstanceIxQty",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Comparator = c.Int(),
-                        Quantity = c.Decimal(precision: 28, scale: 14),
-                        Code = c.String(maxLength: 128),
-                        System = c.String(maxLength: 450),
-                        Unit = c.String(maxLength: 450),
-                        ComparatorHigh = c.Int(),
-                        QuantityHigh = c.Decimal(precision: 28, scale: 14),
-                        CodeHigh = c.String(maxLength: 128),
-                        SystemHigh = c.String(maxLength: 450),
-                        UnitHigh = c.String(maxLength: 64),
-                        ServiceSearchParameterId = c.Int(nullable: false),
-                        ResourceId = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
-                .ForeignKey("dbo.ItemInstanceRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.Code, name: "ix_Code")
-                .Index(t => t.System, name: "ix_System")
-                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
-                .Index(t => t.ResourceId);
-            
-            CreateTable(
-                "dbo.ItemInstanceIxRef",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        ReferenceFhirId = c.String(nullable: false, maxLength: 128),
-                        ReferenceResourceType = c.String(nullable: false, maxLength: 50),
-                        ReferenceServiceBaseUrlId = c.Int(),
-                        ReferenceVersionId = c.String(maxLength: 128),
-                        ServiceSearchParameterId = c.Int(nullable: false),
-                        ResourceId = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo._BaseUrl", t => t.ReferenceServiceBaseUrlId)
-                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
-                .ForeignKey("dbo.ItemInstanceRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.ReferenceFhirId, name: "ix_RefFhirId")
-                .Index(t => t.ReferenceServiceBaseUrlId, name: "ix_RefBaseUrlId")
-                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
-                .Index(t => t.ResourceId);
-            
-            CreateTable(
-                "dbo.ItemInstanceIxStr",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        String = c.String(nullable: false, maxLength: 450),
-                        ServiceSearchParameterId = c.Int(nullable: false),
-                        ResourceId = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
-                .ForeignKey("dbo.ItemInstanceRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.String, name: "ix_String")
-                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
-                .Index(t => t.ResourceId);
-            
-            CreateTable(
-                "dbo.ItemInstanceIxTok",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Code = c.String(maxLength: 128),
-                        System = c.String(maxLength: 450),
-                        ServiceSearchParameterId = c.Int(nullable: false),
-                        ResourceId = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
-                .ForeignKey("dbo.ItemInstanceRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.Code, name: "ix_Code")
-                .Index(t => t.System, name: "ix_System")
-                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
-                .Index(t => t.ResourceId);
-            
-            CreateTable(
-                "dbo.ItemInstanceIxUri",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Uri = c.String(nullable: false, maxLength: 450),
-                        ServiceSearchParameterId = c.Int(nullable: false),
-                        ResourceId = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
-                .ForeignKey("dbo.ItemInstanceRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.Uri, name: "ix_Uri")
-                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
-                .Index(t => t.ResourceId);
-            
-            CreateTable(
                 "dbo.LibraryRes",
                 c => new
                     {
@@ -10801,143 +11075,6 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
                 .Index(t => t.ResourceId);
             
             CreateTable(
-                "dbo.MedicinalProductClinicalsRes",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        IsCurrent = c.Boolean(nullable: false),
-                        FhirId = c.String(nullable: false, maxLength: 128),
-                        IsDeleted = c.Boolean(nullable: false),
-                        VersionId = c.String(nullable: false, maxLength: 128),
-                        LastUpdated = c.DateTime(nullable: false, precision: 3, storeType: "datetime2"),
-                        Resource = c.Binary(),
-                        Method = c.Int(nullable: false),
-                        FhirReleaseId = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo._FhirRelease", t => t.FhirReleaseId, cascadeDelete: true)
-                .Index(t => t.IsCurrent, name: "ix_IsCurrent")
-                .Index(t => new { t.FhirId, t.VersionId }, unique: true, name: "uq_FhirIdAndVersionId")
-                .Index(t => t.IsDeleted, name: "ix_IsDeleted")
-                .Index(t => t.LastUpdated, name: "ix_LastUpdated")
-                .Index(t => t.FhirReleaseId);
-            
-            CreateTable(
-                "dbo.MedicinalProductClinicalsIxDT",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        LowUtcDateTime = c.DateTime(precision: 3, storeType: "datetime2"),
-                        HighUtcDateTime = c.DateTime(precision: 3, storeType: "datetime2"),
-                        ServiceSearchParameterId = c.Int(nullable: false),
-                        ResourceId = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
-                .ForeignKey("dbo.MedicinalProductClinicalsRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
-                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
-                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
-                .Index(t => t.ResourceId);
-            
-            CreateTable(
-                "dbo.MedicinalProductClinicalsIxQty",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Comparator = c.Int(),
-                        Quantity = c.Decimal(precision: 28, scale: 14),
-                        Code = c.String(maxLength: 128),
-                        System = c.String(maxLength: 450),
-                        Unit = c.String(maxLength: 450),
-                        ComparatorHigh = c.Int(),
-                        QuantityHigh = c.Decimal(precision: 28, scale: 14),
-                        CodeHigh = c.String(maxLength: 128),
-                        SystemHigh = c.String(maxLength: 450),
-                        UnitHigh = c.String(maxLength: 64),
-                        ServiceSearchParameterId = c.Int(nullable: false),
-                        ResourceId = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
-                .ForeignKey("dbo.MedicinalProductClinicalsRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.Code, name: "ix_Code")
-                .Index(t => t.System, name: "ix_System")
-                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
-                .Index(t => t.ResourceId);
-            
-            CreateTable(
-                "dbo.MedicinalProductClinicalsIxRef",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        ReferenceFhirId = c.String(nullable: false, maxLength: 128),
-                        ReferenceResourceType = c.String(nullable: false, maxLength: 50),
-                        ReferenceServiceBaseUrlId = c.Int(),
-                        ReferenceVersionId = c.String(maxLength: 128),
-                        ServiceSearchParameterId = c.Int(nullable: false),
-                        ResourceId = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo._BaseUrl", t => t.ReferenceServiceBaseUrlId)
-                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
-                .ForeignKey("dbo.MedicinalProductClinicalsRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.ReferenceFhirId, name: "ix_RefFhirId")
-                .Index(t => t.ReferenceServiceBaseUrlId, name: "ix_RefBaseUrlId")
-                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
-                .Index(t => t.ResourceId);
-            
-            CreateTable(
-                "dbo.MedicinalProductClinicalsIxStr",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        String = c.String(nullable: false, maxLength: 450),
-                        ServiceSearchParameterId = c.Int(nullable: false),
-                        ResourceId = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
-                .ForeignKey("dbo.MedicinalProductClinicalsRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.String, name: "ix_String")
-                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
-                .Index(t => t.ResourceId);
-            
-            CreateTable(
-                "dbo.MedicinalProductClinicalsIxTok",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Code = c.String(maxLength: 128),
-                        System = c.String(maxLength: 450),
-                        ServiceSearchParameterId = c.Int(nullable: false),
-                        ResourceId = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
-                .ForeignKey("dbo.MedicinalProductClinicalsRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.Code, name: "ix_Code")
-                .Index(t => t.System, name: "ix_System")
-                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
-                .Index(t => t.ResourceId);
-            
-            CreateTable(
-                "dbo.MedicinalProductClinicalsIxUri",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Uri = c.String(nullable: false, maxLength: 450),
-                        ServiceSearchParameterId = c.Int(nullable: false),
-                        ResourceId = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
-                .ForeignKey("dbo.MedicinalProductClinicalsRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.Uri, name: "ix_Uri")
-                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
-                .Index(t => t.ResourceId);
-            
-            CreateTable(
                 "dbo.MedicinalProductContraindicationRes",
                 c => new
                     {
@@ -11070,143 +11207,6 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("dbo.MedicinalProductContraindicationRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.Uri, name: "ix_Uri")
-                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
-                .Index(t => t.ResourceId);
-            
-            CreateTable(
-                "dbo.MedicinalProductDeviceSpecRes",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        IsCurrent = c.Boolean(nullable: false),
-                        FhirId = c.String(nullable: false, maxLength: 128),
-                        IsDeleted = c.Boolean(nullable: false),
-                        VersionId = c.String(nullable: false, maxLength: 128),
-                        LastUpdated = c.DateTime(nullable: false, precision: 3, storeType: "datetime2"),
-                        Resource = c.Binary(),
-                        Method = c.Int(nullable: false),
-                        FhirReleaseId = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo._FhirRelease", t => t.FhirReleaseId, cascadeDelete: true)
-                .Index(t => t.IsCurrent, name: "ix_IsCurrent")
-                .Index(t => new { t.FhirId, t.VersionId }, unique: true, name: "uq_FhirIdAndVersionId")
-                .Index(t => t.IsDeleted, name: "ix_IsDeleted")
-                .Index(t => t.LastUpdated, name: "ix_LastUpdated")
-                .Index(t => t.FhirReleaseId);
-            
-            CreateTable(
-                "dbo.MedicinalProductDeviceSpecIxDT",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        LowUtcDateTime = c.DateTime(precision: 3, storeType: "datetime2"),
-                        HighUtcDateTime = c.DateTime(precision: 3, storeType: "datetime2"),
-                        ServiceSearchParameterId = c.Int(nullable: false),
-                        ResourceId = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
-                .ForeignKey("dbo.MedicinalProductDeviceSpecRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
-                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
-                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
-                .Index(t => t.ResourceId);
-            
-            CreateTable(
-                "dbo.MedicinalProductDeviceSpecIxQty",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Comparator = c.Int(),
-                        Quantity = c.Decimal(precision: 28, scale: 14),
-                        Code = c.String(maxLength: 128),
-                        System = c.String(maxLength: 450),
-                        Unit = c.String(maxLength: 450),
-                        ComparatorHigh = c.Int(),
-                        QuantityHigh = c.Decimal(precision: 28, scale: 14),
-                        CodeHigh = c.String(maxLength: 128),
-                        SystemHigh = c.String(maxLength: 450),
-                        UnitHigh = c.String(maxLength: 64),
-                        ServiceSearchParameterId = c.Int(nullable: false),
-                        ResourceId = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
-                .ForeignKey("dbo.MedicinalProductDeviceSpecRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.Code, name: "ix_Code")
-                .Index(t => t.System, name: "ix_System")
-                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
-                .Index(t => t.ResourceId);
-            
-            CreateTable(
-                "dbo.MedicinalProductDeviceSpecIxRef",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        ReferenceFhirId = c.String(nullable: false, maxLength: 128),
-                        ReferenceResourceType = c.String(nullable: false, maxLength: 50),
-                        ReferenceServiceBaseUrlId = c.Int(),
-                        ReferenceVersionId = c.String(maxLength: 128),
-                        ServiceSearchParameterId = c.Int(nullable: false),
-                        ResourceId = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo._BaseUrl", t => t.ReferenceServiceBaseUrlId)
-                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
-                .ForeignKey("dbo.MedicinalProductDeviceSpecRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.ReferenceFhirId, name: "ix_RefFhirId")
-                .Index(t => t.ReferenceServiceBaseUrlId, name: "ix_RefBaseUrlId")
-                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
-                .Index(t => t.ResourceId);
-            
-            CreateTable(
-                "dbo.MedicinalProductDeviceSpecIxStr",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        String = c.String(nullable: false, maxLength: 450),
-                        ServiceSearchParameterId = c.Int(nullable: false),
-                        ResourceId = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
-                .ForeignKey("dbo.MedicinalProductDeviceSpecRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.String, name: "ix_String")
-                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
-                .Index(t => t.ResourceId);
-            
-            CreateTable(
-                "dbo.MedicinalProductDeviceSpecIxTok",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Code = c.String(maxLength: 128),
-                        System = c.String(maxLength: 450),
-                        ServiceSearchParameterId = c.Int(nullable: false),
-                        ResourceId = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
-                .ForeignKey("dbo.MedicinalProductDeviceSpecRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.Code, name: "ix_Code")
-                .Index(t => t.System, name: "ix_System")
-                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
-                .Index(t => t.ResourceId);
-            
-            CreateTable(
-                "dbo.MedicinalProductDeviceSpecIxUri",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Uri = c.String(nullable: false, maxLength: 450),
-                        ServiceSearchParameterId = c.Int(nullable: false),
-                        ResourceId = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
-                .ForeignKey("dbo.MedicinalProductDeviceSpecRes", t => t.ResourceId, cascadeDelete: true)
                 .Index(t => t.Uri, name: "ix_Uri")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
@@ -12577,6 +12577,143 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("dbo.MessageHeaderRes", t => t.ResourceId, cascadeDelete: true)
+                .Index(t => t.Uri, name: "ix_Uri")
+                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
+                .Index(t => t.ResourceId);
+            
+            CreateTable(
+                "dbo.MolecularSequenceRes",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        IsCurrent = c.Boolean(nullable: false),
+                        FhirId = c.String(nullable: false, maxLength: 128),
+                        IsDeleted = c.Boolean(nullable: false),
+                        VersionId = c.String(nullable: false, maxLength: 128),
+                        LastUpdated = c.DateTime(nullable: false, precision: 3, storeType: "datetime2"),
+                        Resource = c.Binary(),
+                        Method = c.Int(nullable: false),
+                        FhirReleaseId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo._FhirRelease", t => t.FhirReleaseId, cascadeDelete: true)
+                .Index(t => t.IsCurrent, name: "ix_IsCurrent")
+                .Index(t => new { t.FhirId, t.VersionId }, unique: true, name: "uq_FhirIdAndVersionId")
+                .Index(t => t.IsDeleted, name: "ix_IsDeleted")
+                .Index(t => t.LastUpdated, name: "ix_LastUpdated")
+                .Index(t => t.FhirReleaseId);
+            
+            CreateTable(
+                "dbo.MolecularSequenceIxDT",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        LowUtcDateTime = c.DateTime(precision: 3, storeType: "datetime2"),
+                        HighUtcDateTime = c.DateTime(precision: 3, storeType: "datetime2"),
+                        ServiceSearchParameterId = c.Int(nullable: false),
+                        ResourceId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
+                .ForeignKey("dbo.MolecularSequenceRes", t => t.ResourceId, cascadeDelete: true)
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
+                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
+                .Index(t => t.ResourceId);
+            
+            CreateTable(
+                "dbo.MolecularSequenceIxQty",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Comparator = c.Int(),
+                        Quantity = c.Decimal(precision: 28, scale: 14),
+                        Code = c.String(maxLength: 128),
+                        System = c.String(maxLength: 450),
+                        Unit = c.String(maxLength: 450),
+                        ComparatorHigh = c.Int(),
+                        QuantityHigh = c.Decimal(precision: 28, scale: 14),
+                        CodeHigh = c.String(maxLength: 128),
+                        SystemHigh = c.String(maxLength: 450),
+                        UnitHigh = c.String(maxLength: 64),
+                        ServiceSearchParameterId = c.Int(nullable: false),
+                        ResourceId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
+                .ForeignKey("dbo.MolecularSequenceRes", t => t.ResourceId, cascadeDelete: true)
+                .Index(t => t.Code, name: "ix_Code")
+                .Index(t => t.System, name: "ix_System")
+                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
+                .Index(t => t.ResourceId);
+            
+            CreateTable(
+                "dbo.MolecularSequenceIxRef",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        ReferenceFhirId = c.String(nullable: false, maxLength: 128),
+                        ReferenceResourceType = c.String(nullable: false, maxLength: 50),
+                        ReferenceServiceBaseUrlId = c.Int(),
+                        ReferenceVersionId = c.String(maxLength: 128),
+                        ServiceSearchParameterId = c.Int(nullable: false),
+                        ResourceId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo._BaseUrl", t => t.ReferenceServiceBaseUrlId)
+                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
+                .ForeignKey("dbo.MolecularSequenceRes", t => t.ResourceId, cascadeDelete: true)
+                .Index(t => t.ReferenceFhirId, name: "ix_RefFhirId")
+                .Index(t => t.ReferenceServiceBaseUrlId, name: "ix_RefBaseUrlId")
+                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
+                .Index(t => t.ResourceId);
+            
+            CreateTable(
+                "dbo.MolecularSequenceIxStr",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        String = c.String(nullable: false, maxLength: 450),
+                        ServiceSearchParameterId = c.Int(nullable: false),
+                        ResourceId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
+                .ForeignKey("dbo.MolecularSequenceRes", t => t.ResourceId, cascadeDelete: true)
+                .Index(t => t.String, name: "ix_String")
+                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
+                .Index(t => t.ResourceId);
+            
+            CreateTable(
+                "dbo.MolecularSequenceIxTok",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Code = c.String(maxLength: 128),
+                        System = c.String(maxLength: 450),
+                        ServiceSearchParameterId = c.Int(nullable: false),
+                        ResourceId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
+                .ForeignKey("dbo.MolecularSequenceRes", t => t.ResourceId, cascadeDelete: true)
+                .Index(t => t.Code, name: "ix_Code")
+                .Index(t => t.System, name: "ix_System")
+                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
+                .Index(t => t.ResourceId);
+            
+            CreateTable(
+                "dbo.MolecularSequenceIxUri",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Uri = c.String(nullable: false, maxLength: 450),
+                        ServiceSearchParameterId = c.Int(nullable: false),
+                        ResourceId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
+                .ForeignKey("dbo.MolecularSequenceRes", t => t.ResourceId, cascadeDelete: true)
                 .Index(t => t.Uri, name: "ix_Uri")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
@@ -14911,280 +15048,6 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
                 .Index(t => t.ResourceId);
             
             CreateTable(
-                "dbo.ProcessRequestRes",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        IsCurrent = c.Boolean(nullable: false),
-                        FhirId = c.String(nullable: false, maxLength: 128),
-                        IsDeleted = c.Boolean(nullable: false),
-                        VersionId = c.String(nullable: false, maxLength: 128),
-                        LastUpdated = c.DateTime(nullable: false, precision: 3, storeType: "datetime2"),
-                        Resource = c.Binary(),
-                        Method = c.Int(nullable: false),
-                        FhirReleaseId = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo._FhirRelease", t => t.FhirReleaseId, cascadeDelete: true)
-                .Index(t => t.IsCurrent, name: "ix_IsCurrent")
-                .Index(t => new { t.FhirId, t.VersionId }, unique: true, name: "uq_FhirIdAndVersionId")
-                .Index(t => t.IsDeleted, name: "ix_IsDeleted")
-                .Index(t => t.LastUpdated, name: "ix_LastUpdated")
-                .Index(t => t.FhirReleaseId);
-            
-            CreateTable(
-                "dbo.ProcessRequestIxDT",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        LowUtcDateTime = c.DateTime(precision: 3, storeType: "datetime2"),
-                        HighUtcDateTime = c.DateTime(precision: 3, storeType: "datetime2"),
-                        ServiceSearchParameterId = c.Int(nullable: false),
-                        ResourceId = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
-                .ForeignKey("dbo.ProcessRequestRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
-                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
-                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
-                .Index(t => t.ResourceId);
-            
-            CreateTable(
-                "dbo.ProcessRequestIxQty",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Comparator = c.Int(),
-                        Quantity = c.Decimal(precision: 28, scale: 14),
-                        Code = c.String(maxLength: 128),
-                        System = c.String(maxLength: 450),
-                        Unit = c.String(maxLength: 450),
-                        ComparatorHigh = c.Int(),
-                        QuantityHigh = c.Decimal(precision: 28, scale: 14),
-                        CodeHigh = c.String(maxLength: 128),
-                        SystemHigh = c.String(maxLength: 450),
-                        UnitHigh = c.String(maxLength: 64),
-                        ServiceSearchParameterId = c.Int(nullable: false),
-                        ResourceId = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
-                .ForeignKey("dbo.ProcessRequestRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.Code, name: "ix_Code")
-                .Index(t => t.System, name: "ix_System")
-                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
-                .Index(t => t.ResourceId);
-            
-            CreateTable(
-                "dbo.ProcessRequestIxRef",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        ReferenceFhirId = c.String(nullable: false, maxLength: 128),
-                        ReferenceResourceType = c.String(nullable: false, maxLength: 50),
-                        ReferenceServiceBaseUrlId = c.Int(),
-                        ReferenceVersionId = c.String(maxLength: 128),
-                        ServiceSearchParameterId = c.Int(nullable: false),
-                        ResourceId = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo._BaseUrl", t => t.ReferenceServiceBaseUrlId)
-                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
-                .ForeignKey("dbo.ProcessRequestRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.ReferenceFhirId, name: "ix_RefFhirId")
-                .Index(t => t.ReferenceServiceBaseUrlId, name: "ix_RefBaseUrlId")
-                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
-                .Index(t => t.ResourceId);
-            
-            CreateTable(
-                "dbo.ProcessRequestIxStr",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        String = c.String(nullable: false, maxLength: 450),
-                        ServiceSearchParameterId = c.Int(nullable: false),
-                        ResourceId = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
-                .ForeignKey("dbo.ProcessRequestRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.String, name: "ix_String")
-                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
-                .Index(t => t.ResourceId);
-            
-            CreateTable(
-                "dbo.ProcessRequestIxTok",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Code = c.String(maxLength: 128),
-                        System = c.String(maxLength: 450),
-                        ServiceSearchParameterId = c.Int(nullable: false),
-                        ResourceId = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
-                .ForeignKey("dbo.ProcessRequestRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.Code, name: "ix_Code")
-                .Index(t => t.System, name: "ix_System")
-                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
-                .Index(t => t.ResourceId);
-            
-            CreateTable(
-                "dbo.ProcessRequestIxUri",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Uri = c.String(nullable: false, maxLength: 450),
-                        ServiceSearchParameterId = c.Int(nullable: false),
-                        ResourceId = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
-                .ForeignKey("dbo.ProcessRequestRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.Uri, name: "ix_Uri")
-                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
-                .Index(t => t.ResourceId);
-            
-            CreateTable(
-                "dbo.ProcessResponseRes",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        IsCurrent = c.Boolean(nullable: false),
-                        FhirId = c.String(nullable: false, maxLength: 128),
-                        IsDeleted = c.Boolean(nullable: false),
-                        VersionId = c.String(nullable: false, maxLength: 128),
-                        LastUpdated = c.DateTime(nullable: false, precision: 3, storeType: "datetime2"),
-                        Resource = c.Binary(),
-                        Method = c.Int(nullable: false),
-                        FhirReleaseId = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo._FhirRelease", t => t.FhirReleaseId, cascadeDelete: true)
-                .Index(t => t.IsCurrent, name: "ix_IsCurrent")
-                .Index(t => new { t.FhirId, t.VersionId }, unique: true, name: "uq_FhirIdAndVersionId")
-                .Index(t => t.IsDeleted, name: "ix_IsDeleted")
-                .Index(t => t.LastUpdated, name: "ix_LastUpdated")
-                .Index(t => t.FhirReleaseId);
-            
-            CreateTable(
-                "dbo.ProcessResponseIxDT",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        LowUtcDateTime = c.DateTime(precision: 3, storeType: "datetime2"),
-                        HighUtcDateTime = c.DateTime(precision: 3, storeType: "datetime2"),
-                        ServiceSearchParameterId = c.Int(nullable: false),
-                        ResourceId = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
-                .ForeignKey("dbo.ProcessResponseRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
-                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
-                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
-                .Index(t => t.ResourceId);
-            
-            CreateTable(
-                "dbo.ProcessResponseIxQty",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Comparator = c.Int(),
-                        Quantity = c.Decimal(precision: 28, scale: 14),
-                        Code = c.String(maxLength: 128),
-                        System = c.String(maxLength: 450),
-                        Unit = c.String(maxLength: 450),
-                        ComparatorHigh = c.Int(),
-                        QuantityHigh = c.Decimal(precision: 28, scale: 14),
-                        CodeHigh = c.String(maxLength: 128),
-                        SystemHigh = c.String(maxLength: 450),
-                        UnitHigh = c.String(maxLength: 64),
-                        ServiceSearchParameterId = c.Int(nullable: false),
-                        ResourceId = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
-                .ForeignKey("dbo.ProcessResponseRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.Code, name: "ix_Code")
-                .Index(t => t.System, name: "ix_System")
-                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
-                .Index(t => t.ResourceId);
-            
-            CreateTable(
-                "dbo.ProcessResponseIxRef",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        ReferenceFhirId = c.String(nullable: false, maxLength: 128),
-                        ReferenceResourceType = c.String(nullable: false, maxLength: 50),
-                        ReferenceServiceBaseUrlId = c.Int(),
-                        ReferenceVersionId = c.String(maxLength: 128),
-                        ServiceSearchParameterId = c.Int(nullable: false),
-                        ResourceId = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo._BaseUrl", t => t.ReferenceServiceBaseUrlId)
-                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
-                .ForeignKey("dbo.ProcessResponseRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.ReferenceFhirId, name: "ix_RefFhirId")
-                .Index(t => t.ReferenceServiceBaseUrlId, name: "ix_RefBaseUrlId")
-                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
-                .Index(t => t.ResourceId);
-            
-            CreateTable(
-                "dbo.ProcessResponseIxStr",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        String = c.String(nullable: false, maxLength: 450),
-                        ServiceSearchParameterId = c.Int(nullable: false),
-                        ResourceId = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
-                .ForeignKey("dbo.ProcessResponseRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.String, name: "ix_String")
-                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
-                .Index(t => t.ResourceId);
-            
-            CreateTable(
-                "dbo.ProcessResponseIxTok",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Code = c.String(maxLength: 128),
-                        System = c.String(maxLength: 450),
-                        ServiceSearchParameterId = c.Int(nullable: false),
-                        ResourceId = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
-                .ForeignKey("dbo.ProcessResponseRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.Code, name: "ix_Code")
-                .Index(t => t.System, name: "ix_System")
-                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
-                .Index(t => t.ResourceId);
-            
-            CreateTable(
-                "dbo.ProcessResponseIxUri",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Uri = c.String(nullable: false, maxLength: 450),
-                        ServiceSearchParameterId = c.Int(nullable: false),
-                        ResourceId = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
-                .ForeignKey("dbo.ProcessResponseRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.Uri, name: "ix_Uri")
-                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
-                .Index(t => t.ResourceId);
-            
-            CreateTable(
                 "dbo.ProvenanceRes",
                 c => new
                     {
@@ -15870,6 +15733,280 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
                 .Index(t => t.ResourceId);
             
             CreateTable(
+                "dbo.ResearchDefinitionRes",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        IsCurrent = c.Boolean(nullable: false),
+                        FhirId = c.String(nullable: false, maxLength: 128),
+                        IsDeleted = c.Boolean(nullable: false),
+                        VersionId = c.String(nullable: false, maxLength: 128),
+                        LastUpdated = c.DateTime(nullable: false, precision: 3, storeType: "datetime2"),
+                        Resource = c.Binary(),
+                        Method = c.Int(nullable: false),
+                        FhirReleaseId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo._FhirRelease", t => t.FhirReleaseId, cascadeDelete: true)
+                .Index(t => t.IsCurrent, name: "ix_IsCurrent")
+                .Index(t => new { t.FhirId, t.VersionId }, unique: true, name: "uq_FhirIdAndVersionId")
+                .Index(t => t.IsDeleted, name: "ix_IsDeleted")
+                .Index(t => t.LastUpdated, name: "ix_LastUpdated")
+                .Index(t => t.FhirReleaseId);
+            
+            CreateTable(
+                "dbo.ResearchDefinitionIxDT",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        LowUtcDateTime = c.DateTime(precision: 3, storeType: "datetime2"),
+                        HighUtcDateTime = c.DateTime(precision: 3, storeType: "datetime2"),
+                        ServiceSearchParameterId = c.Int(nullable: false),
+                        ResourceId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
+                .ForeignKey("dbo.ResearchDefinitionRes", t => t.ResourceId, cascadeDelete: true)
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
+                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
+                .Index(t => t.ResourceId);
+            
+            CreateTable(
+                "dbo.ResearchDefinitionIxQty",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Comparator = c.Int(),
+                        Quantity = c.Decimal(precision: 28, scale: 14),
+                        Code = c.String(maxLength: 128),
+                        System = c.String(maxLength: 450),
+                        Unit = c.String(maxLength: 450),
+                        ComparatorHigh = c.Int(),
+                        QuantityHigh = c.Decimal(precision: 28, scale: 14),
+                        CodeHigh = c.String(maxLength: 128),
+                        SystemHigh = c.String(maxLength: 450),
+                        UnitHigh = c.String(maxLength: 64),
+                        ServiceSearchParameterId = c.Int(nullable: false),
+                        ResourceId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
+                .ForeignKey("dbo.ResearchDefinitionRes", t => t.ResourceId, cascadeDelete: true)
+                .Index(t => t.Code, name: "ix_Code")
+                .Index(t => t.System, name: "ix_System")
+                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
+                .Index(t => t.ResourceId);
+            
+            CreateTable(
+                "dbo.ResearchDefinitionIxRef",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        ReferenceFhirId = c.String(nullable: false, maxLength: 128),
+                        ReferenceResourceType = c.String(nullable: false, maxLength: 50),
+                        ReferenceServiceBaseUrlId = c.Int(),
+                        ReferenceVersionId = c.String(maxLength: 128),
+                        ServiceSearchParameterId = c.Int(nullable: false),
+                        ResourceId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo._BaseUrl", t => t.ReferenceServiceBaseUrlId)
+                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
+                .ForeignKey("dbo.ResearchDefinitionRes", t => t.ResourceId, cascadeDelete: true)
+                .Index(t => t.ReferenceFhirId, name: "ix_RefFhirId")
+                .Index(t => t.ReferenceServiceBaseUrlId, name: "ix_RefBaseUrlId")
+                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
+                .Index(t => t.ResourceId);
+            
+            CreateTable(
+                "dbo.ResearchDefinitionIxStr",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        String = c.String(nullable: false, maxLength: 450),
+                        ServiceSearchParameterId = c.Int(nullable: false),
+                        ResourceId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
+                .ForeignKey("dbo.ResearchDefinitionRes", t => t.ResourceId, cascadeDelete: true)
+                .Index(t => t.String, name: "ix_String")
+                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
+                .Index(t => t.ResourceId);
+            
+            CreateTable(
+                "dbo.ResearchDefinitionIxTok",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Code = c.String(maxLength: 128),
+                        System = c.String(maxLength: 450),
+                        ServiceSearchParameterId = c.Int(nullable: false),
+                        ResourceId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
+                .ForeignKey("dbo.ResearchDefinitionRes", t => t.ResourceId, cascadeDelete: true)
+                .Index(t => t.Code, name: "ix_Code")
+                .Index(t => t.System, name: "ix_System")
+                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
+                .Index(t => t.ResourceId);
+            
+            CreateTable(
+                "dbo.ResearchDefinitionIxUri",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Uri = c.String(nullable: false, maxLength: 450),
+                        ServiceSearchParameterId = c.Int(nullable: false),
+                        ResourceId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
+                .ForeignKey("dbo.ResearchDefinitionRes", t => t.ResourceId, cascadeDelete: true)
+                .Index(t => t.Uri, name: "ix_Uri")
+                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
+                .Index(t => t.ResourceId);
+            
+            CreateTable(
+                "dbo.ResearchElementDefinitionRes",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        IsCurrent = c.Boolean(nullable: false),
+                        FhirId = c.String(nullable: false, maxLength: 128),
+                        IsDeleted = c.Boolean(nullable: false),
+                        VersionId = c.String(nullable: false, maxLength: 128),
+                        LastUpdated = c.DateTime(nullable: false, precision: 3, storeType: "datetime2"),
+                        Resource = c.Binary(),
+                        Method = c.Int(nullable: false),
+                        FhirReleaseId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo._FhirRelease", t => t.FhirReleaseId, cascadeDelete: true)
+                .Index(t => t.IsCurrent, name: "ix_IsCurrent")
+                .Index(t => new { t.FhirId, t.VersionId }, unique: true, name: "uq_FhirIdAndVersionId")
+                .Index(t => t.IsDeleted, name: "ix_IsDeleted")
+                .Index(t => t.LastUpdated, name: "ix_LastUpdated")
+                .Index(t => t.FhirReleaseId);
+            
+            CreateTable(
+                "dbo.ResearchElementDefinitionIxDT",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        LowUtcDateTime = c.DateTime(precision: 3, storeType: "datetime2"),
+                        HighUtcDateTime = c.DateTime(precision: 3, storeType: "datetime2"),
+                        ServiceSearchParameterId = c.Int(nullable: false),
+                        ResourceId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
+                .ForeignKey("dbo.ResearchElementDefinitionRes", t => t.ResourceId, cascadeDelete: true)
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
+                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
+                .Index(t => t.ResourceId);
+            
+            CreateTable(
+                "dbo.ResearchElementDefinitionIxQty",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Comparator = c.Int(),
+                        Quantity = c.Decimal(precision: 28, scale: 14),
+                        Code = c.String(maxLength: 128),
+                        System = c.String(maxLength: 450),
+                        Unit = c.String(maxLength: 450),
+                        ComparatorHigh = c.Int(),
+                        QuantityHigh = c.Decimal(precision: 28, scale: 14),
+                        CodeHigh = c.String(maxLength: 128),
+                        SystemHigh = c.String(maxLength: 450),
+                        UnitHigh = c.String(maxLength: 64),
+                        ServiceSearchParameterId = c.Int(nullable: false),
+                        ResourceId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
+                .ForeignKey("dbo.ResearchElementDefinitionRes", t => t.ResourceId, cascadeDelete: true)
+                .Index(t => t.Code, name: "ix_Code")
+                .Index(t => t.System, name: "ix_System")
+                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
+                .Index(t => t.ResourceId);
+            
+            CreateTable(
+                "dbo.ResearchElementDefinitionIxRef",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        ReferenceFhirId = c.String(nullable: false, maxLength: 128),
+                        ReferenceResourceType = c.String(nullable: false, maxLength: 50),
+                        ReferenceServiceBaseUrlId = c.Int(),
+                        ReferenceVersionId = c.String(maxLength: 128),
+                        ServiceSearchParameterId = c.Int(nullable: false),
+                        ResourceId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo._BaseUrl", t => t.ReferenceServiceBaseUrlId)
+                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
+                .ForeignKey("dbo.ResearchElementDefinitionRes", t => t.ResourceId, cascadeDelete: true)
+                .Index(t => t.ReferenceFhirId, name: "ix_RefFhirId")
+                .Index(t => t.ReferenceServiceBaseUrlId, name: "ix_RefBaseUrlId")
+                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
+                .Index(t => t.ResourceId);
+            
+            CreateTable(
+                "dbo.ResearchElementDefinitionIxStr",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        String = c.String(nullable: false, maxLength: 450),
+                        ServiceSearchParameterId = c.Int(nullable: false),
+                        ResourceId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
+                .ForeignKey("dbo.ResearchElementDefinitionRes", t => t.ResourceId, cascadeDelete: true)
+                .Index(t => t.String, name: "ix_String")
+                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
+                .Index(t => t.ResourceId);
+            
+            CreateTable(
+                "dbo.ResearchElementDefinitionIxTok",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Code = c.String(maxLength: 128),
+                        System = c.String(maxLength: 450),
+                        ServiceSearchParameterId = c.Int(nullable: false),
+                        ResourceId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
+                .ForeignKey("dbo.ResearchElementDefinitionRes", t => t.ResourceId, cascadeDelete: true)
+                .Index(t => t.Code, name: "ix_Code")
+                .Index(t => t.System, name: "ix_System")
+                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
+                .Index(t => t.ResourceId);
+            
+            CreateTable(
+                "dbo.ResearchElementDefinitionIxUri",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Uri = c.String(nullable: false, maxLength: 450),
+                        ServiceSearchParameterId = c.Int(nullable: false),
+                        ResourceId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
+                .ForeignKey("dbo.ResearchElementDefinitionRes", t => t.ResourceId, cascadeDelete: true)
+                .Index(t => t.Uri, name: "ix_Uri")
+                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
+                .Index(t => t.ResourceId);
+            
+            CreateTable(
                 "dbo.ResearchStudyRes",
                 c => new
                     {
@@ -16281,6 +16418,143 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
                 .Index(t => t.ResourceId);
             
             CreateTable(
+                "dbo.RiskEvidenceSynthesisRes",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        IsCurrent = c.Boolean(nullable: false),
+                        FhirId = c.String(nullable: false, maxLength: 128),
+                        IsDeleted = c.Boolean(nullable: false),
+                        VersionId = c.String(nullable: false, maxLength: 128),
+                        LastUpdated = c.DateTime(nullable: false, precision: 3, storeType: "datetime2"),
+                        Resource = c.Binary(),
+                        Method = c.Int(nullable: false),
+                        FhirReleaseId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo._FhirRelease", t => t.FhirReleaseId, cascadeDelete: true)
+                .Index(t => t.IsCurrent, name: "ix_IsCurrent")
+                .Index(t => new { t.FhirId, t.VersionId }, unique: true, name: "uq_FhirIdAndVersionId")
+                .Index(t => t.IsDeleted, name: "ix_IsDeleted")
+                .Index(t => t.LastUpdated, name: "ix_LastUpdated")
+                .Index(t => t.FhirReleaseId);
+            
+            CreateTable(
+                "dbo.RiskEvidenceSynthesisIxDT",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        LowUtcDateTime = c.DateTime(precision: 3, storeType: "datetime2"),
+                        HighUtcDateTime = c.DateTime(precision: 3, storeType: "datetime2"),
+                        ServiceSearchParameterId = c.Int(nullable: false),
+                        ResourceId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
+                .ForeignKey("dbo.RiskEvidenceSynthesisRes", t => t.ResourceId, cascadeDelete: true)
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
+                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
+                .Index(t => t.ResourceId);
+            
+            CreateTable(
+                "dbo.RiskEvidenceSynthesisIxQty",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Comparator = c.Int(),
+                        Quantity = c.Decimal(precision: 28, scale: 14),
+                        Code = c.String(maxLength: 128),
+                        System = c.String(maxLength: 450),
+                        Unit = c.String(maxLength: 450),
+                        ComparatorHigh = c.Int(),
+                        QuantityHigh = c.Decimal(precision: 28, scale: 14),
+                        CodeHigh = c.String(maxLength: 128),
+                        SystemHigh = c.String(maxLength: 450),
+                        UnitHigh = c.String(maxLength: 64),
+                        ServiceSearchParameterId = c.Int(nullable: false),
+                        ResourceId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
+                .ForeignKey("dbo.RiskEvidenceSynthesisRes", t => t.ResourceId, cascadeDelete: true)
+                .Index(t => t.Code, name: "ix_Code")
+                .Index(t => t.System, name: "ix_System")
+                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
+                .Index(t => t.ResourceId);
+            
+            CreateTable(
+                "dbo.RiskEvidenceSynthesisIxRef",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        ReferenceFhirId = c.String(nullable: false, maxLength: 128),
+                        ReferenceResourceType = c.String(nullable: false, maxLength: 50),
+                        ReferenceServiceBaseUrlId = c.Int(),
+                        ReferenceVersionId = c.String(maxLength: 128),
+                        ServiceSearchParameterId = c.Int(nullable: false),
+                        ResourceId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo._BaseUrl", t => t.ReferenceServiceBaseUrlId)
+                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
+                .ForeignKey("dbo.RiskEvidenceSynthesisRes", t => t.ResourceId, cascadeDelete: true)
+                .Index(t => t.ReferenceFhirId, name: "ix_RefFhirId")
+                .Index(t => t.ReferenceServiceBaseUrlId, name: "ix_RefBaseUrlId")
+                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
+                .Index(t => t.ResourceId);
+            
+            CreateTable(
+                "dbo.RiskEvidenceSynthesisIxStr",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        String = c.String(nullable: false, maxLength: 450),
+                        ServiceSearchParameterId = c.Int(nullable: false),
+                        ResourceId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
+                .ForeignKey("dbo.RiskEvidenceSynthesisRes", t => t.ResourceId, cascadeDelete: true)
+                .Index(t => t.String, name: "ix_String")
+                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
+                .Index(t => t.ResourceId);
+            
+            CreateTable(
+                "dbo.RiskEvidenceSynthesisIxTok",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Code = c.String(maxLength: 128),
+                        System = c.String(maxLength: 450),
+                        ServiceSearchParameterId = c.Int(nullable: false),
+                        ResourceId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
+                .ForeignKey("dbo.RiskEvidenceSynthesisRes", t => t.ResourceId, cascadeDelete: true)
+                .Index(t => t.Code, name: "ix_Code")
+                .Index(t => t.System, name: "ix_System")
+                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
+                .Index(t => t.ResourceId);
+            
+            CreateTable(
+                "dbo.RiskEvidenceSynthesisIxUri",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Uri = c.String(nullable: false, maxLength: 450),
+                        ServiceSearchParameterId = c.Int(nullable: false),
+                        ResourceId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
+                .ForeignKey("dbo.RiskEvidenceSynthesisRes", t => t.ResourceId, cascadeDelete: true)
+                .Index(t => t.Uri, name: "ix_Uri")
+                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
+                .Index(t => t.ResourceId);
+            
+            CreateTable(
                 "dbo.ScheduleRes",
                 c => new
                     {
@@ -16550,143 +16824,6 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("dbo.SearchParameterRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.Uri, name: "ix_Uri")
-                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
-                .Index(t => t.ResourceId);
-            
-            CreateTable(
-                "dbo.SequenceRes",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        IsCurrent = c.Boolean(nullable: false),
-                        FhirId = c.String(nullable: false, maxLength: 128),
-                        IsDeleted = c.Boolean(nullable: false),
-                        VersionId = c.String(nullable: false, maxLength: 128),
-                        LastUpdated = c.DateTime(nullable: false, precision: 3, storeType: "datetime2"),
-                        Resource = c.Binary(),
-                        Method = c.Int(nullable: false),
-                        FhirReleaseId = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo._FhirRelease", t => t.FhirReleaseId, cascadeDelete: true)
-                .Index(t => t.IsCurrent, name: "ix_IsCurrent")
-                .Index(t => new { t.FhirId, t.VersionId }, unique: true, name: "uq_FhirIdAndVersionId")
-                .Index(t => t.IsDeleted, name: "ix_IsDeleted")
-                .Index(t => t.LastUpdated, name: "ix_LastUpdated")
-                .Index(t => t.FhirReleaseId);
-            
-            CreateTable(
-                "dbo.SequenceIxDT",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        LowUtcDateTime = c.DateTime(precision: 3, storeType: "datetime2"),
-                        HighUtcDateTime = c.DateTime(precision: 3, storeType: "datetime2"),
-                        ServiceSearchParameterId = c.Int(nullable: false),
-                        ResourceId = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
-                .ForeignKey("dbo.SequenceRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
-                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
-                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
-                .Index(t => t.ResourceId);
-            
-            CreateTable(
-                "dbo.SequenceIxQty",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Comparator = c.Int(),
-                        Quantity = c.Decimal(precision: 28, scale: 14),
-                        Code = c.String(maxLength: 128),
-                        System = c.String(maxLength: 450),
-                        Unit = c.String(maxLength: 450),
-                        ComparatorHigh = c.Int(),
-                        QuantityHigh = c.Decimal(precision: 28, scale: 14),
-                        CodeHigh = c.String(maxLength: 128),
-                        SystemHigh = c.String(maxLength: 450),
-                        UnitHigh = c.String(maxLength: 64),
-                        ServiceSearchParameterId = c.Int(nullable: false),
-                        ResourceId = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
-                .ForeignKey("dbo.SequenceRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.Code, name: "ix_Code")
-                .Index(t => t.System, name: "ix_System")
-                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
-                .Index(t => t.ResourceId);
-            
-            CreateTable(
-                "dbo.SequenceIxRef",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        ReferenceFhirId = c.String(nullable: false, maxLength: 128),
-                        ReferenceResourceType = c.String(nullable: false, maxLength: 50),
-                        ReferenceServiceBaseUrlId = c.Int(),
-                        ReferenceVersionId = c.String(maxLength: 128),
-                        ServiceSearchParameterId = c.Int(nullable: false),
-                        ResourceId = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo._BaseUrl", t => t.ReferenceServiceBaseUrlId)
-                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
-                .ForeignKey("dbo.SequenceRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.ReferenceFhirId, name: "ix_RefFhirId")
-                .Index(t => t.ReferenceServiceBaseUrlId, name: "ix_RefBaseUrlId")
-                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
-                .Index(t => t.ResourceId);
-            
-            CreateTable(
-                "dbo.SequenceIxStr",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        String = c.String(nullable: false, maxLength: 450),
-                        ServiceSearchParameterId = c.Int(nullable: false),
-                        ResourceId = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
-                .ForeignKey("dbo.SequenceRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.String, name: "ix_String")
-                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
-                .Index(t => t.ResourceId);
-            
-            CreateTable(
-                "dbo.SequenceIxTok",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Code = c.String(maxLength: 128),
-                        System = c.String(maxLength: 450),
-                        ServiceSearchParameterId = c.Int(nullable: false),
-                        ResourceId = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
-                .ForeignKey("dbo.SequenceRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.Code, name: "ix_Code")
-                .Index(t => t.System, name: "ix_System")
-                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
-                .Index(t => t.ResourceId);
-            
-            CreateTable(
-                "dbo.SequenceIxUri",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Uri = c.String(nullable: false, maxLength: 450),
-                        ServiceSearchParameterId = c.Int(nullable: false),
-                        ResourceId = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
-                .ForeignKey("dbo.SequenceRes", t => t.ResourceId, cascadeDelete: true)
                 .Index(t => t.Uri, name: "ix_Uri")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
@@ -17788,6 +17925,143 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
                 .Index(t => t.ResourceId);
             
             CreateTable(
+                "dbo.SubstanceNucleicAcidRes",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        IsCurrent = c.Boolean(nullable: false),
+                        FhirId = c.String(nullable: false, maxLength: 128),
+                        IsDeleted = c.Boolean(nullable: false),
+                        VersionId = c.String(nullable: false, maxLength: 128),
+                        LastUpdated = c.DateTime(nullable: false, precision: 3, storeType: "datetime2"),
+                        Resource = c.Binary(),
+                        Method = c.Int(nullable: false),
+                        FhirReleaseId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo._FhirRelease", t => t.FhirReleaseId, cascadeDelete: true)
+                .Index(t => t.IsCurrent, name: "ix_IsCurrent")
+                .Index(t => new { t.FhirId, t.VersionId }, unique: true, name: "uq_FhirIdAndVersionId")
+                .Index(t => t.IsDeleted, name: "ix_IsDeleted")
+                .Index(t => t.LastUpdated, name: "ix_LastUpdated")
+                .Index(t => t.FhirReleaseId);
+            
+            CreateTable(
+                "dbo.SubstanceNucleicAcidIxDT",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        LowUtcDateTime = c.DateTime(precision: 3, storeType: "datetime2"),
+                        HighUtcDateTime = c.DateTime(precision: 3, storeType: "datetime2"),
+                        ServiceSearchParameterId = c.Int(nullable: false),
+                        ResourceId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
+                .ForeignKey("dbo.SubstanceNucleicAcidRes", t => t.ResourceId, cascadeDelete: true)
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
+                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
+                .Index(t => t.ResourceId);
+            
+            CreateTable(
+                "dbo.SubstanceNucleicAcidIxQty",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Comparator = c.Int(),
+                        Quantity = c.Decimal(precision: 28, scale: 14),
+                        Code = c.String(maxLength: 128),
+                        System = c.String(maxLength: 450),
+                        Unit = c.String(maxLength: 450),
+                        ComparatorHigh = c.Int(),
+                        QuantityHigh = c.Decimal(precision: 28, scale: 14),
+                        CodeHigh = c.String(maxLength: 128),
+                        SystemHigh = c.String(maxLength: 450),
+                        UnitHigh = c.String(maxLength: 64),
+                        ServiceSearchParameterId = c.Int(nullable: false),
+                        ResourceId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
+                .ForeignKey("dbo.SubstanceNucleicAcidRes", t => t.ResourceId, cascadeDelete: true)
+                .Index(t => t.Code, name: "ix_Code")
+                .Index(t => t.System, name: "ix_System")
+                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
+                .Index(t => t.ResourceId);
+            
+            CreateTable(
+                "dbo.SubstanceNucleicAcidIxRef",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        ReferenceFhirId = c.String(nullable: false, maxLength: 128),
+                        ReferenceResourceType = c.String(nullable: false, maxLength: 50),
+                        ReferenceServiceBaseUrlId = c.Int(),
+                        ReferenceVersionId = c.String(maxLength: 128),
+                        ServiceSearchParameterId = c.Int(nullable: false),
+                        ResourceId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo._BaseUrl", t => t.ReferenceServiceBaseUrlId)
+                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
+                .ForeignKey("dbo.SubstanceNucleicAcidRes", t => t.ResourceId, cascadeDelete: true)
+                .Index(t => t.ReferenceFhirId, name: "ix_RefFhirId")
+                .Index(t => t.ReferenceServiceBaseUrlId, name: "ix_RefBaseUrlId")
+                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
+                .Index(t => t.ResourceId);
+            
+            CreateTable(
+                "dbo.SubstanceNucleicAcidIxStr",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        String = c.String(nullable: false, maxLength: 450),
+                        ServiceSearchParameterId = c.Int(nullable: false),
+                        ResourceId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
+                .ForeignKey("dbo.SubstanceNucleicAcidRes", t => t.ResourceId, cascadeDelete: true)
+                .Index(t => t.String, name: "ix_String")
+                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
+                .Index(t => t.ResourceId);
+            
+            CreateTable(
+                "dbo.SubstanceNucleicAcidIxTok",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Code = c.String(maxLength: 128),
+                        System = c.String(maxLength: 450),
+                        ServiceSearchParameterId = c.Int(nullable: false),
+                        ResourceId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
+                .ForeignKey("dbo.SubstanceNucleicAcidRes", t => t.ResourceId, cascadeDelete: true)
+                .Index(t => t.Code, name: "ix_Code")
+                .Index(t => t.System, name: "ix_System")
+                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
+                .Index(t => t.ResourceId);
+            
+            CreateTable(
+                "dbo.SubstanceNucleicAcidIxUri",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Uri = c.String(nullable: false, maxLength: 450),
+                        ServiceSearchParameterId = c.Int(nullable: false),
+                        ResourceId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
+                .ForeignKey("dbo.SubstanceNucleicAcidRes", t => t.ResourceId, cascadeDelete: true)
+                .Index(t => t.Uri, name: "ix_Uri")
+                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
+                .Index(t => t.ResourceId);
+            
+            CreateTable(
                 "dbo.SubstancePolymerRes",
                 c => new
                     {
@@ -17925,6 +18199,143 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
                 .Index(t => t.ResourceId);
             
             CreateTable(
+                "dbo.SubstanceProteinRes",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        IsCurrent = c.Boolean(nullable: false),
+                        FhirId = c.String(nullable: false, maxLength: 128),
+                        IsDeleted = c.Boolean(nullable: false),
+                        VersionId = c.String(nullable: false, maxLength: 128),
+                        LastUpdated = c.DateTime(nullable: false, precision: 3, storeType: "datetime2"),
+                        Resource = c.Binary(),
+                        Method = c.Int(nullable: false),
+                        FhirReleaseId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo._FhirRelease", t => t.FhirReleaseId, cascadeDelete: true)
+                .Index(t => t.IsCurrent, name: "ix_IsCurrent")
+                .Index(t => new { t.FhirId, t.VersionId }, unique: true, name: "uq_FhirIdAndVersionId")
+                .Index(t => t.IsDeleted, name: "ix_IsDeleted")
+                .Index(t => t.LastUpdated, name: "ix_LastUpdated")
+                .Index(t => t.FhirReleaseId);
+            
+            CreateTable(
+                "dbo.SubstanceProteinIxDT",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        LowUtcDateTime = c.DateTime(precision: 3, storeType: "datetime2"),
+                        HighUtcDateTime = c.DateTime(precision: 3, storeType: "datetime2"),
+                        ServiceSearchParameterId = c.Int(nullable: false),
+                        ResourceId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
+                .ForeignKey("dbo.SubstanceProteinRes", t => t.ResourceId, cascadeDelete: true)
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
+                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
+                .Index(t => t.ResourceId);
+            
+            CreateTable(
+                "dbo.SubstanceProteinIxQty",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Comparator = c.Int(),
+                        Quantity = c.Decimal(precision: 28, scale: 14),
+                        Code = c.String(maxLength: 128),
+                        System = c.String(maxLength: 450),
+                        Unit = c.String(maxLength: 450),
+                        ComparatorHigh = c.Int(),
+                        QuantityHigh = c.Decimal(precision: 28, scale: 14),
+                        CodeHigh = c.String(maxLength: 128),
+                        SystemHigh = c.String(maxLength: 450),
+                        UnitHigh = c.String(maxLength: 64),
+                        ServiceSearchParameterId = c.Int(nullable: false),
+                        ResourceId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
+                .ForeignKey("dbo.SubstanceProteinRes", t => t.ResourceId, cascadeDelete: true)
+                .Index(t => t.Code, name: "ix_Code")
+                .Index(t => t.System, name: "ix_System")
+                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
+                .Index(t => t.ResourceId);
+            
+            CreateTable(
+                "dbo.SubstanceProteinIxRef",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        ReferenceFhirId = c.String(nullable: false, maxLength: 128),
+                        ReferenceResourceType = c.String(nullable: false, maxLength: 50),
+                        ReferenceServiceBaseUrlId = c.Int(),
+                        ReferenceVersionId = c.String(maxLength: 128),
+                        ServiceSearchParameterId = c.Int(nullable: false),
+                        ResourceId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo._BaseUrl", t => t.ReferenceServiceBaseUrlId)
+                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
+                .ForeignKey("dbo.SubstanceProteinRes", t => t.ResourceId, cascadeDelete: true)
+                .Index(t => t.ReferenceFhirId, name: "ix_RefFhirId")
+                .Index(t => t.ReferenceServiceBaseUrlId, name: "ix_RefBaseUrlId")
+                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
+                .Index(t => t.ResourceId);
+            
+            CreateTable(
+                "dbo.SubstanceProteinIxStr",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        String = c.String(nullable: false, maxLength: 450),
+                        ServiceSearchParameterId = c.Int(nullable: false),
+                        ResourceId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
+                .ForeignKey("dbo.SubstanceProteinRes", t => t.ResourceId, cascadeDelete: true)
+                .Index(t => t.String, name: "ix_String")
+                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
+                .Index(t => t.ResourceId);
+            
+            CreateTable(
+                "dbo.SubstanceProteinIxTok",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Code = c.String(maxLength: 128),
+                        System = c.String(maxLength: 450),
+                        ServiceSearchParameterId = c.Int(nullable: false),
+                        ResourceId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
+                .ForeignKey("dbo.SubstanceProteinRes", t => t.ResourceId, cascadeDelete: true)
+                .Index(t => t.Code, name: "ix_Code")
+                .Index(t => t.System, name: "ix_System")
+                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
+                .Index(t => t.ResourceId);
+            
+            CreateTable(
+                "dbo.SubstanceProteinIxUri",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Uri = c.String(nullable: false, maxLength: 450),
+                        ServiceSearchParameterId = c.Int(nullable: false),
+                        ResourceId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
+                .ForeignKey("dbo.SubstanceProteinRes", t => t.ResourceId, cascadeDelete: true)
+                .Index(t => t.Uri, name: "ix_Uri")
+                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
+                .Index(t => t.ResourceId);
+            
+            CreateTable(
                 "dbo.SubstanceReferenceInformationRes",
                 c => new
                     {
@@ -18057,6 +18468,143 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
                 .ForeignKey("dbo.SubstanceReferenceInformationRes", t => t.ResourceId, cascadeDelete: true)
+                .Index(t => t.Uri, name: "ix_Uri")
+                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
+                .Index(t => t.ResourceId);
+            
+            CreateTable(
+                "dbo.SubstanceSourceMaterialRes",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        IsCurrent = c.Boolean(nullable: false),
+                        FhirId = c.String(nullable: false, maxLength: 128),
+                        IsDeleted = c.Boolean(nullable: false),
+                        VersionId = c.String(nullable: false, maxLength: 128),
+                        LastUpdated = c.DateTime(nullable: false, precision: 3, storeType: "datetime2"),
+                        Resource = c.Binary(),
+                        Method = c.Int(nullable: false),
+                        FhirReleaseId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo._FhirRelease", t => t.FhirReleaseId, cascadeDelete: true)
+                .Index(t => t.IsCurrent, name: "ix_IsCurrent")
+                .Index(t => new { t.FhirId, t.VersionId }, unique: true, name: "uq_FhirIdAndVersionId")
+                .Index(t => t.IsDeleted, name: "ix_IsDeleted")
+                .Index(t => t.LastUpdated, name: "ix_LastUpdated")
+                .Index(t => t.FhirReleaseId);
+            
+            CreateTable(
+                "dbo.SubstanceSourceMaterialIxDT",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        LowUtcDateTime = c.DateTime(precision: 3, storeType: "datetime2"),
+                        HighUtcDateTime = c.DateTime(precision: 3, storeType: "datetime2"),
+                        ServiceSearchParameterId = c.Int(nullable: false),
+                        ResourceId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
+                .ForeignKey("dbo.SubstanceSourceMaterialRes", t => t.ResourceId, cascadeDelete: true)
+                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
+                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
+                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
+                .Index(t => t.ResourceId);
+            
+            CreateTable(
+                "dbo.SubstanceSourceMaterialIxQty",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Comparator = c.Int(),
+                        Quantity = c.Decimal(precision: 28, scale: 14),
+                        Code = c.String(maxLength: 128),
+                        System = c.String(maxLength: 450),
+                        Unit = c.String(maxLength: 450),
+                        ComparatorHigh = c.Int(),
+                        QuantityHigh = c.Decimal(precision: 28, scale: 14),
+                        CodeHigh = c.String(maxLength: 128),
+                        SystemHigh = c.String(maxLength: 450),
+                        UnitHigh = c.String(maxLength: 64),
+                        ServiceSearchParameterId = c.Int(nullable: false),
+                        ResourceId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
+                .ForeignKey("dbo.SubstanceSourceMaterialRes", t => t.ResourceId, cascadeDelete: true)
+                .Index(t => t.Code, name: "ix_Code")
+                .Index(t => t.System, name: "ix_System")
+                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
+                .Index(t => t.ResourceId);
+            
+            CreateTable(
+                "dbo.SubstanceSourceMaterialIxRef",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        ReferenceFhirId = c.String(nullable: false, maxLength: 128),
+                        ReferenceResourceType = c.String(nullable: false, maxLength: 50),
+                        ReferenceServiceBaseUrlId = c.Int(),
+                        ReferenceVersionId = c.String(maxLength: 128),
+                        ServiceSearchParameterId = c.Int(nullable: false),
+                        ResourceId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo._BaseUrl", t => t.ReferenceServiceBaseUrlId)
+                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
+                .ForeignKey("dbo.SubstanceSourceMaterialRes", t => t.ResourceId, cascadeDelete: true)
+                .Index(t => t.ReferenceFhirId, name: "ix_RefFhirId")
+                .Index(t => t.ReferenceServiceBaseUrlId, name: "ix_RefBaseUrlId")
+                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
+                .Index(t => t.ResourceId);
+            
+            CreateTable(
+                "dbo.SubstanceSourceMaterialIxStr",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        String = c.String(nullable: false, maxLength: 450),
+                        ServiceSearchParameterId = c.Int(nullable: false),
+                        ResourceId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
+                .ForeignKey("dbo.SubstanceSourceMaterialRes", t => t.ResourceId, cascadeDelete: true)
+                .Index(t => t.String, name: "ix_String")
+                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
+                .Index(t => t.ResourceId);
+            
+            CreateTable(
+                "dbo.SubstanceSourceMaterialIxTok",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Code = c.String(maxLength: 128),
+                        System = c.String(maxLength: 450),
+                        ServiceSearchParameterId = c.Int(nullable: false),
+                        ResourceId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
+                .ForeignKey("dbo.SubstanceSourceMaterialRes", t => t.ResourceId, cascadeDelete: true)
+                .Index(t => t.Code, name: "ix_Code")
+                .Index(t => t.System, name: "ix_System")
+                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
+                .Index(t => t.ResourceId);
+            
+            CreateTable(
+                "dbo.SubstanceSourceMaterialIxUri",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Uri = c.String(nullable: false, maxLength: 450),
+                        ServiceSearchParameterId = c.Int(nullable: false),
+                        ResourceId = c.Int(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
+                .ForeignKey("dbo.SubstanceSourceMaterialRes", t => t.ResourceId, cascadeDelete: true)
                 .Index(t => t.Uri, name: "ix_Uri")
                 .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
                 .Index(t => t.ResourceId);
@@ -19021,143 +19569,6 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
                 .Index(t => t.ResourceId);
             
             CreateTable(
-                "dbo.UserSessionRes",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        IsCurrent = c.Boolean(nullable: false),
-                        FhirId = c.String(nullable: false, maxLength: 128),
-                        IsDeleted = c.Boolean(nullable: false),
-                        VersionId = c.String(nullable: false, maxLength: 128),
-                        LastUpdated = c.DateTime(nullable: false, precision: 3, storeType: "datetime2"),
-                        Resource = c.Binary(),
-                        Method = c.Int(nullable: false),
-                        FhirReleaseId = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo._FhirRelease", t => t.FhirReleaseId, cascadeDelete: true)
-                .Index(t => t.IsCurrent, name: "ix_IsCurrent")
-                .Index(t => new { t.FhirId, t.VersionId }, unique: true, name: "uq_FhirIdAndVersionId")
-                .Index(t => t.IsDeleted, name: "ix_IsDeleted")
-                .Index(t => t.LastUpdated, name: "ix_LastUpdated")
-                .Index(t => t.FhirReleaseId);
-            
-            CreateTable(
-                "dbo.UserSessionIxDT",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        LowUtcDateTime = c.DateTime(precision: 3, storeType: "datetime2"),
-                        HighUtcDateTime = c.DateTime(precision: 3, storeType: "datetime2"),
-                        ServiceSearchParameterId = c.Int(nullable: false),
-                        ResourceId = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
-                .ForeignKey("dbo.UserSessionRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.LowUtcDateTime, name: "ix_LowUtcDateTime")
-                .Index(t => t.HighUtcDateTime, name: "ix_HighUtcDateTime")
-                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
-                .Index(t => t.ResourceId);
-            
-            CreateTable(
-                "dbo.UserSessionIxQty",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Comparator = c.Int(),
-                        Quantity = c.Decimal(precision: 28, scale: 14),
-                        Code = c.String(maxLength: 128),
-                        System = c.String(maxLength: 450),
-                        Unit = c.String(maxLength: 450),
-                        ComparatorHigh = c.Int(),
-                        QuantityHigh = c.Decimal(precision: 28, scale: 14),
-                        CodeHigh = c.String(maxLength: 128),
-                        SystemHigh = c.String(maxLength: 450),
-                        UnitHigh = c.String(maxLength: 64),
-                        ServiceSearchParameterId = c.Int(nullable: false),
-                        ResourceId = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
-                .ForeignKey("dbo.UserSessionRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.Code, name: "ix_Code")
-                .Index(t => t.System, name: "ix_System")
-                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
-                .Index(t => t.ResourceId);
-            
-            CreateTable(
-                "dbo.UserSessionIxRef",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        ReferenceFhirId = c.String(nullable: false, maxLength: 128),
-                        ReferenceResourceType = c.String(nullable: false, maxLength: 50),
-                        ReferenceServiceBaseUrlId = c.Int(),
-                        ReferenceVersionId = c.String(maxLength: 128),
-                        ServiceSearchParameterId = c.Int(nullable: false),
-                        ResourceId = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo._BaseUrl", t => t.ReferenceServiceBaseUrlId)
-                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
-                .ForeignKey("dbo.UserSessionRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.ReferenceFhirId, name: "ix_RefFhirId")
-                .Index(t => t.ReferenceServiceBaseUrlId, name: "ix_RefBaseUrlId")
-                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
-                .Index(t => t.ResourceId);
-            
-            CreateTable(
-                "dbo.UserSessionIxStr",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        String = c.String(nullable: false, maxLength: 450),
-                        ServiceSearchParameterId = c.Int(nullable: false),
-                        ResourceId = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
-                .ForeignKey("dbo.UserSessionRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.String, name: "ix_String")
-                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
-                .Index(t => t.ResourceId);
-            
-            CreateTable(
-                "dbo.UserSessionIxTok",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Code = c.String(maxLength: 128),
-                        System = c.String(maxLength: 450),
-                        ServiceSearchParameterId = c.Int(nullable: false),
-                        ResourceId = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
-                .ForeignKey("dbo.UserSessionRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.Code, name: "ix_Code")
-                .Index(t => t.System, name: "ix_System")
-                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
-                .Index(t => t.ResourceId);
-            
-            CreateTable(
-                "dbo.UserSessionIxUri",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Uri = c.String(nullable: false, maxLength: 450),
-                        ServiceSearchParameterId = c.Int(nullable: false),
-                        ResourceId = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo._SearchParam", t => t.ServiceSearchParameterId, cascadeDelete: true)
-                .ForeignKey("dbo.UserSessionRes", t => t.ResourceId, cascadeDelete: true)
-                .Index(t => t.Uri, name: "ix_Uri")
-                .Index(t => t.ServiceSearchParameterId, name: "ix_SearchParamId")
-                .Index(t => t.ResourceId);
-            
-            CreateTable(
                 "dbo.ValueSetRes",
                 c => new
                     {
@@ -19684,6 +20095,56 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
                 .Index(t => t.ResourceId);
             
             CreateTable(
+                "dbo._BackburnerConnection",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        ConnectionId = c.String(nullable: false, maxLength: 128),
+                        IsConnected = c.Boolean(nullable: false),
+                        CreatedDate = c.DateTime(nullable: false, precision: 7, storeType: "datetime2"),
+                        CreatedUser = c.String(),
+                        LastUpdated = c.DateTime(nullable: false, precision: 7, storeType: "datetime2"),
+                        LastUpdatedUser = c.String(),
+                    })
+                .PrimaryKey(t => t.Id)
+                .Index(t => t.ConnectionId, unique: true, name: "ix_ConnectId");
+            
+            CreateTable(
+                "dbo._FhirTaskQueue",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        TaskFhirId = c.String(nullable: false, maxLength: 128),
+                        TaskType = c.String(nullable: false, maxLength: 128),
+                        PerfomrerConnectionId = c.String(maxLength: 128),
+                        Status = c.String(nullable: false, maxLength: 128),
+                        CreatedDate = c.DateTime(nullable: false, precision: 7, storeType: "datetime2"),
+                        CreatedUser = c.String(),
+                        LastUpdated = c.DateTime(nullable: false, precision: 7, storeType: "datetime2"),
+                        LastUpdatedUser = c.String(),
+                    })
+                .PrimaryKey(t => t.Id)
+                .Index(t => new { t.TaskFhirId, t.TaskType }, unique: true, name: "uq_TaskFhirIdAndType")
+                .Index(t => t.PerfomrerConnectionId, name: "ix_PConnectId")
+                .Index(t => t.Status, name: "ix_Status");
+            
+            CreateTable(
+                "dbo._FhirTaskWorker",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        TaskType = c.String(nullable: false, maxLength: 128),
+                        ClaimedBy = c.String(maxLength: 128),
+                        CreatedDate = c.DateTime(nullable: false, precision: 7, storeType: "datetime2"),
+                        CreatedUser = c.String(),
+                        LastUpdated = c.DateTime(nullable: false, precision: 7, storeType: "datetime2"),
+                        LastUpdatedUser = c.String(),
+                    })
+                .PrimaryKey(t => t.Id)
+                .Index(t => t.TaskType, unique: true, name: "ix_TaskType")
+                .Index(t => t.ClaimedBy, name: "ix_ClaimedBy");
+            
+            CreateTable(
                 "dbo._Compartment",
                 c => new
                     {
@@ -19788,20 +20249,6 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             DropForeignKey("dbo.ValueSetIxDT", "ResourceId", "dbo.ValueSetRes");
             DropForeignKey("dbo.ValueSetIxDT", "ServiceSearchParameterId", "dbo._SearchParam");
             DropForeignKey("dbo.ValueSetRes", "FhirReleaseId", "dbo._FhirRelease");
-            DropForeignKey("dbo.UserSessionIxUri", "ResourceId", "dbo.UserSessionRes");
-            DropForeignKey("dbo.UserSessionIxUri", "ServiceSearchParameterId", "dbo._SearchParam");
-            DropForeignKey("dbo.UserSessionIxTok", "ResourceId", "dbo.UserSessionRes");
-            DropForeignKey("dbo.UserSessionIxTok", "ServiceSearchParameterId", "dbo._SearchParam");
-            DropForeignKey("dbo.UserSessionIxStr", "ResourceId", "dbo.UserSessionRes");
-            DropForeignKey("dbo.UserSessionIxStr", "ServiceSearchParameterId", "dbo._SearchParam");
-            DropForeignKey("dbo.UserSessionIxRef", "ResourceId", "dbo.UserSessionRes");
-            DropForeignKey("dbo.UserSessionIxRef", "ServiceSearchParameterId", "dbo._SearchParam");
-            DropForeignKey("dbo.UserSessionIxRef", "ReferenceServiceBaseUrlId", "dbo._BaseUrl");
-            DropForeignKey("dbo.UserSessionIxQty", "ResourceId", "dbo.UserSessionRes");
-            DropForeignKey("dbo.UserSessionIxQty", "ServiceSearchParameterId", "dbo._SearchParam");
-            DropForeignKey("dbo.UserSessionIxDT", "ResourceId", "dbo.UserSessionRes");
-            DropForeignKey("dbo.UserSessionIxDT", "ServiceSearchParameterId", "dbo._SearchParam");
-            DropForeignKey("dbo.UserSessionRes", "FhirReleaseId", "dbo._FhirRelease");
             DropForeignKey("dbo.TestScriptIxUri", "ResourceId", "dbo.TestScriptRes");
             DropForeignKey("dbo.TestScriptIxUri", "ServiceSearchParameterId", "dbo._SearchParam");
             DropForeignKey("dbo.TestScriptIxTok", "ResourceId", "dbo.TestScriptRes");
@@ -19900,6 +20347,20 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             DropForeignKey("dbo.SubstanceSpecificationIxDT", "ResourceId", "dbo.SubstanceSpecificationRes");
             DropForeignKey("dbo.SubstanceSpecificationIxDT", "ServiceSearchParameterId", "dbo._SearchParam");
             DropForeignKey("dbo.SubstanceSpecificationRes", "FhirReleaseId", "dbo._FhirRelease");
+            DropForeignKey("dbo.SubstanceSourceMaterialIxUri", "ResourceId", "dbo.SubstanceSourceMaterialRes");
+            DropForeignKey("dbo.SubstanceSourceMaterialIxUri", "ServiceSearchParameterId", "dbo._SearchParam");
+            DropForeignKey("dbo.SubstanceSourceMaterialIxTok", "ResourceId", "dbo.SubstanceSourceMaterialRes");
+            DropForeignKey("dbo.SubstanceSourceMaterialIxTok", "ServiceSearchParameterId", "dbo._SearchParam");
+            DropForeignKey("dbo.SubstanceSourceMaterialIxStr", "ResourceId", "dbo.SubstanceSourceMaterialRes");
+            DropForeignKey("dbo.SubstanceSourceMaterialIxStr", "ServiceSearchParameterId", "dbo._SearchParam");
+            DropForeignKey("dbo.SubstanceSourceMaterialIxRef", "ResourceId", "dbo.SubstanceSourceMaterialRes");
+            DropForeignKey("dbo.SubstanceSourceMaterialIxRef", "ServiceSearchParameterId", "dbo._SearchParam");
+            DropForeignKey("dbo.SubstanceSourceMaterialIxRef", "ReferenceServiceBaseUrlId", "dbo._BaseUrl");
+            DropForeignKey("dbo.SubstanceSourceMaterialIxQty", "ResourceId", "dbo.SubstanceSourceMaterialRes");
+            DropForeignKey("dbo.SubstanceSourceMaterialIxQty", "ServiceSearchParameterId", "dbo._SearchParam");
+            DropForeignKey("dbo.SubstanceSourceMaterialIxDT", "ResourceId", "dbo.SubstanceSourceMaterialRes");
+            DropForeignKey("dbo.SubstanceSourceMaterialIxDT", "ServiceSearchParameterId", "dbo._SearchParam");
+            DropForeignKey("dbo.SubstanceSourceMaterialRes", "FhirReleaseId", "dbo._FhirRelease");
             DropForeignKey("dbo.SubstanceReferenceInformationIxUri", "ResourceId", "dbo.SubstanceReferenceInformationRes");
             DropForeignKey("dbo.SubstanceReferenceInformationIxUri", "ServiceSearchParameterId", "dbo._SearchParam");
             DropForeignKey("dbo.SubstanceReferenceInformationIxTok", "ResourceId", "dbo.SubstanceReferenceInformationRes");
@@ -19914,6 +20375,20 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             DropForeignKey("dbo.SubstanceReferenceInformationIxDT", "ResourceId", "dbo.SubstanceReferenceInformationRes");
             DropForeignKey("dbo.SubstanceReferenceInformationIxDT", "ServiceSearchParameterId", "dbo._SearchParam");
             DropForeignKey("dbo.SubstanceReferenceInformationRes", "FhirReleaseId", "dbo._FhirRelease");
+            DropForeignKey("dbo.SubstanceProteinIxUri", "ResourceId", "dbo.SubstanceProteinRes");
+            DropForeignKey("dbo.SubstanceProteinIxUri", "ServiceSearchParameterId", "dbo._SearchParam");
+            DropForeignKey("dbo.SubstanceProteinIxTok", "ResourceId", "dbo.SubstanceProteinRes");
+            DropForeignKey("dbo.SubstanceProteinIxTok", "ServiceSearchParameterId", "dbo._SearchParam");
+            DropForeignKey("dbo.SubstanceProteinIxStr", "ResourceId", "dbo.SubstanceProteinRes");
+            DropForeignKey("dbo.SubstanceProteinIxStr", "ServiceSearchParameterId", "dbo._SearchParam");
+            DropForeignKey("dbo.SubstanceProteinIxRef", "ResourceId", "dbo.SubstanceProteinRes");
+            DropForeignKey("dbo.SubstanceProteinIxRef", "ServiceSearchParameterId", "dbo._SearchParam");
+            DropForeignKey("dbo.SubstanceProteinIxRef", "ReferenceServiceBaseUrlId", "dbo._BaseUrl");
+            DropForeignKey("dbo.SubstanceProteinIxQty", "ResourceId", "dbo.SubstanceProteinRes");
+            DropForeignKey("dbo.SubstanceProteinIxQty", "ServiceSearchParameterId", "dbo._SearchParam");
+            DropForeignKey("dbo.SubstanceProteinIxDT", "ResourceId", "dbo.SubstanceProteinRes");
+            DropForeignKey("dbo.SubstanceProteinIxDT", "ServiceSearchParameterId", "dbo._SearchParam");
+            DropForeignKey("dbo.SubstanceProteinRes", "FhirReleaseId", "dbo._FhirRelease");
             DropForeignKey("dbo.SubstancePolymerIxUri", "ResourceId", "dbo.SubstancePolymerRes");
             DropForeignKey("dbo.SubstancePolymerIxUri", "ServiceSearchParameterId", "dbo._SearchParam");
             DropForeignKey("dbo.SubstancePolymerIxTok", "ResourceId", "dbo.SubstancePolymerRes");
@@ -19928,6 +20403,20 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             DropForeignKey("dbo.SubstancePolymerIxDT", "ResourceId", "dbo.SubstancePolymerRes");
             DropForeignKey("dbo.SubstancePolymerIxDT", "ServiceSearchParameterId", "dbo._SearchParam");
             DropForeignKey("dbo.SubstancePolymerRes", "FhirReleaseId", "dbo._FhirRelease");
+            DropForeignKey("dbo.SubstanceNucleicAcidIxUri", "ResourceId", "dbo.SubstanceNucleicAcidRes");
+            DropForeignKey("dbo.SubstanceNucleicAcidIxUri", "ServiceSearchParameterId", "dbo._SearchParam");
+            DropForeignKey("dbo.SubstanceNucleicAcidIxTok", "ResourceId", "dbo.SubstanceNucleicAcidRes");
+            DropForeignKey("dbo.SubstanceNucleicAcidIxTok", "ServiceSearchParameterId", "dbo._SearchParam");
+            DropForeignKey("dbo.SubstanceNucleicAcidIxStr", "ResourceId", "dbo.SubstanceNucleicAcidRes");
+            DropForeignKey("dbo.SubstanceNucleicAcidIxStr", "ServiceSearchParameterId", "dbo._SearchParam");
+            DropForeignKey("dbo.SubstanceNucleicAcidIxRef", "ResourceId", "dbo.SubstanceNucleicAcidRes");
+            DropForeignKey("dbo.SubstanceNucleicAcidIxRef", "ServiceSearchParameterId", "dbo._SearchParam");
+            DropForeignKey("dbo.SubstanceNucleicAcidIxRef", "ReferenceServiceBaseUrlId", "dbo._BaseUrl");
+            DropForeignKey("dbo.SubstanceNucleicAcidIxQty", "ResourceId", "dbo.SubstanceNucleicAcidRes");
+            DropForeignKey("dbo.SubstanceNucleicAcidIxQty", "ServiceSearchParameterId", "dbo._SearchParam");
+            DropForeignKey("dbo.SubstanceNucleicAcidIxDT", "ResourceId", "dbo.SubstanceNucleicAcidRes");
+            DropForeignKey("dbo.SubstanceNucleicAcidIxDT", "ServiceSearchParameterId", "dbo._SearchParam");
+            DropForeignKey("dbo.SubstanceNucleicAcidRes", "FhirReleaseId", "dbo._FhirRelease");
             DropForeignKey("dbo.SubstanceIxUri", "ResourceId", "dbo.SubstanceRes");
             DropForeignKey("dbo.SubstanceIxUri", "ServiceSearchParameterId", "dbo._SearchParam");
             DropForeignKey("dbo.SubstanceIxTok", "ResourceId", "dbo.SubstanceRes");
@@ -20040,20 +20529,6 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             DropForeignKey("dbo.ServiceRequestIxDT", "ResourceId", "dbo.ServiceRequestRes");
             DropForeignKey("dbo.ServiceRequestIxDT", "ServiceSearchParameterId", "dbo._SearchParam");
             DropForeignKey("dbo.ServiceRequestRes", "FhirReleaseId", "dbo._FhirRelease");
-            DropForeignKey("dbo.SequenceIxUri", "ResourceId", "dbo.SequenceRes");
-            DropForeignKey("dbo.SequenceIxUri", "ServiceSearchParameterId", "dbo._SearchParam");
-            DropForeignKey("dbo.SequenceIxTok", "ResourceId", "dbo.SequenceRes");
-            DropForeignKey("dbo.SequenceIxTok", "ServiceSearchParameterId", "dbo._SearchParam");
-            DropForeignKey("dbo.SequenceIxStr", "ResourceId", "dbo.SequenceRes");
-            DropForeignKey("dbo.SequenceIxStr", "ServiceSearchParameterId", "dbo._SearchParam");
-            DropForeignKey("dbo.SequenceIxRef", "ResourceId", "dbo.SequenceRes");
-            DropForeignKey("dbo.SequenceIxRef", "ServiceSearchParameterId", "dbo._SearchParam");
-            DropForeignKey("dbo.SequenceIxRef", "ReferenceServiceBaseUrlId", "dbo._BaseUrl");
-            DropForeignKey("dbo.SequenceIxQty", "ResourceId", "dbo.SequenceRes");
-            DropForeignKey("dbo.SequenceIxQty", "ServiceSearchParameterId", "dbo._SearchParam");
-            DropForeignKey("dbo.SequenceIxDT", "ResourceId", "dbo.SequenceRes");
-            DropForeignKey("dbo.SequenceIxDT", "ServiceSearchParameterId", "dbo._SearchParam");
-            DropForeignKey("dbo.SequenceRes", "FhirReleaseId", "dbo._FhirRelease");
             DropForeignKey("dbo.SearchParameterIxUri", "ResourceId", "dbo.SearchParameterRes");
             DropForeignKey("dbo.SearchParameterIxUri", "ServiceSearchParameterId", "dbo._SearchParam");
             DropForeignKey("dbo.SearchParameterIxTok", "ResourceId", "dbo.SearchParameterRes");
@@ -20082,6 +20557,20 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             DropForeignKey("dbo.ScheduleIxDT", "ResourceId", "dbo.ScheduleRes");
             DropForeignKey("dbo.ScheduleIxDT", "ServiceSearchParameterId", "dbo._SearchParam");
             DropForeignKey("dbo.ScheduleRes", "FhirReleaseId", "dbo._FhirRelease");
+            DropForeignKey("dbo.RiskEvidenceSynthesisIxUri", "ResourceId", "dbo.RiskEvidenceSynthesisRes");
+            DropForeignKey("dbo.RiskEvidenceSynthesisIxUri", "ServiceSearchParameterId", "dbo._SearchParam");
+            DropForeignKey("dbo.RiskEvidenceSynthesisIxTok", "ResourceId", "dbo.RiskEvidenceSynthesisRes");
+            DropForeignKey("dbo.RiskEvidenceSynthesisIxTok", "ServiceSearchParameterId", "dbo._SearchParam");
+            DropForeignKey("dbo.RiskEvidenceSynthesisIxStr", "ResourceId", "dbo.RiskEvidenceSynthesisRes");
+            DropForeignKey("dbo.RiskEvidenceSynthesisIxStr", "ServiceSearchParameterId", "dbo._SearchParam");
+            DropForeignKey("dbo.RiskEvidenceSynthesisIxRef", "ResourceId", "dbo.RiskEvidenceSynthesisRes");
+            DropForeignKey("dbo.RiskEvidenceSynthesisIxRef", "ServiceSearchParameterId", "dbo._SearchParam");
+            DropForeignKey("dbo.RiskEvidenceSynthesisIxRef", "ReferenceServiceBaseUrlId", "dbo._BaseUrl");
+            DropForeignKey("dbo.RiskEvidenceSynthesisIxQty", "ResourceId", "dbo.RiskEvidenceSynthesisRes");
+            DropForeignKey("dbo.RiskEvidenceSynthesisIxQty", "ServiceSearchParameterId", "dbo._SearchParam");
+            DropForeignKey("dbo.RiskEvidenceSynthesisIxDT", "ResourceId", "dbo.RiskEvidenceSynthesisRes");
+            DropForeignKey("dbo.RiskEvidenceSynthesisIxDT", "ServiceSearchParameterId", "dbo._SearchParam");
+            DropForeignKey("dbo.RiskEvidenceSynthesisRes", "FhirReleaseId", "dbo._FhirRelease");
             DropForeignKey("dbo.RiskAssessmentIxUri", "ResourceId", "dbo.RiskAssessmentRes");
             DropForeignKey("dbo.RiskAssessmentIxUri", "ServiceSearchParameterId", "dbo._SearchParam");
             DropForeignKey("dbo.RiskAssessmentIxTok", "ResourceId", "dbo.RiskAssessmentRes");
@@ -20124,6 +20613,34 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             DropForeignKey("dbo.ResearchStudyIxDT", "ResourceId", "dbo.ResearchStudyRes");
             DropForeignKey("dbo.ResearchStudyIxDT", "ServiceSearchParameterId", "dbo._SearchParam");
             DropForeignKey("dbo.ResearchStudyRes", "FhirReleaseId", "dbo._FhirRelease");
+            DropForeignKey("dbo.ResearchElementDefinitionIxUri", "ResourceId", "dbo.ResearchElementDefinitionRes");
+            DropForeignKey("dbo.ResearchElementDefinitionIxUri", "ServiceSearchParameterId", "dbo._SearchParam");
+            DropForeignKey("dbo.ResearchElementDefinitionIxTok", "ResourceId", "dbo.ResearchElementDefinitionRes");
+            DropForeignKey("dbo.ResearchElementDefinitionIxTok", "ServiceSearchParameterId", "dbo._SearchParam");
+            DropForeignKey("dbo.ResearchElementDefinitionIxStr", "ResourceId", "dbo.ResearchElementDefinitionRes");
+            DropForeignKey("dbo.ResearchElementDefinitionIxStr", "ServiceSearchParameterId", "dbo._SearchParam");
+            DropForeignKey("dbo.ResearchElementDefinitionIxRef", "ResourceId", "dbo.ResearchElementDefinitionRes");
+            DropForeignKey("dbo.ResearchElementDefinitionIxRef", "ServiceSearchParameterId", "dbo._SearchParam");
+            DropForeignKey("dbo.ResearchElementDefinitionIxRef", "ReferenceServiceBaseUrlId", "dbo._BaseUrl");
+            DropForeignKey("dbo.ResearchElementDefinitionIxQty", "ResourceId", "dbo.ResearchElementDefinitionRes");
+            DropForeignKey("dbo.ResearchElementDefinitionIxQty", "ServiceSearchParameterId", "dbo._SearchParam");
+            DropForeignKey("dbo.ResearchElementDefinitionIxDT", "ResourceId", "dbo.ResearchElementDefinitionRes");
+            DropForeignKey("dbo.ResearchElementDefinitionIxDT", "ServiceSearchParameterId", "dbo._SearchParam");
+            DropForeignKey("dbo.ResearchElementDefinitionRes", "FhirReleaseId", "dbo._FhirRelease");
+            DropForeignKey("dbo.ResearchDefinitionIxUri", "ResourceId", "dbo.ResearchDefinitionRes");
+            DropForeignKey("dbo.ResearchDefinitionIxUri", "ServiceSearchParameterId", "dbo._SearchParam");
+            DropForeignKey("dbo.ResearchDefinitionIxTok", "ResourceId", "dbo.ResearchDefinitionRes");
+            DropForeignKey("dbo.ResearchDefinitionIxTok", "ServiceSearchParameterId", "dbo._SearchParam");
+            DropForeignKey("dbo.ResearchDefinitionIxStr", "ResourceId", "dbo.ResearchDefinitionRes");
+            DropForeignKey("dbo.ResearchDefinitionIxStr", "ServiceSearchParameterId", "dbo._SearchParam");
+            DropForeignKey("dbo.ResearchDefinitionIxRef", "ResourceId", "dbo.ResearchDefinitionRes");
+            DropForeignKey("dbo.ResearchDefinitionIxRef", "ServiceSearchParameterId", "dbo._SearchParam");
+            DropForeignKey("dbo.ResearchDefinitionIxRef", "ReferenceServiceBaseUrlId", "dbo._BaseUrl");
+            DropForeignKey("dbo.ResearchDefinitionIxQty", "ResourceId", "dbo.ResearchDefinitionRes");
+            DropForeignKey("dbo.ResearchDefinitionIxQty", "ServiceSearchParameterId", "dbo._SearchParam");
+            DropForeignKey("dbo.ResearchDefinitionIxDT", "ResourceId", "dbo.ResearchDefinitionRes");
+            DropForeignKey("dbo.ResearchDefinitionIxDT", "ServiceSearchParameterId", "dbo._SearchParam");
+            DropForeignKey("dbo.ResearchDefinitionRes", "FhirReleaseId", "dbo._FhirRelease");
             DropForeignKey("dbo.RequestGroupIxUri", "ResourceId", "dbo.RequestGroupRes");
             DropForeignKey("dbo.RequestGroupIxUri", "ServiceSearchParameterId", "dbo._SearchParam");
             DropForeignKey("dbo.RequestGroupIxTok", "ResourceId", "dbo.RequestGroupRes");
@@ -20194,34 +20711,6 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             DropForeignKey("dbo.ProvenanceIxDT", "ResourceId", "dbo.ProvenanceRes");
             DropForeignKey("dbo.ProvenanceIxDT", "ServiceSearchParameterId", "dbo._SearchParam");
             DropForeignKey("dbo.ProvenanceRes", "FhirReleaseId", "dbo._FhirRelease");
-            DropForeignKey("dbo.ProcessResponseIxUri", "ResourceId", "dbo.ProcessResponseRes");
-            DropForeignKey("dbo.ProcessResponseIxUri", "ServiceSearchParameterId", "dbo._SearchParam");
-            DropForeignKey("dbo.ProcessResponseIxTok", "ResourceId", "dbo.ProcessResponseRes");
-            DropForeignKey("dbo.ProcessResponseIxTok", "ServiceSearchParameterId", "dbo._SearchParam");
-            DropForeignKey("dbo.ProcessResponseIxStr", "ResourceId", "dbo.ProcessResponseRes");
-            DropForeignKey("dbo.ProcessResponseIxStr", "ServiceSearchParameterId", "dbo._SearchParam");
-            DropForeignKey("dbo.ProcessResponseIxRef", "ResourceId", "dbo.ProcessResponseRes");
-            DropForeignKey("dbo.ProcessResponseIxRef", "ServiceSearchParameterId", "dbo._SearchParam");
-            DropForeignKey("dbo.ProcessResponseIxRef", "ReferenceServiceBaseUrlId", "dbo._BaseUrl");
-            DropForeignKey("dbo.ProcessResponseIxQty", "ResourceId", "dbo.ProcessResponseRes");
-            DropForeignKey("dbo.ProcessResponseIxQty", "ServiceSearchParameterId", "dbo._SearchParam");
-            DropForeignKey("dbo.ProcessResponseIxDT", "ResourceId", "dbo.ProcessResponseRes");
-            DropForeignKey("dbo.ProcessResponseIxDT", "ServiceSearchParameterId", "dbo._SearchParam");
-            DropForeignKey("dbo.ProcessResponseRes", "FhirReleaseId", "dbo._FhirRelease");
-            DropForeignKey("dbo.ProcessRequestIxUri", "ResourceId", "dbo.ProcessRequestRes");
-            DropForeignKey("dbo.ProcessRequestIxUri", "ServiceSearchParameterId", "dbo._SearchParam");
-            DropForeignKey("dbo.ProcessRequestIxTok", "ResourceId", "dbo.ProcessRequestRes");
-            DropForeignKey("dbo.ProcessRequestIxTok", "ServiceSearchParameterId", "dbo._SearchParam");
-            DropForeignKey("dbo.ProcessRequestIxStr", "ResourceId", "dbo.ProcessRequestRes");
-            DropForeignKey("dbo.ProcessRequestIxStr", "ServiceSearchParameterId", "dbo._SearchParam");
-            DropForeignKey("dbo.ProcessRequestIxRef", "ResourceId", "dbo.ProcessRequestRes");
-            DropForeignKey("dbo.ProcessRequestIxRef", "ServiceSearchParameterId", "dbo._SearchParam");
-            DropForeignKey("dbo.ProcessRequestIxRef", "ReferenceServiceBaseUrlId", "dbo._BaseUrl");
-            DropForeignKey("dbo.ProcessRequestIxQty", "ResourceId", "dbo.ProcessRequestRes");
-            DropForeignKey("dbo.ProcessRequestIxQty", "ServiceSearchParameterId", "dbo._SearchParam");
-            DropForeignKey("dbo.ProcessRequestIxDT", "ResourceId", "dbo.ProcessRequestRes");
-            DropForeignKey("dbo.ProcessRequestIxDT", "ServiceSearchParameterId", "dbo._SearchParam");
-            DropForeignKey("dbo.ProcessRequestRes", "FhirReleaseId", "dbo._FhirRelease");
             DropForeignKey("dbo.ProcedureIxUri", "ResourceId", "dbo.ProcedureRes");
             DropForeignKey("dbo.ProcedureIxUri", "ServiceSearchParameterId", "dbo._SearchParam");
             DropForeignKey("dbo.ProcedureIxTok", "ResourceId", "dbo.ProcedureRes");
@@ -20460,6 +20949,20 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             DropForeignKey("dbo.NamingSystemIxDT", "ResourceId", "dbo.NamingSystemRes");
             DropForeignKey("dbo.NamingSystemIxDT", "ServiceSearchParameterId", "dbo._SearchParam");
             DropForeignKey("dbo.NamingSystemRes", "FhirReleaseId", "dbo._FhirRelease");
+            DropForeignKey("dbo.MolecularSequenceIxUri", "ResourceId", "dbo.MolecularSequenceRes");
+            DropForeignKey("dbo.MolecularSequenceIxUri", "ServiceSearchParameterId", "dbo._SearchParam");
+            DropForeignKey("dbo.MolecularSequenceIxTok", "ResourceId", "dbo.MolecularSequenceRes");
+            DropForeignKey("dbo.MolecularSequenceIxTok", "ServiceSearchParameterId", "dbo._SearchParam");
+            DropForeignKey("dbo.MolecularSequenceIxStr", "ResourceId", "dbo.MolecularSequenceRes");
+            DropForeignKey("dbo.MolecularSequenceIxStr", "ServiceSearchParameterId", "dbo._SearchParam");
+            DropForeignKey("dbo.MolecularSequenceIxRef", "ResourceId", "dbo.MolecularSequenceRes");
+            DropForeignKey("dbo.MolecularSequenceIxRef", "ServiceSearchParameterId", "dbo._SearchParam");
+            DropForeignKey("dbo.MolecularSequenceIxRef", "ReferenceServiceBaseUrlId", "dbo._BaseUrl");
+            DropForeignKey("dbo.MolecularSequenceIxQty", "ResourceId", "dbo.MolecularSequenceRes");
+            DropForeignKey("dbo.MolecularSequenceIxQty", "ServiceSearchParameterId", "dbo._SearchParam");
+            DropForeignKey("dbo.MolecularSequenceIxDT", "ResourceId", "dbo.MolecularSequenceRes");
+            DropForeignKey("dbo.MolecularSequenceIxDT", "ServiceSearchParameterId", "dbo._SearchParam");
+            DropForeignKey("dbo.MolecularSequenceRes", "FhirReleaseId", "dbo._FhirRelease");
             DropForeignKey("dbo.MessageHeaderIxUri", "ResourceId", "dbo.MessageHeaderRes");
             DropForeignKey("dbo.MessageHeaderIxUri", "ServiceSearchParameterId", "dbo._SearchParam");
             DropForeignKey("dbo.MessageHeaderIxTok", "ResourceId", "dbo.MessageHeaderRes");
@@ -20600,20 +21103,6 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             DropForeignKey("dbo.MedicinalProductIndicationIxDT", "ResourceId", "dbo.MedicinalProductIndicationRes");
             DropForeignKey("dbo.MedicinalProductIndicationIxDT", "ServiceSearchParameterId", "dbo._SearchParam");
             DropForeignKey("dbo.MedicinalProductIndicationRes", "FhirReleaseId", "dbo._FhirRelease");
-            DropForeignKey("dbo.MedicinalProductDeviceSpecIxUri", "ResourceId", "dbo.MedicinalProductDeviceSpecRes");
-            DropForeignKey("dbo.MedicinalProductDeviceSpecIxUri", "ServiceSearchParameterId", "dbo._SearchParam");
-            DropForeignKey("dbo.MedicinalProductDeviceSpecIxTok", "ResourceId", "dbo.MedicinalProductDeviceSpecRes");
-            DropForeignKey("dbo.MedicinalProductDeviceSpecIxTok", "ServiceSearchParameterId", "dbo._SearchParam");
-            DropForeignKey("dbo.MedicinalProductDeviceSpecIxStr", "ResourceId", "dbo.MedicinalProductDeviceSpecRes");
-            DropForeignKey("dbo.MedicinalProductDeviceSpecIxStr", "ServiceSearchParameterId", "dbo._SearchParam");
-            DropForeignKey("dbo.MedicinalProductDeviceSpecIxRef", "ResourceId", "dbo.MedicinalProductDeviceSpecRes");
-            DropForeignKey("dbo.MedicinalProductDeviceSpecIxRef", "ServiceSearchParameterId", "dbo._SearchParam");
-            DropForeignKey("dbo.MedicinalProductDeviceSpecIxRef", "ReferenceServiceBaseUrlId", "dbo._BaseUrl");
-            DropForeignKey("dbo.MedicinalProductDeviceSpecIxQty", "ResourceId", "dbo.MedicinalProductDeviceSpecRes");
-            DropForeignKey("dbo.MedicinalProductDeviceSpecIxQty", "ServiceSearchParameterId", "dbo._SearchParam");
-            DropForeignKey("dbo.MedicinalProductDeviceSpecIxDT", "ResourceId", "dbo.MedicinalProductDeviceSpecRes");
-            DropForeignKey("dbo.MedicinalProductDeviceSpecIxDT", "ServiceSearchParameterId", "dbo._SearchParam");
-            DropForeignKey("dbo.MedicinalProductDeviceSpecRes", "FhirReleaseId", "dbo._FhirRelease");
             DropForeignKey("dbo.MedicinalProductContraindicationIxUri", "ResourceId", "dbo.MedicinalProductContraindicationRes");
             DropForeignKey("dbo.MedicinalProductContraindicationIxUri", "ServiceSearchParameterId", "dbo._SearchParam");
             DropForeignKey("dbo.MedicinalProductContraindicationIxTok", "ResourceId", "dbo.MedicinalProductContraindicationRes");
@@ -20628,20 +21117,6 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             DropForeignKey("dbo.MedicinalProductContraindicationIxDT", "ResourceId", "dbo.MedicinalProductContraindicationRes");
             DropForeignKey("dbo.MedicinalProductContraindicationIxDT", "ServiceSearchParameterId", "dbo._SearchParam");
             DropForeignKey("dbo.MedicinalProductContraindicationRes", "FhirReleaseId", "dbo._FhirRelease");
-            DropForeignKey("dbo.MedicinalProductClinicalsIxUri", "ResourceId", "dbo.MedicinalProductClinicalsRes");
-            DropForeignKey("dbo.MedicinalProductClinicalsIxUri", "ServiceSearchParameterId", "dbo._SearchParam");
-            DropForeignKey("dbo.MedicinalProductClinicalsIxTok", "ResourceId", "dbo.MedicinalProductClinicalsRes");
-            DropForeignKey("dbo.MedicinalProductClinicalsIxTok", "ServiceSearchParameterId", "dbo._SearchParam");
-            DropForeignKey("dbo.MedicinalProductClinicalsIxStr", "ResourceId", "dbo.MedicinalProductClinicalsRes");
-            DropForeignKey("dbo.MedicinalProductClinicalsIxStr", "ServiceSearchParameterId", "dbo._SearchParam");
-            DropForeignKey("dbo.MedicinalProductClinicalsIxRef", "ResourceId", "dbo.MedicinalProductClinicalsRes");
-            DropForeignKey("dbo.MedicinalProductClinicalsIxRef", "ServiceSearchParameterId", "dbo._SearchParam");
-            DropForeignKey("dbo.MedicinalProductClinicalsIxRef", "ReferenceServiceBaseUrlId", "dbo._BaseUrl");
-            DropForeignKey("dbo.MedicinalProductClinicalsIxQty", "ResourceId", "dbo.MedicinalProductClinicalsRes");
-            DropForeignKey("dbo.MedicinalProductClinicalsIxQty", "ServiceSearchParameterId", "dbo._SearchParam");
-            DropForeignKey("dbo.MedicinalProductClinicalsIxDT", "ResourceId", "dbo.MedicinalProductClinicalsRes");
-            DropForeignKey("dbo.MedicinalProductClinicalsIxDT", "ServiceSearchParameterId", "dbo._SearchParam");
-            DropForeignKey("dbo.MedicinalProductClinicalsRes", "FhirReleaseId", "dbo._FhirRelease");
             DropForeignKey("dbo.MedicinalProductAuthorizationIxUri", "ResourceId", "dbo.MedicinalProductAuthorizationRes");
             DropForeignKey("dbo.MedicinalProductAuthorizationIxUri", "ServiceSearchParameterId", "dbo._SearchParam");
             DropForeignKey("dbo.MedicinalProductAuthorizationIxTok", "ResourceId", "dbo.MedicinalProductAuthorizationRes");
@@ -20838,20 +21313,6 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             DropForeignKey("dbo.LibraryIxDT", "ResourceId", "dbo.LibraryRes");
             DropForeignKey("dbo.LibraryIxDT", "ServiceSearchParameterId", "dbo._SearchParam");
             DropForeignKey("dbo.LibraryRes", "FhirReleaseId", "dbo._FhirRelease");
-            DropForeignKey("dbo.ItemInstanceIxUri", "ResourceId", "dbo.ItemInstanceRes");
-            DropForeignKey("dbo.ItemInstanceIxUri", "ServiceSearchParameterId", "dbo._SearchParam");
-            DropForeignKey("dbo.ItemInstanceIxTok", "ResourceId", "dbo.ItemInstanceRes");
-            DropForeignKey("dbo.ItemInstanceIxTok", "ServiceSearchParameterId", "dbo._SearchParam");
-            DropForeignKey("dbo.ItemInstanceIxStr", "ResourceId", "dbo.ItemInstanceRes");
-            DropForeignKey("dbo.ItemInstanceIxStr", "ServiceSearchParameterId", "dbo._SearchParam");
-            DropForeignKey("dbo.ItemInstanceIxRef", "ResourceId", "dbo.ItemInstanceRes");
-            DropForeignKey("dbo.ItemInstanceIxRef", "ServiceSearchParameterId", "dbo._SearchParam");
-            DropForeignKey("dbo.ItemInstanceIxRef", "ReferenceServiceBaseUrlId", "dbo._BaseUrl");
-            DropForeignKey("dbo.ItemInstanceIxQty", "ResourceId", "dbo.ItemInstanceRes");
-            DropForeignKey("dbo.ItemInstanceIxQty", "ServiceSearchParameterId", "dbo._SearchParam");
-            DropForeignKey("dbo.ItemInstanceIxDT", "ResourceId", "dbo.ItemInstanceRes");
-            DropForeignKey("dbo.ItemInstanceIxDT", "ServiceSearchParameterId", "dbo._SearchParam");
-            DropForeignKey("dbo.ItemInstanceRes", "FhirReleaseId", "dbo._FhirRelease");
             DropForeignKey("dbo.InvoiceIxUri", "ResourceId", "dbo.InvoiceRes");
             DropForeignKey("dbo.InvoiceIxUri", "ServiceSearchParameterId", "dbo._SearchParam");
             DropForeignKey("dbo.InvoiceIxTok", "ResourceId", "dbo.InvoiceRes");
@@ -21076,6 +21537,34 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             DropForeignKey("dbo.ExampleScenarioIxDT", "ResourceId", "dbo.ExampleScenarioRes");
             DropForeignKey("dbo.ExampleScenarioIxDT", "ServiceSearchParameterId", "dbo._SearchParam");
             DropForeignKey("dbo.ExampleScenarioRes", "FhirReleaseId", "dbo._FhirRelease");
+            DropForeignKey("dbo.EvidenceVariableIxUri", "ResourceId", "dbo.EvidenceVariableRes");
+            DropForeignKey("dbo.EvidenceVariableIxUri", "ServiceSearchParameterId", "dbo._SearchParam");
+            DropForeignKey("dbo.EvidenceVariableIxTok", "ResourceId", "dbo.EvidenceVariableRes");
+            DropForeignKey("dbo.EvidenceVariableIxTok", "ServiceSearchParameterId", "dbo._SearchParam");
+            DropForeignKey("dbo.EvidenceVariableIxStr", "ResourceId", "dbo.EvidenceVariableRes");
+            DropForeignKey("dbo.EvidenceVariableIxStr", "ServiceSearchParameterId", "dbo._SearchParam");
+            DropForeignKey("dbo.EvidenceVariableIxRef", "ResourceId", "dbo.EvidenceVariableRes");
+            DropForeignKey("dbo.EvidenceVariableIxRef", "ServiceSearchParameterId", "dbo._SearchParam");
+            DropForeignKey("dbo.EvidenceVariableIxRef", "ReferenceServiceBaseUrlId", "dbo._BaseUrl");
+            DropForeignKey("dbo.EvidenceVariableIxQty", "ResourceId", "dbo.EvidenceVariableRes");
+            DropForeignKey("dbo.EvidenceVariableIxQty", "ServiceSearchParameterId", "dbo._SearchParam");
+            DropForeignKey("dbo.EvidenceVariableIxDT", "ResourceId", "dbo.EvidenceVariableRes");
+            DropForeignKey("dbo.EvidenceVariableIxDT", "ServiceSearchParameterId", "dbo._SearchParam");
+            DropForeignKey("dbo.EvidenceVariableRes", "FhirReleaseId", "dbo._FhirRelease");
+            DropForeignKey("dbo.EvidenceIxUri", "ResourceId", "dbo.EvidenceRes");
+            DropForeignKey("dbo.EvidenceIxUri", "ServiceSearchParameterId", "dbo._SearchParam");
+            DropForeignKey("dbo.EvidenceIxTok", "ResourceId", "dbo.EvidenceRes");
+            DropForeignKey("dbo.EvidenceIxTok", "ServiceSearchParameterId", "dbo._SearchParam");
+            DropForeignKey("dbo.EvidenceIxStr", "ResourceId", "dbo.EvidenceRes");
+            DropForeignKey("dbo.EvidenceIxStr", "ServiceSearchParameterId", "dbo._SearchParam");
+            DropForeignKey("dbo.EvidenceIxRef", "ResourceId", "dbo.EvidenceRes");
+            DropForeignKey("dbo.EvidenceIxRef", "ServiceSearchParameterId", "dbo._SearchParam");
+            DropForeignKey("dbo.EvidenceIxRef", "ReferenceServiceBaseUrlId", "dbo._BaseUrl");
+            DropForeignKey("dbo.EvidenceIxQty", "ResourceId", "dbo.EvidenceRes");
+            DropForeignKey("dbo.EvidenceIxQty", "ServiceSearchParameterId", "dbo._SearchParam");
+            DropForeignKey("dbo.EvidenceIxDT", "ResourceId", "dbo.EvidenceRes");
+            DropForeignKey("dbo.EvidenceIxDT", "ServiceSearchParameterId", "dbo._SearchParam");
+            DropForeignKey("dbo.EvidenceRes", "FhirReleaseId", "dbo._FhirRelease");
             DropForeignKey("dbo.EventDefinitionIxUri", "ResourceId", "dbo.EventDefinitionRes");
             DropForeignKey("dbo.EventDefinitionIxUri", "ServiceSearchParameterId", "dbo._SearchParam");
             DropForeignKey("dbo.EventDefinitionIxTok", "ResourceId", "dbo.EventDefinitionRes");
@@ -21104,20 +21593,6 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             DropForeignKey("dbo.EpisodeOfCareIxDT", "ResourceId", "dbo.EpisodeOfCareRes");
             DropForeignKey("dbo.EpisodeOfCareIxDT", "ServiceSearchParameterId", "dbo._SearchParam");
             DropForeignKey("dbo.EpisodeOfCareRes", "FhirReleaseId", "dbo._FhirRelease");
-            DropForeignKey("dbo.EntryDefinitionIxUri", "ResourceId", "dbo.EntryDefinitionRes");
-            DropForeignKey("dbo.EntryDefinitionIxUri", "ServiceSearchParameterId", "dbo._SearchParam");
-            DropForeignKey("dbo.EntryDefinitionIxTok", "ResourceId", "dbo.EntryDefinitionRes");
-            DropForeignKey("dbo.EntryDefinitionIxTok", "ServiceSearchParameterId", "dbo._SearchParam");
-            DropForeignKey("dbo.EntryDefinitionIxStr", "ResourceId", "dbo.EntryDefinitionRes");
-            DropForeignKey("dbo.EntryDefinitionIxStr", "ServiceSearchParameterId", "dbo._SearchParam");
-            DropForeignKey("dbo.EntryDefinitionIxRef", "ResourceId", "dbo.EntryDefinitionRes");
-            DropForeignKey("dbo.EntryDefinitionIxRef", "ServiceSearchParameterId", "dbo._SearchParam");
-            DropForeignKey("dbo.EntryDefinitionIxRef", "ReferenceServiceBaseUrlId", "dbo._BaseUrl");
-            DropForeignKey("dbo.EntryDefinitionIxQty", "ResourceId", "dbo.EntryDefinitionRes");
-            DropForeignKey("dbo.EntryDefinitionIxQty", "ServiceSearchParameterId", "dbo._SearchParam");
-            DropForeignKey("dbo.EntryDefinitionIxDT", "ResourceId", "dbo.EntryDefinitionRes");
-            DropForeignKey("dbo.EntryDefinitionIxDT", "ServiceSearchParameterId", "dbo._SearchParam");
-            DropForeignKey("dbo.EntryDefinitionRes", "FhirReleaseId", "dbo._FhirRelease");
             DropForeignKey("dbo.EnrollmentResponseIxUri", "ResourceId", "dbo.EnrollmentResponseRes");
             DropForeignKey("dbo.EnrollmentResponseIxUri", "ServiceSearchParameterId", "dbo._SearchParam");
             DropForeignKey("dbo.EnrollmentResponseIxTok", "ResourceId", "dbo.EnrollmentResponseRes");
@@ -21174,6 +21649,20 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             DropForeignKey("dbo.EncounterIxDT", "ResourceId", "dbo.EncounterRes");
             DropForeignKey("dbo.EncounterIxDT", "ServiceSearchParameterId", "dbo._SearchParam");
             DropForeignKey("dbo.EncounterRes", "FhirReleaseId", "dbo._FhirRelease");
+            DropForeignKey("dbo.EffectEvidenceSynthesisIxUri", "ResourceId", "dbo.EffectEvidenceSynthesisRes");
+            DropForeignKey("dbo.EffectEvidenceSynthesisIxUri", "ServiceSearchParameterId", "dbo._SearchParam");
+            DropForeignKey("dbo.EffectEvidenceSynthesisIxTok", "ResourceId", "dbo.EffectEvidenceSynthesisRes");
+            DropForeignKey("dbo.EffectEvidenceSynthesisIxTok", "ServiceSearchParameterId", "dbo._SearchParam");
+            DropForeignKey("dbo.EffectEvidenceSynthesisIxStr", "ResourceId", "dbo.EffectEvidenceSynthesisRes");
+            DropForeignKey("dbo.EffectEvidenceSynthesisIxStr", "ServiceSearchParameterId", "dbo._SearchParam");
+            DropForeignKey("dbo.EffectEvidenceSynthesisIxRef", "ResourceId", "dbo.EffectEvidenceSynthesisRes");
+            DropForeignKey("dbo.EffectEvidenceSynthesisIxRef", "ServiceSearchParameterId", "dbo._SearchParam");
+            DropForeignKey("dbo.EffectEvidenceSynthesisIxRef", "ReferenceServiceBaseUrlId", "dbo._BaseUrl");
+            DropForeignKey("dbo.EffectEvidenceSynthesisIxQty", "ResourceId", "dbo.EffectEvidenceSynthesisRes");
+            DropForeignKey("dbo.EffectEvidenceSynthesisIxQty", "ServiceSearchParameterId", "dbo._SearchParam");
+            DropForeignKey("dbo.EffectEvidenceSynthesisIxDT", "ResourceId", "dbo.EffectEvidenceSynthesisRes");
+            DropForeignKey("dbo.EffectEvidenceSynthesisIxDT", "ServiceSearchParameterId", "dbo._SearchParam");
+            DropForeignKey("dbo.EffectEvidenceSynthesisRes", "FhirReleaseId", "dbo._FhirRelease");
             DropForeignKey("dbo.DocumentReferenceIxUri", "ResourceId", "dbo.DocumentReferenceRes");
             DropForeignKey("dbo.DocumentReferenceIxUri", "ServiceSearchParameterId", "dbo._SearchParam");
             DropForeignKey("dbo.DocumentReferenceIxTok", "ResourceId", "dbo.DocumentReferenceRes");
@@ -21538,6 +22027,20 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             DropForeignKey("dbo.ChargeItemDefinitionIxDT", "ResourceId", "dbo.ChargeItemDefinitionRes");
             DropForeignKey("dbo.ChargeItemDefinitionIxDT", "ServiceSearchParameterId", "dbo._SearchParam");
             DropForeignKey("dbo.ChargeItemDefinitionRes", "FhirReleaseId", "dbo._FhirRelease");
+            DropForeignKey("dbo.CatalogEntryIxUri", "ResourceId", "dbo.CatalogEntryRes");
+            DropForeignKey("dbo.CatalogEntryIxUri", "ServiceSearchParameterId", "dbo._SearchParam");
+            DropForeignKey("dbo.CatalogEntryIxTok", "ResourceId", "dbo.CatalogEntryRes");
+            DropForeignKey("dbo.CatalogEntryIxTok", "ServiceSearchParameterId", "dbo._SearchParam");
+            DropForeignKey("dbo.CatalogEntryIxStr", "ResourceId", "dbo.CatalogEntryRes");
+            DropForeignKey("dbo.CatalogEntryIxStr", "ServiceSearchParameterId", "dbo._SearchParam");
+            DropForeignKey("dbo.CatalogEntryIxRef", "ResourceId", "dbo.CatalogEntryRes");
+            DropForeignKey("dbo.CatalogEntryIxRef", "ServiceSearchParameterId", "dbo._SearchParam");
+            DropForeignKey("dbo.CatalogEntryIxRef", "ReferenceServiceBaseUrlId", "dbo._BaseUrl");
+            DropForeignKey("dbo.CatalogEntryIxQty", "ResourceId", "dbo.CatalogEntryRes");
+            DropForeignKey("dbo.CatalogEntryIxQty", "ServiceSearchParameterId", "dbo._SearchParam");
+            DropForeignKey("dbo.CatalogEntryIxDT", "ResourceId", "dbo.CatalogEntryRes");
+            DropForeignKey("dbo.CatalogEntryIxDT", "ServiceSearchParameterId", "dbo._SearchParam");
+            DropForeignKey("dbo.CatalogEntryRes", "FhirReleaseId", "dbo._FhirRelease");
             DropForeignKey("dbo.CareTeamIxUri", "ResourceId", "dbo.CareTeamRes");
             DropForeignKey("dbo.CareTeamIxUri", "ServiceSearchParameterId", "dbo._SearchParam");
             DropForeignKey("dbo.CareTeamIxTok", "ResourceId", "dbo.CareTeamRes");
@@ -21740,6 +22243,12 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             DropForeignKey("dbo.AccountRes", "FhirReleaseId", "dbo._FhirRelease");
             DropIndex("dbo._CompartmentRes", "ix_CompartmentId");
             DropIndex("dbo._Compartment", "ix_CompartmentCode");
+            DropIndex("dbo._FhirTaskWorker", "ix_ClaimedBy");
+            DropIndex("dbo._FhirTaskWorker", "ix_TaskType");
+            DropIndex("dbo._FhirTaskQueue", "ix_Status");
+            DropIndex("dbo._FhirTaskQueue", "ix_PConnectId");
+            DropIndex("dbo._FhirTaskQueue", "uq_TaskFhirIdAndType");
+            DropIndex("dbo._BackburnerConnection", "ix_ConnectId");
             DropIndex("dbo.AccountIxUri", new[] { "ResourceId" });
             DropIndex("dbo.AccountIxUri", "ix_SearchParamId");
             DropIndex("dbo.AccountIxUri", "ix_Uri");
@@ -21843,33 +22352,6 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             DropIndex("dbo.ValueSetRes", "ix_IsDeleted");
             DropIndex("dbo.ValueSetRes", "uq_FhirIdAndVersionId");
             DropIndex("dbo.ValueSetRes", "ix_IsCurrent");
-            DropIndex("dbo.UserSessionIxUri", new[] { "ResourceId" });
-            DropIndex("dbo.UserSessionIxUri", "ix_SearchParamId");
-            DropIndex("dbo.UserSessionIxUri", "ix_Uri");
-            DropIndex("dbo.UserSessionIxTok", new[] { "ResourceId" });
-            DropIndex("dbo.UserSessionIxTok", "ix_SearchParamId");
-            DropIndex("dbo.UserSessionIxTok", "ix_System");
-            DropIndex("dbo.UserSessionIxTok", "ix_Code");
-            DropIndex("dbo.UserSessionIxStr", new[] { "ResourceId" });
-            DropIndex("dbo.UserSessionIxStr", "ix_SearchParamId");
-            DropIndex("dbo.UserSessionIxStr", "ix_String");
-            DropIndex("dbo.UserSessionIxRef", new[] { "ResourceId" });
-            DropIndex("dbo.UserSessionIxRef", "ix_SearchParamId");
-            DropIndex("dbo.UserSessionIxRef", "ix_RefBaseUrlId");
-            DropIndex("dbo.UserSessionIxRef", "ix_RefFhirId");
-            DropIndex("dbo.UserSessionIxQty", new[] { "ResourceId" });
-            DropIndex("dbo.UserSessionIxQty", "ix_SearchParamId");
-            DropIndex("dbo.UserSessionIxQty", "ix_System");
-            DropIndex("dbo.UserSessionIxQty", "ix_Code");
-            DropIndex("dbo.UserSessionIxDT", new[] { "ResourceId" });
-            DropIndex("dbo.UserSessionIxDT", "ix_SearchParamId");
-            DropIndex("dbo.UserSessionIxDT", "ix_HighUtcDateTime");
-            DropIndex("dbo.UserSessionIxDT", "ix_LowUtcDateTime");
-            DropIndex("dbo.UserSessionRes", new[] { "FhirReleaseId" });
-            DropIndex("dbo.UserSessionRes", "ix_LastUpdated");
-            DropIndex("dbo.UserSessionRes", "ix_IsDeleted");
-            DropIndex("dbo.UserSessionRes", "uq_FhirIdAndVersionId");
-            DropIndex("dbo.UserSessionRes", "ix_IsCurrent");
             DropIndex("dbo.TestScriptIxUri", new[] { "ResourceId" });
             DropIndex("dbo.TestScriptIxUri", "ix_SearchParamId");
             DropIndex("dbo.TestScriptIxUri", "ix_Uri");
@@ -22059,6 +22541,33 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             DropIndex("dbo.SubstanceSpecificationRes", "ix_IsDeleted");
             DropIndex("dbo.SubstanceSpecificationRes", "uq_FhirIdAndVersionId");
             DropIndex("dbo.SubstanceSpecificationRes", "ix_IsCurrent");
+            DropIndex("dbo.SubstanceSourceMaterialIxUri", new[] { "ResourceId" });
+            DropIndex("dbo.SubstanceSourceMaterialIxUri", "ix_SearchParamId");
+            DropIndex("dbo.SubstanceSourceMaterialIxUri", "ix_Uri");
+            DropIndex("dbo.SubstanceSourceMaterialIxTok", new[] { "ResourceId" });
+            DropIndex("dbo.SubstanceSourceMaterialIxTok", "ix_SearchParamId");
+            DropIndex("dbo.SubstanceSourceMaterialIxTok", "ix_System");
+            DropIndex("dbo.SubstanceSourceMaterialIxTok", "ix_Code");
+            DropIndex("dbo.SubstanceSourceMaterialIxStr", new[] { "ResourceId" });
+            DropIndex("dbo.SubstanceSourceMaterialIxStr", "ix_SearchParamId");
+            DropIndex("dbo.SubstanceSourceMaterialIxStr", "ix_String");
+            DropIndex("dbo.SubstanceSourceMaterialIxRef", new[] { "ResourceId" });
+            DropIndex("dbo.SubstanceSourceMaterialIxRef", "ix_SearchParamId");
+            DropIndex("dbo.SubstanceSourceMaterialIxRef", "ix_RefBaseUrlId");
+            DropIndex("dbo.SubstanceSourceMaterialIxRef", "ix_RefFhirId");
+            DropIndex("dbo.SubstanceSourceMaterialIxQty", new[] { "ResourceId" });
+            DropIndex("dbo.SubstanceSourceMaterialIxQty", "ix_SearchParamId");
+            DropIndex("dbo.SubstanceSourceMaterialIxQty", "ix_System");
+            DropIndex("dbo.SubstanceSourceMaterialIxQty", "ix_Code");
+            DropIndex("dbo.SubstanceSourceMaterialIxDT", new[] { "ResourceId" });
+            DropIndex("dbo.SubstanceSourceMaterialIxDT", "ix_SearchParamId");
+            DropIndex("dbo.SubstanceSourceMaterialIxDT", "ix_HighUtcDateTime");
+            DropIndex("dbo.SubstanceSourceMaterialIxDT", "ix_LowUtcDateTime");
+            DropIndex("dbo.SubstanceSourceMaterialRes", new[] { "FhirReleaseId" });
+            DropIndex("dbo.SubstanceSourceMaterialRes", "ix_LastUpdated");
+            DropIndex("dbo.SubstanceSourceMaterialRes", "ix_IsDeleted");
+            DropIndex("dbo.SubstanceSourceMaterialRes", "uq_FhirIdAndVersionId");
+            DropIndex("dbo.SubstanceSourceMaterialRes", "ix_IsCurrent");
             DropIndex("dbo.SubstanceReferenceInformationIxUri", new[] { "ResourceId" });
             DropIndex("dbo.SubstanceReferenceInformationIxUri", "ix_SearchParamId");
             DropIndex("dbo.SubstanceReferenceInformationIxUri", "ix_Uri");
@@ -22086,6 +22595,33 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             DropIndex("dbo.SubstanceReferenceInformationRes", "ix_IsDeleted");
             DropIndex("dbo.SubstanceReferenceInformationRes", "uq_FhirIdAndVersionId");
             DropIndex("dbo.SubstanceReferenceInformationRes", "ix_IsCurrent");
+            DropIndex("dbo.SubstanceProteinIxUri", new[] { "ResourceId" });
+            DropIndex("dbo.SubstanceProteinIxUri", "ix_SearchParamId");
+            DropIndex("dbo.SubstanceProteinIxUri", "ix_Uri");
+            DropIndex("dbo.SubstanceProteinIxTok", new[] { "ResourceId" });
+            DropIndex("dbo.SubstanceProteinIxTok", "ix_SearchParamId");
+            DropIndex("dbo.SubstanceProteinIxTok", "ix_System");
+            DropIndex("dbo.SubstanceProteinIxTok", "ix_Code");
+            DropIndex("dbo.SubstanceProteinIxStr", new[] { "ResourceId" });
+            DropIndex("dbo.SubstanceProteinIxStr", "ix_SearchParamId");
+            DropIndex("dbo.SubstanceProteinIxStr", "ix_String");
+            DropIndex("dbo.SubstanceProteinIxRef", new[] { "ResourceId" });
+            DropIndex("dbo.SubstanceProteinIxRef", "ix_SearchParamId");
+            DropIndex("dbo.SubstanceProteinIxRef", "ix_RefBaseUrlId");
+            DropIndex("dbo.SubstanceProteinIxRef", "ix_RefFhirId");
+            DropIndex("dbo.SubstanceProteinIxQty", new[] { "ResourceId" });
+            DropIndex("dbo.SubstanceProteinIxQty", "ix_SearchParamId");
+            DropIndex("dbo.SubstanceProteinIxQty", "ix_System");
+            DropIndex("dbo.SubstanceProteinIxQty", "ix_Code");
+            DropIndex("dbo.SubstanceProteinIxDT", new[] { "ResourceId" });
+            DropIndex("dbo.SubstanceProteinIxDT", "ix_SearchParamId");
+            DropIndex("dbo.SubstanceProteinIxDT", "ix_HighUtcDateTime");
+            DropIndex("dbo.SubstanceProteinIxDT", "ix_LowUtcDateTime");
+            DropIndex("dbo.SubstanceProteinRes", new[] { "FhirReleaseId" });
+            DropIndex("dbo.SubstanceProteinRes", "ix_LastUpdated");
+            DropIndex("dbo.SubstanceProteinRes", "ix_IsDeleted");
+            DropIndex("dbo.SubstanceProteinRes", "uq_FhirIdAndVersionId");
+            DropIndex("dbo.SubstanceProteinRes", "ix_IsCurrent");
             DropIndex("dbo.SubstancePolymerIxUri", new[] { "ResourceId" });
             DropIndex("dbo.SubstancePolymerIxUri", "ix_SearchParamId");
             DropIndex("dbo.SubstancePolymerIxUri", "ix_Uri");
@@ -22113,6 +22649,33 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             DropIndex("dbo.SubstancePolymerRes", "ix_IsDeleted");
             DropIndex("dbo.SubstancePolymerRes", "uq_FhirIdAndVersionId");
             DropIndex("dbo.SubstancePolymerRes", "ix_IsCurrent");
+            DropIndex("dbo.SubstanceNucleicAcidIxUri", new[] { "ResourceId" });
+            DropIndex("dbo.SubstanceNucleicAcidIxUri", "ix_SearchParamId");
+            DropIndex("dbo.SubstanceNucleicAcidIxUri", "ix_Uri");
+            DropIndex("dbo.SubstanceNucleicAcidIxTok", new[] { "ResourceId" });
+            DropIndex("dbo.SubstanceNucleicAcidIxTok", "ix_SearchParamId");
+            DropIndex("dbo.SubstanceNucleicAcidIxTok", "ix_System");
+            DropIndex("dbo.SubstanceNucleicAcidIxTok", "ix_Code");
+            DropIndex("dbo.SubstanceNucleicAcidIxStr", new[] { "ResourceId" });
+            DropIndex("dbo.SubstanceNucleicAcidIxStr", "ix_SearchParamId");
+            DropIndex("dbo.SubstanceNucleicAcidIxStr", "ix_String");
+            DropIndex("dbo.SubstanceNucleicAcidIxRef", new[] { "ResourceId" });
+            DropIndex("dbo.SubstanceNucleicAcidIxRef", "ix_SearchParamId");
+            DropIndex("dbo.SubstanceNucleicAcidIxRef", "ix_RefBaseUrlId");
+            DropIndex("dbo.SubstanceNucleicAcidIxRef", "ix_RefFhirId");
+            DropIndex("dbo.SubstanceNucleicAcidIxQty", new[] { "ResourceId" });
+            DropIndex("dbo.SubstanceNucleicAcidIxQty", "ix_SearchParamId");
+            DropIndex("dbo.SubstanceNucleicAcidIxQty", "ix_System");
+            DropIndex("dbo.SubstanceNucleicAcidIxQty", "ix_Code");
+            DropIndex("dbo.SubstanceNucleicAcidIxDT", new[] { "ResourceId" });
+            DropIndex("dbo.SubstanceNucleicAcidIxDT", "ix_SearchParamId");
+            DropIndex("dbo.SubstanceNucleicAcidIxDT", "ix_HighUtcDateTime");
+            DropIndex("dbo.SubstanceNucleicAcidIxDT", "ix_LowUtcDateTime");
+            DropIndex("dbo.SubstanceNucleicAcidRes", new[] { "FhirReleaseId" });
+            DropIndex("dbo.SubstanceNucleicAcidRes", "ix_LastUpdated");
+            DropIndex("dbo.SubstanceNucleicAcidRes", "ix_IsDeleted");
+            DropIndex("dbo.SubstanceNucleicAcidRes", "uq_FhirIdAndVersionId");
+            DropIndex("dbo.SubstanceNucleicAcidRes", "ix_IsCurrent");
             DropIndex("dbo.SubstanceIxUri", new[] { "ResourceId" });
             DropIndex("dbo.SubstanceIxUri", "ix_SearchParamId");
             DropIndex("dbo.SubstanceIxUri", "ix_Uri");
@@ -22329,33 +22892,6 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             DropIndex("dbo.ServiceRequestRes", "ix_IsDeleted");
             DropIndex("dbo.ServiceRequestRes", "uq_FhirIdAndVersionId");
             DropIndex("dbo.ServiceRequestRes", "ix_IsCurrent");
-            DropIndex("dbo.SequenceIxUri", new[] { "ResourceId" });
-            DropIndex("dbo.SequenceIxUri", "ix_SearchParamId");
-            DropIndex("dbo.SequenceIxUri", "ix_Uri");
-            DropIndex("dbo.SequenceIxTok", new[] { "ResourceId" });
-            DropIndex("dbo.SequenceIxTok", "ix_SearchParamId");
-            DropIndex("dbo.SequenceIxTok", "ix_System");
-            DropIndex("dbo.SequenceIxTok", "ix_Code");
-            DropIndex("dbo.SequenceIxStr", new[] { "ResourceId" });
-            DropIndex("dbo.SequenceIxStr", "ix_SearchParamId");
-            DropIndex("dbo.SequenceIxStr", "ix_String");
-            DropIndex("dbo.SequenceIxRef", new[] { "ResourceId" });
-            DropIndex("dbo.SequenceIxRef", "ix_SearchParamId");
-            DropIndex("dbo.SequenceIxRef", "ix_RefBaseUrlId");
-            DropIndex("dbo.SequenceIxRef", "ix_RefFhirId");
-            DropIndex("dbo.SequenceIxQty", new[] { "ResourceId" });
-            DropIndex("dbo.SequenceIxQty", "ix_SearchParamId");
-            DropIndex("dbo.SequenceIxQty", "ix_System");
-            DropIndex("dbo.SequenceIxQty", "ix_Code");
-            DropIndex("dbo.SequenceIxDT", new[] { "ResourceId" });
-            DropIndex("dbo.SequenceIxDT", "ix_SearchParamId");
-            DropIndex("dbo.SequenceIxDT", "ix_HighUtcDateTime");
-            DropIndex("dbo.SequenceIxDT", "ix_LowUtcDateTime");
-            DropIndex("dbo.SequenceRes", new[] { "FhirReleaseId" });
-            DropIndex("dbo.SequenceRes", "ix_LastUpdated");
-            DropIndex("dbo.SequenceRes", "ix_IsDeleted");
-            DropIndex("dbo.SequenceRes", "uq_FhirIdAndVersionId");
-            DropIndex("dbo.SequenceRes", "ix_IsCurrent");
             DropIndex("dbo.SearchParameterIxUri", new[] { "ResourceId" });
             DropIndex("dbo.SearchParameterIxUri", "ix_SearchParamId");
             DropIndex("dbo.SearchParameterIxUri", "ix_Uri");
@@ -22410,6 +22946,33 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             DropIndex("dbo.ScheduleRes", "ix_IsDeleted");
             DropIndex("dbo.ScheduleRes", "uq_FhirIdAndVersionId");
             DropIndex("dbo.ScheduleRes", "ix_IsCurrent");
+            DropIndex("dbo.RiskEvidenceSynthesisIxUri", new[] { "ResourceId" });
+            DropIndex("dbo.RiskEvidenceSynthesisIxUri", "ix_SearchParamId");
+            DropIndex("dbo.RiskEvidenceSynthesisIxUri", "ix_Uri");
+            DropIndex("dbo.RiskEvidenceSynthesisIxTok", new[] { "ResourceId" });
+            DropIndex("dbo.RiskEvidenceSynthesisIxTok", "ix_SearchParamId");
+            DropIndex("dbo.RiskEvidenceSynthesisIxTok", "ix_System");
+            DropIndex("dbo.RiskEvidenceSynthesisIxTok", "ix_Code");
+            DropIndex("dbo.RiskEvidenceSynthesisIxStr", new[] { "ResourceId" });
+            DropIndex("dbo.RiskEvidenceSynthesisIxStr", "ix_SearchParamId");
+            DropIndex("dbo.RiskEvidenceSynthesisIxStr", "ix_String");
+            DropIndex("dbo.RiskEvidenceSynthesisIxRef", new[] { "ResourceId" });
+            DropIndex("dbo.RiskEvidenceSynthesisIxRef", "ix_SearchParamId");
+            DropIndex("dbo.RiskEvidenceSynthesisIxRef", "ix_RefBaseUrlId");
+            DropIndex("dbo.RiskEvidenceSynthesisIxRef", "ix_RefFhirId");
+            DropIndex("dbo.RiskEvidenceSynthesisIxQty", new[] { "ResourceId" });
+            DropIndex("dbo.RiskEvidenceSynthesisIxQty", "ix_SearchParamId");
+            DropIndex("dbo.RiskEvidenceSynthesisIxQty", "ix_System");
+            DropIndex("dbo.RiskEvidenceSynthesisIxQty", "ix_Code");
+            DropIndex("dbo.RiskEvidenceSynthesisIxDT", new[] { "ResourceId" });
+            DropIndex("dbo.RiskEvidenceSynthesisIxDT", "ix_SearchParamId");
+            DropIndex("dbo.RiskEvidenceSynthesisIxDT", "ix_HighUtcDateTime");
+            DropIndex("dbo.RiskEvidenceSynthesisIxDT", "ix_LowUtcDateTime");
+            DropIndex("dbo.RiskEvidenceSynthesisRes", new[] { "FhirReleaseId" });
+            DropIndex("dbo.RiskEvidenceSynthesisRes", "ix_LastUpdated");
+            DropIndex("dbo.RiskEvidenceSynthesisRes", "ix_IsDeleted");
+            DropIndex("dbo.RiskEvidenceSynthesisRes", "uq_FhirIdAndVersionId");
+            DropIndex("dbo.RiskEvidenceSynthesisRes", "ix_IsCurrent");
             DropIndex("dbo.RiskAssessmentIxUri", new[] { "ResourceId" });
             DropIndex("dbo.RiskAssessmentIxUri", "ix_SearchParamId");
             DropIndex("dbo.RiskAssessmentIxUri", "ix_Uri");
@@ -22491,6 +23054,60 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             DropIndex("dbo.ResearchStudyRes", "ix_IsDeleted");
             DropIndex("dbo.ResearchStudyRes", "uq_FhirIdAndVersionId");
             DropIndex("dbo.ResearchStudyRes", "ix_IsCurrent");
+            DropIndex("dbo.ResearchElementDefinitionIxUri", new[] { "ResourceId" });
+            DropIndex("dbo.ResearchElementDefinitionIxUri", "ix_SearchParamId");
+            DropIndex("dbo.ResearchElementDefinitionIxUri", "ix_Uri");
+            DropIndex("dbo.ResearchElementDefinitionIxTok", new[] { "ResourceId" });
+            DropIndex("dbo.ResearchElementDefinitionIxTok", "ix_SearchParamId");
+            DropIndex("dbo.ResearchElementDefinitionIxTok", "ix_System");
+            DropIndex("dbo.ResearchElementDefinitionIxTok", "ix_Code");
+            DropIndex("dbo.ResearchElementDefinitionIxStr", new[] { "ResourceId" });
+            DropIndex("dbo.ResearchElementDefinitionIxStr", "ix_SearchParamId");
+            DropIndex("dbo.ResearchElementDefinitionIxStr", "ix_String");
+            DropIndex("dbo.ResearchElementDefinitionIxRef", new[] { "ResourceId" });
+            DropIndex("dbo.ResearchElementDefinitionIxRef", "ix_SearchParamId");
+            DropIndex("dbo.ResearchElementDefinitionIxRef", "ix_RefBaseUrlId");
+            DropIndex("dbo.ResearchElementDefinitionIxRef", "ix_RefFhirId");
+            DropIndex("dbo.ResearchElementDefinitionIxQty", new[] { "ResourceId" });
+            DropIndex("dbo.ResearchElementDefinitionIxQty", "ix_SearchParamId");
+            DropIndex("dbo.ResearchElementDefinitionIxQty", "ix_System");
+            DropIndex("dbo.ResearchElementDefinitionIxQty", "ix_Code");
+            DropIndex("dbo.ResearchElementDefinitionIxDT", new[] { "ResourceId" });
+            DropIndex("dbo.ResearchElementDefinitionIxDT", "ix_SearchParamId");
+            DropIndex("dbo.ResearchElementDefinitionIxDT", "ix_HighUtcDateTime");
+            DropIndex("dbo.ResearchElementDefinitionIxDT", "ix_LowUtcDateTime");
+            DropIndex("dbo.ResearchElementDefinitionRes", new[] { "FhirReleaseId" });
+            DropIndex("dbo.ResearchElementDefinitionRes", "ix_LastUpdated");
+            DropIndex("dbo.ResearchElementDefinitionRes", "ix_IsDeleted");
+            DropIndex("dbo.ResearchElementDefinitionRes", "uq_FhirIdAndVersionId");
+            DropIndex("dbo.ResearchElementDefinitionRes", "ix_IsCurrent");
+            DropIndex("dbo.ResearchDefinitionIxUri", new[] { "ResourceId" });
+            DropIndex("dbo.ResearchDefinitionIxUri", "ix_SearchParamId");
+            DropIndex("dbo.ResearchDefinitionIxUri", "ix_Uri");
+            DropIndex("dbo.ResearchDefinitionIxTok", new[] { "ResourceId" });
+            DropIndex("dbo.ResearchDefinitionIxTok", "ix_SearchParamId");
+            DropIndex("dbo.ResearchDefinitionIxTok", "ix_System");
+            DropIndex("dbo.ResearchDefinitionIxTok", "ix_Code");
+            DropIndex("dbo.ResearchDefinitionIxStr", new[] { "ResourceId" });
+            DropIndex("dbo.ResearchDefinitionIxStr", "ix_SearchParamId");
+            DropIndex("dbo.ResearchDefinitionIxStr", "ix_String");
+            DropIndex("dbo.ResearchDefinitionIxRef", new[] { "ResourceId" });
+            DropIndex("dbo.ResearchDefinitionIxRef", "ix_SearchParamId");
+            DropIndex("dbo.ResearchDefinitionIxRef", "ix_RefBaseUrlId");
+            DropIndex("dbo.ResearchDefinitionIxRef", "ix_RefFhirId");
+            DropIndex("dbo.ResearchDefinitionIxQty", new[] { "ResourceId" });
+            DropIndex("dbo.ResearchDefinitionIxQty", "ix_SearchParamId");
+            DropIndex("dbo.ResearchDefinitionIxQty", "ix_System");
+            DropIndex("dbo.ResearchDefinitionIxQty", "ix_Code");
+            DropIndex("dbo.ResearchDefinitionIxDT", new[] { "ResourceId" });
+            DropIndex("dbo.ResearchDefinitionIxDT", "ix_SearchParamId");
+            DropIndex("dbo.ResearchDefinitionIxDT", "ix_HighUtcDateTime");
+            DropIndex("dbo.ResearchDefinitionIxDT", "ix_LowUtcDateTime");
+            DropIndex("dbo.ResearchDefinitionRes", new[] { "FhirReleaseId" });
+            DropIndex("dbo.ResearchDefinitionRes", "ix_LastUpdated");
+            DropIndex("dbo.ResearchDefinitionRes", "ix_IsDeleted");
+            DropIndex("dbo.ResearchDefinitionRes", "uq_FhirIdAndVersionId");
+            DropIndex("dbo.ResearchDefinitionRes", "ix_IsCurrent");
             DropIndex("dbo.RequestGroupIxUri", new[] { "ResourceId" });
             DropIndex("dbo.RequestGroupIxUri", "ix_SearchParamId");
             DropIndex("dbo.RequestGroupIxUri", "ix_Uri");
@@ -22626,60 +23243,6 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             DropIndex("dbo.ProvenanceRes", "ix_IsDeleted");
             DropIndex("dbo.ProvenanceRes", "uq_FhirIdAndVersionId");
             DropIndex("dbo.ProvenanceRes", "ix_IsCurrent");
-            DropIndex("dbo.ProcessResponseIxUri", new[] { "ResourceId" });
-            DropIndex("dbo.ProcessResponseIxUri", "ix_SearchParamId");
-            DropIndex("dbo.ProcessResponseIxUri", "ix_Uri");
-            DropIndex("dbo.ProcessResponseIxTok", new[] { "ResourceId" });
-            DropIndex("dbo.ProcessResponseIxTok", "ix_SearchParamId");
-            DropIndex("dbo.ProcessResponseIxTok", "ix_System");
-            DropIndex("dbo.ProcessResponseIxTok", "ix_Code");
-            DropIndex("dbo.ProcessResponseIxStr", new[] { "ResourceId" });
-            DropIndex("dbo.ProcessResponseIxStr", "ix_SearchParamId");
-            DropIndex("dbo.ProcessResponseIxStr", "ix_String");
-            DropIndex("dbo.ProcessResponseIxRef", new[] { "ResourceId" });
-            DropIndex("dbo.ProcessResponseIxRef", "ix_SearchParamId");
-            DropIndex("dbo.ProcessResponseIxRef", "ix_RefBaseUrlId");
-            DropIndex("dbo.ProcessResponseIxRef", "ix_RefFhirId");
-            DropIndex("dbo.ProcessResponseIxQty", new[] { "ResourceId" });
-            DropIndex("dbo.ProcessResponseIxQty", "ix_SearchParamId");
-            DropIndex("dbo.ProcessResponseIxQty", "ix_System");
-            DropIndex("dbo.ProcessResponseIxQty", "ix_Code");
-            DropIndex("dbo.ProcessResponseIxDT", new[] { "ResourceId" });
-            DropIndex("dbo.ProcessResponseIxDT", "ix_SearchParamId");
-            DropIndex("dbo.ProcessResponseIxDT", "ix_HighUtcDateTime");
-            DropIndex("dbo.ProcessResponseIxDT", "ix_LowUtcDateTime");
-            DropIndex("dbo.ProcessResponseRes", new[] { "FhirReleaseId" });
-            DropIndex("dbo.ProcessResponseRes", "ix_LastUpdated");
-            DropIndex("dbo.ProcessResponseRes", "ix_IsDeleted");
-            DropIndex("dbo.ProcessResponseRes", "uq_FhirIdAndVersionId");
-            DropIndex("dbo.ProcessResponseRes", "ix_IsCurrent");
-            DropIndex("dbo.ProcessRequestIxUri", new[] { "ResourceId" });
-            DropIndex("dbo.ProcessRequestIxUri", "ix_SearchParamId");
-            DropIndex("dbo.ProcessRequestIxUri", "ix_Uri");
-            DropIndex("dbo.ProcessRequestIxTok", new[] { "ResourceId" });
-            DropIndex("dbo.ProcessRequestIxTok", "ix_SearchParamId");
-            DropIndex("dbo.ProcessRequestIxTok", "ix_System");
-            DropIndex("dbo.ProcessRequestIxTok", "ix_Code");
-            DropIndex("dbo.ProcessRequestIxStr", new[] { "ResourceId" });
-            DropIndex("dbo.ProcessRequestIxStr", "ix_SearchParamId");
-            DropIndex("dbo.ProcessRequestIxStr", "ix_String");
-            DropIndex("dbo.ProcessRequestIxRef", new[] { "ResourceId" });
-            DropIndex("dbo.ProcessRequestIxRef", "ix_SearchParamId");
-            DropIndex("dbo.ProcessRequestIxRef", "ix_RefBaseUrlId");
-            DropIndex("dbo.ProcessRequestIxRef", "ix_RefFhirId");
-            DropIndex("dbo.ProcessRequestIxQty", new[] { "ResourceId" });
-            DropIndex("dbo.ProcessRequestIxQty", "ix_SearchParamId");
-            DropIndex("dbo.ProcessRequestIxQty", "ix_System");
-            DropIndex("dbo.ProcessRequestIxQty", "ix_Code");
-            DropIndex("dbo.ProcessRequestIxDT", new[] { "ResourceId" });
-            DropIndex("dbo.ProcessRequestIxDT", "ix_SearchParamId");
-            DropIndex("dbo.ProcessRequestIxDT", "ix_HighUtcDateTime");
-            DropIndex("dbo.ProcessRequestIxDT", "ix_LowUtcDateTime");
-            DropIndex("dbo.ProcessRequestRes", new[] { "FhirReleaseId" });
-            DropIndex("dbo.ProcessRequestRes", "ix_LastUpdated");
-            DropIndex("dbo.ProcessRequestRes", "ix_IsDeleted");
-            DropIndex("dbo.ProcessRequestRes", "uq_FhirIdAndVersionId");
-            DropIndex("dbo.ProcessRequestRes", "ix_IsCurrent");
             DropIndex("dbo.ProcedureIxUri", new[] { "ResourceId" });
             DropIndex("dbo.ProcedureIxUri", "ix_SearchParamId");
             DropIndex("dbo.ProcedureIxUri", "ix_Uri");
@@ -23139,6 +23702,33 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             DropIndex("dbo.NamingSystemRes", "ix_IsDeleted");
             DropIndex("dbo.NamingSystemRes", "uq_FhirIdAndVersionId");
             DropIndex("dbo.NamingSystemRes", "ix_IsCurrent");
+            DropIndex("dbo.MolecularSequenceIxUri", new[] { "ResourceId" });
+            DropIndex("dbo.MolecularSequenceIxUri", "ix_SearchParamId");
+            DropIndex("dbo.MolecularSequenceIxUri", "ix_Uri");
+            DropIndex("dbo.MolecularSequenceIxTok", new[] { "ResourceId" });
+            DropIndex("dbo.MolecularSequenceIxTok", "ix_SearchParamId");
+            DropIndex("dbo.MolecularSequenceIxTok", "ix_System");
+            DropIndex("dbo.MolecularSequenceIxTok", "ix_Code");
+            DropIndex("dbo.MolecularSequenceIxStr", new[] { "ResourceId" });
+            DropIndex("dbo.MolecularSequenceIxStr", "ix_SearchParamId");
+            DropIndex("dbo.MolecularSequenceIxStr", "ix_String");
+            DropIndex("dbo.MolecularSequenceIxRef", new[] { "ResourceId" });
+            DropIndex("dbo.MolecularSequenceIxRef", "ix_SearchParamId");
+            DropIndex("dbo.MolecularSequenceIxRef", "ix_RefBaseUrlId");
+            DropIndex("dbo.MolecularSequenceIxRef", "ix_RefFhirId");
+            DropIndex("dbo.MolecularSequenceIxQty", new[] { "ResourceId" });
+            DropIndex("dbo.MolecularSequenceIxQty", "ix_SearchParamId");
+            DropIndex("dbo.MolecularSequenceIxQty", "ix_System");
+            DropIndex("dbo.MolecularSequenceIxQty", "ix_Code");
+            DropIndex("dbo.MolecularSequenceIxDT", new[] { "ResourceId" });
+            DropIndex("dbo.MolecularSequenceIxDT", "ix_SearchParamId");
+            DropIndex("dbo.MolecularSequenceIxDT", "ix_HighUtcDateTime");
+            DropIndex("dbo.MolecularSequenceIxDT", "ix_LowUtcDateTime");
+            DropIndex("dbo.MolecularSequenceRes", new[] { "FhirReleaseId" });
+            DropIndex("dbo.MolecularSequenceRes", "ix_LastUpdated");
+            DropIndex("dbo.MolecularSequenceRes", "ix_IsDeleted");
+            DropIndex("dbo.MolecularSequenceRes", "uq_FhirIdAndVersionId");
+            DropIndex("dbo.MolecularSequenceRes", "ix_IsCurrent");
             DropIndex("dbo.MessageHeaderIxUri", new[] { "ResourceId" });
             DropIndex("dbo.MessageHeaderIxUri", "ix_SearchParamId");
             DropIndex("dbo.MessageHeaderIxUri", "ix_Uri");
@@ -23409,33 +23999,6 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             DropIndex("dbo.MedicinalProductIndicationRes", "ix_IsDeleted");
             DropIndex("dbo.MedicinalProductIndicationRes", "uq_FhirIdAndVersionId");
             DropIndex("dbo.MedicinalProductIndicationRes", "ix_IsCurrent");
-            DropIndex("dbo.MedicinalProductDeviceSpecIxUri", new[] { "ResourceId" });
-            DropIndex("dbo.MedicinalProductDeviceSpecIxUri", "ix_SearchParamId");
-            DropIndex("dbo.MedicinalProductDeviceSpecIxUri", "ix_Uri");
-            DropIndex("dbo.MedicinalProductDeviceSpecIxTok", new[] { "ResourceId" });
-            DropIndex("dbo.MedicinalProductDeviceSpecIxTok", "ix_SearchParamId");
-            DropIndex("dbo.MedicinalProductDeviceSpecIxTok", "ix_System");
-            DropIndex("dbo.MedicinalProductDeviceSpecIxTok", "ix_Code");
-            DropIndex("dbo.MedicinalProductDeviceSpecIxStr", new[] { "ResourceId" });
-            DropIndex("dbo.MedicinalProductDeviceSpecIxStr", "ix_SearchParamId");
-            DropIndex("dbo.MedicinalProductDeviceSpecIxStr", "ix_String");
-            DropIndex("dbo.MedicinalProductDeviceSpecIxRef", new[] { "ResourceId" });
-            DropIndex("dbo.MedicinalProductDeviceSpecIxRef", "ix_SearchParamId");
-            DropIndex("dbo.MedicinalProductDeviceSpecIxRef", "ix_RefBaseUrlId");
-            DropIndex("dbo.MedicinalProductDeviceSpecIxRef", "ix_RefFhirId");
-            DropIndex("dbo.MedicinalProductDeviceSpecIxQty", new[] { "ResourceId" });
-            DropIndex("dbo.MedicinalProductDeviceSpecIxQty", "ix_SearchParamId");
-            DropIndex("dbo.MedicinalProductDeviceSpecIxQty", "ix_System");
-            DropIndex("dbo.MedicinalProductDeviceSpecIxQty", "ix_Code");
-            DropIndex("dbo.MedicinalProductDeviceSpecIxDT", new[] { "ResourceId" });
-            DropIndex("dbo.MedicinalProductDeviceSpecIxDT", "ix_SearchParamId");
-            DropIndex("dbo.MedicinalProductDeviceSpecIxDT", "ix_HighUtcDateTime");
-            DropIndex("dbo.MedicinalProductDeviceSpecIxDT", "ix_LowUtcDateTime");
-            DropIndex("dbo.MedicinalProductDeviceSpecRes", new[] { "FhirReleaseId" });
-            DropIndex("dbo.MedicinalProductDeviceSpecRes", "ix_LastUpdated");
-            DropIndex("dbo.MedicinalProductDeviceSpecRes", "ix_IsDeleted");
-            DropIndex("dbo.MedicinalProductDeviceSpecRes", "uq_FhirIdAndVersionId");
-            DropIndex("dbo.MedicinalProductDeviceSpecRes", "ix_IsCurrent");
             DropIndex("dbo.MedicinalProductContraindicationIxUri", new[] { "ResourceId" });
             DropIndex("dbo.MedicinalProductContraindicationIxUri", "ix_SearchParamId");
             DropIndex("dbo.MedicinalProductContraindicationIxUri", "ix_Uri");
@@ -23463,33 +24026,6 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             DropIndex("dbo.MedicinalProductContraindicationRes", "ix_IsDeleted");
             DropIndex("dbo.MedicinalProductContraindicationRes", "uq_FhirIdAndVersionId");
             DropIndex("dbo.MedicinalProductContraindicationRes", "ix_IsCurrent");
-            DropIndex("dbo.MedicinalProductClinicalsIxUri", new[] { "ResourceId" });
-            DropIndex("dbo.MedicinalProductClinicalsIxUri", "ix_SearchParamId");
-            DropIndex("dbo.MedicinalProductClinicalsIxUri", "ix_Uri");
-            DropIndex("dbo.MedicinalProductClinicalsIxTok", new[] { "ResourceId" });
-            DropIndex("dbo.MedicinalProductClinicalsIxTok", "ix_SearchParamId");
-            DropIndex("dbo.MedicinalProductClinicalsIxTok", "ix_System");
-            DropIndex("dbo.MedicinalProductClinicalsIxTok", "ix_Code");
-            DropIndex("dbo.MedicinalProductClinicalsIxStr", new[] { "ResourceId" });
-            DropIndex("dbo.MedicinalProductClinicalsIxStr", "ix_SearchParamId");
-            DropIndex("dbo.MedicinalProductClinicalsIxStr", "ix_String");
-            DropIndex("dbo.MedicinalProductClinicalsIxRef", new[] { "ResourceId" });
-            DropIndex("dbo.MedicinalProductClinicalsIxRef", "ix_SearchParamId");
-            DropIndex("dbo.MedicinalProductClinicalsIxRef", "ix_RefBaseUrlId");
-            DropIndex("dbo.MedicinalProductClinicalsIxRef", "ix_RefFhirId");
-            DropIndex("dbo.MedicinalProductClinicalsIxQty", new[] { "ResourceId" });
-            DropIndex("dbo.MedicinalProductClinicalsIxQty", "ix_SearchParamId");
-            DropIndex("dbo.MedicinalProductClinicalsIxQty", "ix_System");
-            DropIndex("dbo.MedicinalProductClinicalsIxQty", "ix_Code");
-            DropIndex("dbo.MedicinalProductClinicalsIxDT", new[] { "ResourceId" });
-            DropIndex("dbo.MedicinalProductClinicalsIxDT", "ix_SearchParamId");
-            DropIndex("dbo.MedicinalProductClinicalsIxDT", "ix_HighUtcDateTime");
-            DropIndex("dbo.MedicinalProductClinicalsIxDT", "ix_LowUtcDateTime");
-            DropIndex("dbo.MedicinalProductClinicalsRes", new[] { "FhirReleaseId" });
-            DropIndex("dbo.MedicinalProductClinicalsRes", "ix_LastUpdated");
-            DropIndex("dbo.MedicinalProductClinicalsRes", "ix_IsDeleted");
-            DropIndex("dbo.MedicinalProductClinicalsRes", "uq_FhirIdAndVersionId");
-            DropIndex("dbo.MedicinalProductClinicalsRes", "ix_IsCurrent");
             DropIndex("dbo.MedicinalProductAuthorizationIxUri", new[] { "ResourceId" });
             DropIndex("dbo.MedicinalProductAuthorizationIxUri", "ix_SearchParamId");
             DropIndex("dbo.MedicinalProductAuthorizationIxUri", "ix_Uri");
@@ -23868,33 +24404,6 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             DropIndex("dbo.LibraryRes", "ix_IsDeleted");
             DropIndex("dbo.LibraryRes", "uq_FhirIdAndVersionId");
             DropIndex("dbo.LibraryRes", "ix_IsCurrent");
-            DropIndex("dbo.ItemInstanceIxUri", new[] { "ResourceId" });
-            DropIndex("dbo.ItemInstanceIxUri", "ix_SearchParamId");
-            DropIndex("dbo.ItemInstanceIxUri", "ix_Uri");
-            DropIndex("dbo.ItemInstanceIxTok", new[] { "ResourceId" });
-            DropIndex("dbo.ItemInstanceIxTok", "ix_SearchParamId");
-            DropIndex("dbo.ItemInstanceIxTok", "ix_System");
-            DropIndex("dbo.ItemInstanceIxTok", "ix_Code");
-            DropIndex("dbo.ItemInstanceIxStr", new[] { "ResourceId" });
-            DropIndex("dbo.ItemInstanceIxStr", "ix_SearchParamId");
-            DropIndex("dbo.ItemInstanceIxStr", "ix_String");
-            DropIndex("dbo.ItemInstanceIxRef", new[] { "ResourceId" });
-            DropIndex("dbo.ItemInstanceIxRef", "ix_SearchParamId");
-            DropIndex("dbo.ItemInstanceIxRef", "ix_RefBaseUrlId");
-            DropIndex("dbo.ItemInstanceIxRef", "ix_RefFhirId");
-            DropIndex("dbo.ItemInstanceIxQty", new[] { "ResourceId" });
-            DropIndex("dbo.ItemInstanceIxQty", "ix_SearchParamId");
-            DropIndex("dbo.ItemInstanceIxQty", "ix_System");
-            DropIndex("dbo.ItemInstanceIxQty", "ix_Code");
-            DropIndex("dbo.ItemInstanceIxDT", new[] { "ResourceId" });
-            DropIndex("dbo.ItemInstanceIxDT", "ix_SearchParamId");
-            DropIndex("dbo.ItemInstanceIxDT", "ix_HighUtcDateTime");
-            DropIndex("dbo.ItemInstanceIxDT", "ix_LowUtcDateTime");
-            DropIndex("dbo.ItemInstanceRes", new[] { "FhirReleaseId" });
-            DropIndex("dbo.ItemInstanceRes", "ix_LastUpdated");
-            DropIndex("dbo.ItemInstanceRes", "ix_IsDeleted");
-            DropIndex("dbo.ItemInstanceRes", "uq_FhirIdAndVersionId");
-            DropIndex("dbo.ItemInstanceRes", "ix_IsCurrent");
             DropIndex("dbo.InvoiceIxUri", new[] { "ResourceId" });
             DropIndex("dbo.InvoiceIxUri", "ix_SearchParamId");
             DropIndex("dbo.InvoiceIxUri", "ix_Uri");
@@ -24327,6 +24836,60 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             DropIndex("dbo.ExampleScenarioRes", "ix_IsDeleted");
             DropIndex("dbo.ExampleScenarioRes", "uq_FhirIdAndVersionId");
             DropIndex("dbo.ExampleScenarioRes", "ix_IsCurrent");
+            DropIndex("dbo.EvidenceVariableIxUri", new[] { "ResourceId" });
+            DropIndex("dbo.EvidenceVariableIxUri", "ix_SearchParamId");
+            DropIndex("dbo.EvidenceVariableIxUri", "ix_Uri");
+            DropIndex("dbo.EvidenceVariableIxTok", new[] { "ResourceId" });
+            DropIndex("dbo.EvidenceVariableIxTok", "ix_SearchParamId");
+            DropIndex("dbo.EvidenceVariableIxTok", "ix_System");
+            DropIndex("dbo.EvidenceVariableIxTok", "ix_Code");
+            DropIndex("dbo.EvidenceVariableIxStr", new[] { "ResourceId" });
+            DropIndex("dbo.EvidenceVariableIxStr", "ix_SearchParamId");
+            DropIndex("dbo.EvidenceVariableIxStr", "ix_String");
+            DropIndex("dbo.EvidenceVariableIxRef", new[] { "ResourceId" });
+            DropIndex("dbo.EvidenceVariableIxRef", "ix_SearchParamId");
+            DropIndex("dbo.EvidenceVariableIxRef", "ix_RefBaseUrlId");
+            DropIndex("dbo.EvidenceVariableIxRef", "ix_RefFhirId");
+            DropIndex("dbo.EvidenceVariableIxQty", new[] { "ResourceId" });
+            DropIndex("dbo.EvidenceVariableIxQty", "ix_SearchParamId");
+            DropIndex("dbo.EvidenceVariableIxQty", "ix_System");
+            DropIndex("dbo.EvidenceVariableIxQty", "ix_Code");
+            DropIndex("dbo.EvidenceVariableIxDT", new[] { "ResourceId" });
+            DropIndex("dbo.EvidenceVariableIxDT", "ix_SearchParamId");
+            DropIndex("dbo.EvidenceVariableIxDT", "ix_HighUtcDateTime");
+            DropIndex("dbo.EvidenceVariableIxDT", "ix_LowUtcDateTime");
+            DropIndex("dbo.EvidenceVariableRes", new[] { "FhirReleaseId" });
+            DropIndex("dbo.EvidenceVariableRes", "ix_LastUpdated");
+            DropIndex("dbo.EvidenceVariableRes", "ix_IsDeleted");
+            DropIndex("dbo.EvidenceVariableRes", "uq_FhirIdAndVersionId");
+            DropIndex("dbo.EvidenceVariableRes", "ix_IsCurrent");
+            DropIndex("dbo.EvidenceIxUri", new[] { "ResourceId" });
+            DropIndex("dbo.EvidenceIxUri", "ix_SearchParamId");
+            DropIndex("dbo.EvidenceIxUri", "ix_Uri");
+            DropIndex("dbo.EvidenceIxTok", new[] { "ResourceId" });
+            DropIndex("dbo.EvidenceIxTok", "ix_SearchParamId");
+            DropIndex("dbo.EvidenceIxTok", "ix_System");
+            DropIndex("dbo.EvidenceIxTok", "ix_Code");
+            DropIndex("dbo.EvidenceIxStr", new[] { "ResourceId" });
+            DropIndex("dbo.EvidenceIxStr", "ix_SearchParamId");
+            DropIndex("dbo.EvidenceIxStr", "ix_String");
+            DropIndex("dbo.EvidenceIxRef", new[] { "ResourceId" });
+            DropIndex("dbo.EvidenceIxRef", "ix_SearchParamId");
+            DropIndex("dbo.EvidenceIxRef", "ix_RefBaseUrlId");
+            DropIndex("dbo.EvidenceIxRef", "ix_RefFhirId");
+            DropIndex("dbo.EvidenceIxQty", new[] { "ResourceId" });
+            DropIndex("dbo.EvidenceIxQty", "ix_SearchParamId");
+            DropIndex("dbo.EvidenceIxQty", "ix_System");
+            DropIndex("dbo.EvidenceIxQty", "ix_Code");
+            DropIndex("dbo.EvidenceIxDT", new[] { "ResourceId" });
+            DropIndex("dbo.EvidenceIxDT", "ix_SearchParamId");
+            DropIndex("dbo.EvidenceIxDT", "ix_HighUtcDateTime");
+            DropIndex("dbo.EvidenceIxDT", "ix_LowUtcDateTime");
+            DropIndex("dbo.EvidenceRes", new[] { "FhirReleaseId" });
+            DropIndex("dbo.EvidenceRes", "ix_LastUpdated");
+            DropIndex("dbo.EvidenceRes", "ix_IsDeleted");
+            DropIndex("dbo.EvidenceRes", "uq_FhirIdAndVersionId");
+            DropIndex("dbo.EvidenceRes", "ix_IsCurrent");
             DropIndex("dbo.EventDefinitionIxUri", new[] { "ResourceId" });
             DropIndex("dbo.EventDefinitionIxUri", "ix_SearchParamId");
             DropIndex("dbo.EventDefinitionIxUri", "ix_Uri");
@@ -24381,33 +24944,6 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             DropIndex("dbo.EpisodeOfCareRes", "ix_IsDeleted");
             DropIndex("dbo.EpisodeOfCareRes", "uq_FhirIdAndVersionId");
             DropIndex("dbo.EpisodeOfCareRes", "ix_IsCurrent");
-            DropIndex("dbo.EntryDefinitionIxUri", new[] { "ResourceId" });
-            DropIndex("dbo.EntryDefinitionIxUri", "ix_SearchParamId");
-            DropIndex("dbo.EntryDefinitionIxUri", "ix_Uri");
-            DropIndex("dbo.EntryDefinitionIxTok", new[] { "ResourceId" });
-            DropIndex("dbo.EntryDefinitionIxTok", "ix_SearchParamId");
-            DropIndex("dbo.EntryDefinitionIxTok", "ix_System");
-            DropIndex("dbo.EntryDefinitionIxTok", "ix_Code");
-            DropIndex("dbo.EntryDefinitionIxStr", new[] { "ResourceId" });
-            DropIndex("dbo.EntryDefinitionIxStr", "ix_SearchParamId");
-            DropIndex("dbo.EntryDefinitionIxStr", "ix_String");
-            DropIndex("dbo.EntryDefinitionIxRef", new[] { "ResourceId" });
-            DropIndex("dbo.EntryDefinitionIxRef", "ix_SearchParamId");
-            DropIndex("dbo.EntryDefinitionIxRef", "ix_RefBaseUrlId");
-            DropIndex("dbo.EntryDefinitionIxRef", "ix_RefFhirId");
-            DropIndex("dbo.EntryDefinitionIxQty", new[] { "ResourceId" });
-            DropIndex("dbo.EntryDefinitionIxQty", "ix_SearchParamId");
-            DropIndex("dbo.EntryDefinitionIxQty", "ix_System");
-            DropIndex("dbo.EntryDefinitionIxQty", "ix_Code");
-            DropIndex("dbo.EntryDefinitionIxDT", new[] { "ResourceId" });
-            DropIndex("dbo.EntryDefinitionIxDT", "ix_SearchParamId");
-            DropIndex("dbo.EntryDefinitionIxDT", "ix_HighUtcDateTime");
-            DropIndex("dbo.EntryDefinitionIxDT", "ix_LowUtcDateTime");
-            DropIndex("dbo.EntryDefinitionRes", new[] { "FhirReleaseId" });
-            DropIndex("dbo.EntryDefinitionRes", "ix_LastUpdated");
-            DropIndex("dbo.EntryDefinitionRes", "ix_IsDeleted");
-            DropIndex("dbo.EntryDefinitionRes", "uq_FhirIdAndVersionId");
-            DropIndex("dbo.EntryDefinitionRes", "ix_IsCurrent");
             DropIndex("dbo.EnrollmentResponseIxUri", new[] { "ResourceId" });
             DropIndex("dbo.EnrollmentResponseIxUri", "ix_SearchParamId");
             DropIndex("dbo.EnrollmentResponseIxUri", "ix_Uri");
@@ -24516,6 +25052,33 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             DropIndex("dbo.EncounterRes", "ix_IsDeleted");
             DropIndex("dbo.EncounterRes", "uq_FhirIdAndVersionId");
             DropIndex("dbo.EncounterRes", "ix_IsCurrent");
+            DropIndex("dbo.EffectEvidenceSynthesisIxUri", new[] { "ResourceId" });
+            DropIndex("dbo.EffectEvidenceSynthesisIxUri", "ix_SearchParamId");
+            DropIndex("dbo.EffectEvidenceSynthesisIxUri", "ix_Uri");
+            DropIndex("dbo.EffectEvidenceSynthesisIxTok", new[] { "ResourceId" });
+            DropIndex("dbo.EffectEvidenceSynthesisIxTok", "ix_SearchParamId");
+            DropIndex("dbo.EffectEvidenceSynthesisIxTok", "ix_System");
+            DropIndex("dbo.EffectEvidenceSynthesisIxTok", "ix_Code");
+            DropIndex("dbo.EffectEvidenceSynthesisIxStr", new[] { "ResourceId" });
+            DropIndex("dbo.EffectEvidenceSynthesisIxStr", "ix_SearchParamId");
+            DropIndex("dbo.EffectEvidenceSynthesisIxStr", "ix_String");
+            DropIndex("dbo.EffectEvidenceSynthesisIxRef", new[] { "ResourceId" });
+            DropIndex("dbo.EffectEvidenceSynthesisIxRef", "ix_SearchParamId");
+            DropIndex("dbo.EffectEvidenceSynthesisIxRef", "ix_RefBaseUrlId");
+            DropIndex("dbo.EffectEvidenceSynthesisIxRef", "ix_RefFhirId");
+            DropIndex("dbo.EffectEvidenceSynthesisIxQty", new[] { "ResourceId" });
+            DropIndex("dbo.EffectEvidenceSynthesisIxQty", "ix_SearchParamId");
+            DropIndex("dbo.EffectEvidenceSynthesisIxQty", "ix_System");
+            DropIndex("dbo.EffectEvidenceSynthesisIxQty", "ix_Code");
+            DropIndex("dbo.EffectEvidenceSynthesisIxDT", new[] { "ResourceId" });
+            DropIndex("dbo.EffectEvidenceSynthesisIxDT", "ix_SearchParamId");
+            DropIndex("dbo.EffectEvidenceSynthesisIxDT", "ix_HighUtcDateTime");
+            DropIndex("dbo.EffectEvidenceSynthesisIxDT", "ix_LowUtcDateTime");
+            DropIndex("dbo.EffectEvidenceSynthesisRes", new[] { "FhirReleaseId" });
+            DropIndex("dbo.EffectEvidenceSynthesisRes", "ix_LastUpdated");
+            DropIndex("dbo.EffectEvidenceSynthesisRes", "ix_IsDeleted");
+            DropIndex("dbo.EffectEvidenceSynthesisRes", "uq_FhirIdAndVersionId");
+            DropIndex("dbo.EffectEvidenceSynthesisRes", "ix_IsCurrent");
             DropIndex("dbo.DocumentReferenceIxUri", new[] { "ResourceId" });
             DropIndex("dbo.DocumentReferenceIxUri", "ix_SearchParamId");
             DropIndex("dbo.DocumentReferenceIxUri", "ix_Uri");
@@ -25218,6 +25781,33 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             DropIndex("dbo.ChargeItemDefinitionRes", "ix_IsDeleted");
             DropIndex("dbo.ChargeItemDefinitionRes", "uq_FhirIdAndVersionId");
             DropIndex("dbo.ChargeItemDefinitionRes", "ix_IsCurrent");
+            DropIndex("dbo.CatalogEntryIxUri", new[] { "ResourceId" });
+            DropIndex("dbo.CatalogEntryIxUri", "ix_SearchParamId");
+            DropIndex("dbo.CatalogEntryIxUri", "ix_Uri");
+            DropIndex("dbo.CatalogEntryIxTok", new[] { "ResourceId" });
+            DropIndex("dbo.CatalogEntryIxTok", "ix_SearchParamId");
+            DropIndex("dbo.CatalogEntryIxTok", "ix_System");
+            DropIndex("dbo.CatalogEntryIxTok", "ix_Code");
+            DropIndex("dbo.CatalogEntryIxStr", new[] { "ResourceId" });
+            DropIndex("dbo.CatalogEntryIxStr", "ix_SearchParamId");
+            DropIndex("dbo.CatalogEntryIxStr", "ix_String");
+            DropIndex("dbo.CatalogEntryIxRef", new[] { "ResourceId" });
+            DropIndex("dbo.CatalogEntryIxRef", "ix_SearchParamId");
+            DropIndex("dbo.CatalogEntryIxRef", "ix_RefBaseUrlId");
+            DropIndex("dbo.CatalogEntryIxRef", "ix_RefFhirId");
+            DropIndex("dbo.CatalogEntryIxQty", new[] { "ResourceId" });
+            DropIndex("dbo.CatalogEntryIxQty", "ix_SearchParamId");
+            DropIndex("dbo.CatalogEntryIxQty", "ix_System");
+            DropIndex("dbo.CatalogEntryIxQty", "ix_Code");
+            DropIndex("dbo.CatalogEntryIxDT", new[] { "ResourceId" });
+            DropIndex("dbo.CatalogEntryIxDT", "ix_SearchParamId");
+            DropIndex("dbo.CatalogEntryIxDT", "ix_HighUtcDateTime");
+            DropIndex("dbo.CatalogEntryIxDT", "ix_LowUtcDateTime");
+            DropIndex("dbo.CatalogEntryRes", new[] { "FhirReleaseId" });
+            DropIndex("dbo.CatalogEntryRes", "ix_LastUpdated");
+            DropIndex("dbo.CatalogEntryRes", "ix_IsDeleted");
+            DropIndex("dbo.CatalogEntryRes", "uq_FhirIdAndVersionId");
+            DropIndex("dbo.CatalogEntryRes", "ix_IsCurrent");
             DropIndex("dbo.CareTeamIxUri", new[] { "ResourceId" });
             DropIndex("dbo.CareTeamIxUri", "ix_SearchParamId");
             DropIndex("dbo.CareTeamIxUri", "ix_Uri");
@@ -25611,6 +26201,9 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             DropTable("dbo._ServConfig");
             DropTable("dbo._CompartmentRes");
             DropTable("dbo._Compartment");
+            DropTable("dbo._FhirTaskWorker");
+            DropTable("dbo._FhirTaskQueue");
+            DropTable("dbo._BackburnerConnection");
             DropTable("dbo.AccountIxUri");
             DropTable("dbo.AccountIxTok");
             DropTable("dbo.AccountIxStr");
@@ -25638,13 +26231,6 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             DropTable("dbo.ValueSetIxQty");
             DropTable("dbo.ValueSetIxDT");
             DropTable("dbo.ValueSetRes");
-            DropTable("dbo.UserSessionIxUri");
-            DropTable("dbo.UserSessionIxTok");
-            DropTable("dbo.UserSessionIxStr");
-            DropTable("dbo.UserSessionIxRef");
-            DropTable("dbo.UserSessionIxQty");
-            DropTable("dbo.UserSessionIxDT");
-            DropTable("dbo.UserSessionRes");
             DropTable("dbo.TestScriptIxUri");
             DropTable("dbo.TestScriptIxTok");
             DropTable("dbo.TestScriptIxStr");
@@ -25694,6 +26280,13 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             DropTable("dbo.SubstanceSpecificationIxQty");
             DropTable("dbo.SubstanceSpecificationIxDT");
             DropTable("dbo.SubstanceSpecificationRes");
+            DropTable("dbo.SubstanceSourceMaterialIxUri");
+            DropTable("dbo.SubstanceSourceMaterialIxTok");
+            DropTable("dbo.SubstanceSourceMaterialIxStr");
+            DropTable("dbo.SubstanceSourceMaterialIxRef");
+            DropTable("dbo.SubstanceSourceMaterialIxQty");
+            DropTable("dbo.SubstanceSourceMaterialIxDT");
+            DropTable("dbo.SubstanceSourceMaterialRes");
             DropTable("dbo.SubstanceReferenceInformationIxUri");
             DropTable("dbo.SubstanceReferenceInformationIxTok");
             DropTable("dbo.SubstanceReferenceInformationIxStr");
@@ -25701,6 +26294,13 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             DropTable("dbo.SubstanceReferenceInformationIxQty");
             DropTable("dbo.SubstanceReferenceInformationIxDT");
             DropTable("dbo.SubstanceReferenceInformationRes");
+            DropTable("dbo.SubstanceProteinIxUri");
+            DropTable("dbo.SubstanceProteinIxTok");
+            DropTable("dbo.SubstanceProteinIxStr");
+            DropTable("dbo.SubstanceProteinIxRef");
+            DropTable("dbo.SubstanceProteinIxQty");
+            DropTable("dbo.SubstanceProteinIxDT");
+            DropTable("dbo.SubstanceProteinRes");
             DropTable("dbo.SubstancePolymerIxUri");
             DropTable("dbo.SubstancePolymerIxTok");
             DropTable("dbo.SubstancePolymerIxStr");
@@ -25708,6 +26308,13 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             DropTable("dbo.SubstancePolymerIxQty");
             DropTable("dbo.SubstancePolymerIxDT");
             DropTable("dbo.SubstancePolymerRes");
+            DropTable("dbo.SubstanceNucleicAcidIxUri");
+            DropTable("dbo.SubstanceNucleicAcidIxTok");
+            DropTable("dbo.SubstanceNucleicAcidIxStr");
+            DropTable("dbo.SubstanceNucleicAcidIxRef");
+            DropTable("dbo.SubstanceNucleicAcidIxQty");
+            DropTable("dbo.SubstanceNucleicAcidIxDT");
+            DropTable("dbo.SubstanceNucleicAcidRes");
             DropTable("dbo.SubstanceIxUri");
             DropTable("dbo.SubstanceIxTok");
             DropTable("dbo.SubstanceIxStr");
@@ -25764,13 +26371,6 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             DropTable("dbo.ServiceRequestIxQty");
             DropTable("dbo.ServiceRequestIxDT");
             DropTable("dbo.ServiceRequestRes");
-            DropTable("dbo.SequenceIxUri");
-            DropTable("dbo.SequenceIxTok");
-            DropTable("dbo.SequenceIxStr");
-            DropTable("dbo.SequenceIxRef");
-            DropTable("dbo.SequenceIxQty");
-            DropTable("dbo.SequenceIxDT");
-            DropTable("dbo.SequenceRes");
             DropTable("dbo.SearchParameterIxUri");
             DropTable("dbo.SearchParameterIxTok");
             DropTable("dbo.SearchParameterIxStr");
@@ -25785,6 +26385,13 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             DropTable("dbo.ScheduleIxQty");
             DropTable("dbo.ScheduleIxDT");
             DropTable("dbo.ScheduleRes");
+            DropTable("dbo.RiskEvidenceSynthesisIxUri");
+            DropTable("dbo.RiskEvidenceSynthesisIxTok");
+            DropTable("dbo.RiskEvidenceSynthesisIxStr");
+            DropTable("dbo.RiskEvidenceSynthesisIxRef");
+            DropTable("dbo.RiskEvidenceSynthesisIxQty");
+            DropTable("dbo.RiskEvidenceSynthesisIxDT");
+            DropTable("dbo.RiskEvidenceSynthesisRes");
             DropTable("dbo.RiskAssessmentIxUri");
             DropTable("dbo.RiskAssessmentIxTok");
             DropTable("dbo.RiskAssessmentIxStr");
@@ -25806,6 +26413,20 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             DropTable("dbo.ResearchStudyIxQty");
             DropTable("dbo.ResearchStudyIxDT");
             DropTable("dbo.ResearchStudyRes");
+            DropTable("dbo.ResearchElementDefinitionIxUri");
+            DropTable("dbo.ResearchElementDefinitionIxTok");
+            DropTable("dbo.ResearchElementDefinitionIxStr");
+            DropTable("dbo.ResearchElementDefinitionIxRef");
+            DropTable("dbo.ResearchElementDefinitionIxQty");
+            DropTable("dbo.ResearchElementDefinitionIxDT");
+            DropTable("dbo.ResearchElementDefinitionRes");
+            DropTable("dbo.ResearchDefinitionIxUri");
+            DropTable("dbo.ResearchDefinitionIxTok");
+            DropTable("dbo.ResearchDefinitionIxStr");
+            DropTable("dbo.ResearchDefinitionIxRef");
+            DropTable("dbo.ResearchDefinitionIxQty");
+            DropTable("dbo.ResearchDefinitionIxDT");
+            DropTable("dbo.ResearchDefinitionRes");
             DropTable("dbo.RequestGroupIxUri");
             DropTable("dbo.RequestGroupIxTok");
             DropTable("dbo.RequestGroupIxStr");
@@ -25841,20 +26462,6 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             DropTable("dbo.ProvenanceIxQty");
             DropTable("dbo.ProvenanceIxDT");
             DropTable("dbo.ProvenanceRes");
-            DropTable("dbo.ProcessResponseIxUri");
-            DropTable("dbo.ProcessResponseIxTok");
-            DropTable("dbo.ProcessResponseIxStr");
-            DropTable("dbo.ProcessResponseIxRef");
-            DropTable("dbo.ProcessResponseIxQty");
-            DropTable("dbo.ProcessResponseIxDT");
-            DropTable("dbo.ProcessResponseRes");
-            DropTable("dbo.ProcessRequestIxUri");
-            DropTable("dbo.ProcessRequestIxTok");
-            DropTable("dbo.ProcessRequestIxStr");
-            DropTable("dbo.ProcessRequestIxRef");
-            DropTable("dbo.ProcessRequestIxQty");
-            DropTable("dbo.ProcessRequestIxDT");
-            DropTable("dbo.ProcessRequestRes");
             DropTable("dbo.ProcedureIxUri");
             DropTable("dbo.ProcedureIxTok");
             DropTable("dbo.ProcedureIxStr");
@@ -25974,6 +26581,13 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             DropTable("dbo.NamingSystemIxQty");
             DropTable("dbo.NamingSystemIxDT");
             DropTable("dbo.NamingSystemRes");
+            DropTable("dbo.MolecularSequenceIxUri");
+            DropTable("dbo.MolecularSequenceIxTok");
+            DropTable("dbo.MolecularSequenceIxStr");
+            DropTable("dbo.MolecularSequenceIxRef");
+            DropTable("dbo.MolecularSequenceIxQty");
+            DropTable("dbo.MolecularSequenceIxDT");
+            DropTable("dbo.MolecularSequenceRes");
             DropTable("dbo.MessageHeaderIxUri");
             DropTable("dbo.MessageHeaderIxTok");
             DropTable("dbo.MessageHeaderIxStr");
@@ -26044,13 +26658,6 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             DropTable("dbo.MedicinalProductIndicationIxQty");
             DropTable("dbo.MedicinalProductIndicationIxDT");
             DropTable("dbo.MedicinalProductIndicationRes");
-            DropTable("dbo.MedicinalProductDeviceSpecIxUri");
-            DropTable("dbo.MedicinalProductDeviceSpecIxTok");
-            DropTable("dbo.MedicinalProductDeviceSpecIxStr");
-            DropTable("dbo.MedicinalProductDeviceSpecIxRef");
-            DropTable("dbo.MedicinalProductDeviceSpecIxQty");
-            DropTable("dbo.MedicinalProductDeviceSpecIxDT");
-            DropTable("dbo.MedicinalProductDeviceSpecRes");
             DropTable("dbo.MedicinalProductContraindicationIxUri");
             DropTable("dbo.MedicinalProductContraindicationIxTok");
             DropTable("dbo.MedicinalProductContraindicationIxStr");
@@ -26058,13 +26665,6 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             DropTable("dbo.MedicinalProductContraindicationIxQty");
             DropTable("dbo.MedicinalProductContraindicationIxDT");
             DropTable("dbo.MedicinalProductContraindicationRes");
-            DropTable("dbo.MedicinalProductClinicalsIxUri");
-            DropTable("dbo.MedicinalProductClinicalsIxTok");
-            DropTable("dbo.MedicinalProductClinicalsIxStr");
-            DropTable("dbo.MedicinalProductClinicalsIxRef");
-            DropTable("dbo.MedicinalProductClinicalsIxQty");
-            DropTable("dbo.MedicinalProductClinicalsIxDT");
-            DropTable("dbo.MedicinalProductClinicalsRes");
             DropTable("dbo.MedicinalProductAuthorizationIxUri");
             DropTable("dbo.MedicinalProductAuthorizationIxTok");
             DropTable("dbo.MedicinalProductAuthorizationIxStr");
@@ -26163,13 +26763,6 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             DropTable("dbo.LibraryIxQty");
             DropTable("dbo.LibraryIxDT");
             DropTable("dbo.LibraryRes");
-            DropTable("dbo.ItemInstanceIxUri");
-            DropTable("dbo.ItemInstanceIxTok");
-            DropTable("dbo.ItemInstanceIxStr");
-            DropTable("dbo.ItemInstanceIxRef");
-            DropTable("dbo.ItemInstanceIxQty");
-            DropTable("dbo.ItemInstanceIxDT");
-            DropTable("dbo.ItemInstanceRes");
             DropTable("dbo.InvoiceIxUri");
             DropTable("dbo.InvoiceIxTok");
             DropTable("dbo.InvoiceIxStr");
@@ -26282,6 +26875,20 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             DropTable("dbo.ExampleScenarioIxQty");
             DropTable("dbo.ExampleScenarioIxDT");
             DropTable("dbo.ExampleScenarioRes");
+            DropTable("dbo.EvidenceVariableIxUri");
+            DropTable("dbo.EvidenceVariableIxTok");
+            DropTable("dbo.EvidenceVariableIxStr");
+            DropTable("dbo.EvidenceVariableIxRef");
+            DropTable("dbo.EvidenceVariableIxQty");
+            DropTable("dbo.EvidenceVariableIxDT");
+            DropTable("dbo.EvidenceVariableRes");
+            DropTable("dbo.EvidenceIxUri");
+            DropTable("dbo.EvidenceIxTok");
+            DropTable("dbo.EvidenceIxStr");
+            DropTable("dbo.EvidenceIxRef");
+            DropTable("dbo.EvidenceIxQty");
+            DropTable("dbo.EvidenceIxDT");
+            DropTable("dbo.EvidenceRes");
             DropTable("dbo.EventDefinitionIxUri");
             DropTable("dbo.EventDefinitionIxTok");
             DropTable("dbo.EventDefinitionIxStr");
@@ -26296,13 +26903,6 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             DropTable("dbo.EpisodeOfCareIxQty");
             DropTable("dbo.EpisodeOfCareIxDT");
             DropTable("dbo.EpisodeOfCareRes");
-            DropTable("dbo.EntryDefinitionIxUri");
-            DropTable("dbo.EntryDefinitionIxTok");
-            DropTable("dbo.EntryDefinitionIxStr");
-            DropTable("dbo.EntryDefinitionIxRef");
-            DropTable("dbo.EntryDefinitionIxQty");
-            DropTable("dbo.EntryDefinitionIxDT");
-            DropTable("dbo.EntryDefinitionRes");
             DropTable("dbo.EnrollmentResponseIxUri");
             DropTable("dbo.EnrollmentResponseIxTok");
             DropTable("dbo.EnrollmentResponseIxStr");
@@ -26331,6 +26931,13 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             DropTable("dbo.EncounterIxQty");
             DropTable("dbo.EncounterIxDT");
             DropTable("dbo.EncounterRes");
+            DropTable("dbo.EffectEvidenceSynthesisIxUri");
+            DropTable("dbo.EffectEvidenceSynthesisIxTok");
+            DropTable("dbo.EffectEvidenceSynthesisIxStr");
+            DropTable("dbo.EffectEvidenceSynthesisIxRef");
+            DropTable("dbo.EffectEvidenceSynthesisIxQty");
+            DropTable("dbo.EffectEvidenceSynthesisIxDT");
+            DropTable("dbo.EffectEvidenceSynthesisRes");
             DropTable("dbo.DocumentReferenceIxUri");
             DropTable("dbo.DocumentReferenceIxTok");
             DropTable("dbo.DocumentReferenceIxStr");
@@ -26513,6 +27120,13 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             DropTable("dbo.ChargeItemDefinitionIxQty");
             DropTable("dbo.ChargeItemDefinitionIxDT");
             DropTable("dbo.ChargeItemDefinitionRes");
+            DropTable("dbo.CatalogEntryIxUri");
+            DropTable("dbo.CatalogEntryIxTok");
+            DropTable("dbo.CatalogEntryIxStr");
+            DropTable("dbo.CatalogEntryIxRef");
+            DropTable("dbo.CatalogEntryIxQty");
+            DropTable("dbo.CatalogEntryIxDT");
+            DropTable("dbo.CatalogEntryRes");
             DropTable("dbo.CareTeamIxUri");
             DropTable("dbo.CareTeamIxTok");
             DropTable("dbo.CareTeamIxStr");

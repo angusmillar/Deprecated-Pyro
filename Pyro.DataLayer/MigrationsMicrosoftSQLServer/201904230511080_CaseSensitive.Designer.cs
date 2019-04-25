@@ -13,7 +13,7 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
         
         string IMigrationMetadata.Id
         {
-            get { return "201810041523325_CaseSensitive"; }
+            get { return "201904230511080_CaseSensitive"; }
         }
         
         string IMigrationMetadata.Source

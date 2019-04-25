@@ -10,7 +10,7 @@ namespace Pyro.Test.IndexSetters
   [Category("Tools DateTimeSupport")]
   class Test_DateTimeIndexSupport
   {
-    private int TimeZoneTestRunningWithin = 8;
+    private int TimeZoneTestRunningWithin = 10;
     [Test]
     public void Test_FhirDateOfYearToIndex()
     {

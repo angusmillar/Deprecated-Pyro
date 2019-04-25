@@ -52,6 +52,9 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             DropIndex("dbo.CareTeamRes", "uq_FhirIdAndVersionId");
             DropIndex("dbo.CareTeamIxRef", "ix_RefFhirId");
             DropIndex("dbo.CareTeamIxTok", "ix_Code");
+            DropIndex("dbo.CatalogEntryRes", "uq_FhirIdAndVersionId");
+            DropIndex("dbo.CatalogEntryIxRef", "ix_RefFhirId");
+            DropIndex("dbo.CatalogEntryIxTok", "ix_Code");
             DropIndex("dbo.ChargeItemDefinitionRes", "uq_FhirIdAndVersionId");
             DropIndex("dbo.ChargeItemDefinitionIxRef", "ix_RefFhirId");
             DropIndex("dbo.ChargeItemDefinitionIxTok", "ix_Code");
@@ -130,6 +133,9 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             DropIndex("dbo.DocumentReferenceRes", "uq_FhirIdAndVersionId");
             DropIndex("dbo.DocumentReferenceIxRef", "ix_RefFhirId");
             DropIndex("dbo.DocumentReferenceIxTok", "ix_Code");
+            DropIndex("dbo.EffectEvidenceSynthesisRes", "uq_FhirIdAndVersionId");
+            DropIndex("dbo.EffectEvidenceSynthesisIxRef", "ix_RefFhirId");
+            DropIndex("dbo.EffectEvidenceSynthesisIxTok", "ix_Code");
             DropIndex("dbo.EncounterRes", "uq_FhirIdAndVersionId");
             DropIndex("dbo.EncounterIxRef", "ix_RefFhirId");
             DropIndex("dbo.EncounterIxTok", "ix_Code");
@@ -142,15 +148,18 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             DropIndex("dbo.EnrollmentResponseRes", "uq_FhirIdAndVersionId");
             DropIndex("dbo.EnrollmentResponseIxRef", "ix_RefFhirId");
             DropIndex("dbo.EnrollmentResponseIxTok", "ix_Code");
-            DropIndex("dbo.EntryDefinitionRes", "uq_FhirIdAndVersionId");
-            DropIndex("dbo.EntryDefinitionIxRef", "ix_RefFhirId");
-            DropIndex("dbo.EntryDefinitionIxTok", "ix_Code");
             DropIndex("dbo.EpisodeOfCareRes", "uq_FhirIdAndVersionId");
             DropIndex("dbo.EpisodeOfCareIxRef", "ix_RefFhirId");
             DropIndex("dbo.EpisodeOfCareIxTok", "ix_Code");
             DropIndex("dbo.EventDefinitionRes", "uq_FhirIdAndVersionId");
             DropIndex("dbo.EventDefinitionIxRef", "ix_RefFhirId");
             DropIndex("dbo.EventDefinitionIxTok", "ix_Code");
+            DropIndex("dbo.EvidenceRes", "uq_FhirIdAndVersionId");
+            DropIndex("dbo.EvidenceIxRef", "ix_RefFhirId");
+            DropIndex("dbo.EvidenceIxTok", "ix_Code");
+            DropIndex("dbo.EvidenceVariableRes", "uq_FhirIdAndVersionId");
+            DropIndex("dbo.EvidenceVariableIxRef", "ix_RefFhirId");
+            DropIndex("dbo.EvidenceVariableIxTok", "ix_Code");
             DropIndex("dbo.ExampleScenarioRes", "uq_FhirIdAndVersionId");
             DropIndex("dbo.ExampleScenarioIxRef", "ix_RefFhirId");
             DropIndex("dbo.ExampleScenarioIxTok", "ix_Code");
@@ -199,9 +208,6 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             DropIndex("dbo.InvoiceRes", "uq_FhirIdAndVersionId");
             DropIndex("dbo.InvoiceIxRef", "ix_RefFhirId");
             DropIndex("dbo.InvoiceIxTok", "ix_Code");
-            DropIndex("dbo.ItemInstanceRes", "uq_FhirIdAndVersionId");
-            DropIndex("dbo.ItemInstanceIxRef", "ix_RefFhirId");
-            DropIndex("dbo.ItemInstanceIxTok", "ix_Code");
             DropIndex("dbo.LibraryRes", "uq_FhirIdAndVersionId");
             DropIndex("dbo.LibraryIxRef", "ix_RefFhirId");
             DropIndex("dbo.LibraryIxTok", "ix_Code");
@@ -244,15 +250,9 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             DropIndex("dbo.MedicinalProductAuthorizationRes", "uq_FhirIdAndVersionId");
             DropIndex("dbo.MedicinalProductAuthorizationIxRef", "ix_RefFhirId");
             DropIndex("dbo.MedicinalProductAuthorizationIxTok", "ix_Code");
-            DropIndex("dbo.MedicinalProductClinicalsRes", "uq_FhirIdAndVersionId");
-            DropIndex("dbo.MedicinalProductClinicalsIxRef", "ix_RefFhirId");
-            DropIndex("dbo.MedicinalProductClinicalsIxTok", "ix_Code");
             DropIndex("dbo.MedicinalProductContraindicationRes", "uq_FhirIdAndVersionId");
             DropIndex("dbo.MedicinalProductContraindicationIxRef", "ix_RefFhirId");
             DropIndex("dbo.MedicinalProductContraindicationIxTok", "ix_Code");
-            DropIndex("dbo.MedicinalProductDeviceSpecRes", "uq_FhirIdAndVersionId");
-            DropIndex("dbo.MedicinalProductDeviceSpecIxRef", "ix_RefFhirId");
-            DropIndex("dbo.MedicinalProductDeviceSpecIxTok", "ix_Code");
             DropIndex("dbo.MedicinalProductIndicationRes", "uq_FhirIdAndVersionId");
             DropIndex("dbo.MedicinalProductIndicationIxRef", "ix_RefFhirId");
             DropIndex("dbo.MedicinalProductIndicationIxTok", "ix_Code");
@@ -283,6 +283,9 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             DropIndex("dbo.MessageHeaderRes", "uq_FhirIdAndVersionId");
             DropIndex("dbo.MessageHeaderIxRef", "ix_RefFhirId");
             DropIndex("dbo.MessageHeaderIxTok", "ix_Code");
+            DropIndex("dbo.MolecularSequenceRes", "uq_FhirIdAndVersionId");
+            DropIndex("dbo.MolecularSequenceIxRef", "ix_RefFhirId");
+            DropIndex("dbo.MolecularSequenceIxTok", "ix_Code");
             DropIndex("dbo.NamingSystemRes", "uq_FhirIdAndVersionId");
             DropIndex("dbo.NamingSystemIxRef", "ix_RefFhirId");
             DropIndex("dbo.NamingSystemIxTok", "ix_Code");
@@ -334,12 +337,6 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             DropIndex("dbo.ProcedureRes", "uq_FhirIdAndVersionId");
             DropIndex("dbo.ProcedureIxRef", "ix_RefFhirId");
             DropIndex("dbo.ProcedureIxTok", "ix_Code");
-            DropIndex("dbo.ProcessRequestRes", "uq_FhirIdAndVersionId");
-            DropIndex("dbo.ProcessRequestIxRef", "ix_RefFhirId");
-            DropIndex("dbo.ProcessRequestIxTok", "ix_Code");
-            DropIndex("dbo.ProcessResponseRes", "uq_FhirIdAndVersionId");
-            DropIndex("dbo.ProcessResponseIxRef", "ix_RefFhirId");
-            DropIndex("dbo.ProcessResponseIxTok", "ix_Code");
             DropIndex("dbo.ProvenanceRes", "uq_FhirIdAndVersionId");
             DropIndex("dbo.ProvenanceIxRef", "ix_RefFhirId");
             DropIndex("dbo.ProvenanceIxTok", "ix_Code");
@@ -355,6 +352,12 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             DropIndex("dbo.RequestGroupRes", "uq_FhirIdAndVersionId");
             DropIndex("dbo.RequestGroupIxRef", "ix_RefFhirId");
             DropIndex("dbo.RequestGroupIxTok", "ix_Code");
+            DropIndex("dbo.ResearchDefinitionRes", "uq_FhirIdAndVersionId");
+            DropIndex("dbo.ResearchDefinitionIxRef", "ix_RefFhirId");
+            DropIndex("dbo.ResearchDefinitionIxTok", "ix_Code");
+            DropIndex("dbo.ResearchElementDefinitionRes", "uq_FhirIdAndVersionId");
+            DropIndex("dbo.ResearchElementDefinitionIxRef", "ix_RefFhirId");
+            DropIndex("dbo.ResearchElementDefinitionIxTok", "ix_Code");
             DropIndex("dbo.ResearchStudyRes", "uq_FhirIdAndVersionId");
             DropIndex("dbo.ResearchStudyIxRef", "ix_RefFhirId");
             DropIndex("dbo.ResearchStudyIxTok", "ix_Code");
@@ -364,15 +367,15 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             DropIndex("dbo.RiskAssessmentRes", "uq_FhirIdAndVersionId");
             DropIndex("dbo.RiskAssessmentIxRef", "ix_RefFhirId");
             DropIndex("dbo.RiskAssessmentIxTok", "ix_Code");
+            DropIndex("dbo.RiskEvidenceSynthesisRes", "uq_FhirIdAndVersionId");
+            DropIndex("dbo.RiskEvidenceSynthesisIxRef", "ix_RefFhirId");
+            DropIndex("dbo.RiskEvidenceSynthesisIxTok", "ix_Code");
             DropIndex("dbo.ScheduleRes", "uq_FhirIdAndVersionId");
             DropIndex("dbo.ScheduleIxRef", "ix_RefFhirId");
             DropIndex("dbo.ScheduleIxTok", "ix_Code");
             DropIndex("dbo.SearchParameterRes", "uq_FhirIdAndVersionId");
             DropIndex("dbo.SearchParameterIxRef", "ix_RefFhirId");
             DropIndex("dbo.SearchParameterIxTok", "ix_Code");
-            DropIndex("dbo.SequenceRes", "uq_FhirIdAndVersionId");
-            DropIndex("dbo.SequenceIxRef", "ix_RefFhirId");
-            DropIndex("dbo.SequenceIxTok", "ix_Code");
             DropIndex("dbo.ServiceRequestRes", "uq_FhirIdAndVersionId");
             DropIndex("dbo.ServiceRequestIxRef", "ix_RefFhirId");
             DropIndex("dbo.ServiceRequestIxTok", "ix_Code");
@@ -397,12 +400,21 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             DropIndex("dbo.SubstanceRes", "uq_FhirIdAndVersionId");
             DropIndex("dbo.SubstanceIxRef", "ix_RefFhirId");
             DropIndex("dbo.SubstanceIxTok", "ix_Code");
+            DropIndex("dbo.SubstanceNucleicAcidRes", "uq_FhirIdAndVersionId");
+            DropIndex("dbo.SubstanceNucleicAcidIxRef", "ix_RefFhirId");
+            DropIndex("dbo.SubstanceNucleicAcidIxTok", "ix_Code");
             DropIndex("dbo.SubstancePolymerRes", "uq_FhirIdAndVersionId");
             DropIndex("dbo.SubstancePolymerIxRef", "ix_RefFhirId");
             DropIndex("dbo.SubstancePolymerIxTok", "ix_Code");
+            DropIndex("dbo.SubstanceProteinRes", "uq_FhirIdAndVersionId");
+            DropIndex("dbo.SubstanceProteinIxRef", "ix_RefFhirId");
+            DropIndex("dbo.SubstanceProteinIxTok", "ix_Code");
             DropIndex("dbo.SubstanceReferenceInformationRes", "uq_FhirIdAndVersionId");
             DropIndex("dbo.SubstanceReferenceInformationIxRef", "ix_RefFhirId");
             DropIndex("dbo.SubstanceReferenceInformationIxTok", "ix_Code");
+            DropIndex("dbo.SubstanceSourceMaterialRes", "uq_FhirIdAndVersionId");
+            DropIndex("dbo.SubstanceSourceMaterialIxRef", "ix_RefFhirId");
+            DropIndex("dbo.SubstanceSourceMaterialIxTok", "ix_Code");
             DropIndex("dbo.SubstanceSpecificationRes", "uq_FhirIdAndVersionId");
             DropIndex("dbo.SubstanceSpecificationIxRef", "ix_RefFhirId");
             DropIndex("dbo.SubstanceSpecificationIxTok", "ix_Code");
@@ -424,9 +436,6 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             DropIndex("dbo.TestScriptRes", "uq_FhirIdAndVersionId");
             DropIndex("dbo.TestScriptIxRef", "ix_RefFhirId");
             DropIndex("dbo.TestScriptIxTok", "ix_Code");
-            DropIndex("dbo.UserSessionRes", "uq_FhirIdAndVersionId");
-            DropIndex("dbo.UserSessionIxRef", "ix_RefFhirId");
-            DropIndex("dbo.UserSessionIxTok", "ix_Code");
             DropIndex("dbo.ValueSetRes", "uq_FhirIdAndVersionId");
             DropIndex("dbo.ValueSetIxRef", "ix_RefFhirId");
             DropIndex("dbo.ValueSetIxTok", "ix_Code");
@@ -1007,6 +1016,46 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
                     },
                 }));
             AlterColumn("dbo.CareTeamIxTok", "Code", c => c.String(maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: null, newValue: "True")
+                    },
+                }));
+            AlterColumn("dbo.CatalogEntryRes", "FhirId", c => c.String(nullable: false, maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: null, newValue: "True")
+                    },
+                }));
+            AlterColumn("dbo.CatalogEntryRes", "VersionId", c => c.String(nullable: false, maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: null, newValue: "True")
+                    },
+                }));
+            AlterColumn("dbo.CatalogEntryIxRef", "ReferenceFhirId", c => c.String(nullable: false, maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: null, newValue: "True")
+                    },
+                }));
+            AlterColumn("dbo.CatalogEntryIxRef", "ReferenceVersionId", c => c.String(maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: null, newValue: "True")
+                    },
+                }));
+            AlterColumn("dbo.CatalogEntryIxTok", "Code", c => c.String(maxLength: 128,
                 annotations: new Dictionary<string, AnnotationValues>
                 {
                     { 
@@ -2054,6 +2103,46 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
                         new AnnotationValues(oldValue: null, newValue: "True")
                     },
                 }));
+            AlterColumn("dbo.EffectEvidenceSynthesisRes", "FhirId", c => c.String(nullable: false, maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: null, newValue: "True")
+                    },
+                }));
+            AlterColumn("dbo.EffectEvidenceSynthesisRes", "VersionId", c => c.String(nullable: false, maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: null, newValue: "True")
+                    },
+                }));
+            AlterColumn("dbo.EffectEvidenceSynthesisIxRef", "ReferenceFhirId", c => c.String(nullable: false, maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: null, newValue: "True")
+                    },
+                }));
+            AlterColumn("dbo.EffectEvidenceSynthesisIxRef", "ReferenceVersionId", c => c.String(maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: null, newValue: "True")
+                    },
+                }));
+            AlterColumn("dbo.EffectEvidenceSynthesisIxTok", "Code", c => c.String(maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: null, newValue: "True")
+                    },
+                }));
             AlterColumn("dbo.EncounterRes", "FhirId", c => c.String(nullable: false, maxLength: 128,
                 annotations: new Dictionary<string, AnnotationValues>
                 {
@@ -2214,46 +2303,6 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
                         new AnnotationValues(oldValue: null, newValue: "True")
                     },
                 }));
-            AlterColumn("dbo.EntryDefinitionRes", "FhirId", c => c.String(nullable: false, maxLength: 128,
-                annotations: new Dictionary<string, AnnotationValues>
-                {
-                    { 
-                        "CaseSensitive",
-                        new AnnotationValues(oldValue: null, newValue: "True")
-                    },
-                }));
-            AlterColumn("dbo.EntryDefinitionRes", "VersionId", c => c.String(nullable: false, maxLength: 128,
-                annotations: new Dictionary<string, AnnotationValues>
-                {
-                    { 
-                        "CaseSensitive",
-                        new AnnotationValues(oldValue: null, newValue: "True")
-                    },
-                }));
-            AlterColumn("dbo.EntryDefinitionIxRef", "ReferenceFhirId", c => c.String(nullable: false, maxLength: 128,
-                annotations: new Dictionary<string, AnnotationValues>
-                {
-                    { 
-                        "CaseSensitive",
-                        new AnnotationValues(oldValue: null, newValue: "True")
-                    },
-                }));
-            AlterColumn("dbo.EntryDefinitionIxRef", "ReferenceVersionId", c => c.String(maxLength: 128,
-                annotations: new Dictionary<string, AnnotationValues>
-                {
-                    { 
-                        "CaseSensitive",
-                        new AnnotationValues(oldValue: null, newValue: "True")
-                    },
-                }));
-            AlterColumn("dbo.EntryDefinitionIxTok", "Code", c => c.String(maxLength: 128,
-                annotations: new Dictionary<string, AnnotationValues>
-                {
-                    { 
-                        "CaseSensitive",
-                        new AnnotationValues(oldValue: null, newValue: "True")
-                    },
-                }));
             AlterColumn("dbo.EpisodeOfCareRes", "FhirId", c => c.String(nullable: false, maxLength: 128,
                 annotations: new Dictionary<string, AnnotationValues>
                 {
@@ -2327,6 +2376,86 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
                     },
                 }));
             AlterColumn("dbo.EventDefinitionIxTok", "Code", c => c.String(maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: null, newValue: "True")
+                    },
+                }));
+            AlterColumn("dbo.EvidenceRes", "FhirId", c => c.String(nullable: false, maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: null, newValue: "True")
+                    },
+                }));
+            AlterColumn("dbo.EvidenceRes", "VersionId", c => c.String(nullable: false, maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: null, newValue: "True")
+                    },
+                }));
+            AlterColumn("dbo.EvidenceIxRef", "ReferenceFhirId", c => c.String(nullable: false, maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: null, newValue: "True")
+                    },
+                }));
+            AlterColumn("dbo.EvidenceIxRef", "ReferenceVersionId", c => c.String(maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: null, newValue: "True")
+                    },
+                }));
+            AlterColumn("dbo.EvidenceIxTok", "Code", c => c.String(maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: null, newValue: "True")
+                    },
+                }));
+            AlterColumn("dbo.EvidenceVariableRes", "FhirId", c => c.String(nullable: false, maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: null, newValue: "True")
+                    },
+                }));
+            AlterColumn("dbo.EvidenceVariableRes", "VersionId", c => c.String(nullable: false, maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: null, newValue: "True")
+                    },
+                }));
+            AlterColumn("dbo.EvidenceVariableIxRef", "ReferenceFhirId", c => c.String(nullable: false, maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: null, newValue: "True")
+                    },
+                }));
+            AlterColumn("dbo.EvidenceVariableIxRef", "ReferenceVersionId", c => c.String(maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: null, newValue: "True")
+                    },
+                }));
+            AlterColumn("dbo.EvidenceVariableIxTok", "Code", c => c.String(maxLength: 128,
                 annotations: new Dictionary<string, AnnotationValues>
                 {
                     { 
@@ -2974,46 +3103,6 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
                         new AnnotationValues(oldValue: null, newValue: "True")
                     },
                 }));
-            AlterColumn("dbo.ItemInstanceRes", "FhirId", c => c.String(nullable: false, maxLength: 128,
-                annotations: new Dictionary<string, AnnotationValues>
-                {
-                    { 
-                        "CaseSensitive",
-                        new AnnotationValues(oldValue: null, newValue: "True")
-                    },
-                }));
-            AlterColumn("dbo.ItemInstanceRes", "VersionId", c => c.String(nullable: false, maxLength: 128,
-                annotations: new Dictionary<string, AnnotationValues>
-                {
-                    { 
-                        "CaseSensitive",
-                        new AnnotationValues(oldValue: null, newValue: "True")
-                    },
-                }));
-            AlterColumn("dbo.ItemInstanceIxRef", "ReferenceFhirId", c => c.String(nullable: false, maxLength: 128,
-                annotations: new Dictionary<string, AnnotationValues>
-                {
-                    { 
-                        "CaseSensitive",
-                        new AnnotationValues(oldValue: null, newValue: "True")
-                    },
-                }));
-            AlterColumn("dbo.ItemInstanceIxRef", "ReferenceVersionId", c => c.String(maxLength: 128,
-                annotations: new Dictionary<string, AnnotationValues>
-                {
-                    { 
-                        "CaseSensitive",
-                        new AnnotationValues(oldValue: null, newValue: "True")
-                    },
-                }));
-            AlterColumn("dbo.ItemInstanceIxTok", "Code", c => c.String(maxLength: 128,
-                annotations: new Dictionary<string, AnnotationValues>
-                {
-                    { 
-                        "CaseSensitive",
-                        new AnnotationValues(oldValue: null, newValue: "True")
-                    },
-                }));
             AlterColumn("dbo.LibraryRes", "FhirId", c => c.String(nullable: false, maxLength: 128,
                 annotations: new Dictionary<string, AnnotationValues>
                 {
@@ -3574,46 +3663,6 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
                         new AnnotationValues(oldValue: null, newValue: "True")
                     },
                 }));
-            AlterColumn("dbo.MedicinalProductClinicalsRes", "FhirId", c => c.String(nullable: false, maxLength: 128,
-                annotations: new Dictionary<string, AnnotationValues>
-                {
-                    { 
-                        "CaseSensitive",
-                        new AnnotationValues(oldValue: null, newValue: "True")
-                    },
-                }));
-            AlterColumn("dbo.MedicinalProductClinicalsRes", "VersionId", c => c.String(nullable: false, maxLength: 128,
-                annotations: new Dictionary<string, AnnotationValues>
-                {
-                    { 
-                        "CaseSensitive",
-                        new AnnotationValues(oldValue: null, newValue: "True")
-                    },
-                }));
-            AlterColumn("dbo.MedicinalProductClinicalsIxRef", "ReferenceFhirId", c => c.String(nullable: false, maxLength: 128,
-                annotations: new Dictionary<string, AnnotationValues>
-                {
-                    { 
-                        "CaseSensitive",
-                        new AnnotationValues(oldValue: null, newValue: "True")
-                    },
-                }));
-            AlterColumn("dbo.MedicinalProductClinicalsIxRef", "ReferenceVersionId", c => c.String(maxLength: 128,
-                annotations: new Dictionary<string, AnnotationValues>
-                {
-                    { 
-                        "CaseSensitive",
-                        new AnnotationValues(oldValue: null, newValue: "True")
-                    },
-                }));
-            AlterColumn("dbo.MedicinalProductClinicalsIxTok", "Code", c => c.String(maxLength: 128,
-                annotations: new Dictionary<string, AnnotationValues>
-                {
-                    { 
-                        "CaseSensitive",
-                        new AnnotationValues(oldValue: null, newValue: "True")
-                    },
-                }));
             AlterColumn("dbo.MedicinalProductContraindicationRes", "FhirId", c => c.String(nullable: false, maxLength: 128,
                 annotations: new Dictionary<string, AnnotationValues>
                 {
@@ -3647,46 +3696,6 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
                     },
                 }));
             AlterColumn("dbo.MedicinalProductContraindicationIxTok", "Code", c => c.String(maxLength: 128,
-                annotations: new Dictionary<string, AnnotationValues>
-                {
-                    { 
-                        "CaseSensitive",
-                        new AnnotationValues(oldValue: null, newValue: "True")
-                    },
-                }));
-            AlterColumn("dbo.MedicinalProductDeviceSpecRes", "FhirId", c => c.String(nullable: false, maxLength: 128,
-                annotations: new Dictionary<string, AnnotationValues>
-                {
-                    { 
-                        "CaseSensitive",
-                        new AnnotationValues(oldValue: null, newValue: "True")
-                    },
-                }));
-            AlterColumn("dbo.MedicinalProductDeviceSpecRes", "VersionId", c => c.String(nullable: false, maxLength: 128,
-                annotations: new Dictionary<string, AnnotationValues>
-                {
-                    { 
-                        "CaseSensitive",
-                        new AnnotationValues(oldValue: null, newValue: "True")
-                    },
-                }));
-            AlterColumn("dbo.MedicinalProductDeviceSpecIxRef", "ReferenceFhirId", c => c.String(nullable: false, maxLength: 128,
-                annotations: new Dictionary<string, AnnotationValues>
-                {
-                    { 
-                        "CaseSensitive",
-                        new AnnotationValues(oldValue: null, newValue: "True")
-                    },
-                }));
-            AlterColumn("dbo.MedicinalProductDeviceSpecIxRef", "ReferenceVersionId", c => c.String(maxLength: 128,
-                annotations: new Dictionary<string, AnnotationValues>
-                {
-                    { 
-                        "CaseSensitive",
-                        new AnnotationValues(oldValue: null, newValue: "True")
-                    },
-                }));
-            AlterColumn("dbo.MedicinalProductDeviceSpecIxTok", "Code", c => c.String(maxLength: 128,
                 annotations: new Dictionary<string, AnnotationValues>
                 {
                     { 
@@ -4087,6 +4096,46 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
                     },
                 }));
             AlterColumn("dbo.MessageHeaderIxTok", "Code", c => c.String(maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: null, newValue: "True")
+                    },
+                }));
+            AlterColumn("dbo.MolecularSequenceRes", "FhirId", c => c.String(nullable: false, maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: null, newValue: "True")
+                    },
+                }));
+            AlterColumn("dbo.MolecularSequenceRes", "VersionId", c => c.String(nullable: false, maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: null, newValue: "True")
+                    },
+                }));
+            AlterColumn("dbo.MolecularSequenceIxRef", "ReferenceFhirId", c => c.String(nullable: false, maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: null, newValue: "True")
+                    },
+                }));
+            AlterColumn("dbo.MolecularSequenceIxRef", "ReferenceVersionId", c => c.String(maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: null, newValue: "True")
+                    },
+                }));
+            AlterColumn("dbo.MolecularSequenceIxTok", "Code", c => c.String(maxLength: 128,
                 annotations: new Dictionary<string, AnnotationValues>
                 {
                     { 
@@ -4774,86 +4823,6 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
                         new AnnotationValues(oldValue: null, newValue: "True")
                     },
                 }));
-            AlterColumn("dbo.ProcessRequestRes", "FhirId", c => c.String(nullable: false, maxLength: 128,
-                annotations: new Dictionary<string, AnnotationValues>
-                {
-                    { 
-                        "CaseSensitive",
-                        new AnnotationValues(oldValue: null, newValue: "True")
-                    },
-                }));
-            AlterColumn("dbo.ProcessRequestRes", "VersionId", c => c.String(nullable: false, maxLength: 128,
-                annotations: new Dictionary<string, AnnotationValues>
-                {
-                    { 
-                        "CaseSensitive",
-                        new AnnotationValues(oldValue: null, newValue: "True")
-                    },
-                }));
-            AlterColumn("dbo.ProcessRequestIxRef", "ReferenceFhirId", c => c.String(nullable: false, maxLength: 128,
-                annotations: new Dictionary<string, AnnotationValues>
-                {
-                    { 
-                        "CaseSensitive",
-                        new AnnotationValues(oldValue: null, newValue: "True")
-                    },
-                }));
-            AlterColumn("dbo.ProcessRequestIxRef", "ReferenceVersionId", c => c.String(maxLength: 128,
-                annotations: new Dictionary<string, AnnotationValues>
-                {
-                    { 
-                        "CaseSensitive",
-                        new AnnotationValues(oldValue: null, newValue: "True")
-                    },
-                }));
-            AlterColumn("dbo.ProcessRequestIxTok", "Code", c => c.String(maxLength: 128,
-                annotations: new Dictionary<string, AnnotationValues>
-                {
-                    { 
-                        "CaseSensitive",
-                        new AnnotationValues(oldValue: null, newValue: "True")
-                    },
-                }));
-            AlterColumn("dbo.ProcessResponseRes", "FhirId", c => c.String(nullable: false, maxLength: 128,
-                annotations: new Dictionary<string, AnnotationValues>
-                {
-                    { 
-                        "CaseSensitive",
-                        new AnnotationValues(oldValue: null, newValue: "True")
-                    },
-                }));
-            AlterColumn("dbo.ProcessResponseRes", "VersionId", c => c.String(nullable: false, maxLength: 128,
-                annotations: new Dictionary<string, AnnotationValues>
-                {
-                    { 
-                        "CaseSensitive",
-                        new AnnotationValues(oldValue: null, newValue: "True")
-                    },
-                }));
-            AlterColumn("dbo.ProcessResponseIxRef", "ReferenceFhirId", c => c.String(nullable: false, maxLength: 128,
-                annotations: new Dictionary<string, AnnotationValues>
-                {
-                    { 
-                        "CaseSensitive",
-                        new AnnotationValues(oldValue: null, newValue: "True")
-                    },
-                }));
-            AlterColumn("dbo.ProcessResponseIxRef", "ReferenceVersionId", c => c.String(maxLength: 128,
-                annotations: new Dictionary<string, AnnotationValues>
-                {
-                    { 
-                        "CaseSensitive",
-                        new AnnotationValues(oldValue: null, newValue: "True")
-                    },
-                }));
-            AlterColumn("dbo.ProcessResponseIxTok", "Code", c => c.String(maxLength: 128,
-                annotations: new Dictionary<string, AnnotationValues>
-                {
-                    { 
-                        "CaseSensitive",
-                        new AnnotationValues(oldValue: null, newValue: "True")
-                    },
-                }));
             AlterColumn("dbo.ProvenanceRes", "FhirId", c => c.String(nullable: false, maxLength: 128,
                 annotations: new Dictionary<string, AnnotationValues>
                 {
@@ -5054,6 +5023,86 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
                         new AnnotationValues(oldValue: null, newValue: "True")
                     },
                 }));
+            AlterColumn("dbo.ResearchDefinitionRes", "FhirId", c => c.String(nullable: false, maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: null, newValue: "True")
+                    },
+                }));
+            AlterColumn("dbo.ResearchDefinitionRes", "VersionId", c => c.String(nullable: false, maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: null, newValue: "True")
+                    },
+                }));
+            AlterColumn("dbo.ResearchDefinitionIxRef", "ReferenceFhirId", c => c.String(nullable: false, maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: null, newValue: "True")
+                    },
+                }));
+            AlterColumn("dbo.ResearchDefinitionIxRef", "ReferenceVersionId", c => c.String(maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: null, newValue: "True")
+                    },
+                }));
+            AlterColumn("dbo.ResearchDefinitionIxTok", "Code", c => c.String(maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: null, newValue: "True")
+                    },
+                }));
+            AlterColumn("dbo.ResearchElementDefinitionRes", "FhirId", c => c.String(nullable: false, maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: null, newValue: "True")
+                    },
+                }));
+            AlterColumn("dbo.ResearchElementDefinitionRes", "VersionId", c => c.String(nullable: false, maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: null, newValue: "True")
+                    },
+                }));
+            AlterColumn("dbo.ResearchElementDefinitionIxRef", "ReferenceFhirId", c => c.String(nullable: false, maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: null, newValue: "True")
+                    },
+                }));
+            AlterColumn("dbo.ResearchElementDefinitionIxRef", "ReferenceVersionId", c => c.String(maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: null, newValue: "True")
+                    },
+                }));
+            AlterColumn("dbo.ResearchElementDefinitionIxTok", "Code", c => c.String(maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: null, newValue: "True")
+                    },
+                }));
             AlterColumn("dbo.ResearchStudyRes", "FhirId", c => c.String(nullable: false, maxLength: 128,
                 annotations: new Dictionary<string, AnnotationValues>
                 {
@@ -5174,6 +5223,46 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
                         new AnnotationValues(oldValue: null, newValue: "True")
                     },
                 }));
+            AlterColumn("dbo.RiskEvidenceSynthesisRes", "FhirId", c => c.String(nullable: false, maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: null, newValue: "True")
+                    },
+                }));
+            AlterColumn("dbo.RiskEvidenceSynthesisRes", "VersionId", c => c.String(nullable: false, maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: null, newValue: "True")
+                    },
+                }));
+            AlterColumn("dbo.RiskEvidenceSynthesisIxRef", "ReferenceFhirId", c => c.String(nullable: false, maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: null, newValue: "True")
+                    },
+                }));
+            AlterColumn("dbo.RiskEvidenceSynthesisIxRef", "ReferenceVersionId", c => c.String(maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: null, newValue: "True")
+                    },
+                }));
+            AlterColumn("dbo.RiskEvidenceSynthesisIxTok", "Code", c => c.String(maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: null, newValue: "True")
+                    },
+                }));
             AlterColumn("dbo.ScheduleRes", "FhirId", c => c.String(nullable: false, maxLength: 128,
                 annotations: new Dictionary<string, AnnotationValues>
                 {
@@ -5247,46 +5336,6 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
                     },
                 }));
             AlterColumn("dbo.SearchParameterIxTok", "Code", c => c.String(maxLength: 128,
-                annotations: new Dictionary<string, AnnotationValues>
-                {
-                    { 
-                        "CaseSensitive",
-                        new AnnotationValues(oldValue: null, newValue: "True")
-                    },
-                }));
-            AlterColumn("dbo.SequenceRes", "FhirId", c => c.String(nullable: false, maxLength: 128,
-                annotations: new Dictionary<string, AnnotationValues>
-                {
-                    { 
-                        "CaseSensitive",
-                        new AnnotationValues(oldValue: null, newValue: "True")
-                    },
-                }));
-            AlterColumn("dbo.SequenceRes", "VersionId", c => c.String(nullable: false, maxLength: 128,
-                annotations: new Dictionary<string, AnnotationValues>
-                {
-                    { 
-                        "CaseSensitive",
-                        new AnnotationValues(oldValue: null, newValue: "True")
-                    },
-                }));
-            AlterColumn("dbo.SequenceIxRef", "ReferenceFhirId", c => c.String(nullable: false, maxLength: 128,
-                annotations: new Dictionary<string, AnnotationValues>
-                {
-                    { 
-                        "CaseSensitive",
-                        new AnnotationValues(oldValue: null, newValue: "True")
-                    },
-                }));
-            AlterColumn("dbo.SequenceIxRef", "ReferenceVersionId", c => c.String(maxLength: 128,
-                annotations: new Dictionary<string, AnnotationValues>
-                {
-                    { 
-                        "CaseSensitive",
-                        new AnnotationValues(oldValue: null, newValue: "True")
-                    },
-                }));
-            AlterColumn("dbo.SequenceIxTok", "Code", c => c.String(maxLength: 128,
                 annotations: new Dictionary<string, AnnotationValues>
                 {
                     { 
@@ -5614,6 +5663,46 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
                         new AnnotationValues(oldValue: null, newValue: "True")
                     },
                 }));
+            AlterColumn("dbo.SubstanceNucleicAcidRes", "FhirId", c => c.String(nullable: false, maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: null, newValue: "True")
+                    },
+                }));
+            AlterColumn("dbo.SubstanceNucleicAcidRes", "VersionId", c => c.String(nullable: false, maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: null, newValue: "True")
+                    },
+                }));
+            AlterColumn("dbo.SubstanceNucleicAcidIxRef", "ReferenceFhirId", c => c.String(nullable: false, maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: null, newValue: "True")
+                    },
+                }));
+            AlterColumn("dbo.SubstanceNucleicAcidIxRef", "ReferenceVersionId", c => c.String(maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: null, newValue: "True")
+                    },
+                }));
+            AlterColumn("dbo.SubstanceNucleicAcidIxTok", "Code", c => c.String(maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: null, newValue: "True")
+                    },
+                }));
             AlterColumn("dbo.SubstancePolymerRes", "FhirId", c => c.String(nullable: false, maxLength: 128,
                 annotations: new Dictionary<string, AnnotationValues>
                 {
@@ -5654,6 +5743,46 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
                         new AnnotationValues(oldValue: null, newValue: "True")
                     },
                 }));
+            AlterColumn("dbo.SubstanceProteinRes", "FhirId", c => c.String(nullable: false, maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: null, newValue: "True")
+                    },
+                }));
+            AlterColumn("dbo.SubstanceProteinRes", "VersionId", c => c.String(nullable: false, maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: null, newValue: "True")
+                    },
+                }));
+            AlterColumn("dbo.SubstanceProteinIxRef", "ReferenceFhirId", c => c.String(nullable: false, maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: null, newValue: "True")
+                    },
+                }));
+            AlterColumn("dbo.SubstanceProteinIxRef", "ReferenceVersionId", c => c.String(maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: null, newValue: "True")
+                    },
+                }));
+            AlterColumn("dbo.SubstanceProteinIxTok", "Code", c => c.String(maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: null, newValue: "True")
+                    },
+                }));
             AlterColumn("dbo.SubstanceReferenceInformationRes", "FhirId", c => c.String(nullable: false, maxLength: 128,
                 annotations: new Dictionary<string, AnnotationValues>
                 {
@@ -5687,6 +5816,46 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
                     },
                 }));
             AlterColumn("dbo.SubstanceReferenceInformationIxTok", "Code", c => c.String(maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: null, newValue: "True")
+                    },
+                }));
+            AlterColumn("dbo.SubstanceSourceMaterialRes", "FhirId", c => c.String(nullable: false, maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: null, newValue: "True")
+                    },
+                }));
+            AlterColumn("dbo.SubstanceSourceMaterialRes", "VersionId", c => c.String(nullable: false, maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: null, newValue: "True")
+                    },
+                }));
+            AlterColumn("dbo.SubstanceSourceMaterialIxRef", "ReferenceFhirId", c => c.String(nullable: false, maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: null, newValue: "True")
+                    },
+                }));
+            AlterColumn("dbo.SubstanceSourceMaterialIxRef", "ReferenceVersionId", c => c.String(maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: null, newValue: "True")
+                    },
+                }));
+            AlterColumn("dbo.SubstanceSourceMaterialIxTok", "Code", c => c.String(maxLength: 128,
                 annotations: new Dictionary<string, AnnotationValues>
                 {
                     { 
@@ -5967,46 +6136,6 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
                     },
                 }));
             AlterColumn("dbo.TestScriptIxTok", "Code", c => c.String(maxLength: 128,
-                annotations: new Dictionary<string, AnnotationValues>
-                {
-                    { 
-                        "CaseSensitive",
-                        new AnnotationValues(oldValue: null, newValue: "True")
-                    },
-                }));
-            AlterColumn("dbo.UserSessionRes", "FhirId", c => c.String(nullable: false, maxLength: 128,
-                annotations: new Dictionary<string, AnnotationValues>
-                {
-                    { 
-                        "CaseSensitive",
-                        new AnnotationValues(oldValue: null, newValue: "True")
-                    },
-                }));
-            AlterColumn("dbo.UserSessionRes", "VersionId", c => c.String(nullable: false, maxLength: 128,
-                annotations: new Dictionary<string, AnnotationValues>
-                {
-                    { 
-                        "CaseSensitive",
-                        new AnnotationValues(oldValue: null, newValue: "True")
-                    },
-                }));
-            AlterColumn("dbo.UserSessionIxRef", "ReferenceFhirId", c => c.String(nullable: false, maxLength: 128,
-                annotations: new Dictionary<string, AnnotationValues>
-                {
-                    { 
-                        "CaseSensitive",
-                        new AnnotationValues(oldValue: null, newValue: "True")
-                    },
-                }));
-            AlterColumn("dbo.UserSessionIxRef", "ReferenceVersionId", c => c.String(maxLength: 128,
-                annotations: new Dictionary<string, AnnotationValues>
-                {
-                    { 
-                        "CaseSensitive",
-                        new AnnotationValues(oldValue: null, newValue: "True")
-                    },
-                }));
-            AlterColumn("dbo.UserSessionIxTok", "Code", c => c.String(maxLength: 128,
                 annotations: new Dictionary<string, AnnotationValues>
                 {
                     { 
@@ -6201,6 +6330,9 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             CreateIndex("dbo.CareTeamRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
             CreateIndex("dbo.CareTeamIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
             CreateIndex("dbo.CareTeamIxTok", "Code", name: "ix_Code");
+            CreateIndex("dbo.CatalogEntryRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
+            CreateIndex("dbo.CatalogEntryIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
+            CreateIndex("dbo.CatalogEntryIxTok", "Code", name: "ix_Code");
             CreateIndex("dbo.ChargeItemDefinitionRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
             CreateIndex("dbo.ChargeItemDefinitionIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
             CreateIndex("dbo.ChargeItemDefinitionIxTok", "Code", name: "ix_Code");
@@ -6279,6 +6411,9 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             CreateIndex("dbo.DocumentReferenceRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
             CreateIndex("dbo.DocumentReferenceIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
             CreateIndex("dbo.DocumentReferenceIxTok", "Code", name: "ix_Code");
+            CreateIndex("dbo.EffectEvidenceSynthesisRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
+            CreateIndex("dbo.EffectEvidenceSynthesisIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
+            CreateIndex("dbo.EffectEvidenceSynthesisIxTok", "Code", name: "ix_Code");
             CreateIndex("dbo.EncounterRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
             CreateIndex("dbo.EncounterIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
             CreateIndex("dbo.EncounterIxTok", "Code", name: "ix_Code");
@@ -6291,15 +6426,18 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             CreateIndex("dbo.EnrollmentResponseRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
             CreateIndex("dbo.EnrollmentResponseIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
             CreateIndex("dbo.EnrollmentResponseIxTok", "Code", name: "ix_Code");
-            CreateIndex("dbo.EntryDefinitionRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
-            CreateIndex("dbo.EntryDefinitionIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
-            CreateIndex("dbo.EntryDefinitionIxTok", "Code", name: "ix_Code");
             CreateIndex("dbo.EpisodeOfCareRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
             CreateIndex("dbo.EpisodeOfCareIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
             CreateIndex("dbo.EpisodeOfCareIxTok", "Code", name: "ix_Code");
             CreateIndex("dbo.EventDefinitionRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
             CreateIndex("dbo.EventDefinitionIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
             CreateIndex("dbo.EventDefinitionIxTok", "Code", name: "ix_Code");
+            CreateIndex("dbo.EvidenceRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
+            CreateIndex("dbo.EvidenceIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
+            CreateIndex("dbo.EvidenceIxTok", "Code", name: "ix_Code");
+            CreateIndex("dbo.EvidenceVariableRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
+            CreateIndex("dbo.EvidenceVariableIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
+            CreateIndex("dbo.EvidenceVariableIxTok", "Code", name: "ix_Code");
             CreateIndex("dbo.ExampleScenarioRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
             CreateIndex("dbo.ExampleScenarioIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
             CreateIndex("dbo.ExampleScenarioIxTok", "Code", name: "ix_Code");
@@ -6348,9 +6486,6 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             CreateIndex("dbo.InvoiceRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
             CreateIndex("dbo.InvoiceIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
             CreateIndex("dbo.InvoiceIxTok", "Code", name: "ix_Code");
-            CreateIndex("dbo.ItemInstanceRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
-            CreateIndex("dbo.ItemInstanceIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
-            CreateIndex("dbo.ItemInstanceIxTok", "Code", name: "ix_Code");
             CreateIndex("dbo.LibraryRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
             CreateIndex("dbo.LibraryIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
             CreateIndex("dbo.LibraryIxTok", "Code", name: "ix_Code");
@@ -6393,15 +6528,9 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             CreateIndex("dbo.MedicinalProductAuthorizationRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
             CreateIndex("dbo.MedicinalProductAuthorizationIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
             CreateIndex("dbo.MedicinalProductAuthorizationIxTok", "Code", name: "ix_Code");
-            CreateIndex("dbo.MedicinalProductClinicalsRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
-            CreateIndex("dbo.MedicinalProductClinicalsIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
-            CreateIndex("dbo.MedicinalProductClinicalsIxTok", "Code", name: "ix_Code");
             CreateIndex("dbo.MedicinalProductContraindicationRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
             CreateIndex("dbo.MedicinalProductContraindicationIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
             CreateIndex("dbo.MedicinalProductContraindicationIxTok", "Code", name: "ix_Code");
-            CreateIndex("dbo.MedicinalProductDeviceSpecRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
-            CreateIndex("dbo.MedicinalProductDeviceSpecIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
-            CreateIndex("dbo.MedicinalProductDeviceSpecIxTok", "Code", name: "ix_Code");
             CreateIndex("dbo.MedicinalProductIndicationRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
             CreateIndex("dbo.MedicinalProductIndicationIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
             CreateIndex("dbo.MedicinalProductIndicationIxTok", "Code", name: "ix_Code");
@@ -6432,6 +6561,9 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             CreateIndex("dbo.MessageHeaderRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
             CreateIndex("dbo.MessageHeaderIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
             CreateIndex("dbo.MessageHeaderIxTok", "Code", name: "ix_Code");
+            CreateIndex("dbo.MolecularSequenceRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
+            CreateIndex("dbo.MolecularSequenceIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
+            CreateIndex("dbo.MolecularSequenceIxTok", "Code", name: "ix_Code");
             CreateIndex("dbo.NamingSystemRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
             CreateIndex("dbo.NamingSystemIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
             CreateIndex("dbo.NamingSystemIxTok", "Code", name: "ix_Code");
@@ -6483,12 +6615,6 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             CreateIndex("dbo.ProcedureRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
             CreateIndex("dbo.ProcedureIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
             CreateIndex("dbo.ProcedureIxTok", "Code", name: "ix_Code");
-            CreateIndex("dbo.ProcessRequestRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
-            CreateIndex("dbo.ProcessRequestIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
-            CreateIndex("dbo.ProcessRequestIxTok", "Code", name: "ix_Code");
-            CreateIndex("dbo.ProcessResponseRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
-            CreateIndex("dbo.ProcessResponseIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
-            CreateIndex("dbo.ProcessResponseIxTok", "Code", name: "ix_Code");
             CreateIndex("dbo.ProvenanceRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
             CreateIndex("dbo.ProvenanceIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
             CreateIndex("dbo.ProvenanceIxTok", "Code", name: "ix_Code");
@@ -6504,6 +6630,12 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             CreateIndex("dbo.RequestGroupRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
             CreateIndex("dbo.RequestGroupIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
             CreateIndex("dbo.RequestGroupIxTok", "Code", name: "ix_Code");
+            CreateIndex("dbo.ResearchDefinitionRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
+            CreateIndex("dbo.ResearchDefinitionIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
+            CreateIndex("dbo.ResearchDefinitionIxTok", "Code", name: "ix_Code");
+            CreateIndex("dbo.ResearchElementDefinitionRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
+            CreateIndex("dbo.ResearchElementDefinitionIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
+            CreateIndex("dbo.ResearchElementDefinitionIxTok", "Code", name: "ix_Code");
             CreateIndex("dbo.ResearchStudyRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
             CreateIndex("dbo.ResearchStudyIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
             CreateIndex("dbo.ResearchStudyIxTok", "Code", name: "ix_Code");
@@ -6513,15 +6645,15 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             CreateIndex("dbo.RiskAssessmentRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
             CreateIndex("dbo.RiskAssessmentIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
             CreateIndex("dbo.RiskAssessmentIxTok", "Code", name: "ix_Code");
+            CreateIndex("dbo.RiskEvidenceSynthesisRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
+            CreateIndex("dbo.RiskEvidenceSynthesisIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
+            CreateIndex("dbo.RiskEvidenceSynthesisIxTok", "Code", name: "ix_Code");
             CreateIndex("dbo.ScheduleRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
             CreateIndex("dbo.ScheduleIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
             CreateIndex("dbo.ScheduleIxTok", "Code", name: "ix_Code");
             CreateIndex("dbo.SearchParameterRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
             CreateIndex("dbo.SearchParameterIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
             CreateIndex("dbo.SearchParameterIxTok", "Code", name: "ix_Code");
-            CreateIndex("dbo.SequenceRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
-            CreateIndex("dbo.SequenceIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
-            CreateIndex("dbo.SequenceIxTok", "Code", name: "ix_Code");
             CreateIndex("dbo.ServiceRequestRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
             CreateIndex("dbo.ServiceRequestIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
             CreateIndex("dbo.ServiceRequestIxTok", "Code", name: "ix_Code");
@@ -6546,12 +6678,21 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             CreateIndex("dbo.SubstanceRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
             CreateIndex("dbo.SubstanceIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
             CreateIndex("dbo.SubstanceIxTok", "Code", name: "ix_Code");
+            CreateIndex("dbo.SubstanceNucleicAcidRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
+            CreateIndex("dbo.SubstanceNucleicAcidIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
+            CreateIndex("dbo.SubstanceNucleicAcidIxTok", "Code", name: "ix_Code");
             CreateIndex("dbo.SubstancePolymerRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
             CreateIndex("dbo.SubstancePolymerIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
             CreateIndex("dbo.SubstancePolymerIxTok", "Code", name: "ix_Code");
+            CreateIndex("dbo.SubstanceProteinRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
+            CreateIndex("dbo.SubstanceProteinIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
+            CreateIndex("dbo.SubstanceProteinIxTok", "Code", name: "ix_Code");
             CreateIndex("dbo.SubstanceReferenceInformationRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
             CreateIndex("dbo.SubstanceReferenceInformationIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
             CreateIndex("dbo.SubstanceReferenceInformationIxTok", "Code", name: "ix_Code");
+            CreateIndex("dbo.SubstanceSourceMaterialRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
+            CreateIndex("dbo.SubstanceSourceMaterialIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
+            CreateIndex("dbo.SubstanceSourceMaterialIxTok", "Code", name: "ix_Code");
             CreateIndex("dbo.SubstanceSpecificationRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
             CreateIndex("dbo.SubstanceSpecificationIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
             CreateIndex("dbo.SubstanceSpecificationIxTok", "Code", name: "ix_Code");
@@ -6573,9 +6714,6 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             CreateIndex("dbo.TestScriptRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
             CreateIndex("dbo.TestScriptIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
             CreateIndex("dbo.TestScriptIxTok", "Code", name: "ix_Code");
-            CreateIndex("dbo.UserSessionRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
-            CreateIndex("dbo.UserSessionIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
-            CreateIndex("dbo.UserSessionIxTok", "Code", name: "ix_Code");
             CreateIndex("dbo.ValueSetRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
             CreateIndex("dbo.ValueSetIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
             CreateIndex("dbo.ValueSetIxTok", "Code", name: "ix_Code");
@@ -6602,9 +6740,6 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             DropIndex("dbo.ValueSetIxTok", "ix_Code");
             DropIndex("dbo.ValueSetIxRef", "ix_RefFhirId");
             DropIndex("dbo.ValueSetRes", "uq_FhirIdAndVersionId");
-            DropIndex("dbo.UserSessionIxTok", "ix_Code");
-            DropIndex("dbo.UserSessionIxRef", "ix_RefFhirId");
-            DropIndex("dbo.UserSessionRes", "uq_FhirIdAndVersionId");
             DropIndex("dbo.TestScriptIxTok", "ix_Code");
             DropIndex("dbo.TestScriptIxRef", "ix_RefFhirId");
             DropIndex("dbo.TestScriptRes", "uq_FhirIdAndVersionId");
@@ -6626,12 +6761,21 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             DropIndex("dbo.SubstanceSpecificationIxTok", "ix_Code");
             DropIndex("dbo.SubstanceSpecificationIxRef", "ix_RefFhirId");
             DropIndex("dbo.SubstanceSpecificationRes", "uq_FhirIdAndVersionId");
+            DropIndex("dbo.SubstanceSourceMaterialIxTok", "ix_Code");
+            DropIndex("dbo.SubstanceSourceMaterialIxRef", "ix_RefFhirId");
+            DropIndex("dbo.SubstanceSourceMaterialRes", "uq_FhirIdAndVersionId");
             DropIndex("dbo.SubstanceReferenceInformationIxTok", "ix_Code");
             DropIndex("dbo.SubstanceReferenceInformationIxRef", "ix_RefFhirId");
             DropIndex("dbo.SubstanceReferenceInformationRes", "uq_FhirIdAndVersionId");
+            DropIndex("dbo.SubstanceProteinIxTok", "ix_Code");
+            DropIndex("dbo.SubstanceProteinIxRef", "ix_RefFhirId");
+            DropIndex("dbo.SubstanceProteinRes", "uq_FhirIdAndVersionId");
             DropIndex("dbo.SubstancePolymerIxTok", "ix_Code");
             DropIndex("dbo.SubstancePolymerIxRef", "ix_RefFhirId");
             DropIndex("dbo.SubstancePolymerRes", "uq_FhirIdAndVersionId");
+            DropIndex("dbo.SubstanceNucleicAcidIxTok", "ix_Code");
+            DropIndex("dbo.SubstanceNucleicAcidIxRef", "ix_RefFhirId");
+            DropIndex("dbo.SubstanceNucleicAcidRes", "uq_FhirIdAndVersionId");
             DropIndex("dbo.SubstanceIxTok", "ix_Code");
             DropIndex("dbo.SubstanceIxRef", "ix_RefFhirId");
             DropIndex("dbo.SubstanceRes", "uq_FhirIdAndVersionId");
@@ -6656,15 +6800,15 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             DropIndex("dbo.ServiceRequestIxTok", "ix_Code");
             DropIndex("dbo.ServiceRequestIxRef", "ix_RefFhirId");
             DropIndex("dbo.ServiceRequestRes", "uq_FhirIdAndVersionId");
-            DropIndex("dbo.SequenceIxTok", "ix_Code");
-            DropIndex("dbo.SequenceIxRef", "ix_RefFhirId");
-            DropIndex("dbo.SequenceRes", "uq_FhirIdAndVersionId");
             DropIndex("dbo.SearchParameterIxTok", "ix_Code");
             DropIndex("dbo.SearchParameterIxRef", "ix_RefFhirId");
             DropIndex("dbo.SearchParameterRes", "uq_FhirIdAndVersionId");
             DropIndex("dbo.ScheduleIxTok", "ix_Code");
             DropIndex("dbo.ScheduleIxRef", "ix_RefFhirId");
             DropIndex("dbo.ScheduleRes", "uq_FhirIdAndVersionId");
+            DropIndex("dbo.RiskEvidenceSynthesisIxTok", "ix_Code");
+            DropIndex("dbo.RiskEvidenceSynthesisIxRef", "ix_RefFhirId");
+            DropIndex("dbo.RiskEvidenceSynthesisRes", "uq_FhirIdAndVersionId");
             DropIndex("dbo.RiskAssessmentIxTok", "ix_Code");
             DropIndex("dbo.RiskAssessmentIxRef", "ix_RefFhirId");
             DropIndex("dbo.RiskAssessmentRes", "uq_FhirIdAndVersionId");
@@ -6674,6 +6818,12 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             DropIndex("dbo.ResearchStudyIxTok", "ix_Code");
             DropIndex("dbo.ResearchStudyIxRef", "ix_RefFhirId");
             DropIndex("dbo.ResearchStudyRes", "uq_FhirIdAndVersionId");
+            DropIndex("dbo.ResearchElementDefinitionIxTok", "ix_Code");
+            DropIndex("dbo.ResearchElementDefinitionIxRef", "ix_RefFhirId");
+            DropIndex("dbo.ResearchElementDefinitionRes", "uq_FhirIdAndVersionId");
+            DropIndex("dbo.ResearchDefinitionIxTok", "ix_Code");
+            DropIndex("dbo.ResearchDefinitionIxRef", "ix_RefFhirId");
+            DropIndex("dbo.ResearchDefinitionRes", "uq_FhirIdAndVersionId");
             DropIndex("dbo.RequestGroupIxTok", "ix_Code");
             DropIndex("dbo.RequestGroupIxRef", "ix_RefFhirId");
             DropIndex("dbo.RequestGroupRes", "uq_FhirIdAndVersionId");
@@ -6689,12 +6839,6 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             DropIndex("dbo.ProvenanceIxTok", "ix_Code");
             DropIndex("dbo.ProvenanceIxRef", "ix_RefFhirId");
             DropIndex("dbo.ProvenanceRes", "uq_FhirIdAndVersionId");
-            DropIndex("dbo.ProcessResponseIxTok", "ix_Code");
-            DropIndex("dbo.ProcessResponseIxRef", "ix_RefFhirId");
-            DropIndex("dbo.ProcessResponseRes", "uq_FhirIdAndVersionId");
-            DropIndex("dbo.ProcessRequestIxTok", "ix_Code");
-            DropIndex("dbo.ProcessRequestIxRef", "ix_RefFhirId");
-            DropIndex("dbo.ProcessRequestRes", "uq_FhirIdAndVersionId");
             DropIndex("dbo.ProcedureIxTok", "ix_Code");
             DropIndex("dbo.ProcedureIxRef", "ix_RefFhirId");
             DropIndex("dbo.ProcedureRes", "uq_FhirIdAndVersionId");
@@ -6746,6 +6890,9 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             DropIndex("dbo.NamingSystemIxTok", "ix_Code");
             DropIndex("dbo.NamingSystemIxRef", "ix_RefFhirId");
             DropIndex("dbo.NamingSystemRes", "uq_FhirIdAndVersionId");
+            DropIndex("dbo.MolecularSequenceIxTok", "ix_Code");
+            DropIndex("dbo.MolecularSequenceIxRef", "ix_RefFhirId");
+            DropIndex("dbo.MolecularSequenceRes", "uq_FhirIdAndVersionId");
             DropIndex("dbo.MessageHeaderIxTok", "ix_Code");
             DropIndex("dbo.MessageHeaderIxRef", "ix_RefFhirId");
             DropIndex("dbo.MessageHeaderRes", "uq_FhirIdAndVersionId");
@@ -6776,15 +6923,9 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             DropIndex("dbo.MedicinalProductIndicationIxTok", "ix_Code");
             DropIndex("dbo.MedicinalProductIndicationIxRef", "ix_RefFhirId");
             DropIndex("dbo.MedicinalProductIndicationRes", "uq_FhirIdAndVersionId");
-            DropIndex("dbo.MedicinalProductDeviceSpecIxTok", "ix_Code");
-            DropIndex("dbo.MedicinalProductDeviceSpecIxRef", "ix_RefFhirId");
-            DropIndex("dbo.MedicinalProductDeviceSpecRes", "uq_FhirIdAndVersionId");
             DropIndex("dbo.MedicinalProductContraindicationIxTok", "ix_Code");
             DropIndex("dbo.MedicinalProductContraindicationIxRef", "ix_RefFhirId");
             DropIndex("dbo.MedicinalProductContraindicationRes", "uq_FhirIdAndVersionId");
-            DropIndex("dbo.MedicinalProductClinicalsIxTok", "ix_Code");
-            DropIndex("dbo.MedicinalProductClinicalsIxRef", "ix_RefFhirId");
-            DropIndex("dbo.MedicinalProductClinicalsRes", "uq_FhirIdAndVersionId");
             DropIndex("dbo.MedicinalProductAuthorizationIxTok", "ix_Code");
             DropIndex("dbo.MedicinalProductAuthorizationIxRef", "ix_RefFhirId");
             DropIndex("dbo.MedicinalProductAuthorizationRes", "uq_FhirIdAndVersionId");
@@ -6827,9 +6968,6 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             DropIndex("dbo.LibraryIxTok", "ix_Code");
             DropIndex("dbo.LibraryIxRef", "ix_RefFhirId");
             DropIndex("dbo.LibraryRes", "uq_FhirIdAndVersionId");
-            DropIndex("dbo.ItemInstanceIxTok", "ix_Code");
-            DropIndex("dbo.ItemInstanceIxRef", "ix_RefFhirId");
-            DropIndex("dbo.ItemInstanceRes", "uq_FhirIdAndVersionId");
             DropIndex("dbo.InvoiceIxTok", "ix_Code");
             DropIndex("dbo.InvoiceIxRef", "ix_RefFhirId");
             DropIndex("dbo.InvoiceRes", "uq_FhirIdAndVersionId");
@@ -6878,15 +7016,18 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             DropIndex("dbo.ExampleScenarioIxTok", "ix_Code");
             DropIndex("dbo.ExampleScenarioIxRef", "ix_RefFhirId");
             DropIndex("dbo.ExampleScenarioRes", "uq_FhirIdAndVersionId");
+            DropIndex("dbo.EvidenceVariableIxTok", "ix_Code");
+            DropIndex("dbo.EvidenceVariableIxRef", "ix_RefFhirId");
+            DropIndex("dbo.EvidenceVariableRes", "uq_FhirIdAndVersionId");
+            DropIndex("dbo.EvidenceIxTok", "ix_Code");
+            DropIndex("dbo.EvidenceIxRef", "ix_RefFhirId");
+            DropIndex("dbo.EvidenceRes", "uq_FhirIdAndVersionId");
             DropIndex("dbo.EventDefinitionIxTok", "ix_Code");
             DropIndex("dbo.EventDefinitionIxRef", "ix_RefFhirId");
             DropIndex("dbo.EventDefinitionRes", "uq_FhirIdAndVersionId");
             DropIndex("dbo.EpisodeOfCareIxTok", "ix_Code");
             DropIndex("dbo.EpisodeOfCareIxRef", "ix_RefFhirId");
             DropIndex("dbo.EpisodeOfCareRes", "uq_FhirIdAndVersionId");
-            DropIndex("dbo.EntryDefinitionIxTok", "ix_Code");
-            DropIndex("dbo.EntryDefinitionIxRef", "ix_RefFhirId");
-            DropIndex("dbo.EntryDefinitionRes", "uq_FhirIdAndVersionId");
             DropIndex("dbo.EnrollmentResponseIxTok", "ix_Code");
             DropIndex("dbo.EnrollmentResponseIxRef", "ix_RefFhirId");
             DropIndex("dbo.EnrollmentResponseRes", "uq_FhirIdAndVersionId");
@@ -6899,6 +7040,9 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             DropIndex("dbo.EncounterIxTok", "ix_Code");
             DropIndex("dbo.EncounterIxRef", "ix_RefFhirId");
             DropIndex("dbo.EncounterRes", "uq_FhirIdAndVersionId");
+            DropIndex("dbo.EffectEvidenceSynthesisIxTok", "ix_Code");
+            DropIndex("dbo.EffectEvidenceSynthesisIxRef", "ix_RefFhirId");
+            DropIndex("dbo.EffectEvidenceSynthesisRes", "uq_FhirIdAndVersionId");
             DropIndex("dbo.DocumentReferenceIxTok", "ix_Code");
             DropIndex("dbo.DocumentReferenceIxRef", "ix_RefFhirId");
             DropIndex("dbo.DocumentReferenceRes", "uq_FhirIdAndVersionId");
@@ -6977,6 +7121,9 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             DropIndex("dbo.ChargeItemDefinitionIxTok", "ix_Code");
             DropIndex("dbo.ChargeItemDefinitionIxRef", "ix_RefFhirId");
             DropIndex("dbo.ChargeItemDefinitionRes", "uq_FhirIdAndVersionId");
+            DropIndex("dbo.CatalogEntryIxTok", "ix_Code");
+            DropIndex("dbo.CatalogEntryIxRef", "ix_RefFhirId");
+            DropIndex("dbo.CatalogEntryRes", "uq_FhirIdAndVersionId");
             DropIndex("dbo.CareTeamIxTok", "ix_Code");
             DropIndex("dbo.CareTeamIxRef", "ix_RefFhirId");
             DropIndex("dbo.CareTeamRes", "uq_FhirIdAndVersionId");
@@ -7157,46 +7304,6 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
                     },
                 }));
             AlterColumn("dbo.ValueSetRes", "FhirId", c => c.String(nullable: false, maxLength: 128,
-                annotations: new Dictionary<string, AnnotationValues>
-                {
-                    { 
-                        "CaseSensitive",
-                        new AnnotationValues(oldValue: "True", newValue: null)
-                    },
-                }));
-            AlterColumn("dbo.UserSessionIxTok", "Code", c => c.String(maxLength: 128,
-                annotations: new Dictionary<string, AnnotationValues>
-                {
-                    { 
-                        "CaseSensitive",
-                        new AnnotationValues(oldValue: "True", newValue: null)
-                    },
-                }));
-            AlterColumn("dbo.UserSessionIxRef", "ReferenceVersionId", c => c.String(maxLength: 128,
-                annotations: new Dictionary<string, AnnotationValues>
-                {
-                    { 
-                        "CaseSensitive",
-                        new AnnotationValues(oldValue: "True", newValue: null)
-                    },
-                }));
-            AlterColumn("dbo.UserSessionIxRef", "ReferenceFhirId", c => c.String(nullable: false, maxLength: 128,
-                annotations: new Dictionary<string, AnnotationValues>
-                {
-                    { 
-                        "CaseSensitive",
-                        new AnnotationValues(oldValue: "True", newValue: null)
-                    },
-                }));
-            AlterColumn("dbo.UserSessionRes", "VersionId", c => c.String(nullable: false, maxLength: 128,
-                annotations: new Dictionary<string, AnnotationValues>
-                {
-                    { 
-                        "CaseSensitive",
-                        new AnnotationValues(oldValue: "True", newValue: null)
-                    },
-                }));
-            AlterColumn("dbo.UserSessionRes", "FhirId", c => c.String(nullable: false, maxLength: 128,
                 annotations: new Dictionary<string, AnnotationValues>
                 {
                     { 
@@ -7484,6 +7591,46 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
                         new AnnotationValues(oldValue: "True", newValue: null)
                     },
                 }));
+            AlterColumn("dbo.SubstanceSourceMaterialIxTok", "Code", c => c.String(maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: "True", newValue: null)
+                    },
+                }));
+            AlterColumn("dbo.SubstanceSourceMaterialIxRef", "ReferenceVersionId", c => c.String(maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: "True", newValue: null)
+                    },
+                }));
+            AlterColumn("dbo.SubstanceSourceMaterialIxRef", "ReferenceFhirId", c => c.String(nullable: false, maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: "True", newValue: null)
+                    },
+                }));
+            AlterColumn("dbo.SubstanceSourceMaterialRes", "VersionId", c => c.String(nullable: false, maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: "True", newValue: null)
+                    },
+                }));
+            AlterColumn("dbo.SubstanceSourceMaterialRes", "FhirId", c => c.String(nullable: false, maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: "True", newValue: null)
+                    },
+                }));
             AlterColumn("dbo.SubstanceReferenceInformationIxTok", "Code", c => c.String(maxLength: 128,
                 annotations: new Dictionary<string, AnnotationValues>
                 {
@@ -7524,6 +7671,46 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
                         new AnnotationValues(oldValue: "True", newValue: null)
                     },
                 }));
+            AlterColumn("dbo.SubstanceProteinIxTok", "Code", c => c.String(maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: "True", newValue: null)
+                    },
+                }));
+            AlterColumn("dbo.SubstanceProteinIxRef", "ReferenceVersionId", c => c.String(maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: "True", newValue: null)
+                    },
+                }));
+            AlterColumn("dbo.SubstanceProteinIxRef", "ReferenceFhirId", c => c.String(nullable: false, maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: "True", newValue: null)
+                    },
+                }));
+            AlterColumn("dbo.SubstanceProteinRes", "VersionId", c => c.String(nullable: false, maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: "True", newValue: null)
+                    },
+                }));
+            AlterColumn("dbo.SubstanceProteinRes", "FhirId", c => c.String(nullable: false, maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: "True", newValue: null)
+                    },
+                }));
             AlterColumn("dbo.SubstancePolymerIxTok", "Code", c => c.String(maxLength: 128,
                 annotations: new Dictionary<string, AnnotationValues>
                 {
@@ -7557,6 +7744,46 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
                     },
                 }));
             AlterColumn("dbo.SubstancePolymerRes", "FhirId", c => c.String(nullable: false, maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: "True", newValue: null)
+                    },
+                }));
+            AlterColumn("dbo.SubstanceNucleicAcidIxTok", "Code", c => c.String(maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: "True", newValue: null)
+                    },
+                }));
+            AlterColumn("dbo.SubstanceNucleicAcidIxRef", "ReferenceVersionId", c => c.String(maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: "True", newValue: null)
+                    },
+                }));
+            AlterColumn("dbo.SubstanceNucleicAcidIxRef", "ReferenceFhirId", c => c.String(nullable: false, maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: "True", newValue: null)
+                    },
+                }));
+            AlterColumn("dbo.SubstanceNucleicAcidRes", "VersionId", c => c.String(nullable: false, maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: "True", newValue: null)
+                    },
+                }));
+            AlterColumn("dbo.SubstanceNucleicAcidRes", "FhirId", c => c.String(nullable: false, maxLength: 128,
                 annotations: new Dictionary<string, AnnotationValues>
                 {
                     { 
@@ -7884,46 +8111,6 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
                         new AnnotationValues(oldValue: "True", newValue: null)
                     },
                 }));
-            AlterColumn("dbo.SequenceIxTok", "Code", c => c.String(maxLength: 128,
-                annotations: new Dictionary<string, AnnotationValues>
-                {
-                    { 
-                        "CaseSensitive",
-                        new AnnotationValues(oldValue: "True", newValue: null)
-                    },
-                }));
-            AlterColumn("dbo.SequenceIxRef", "ReferenceVersionId", c => c.String(maxLength: 128,
-                annotations: new Dictionary<string, AnnotationValues>
-                {
-                    { 
-                        "CaseSensitive",
-                        new AnnotationValues(oldValue: "True", newValue: null)
-                    },
-                }));
-            AlterColumn("dbo.SequenceIxRef", "ReferenceFhirId", c => c.String(nullable: false, maxLength: 128,
-                annotations: new Dictionary<string, AnnotationValues>
-                {
-                    { 
-                        "CaseSensitive",
-                        new AnnotationValues(oldValue: "True", newValue: null)
-                    },
-                }));
-            AlterColumn("dbo.SequenceRes", "VersionId", c => c.String(nullable: false, maxLength: 128,
-                annotations: new Dictionary<string, AnnotationValues>
-                {
-                    { 
-                        "CaseSensitive",
-                        new AnnotationValues(oldValue: "True", newValue: null)
-                    },
-                }));
-            AlterColumn("dbo.SequenceRes", "FhirId", c => c.String(nullable: false, maxLength: 128,
-                annotations: new Dictionary<string, AnnotationValues>
-                {
-                    { 
-                        "CaseSensitive",
-                        new AnnotationValues(oldValue: "True", newValue: null)
-                    },
-                }));
             AlterColumn("dbo.SearchParameterIxTok", "Code", c => c.String(maxLength: 128,
                 annotations: new Dictionary<string, AnnotationValues>
                 {
@@ -7997,6 +8184,46 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
                     },
                 }));
             AlterColumn("dbo.ScheduleRes", "FhirId", c => c.String(nullable: false, maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: "True", newValue: null)
+                    },
+                }));
+            AlterColumn("dbo.RiskEvidenceSynthesisIxTok", "Code", c => c.String(maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: "True", newValue: null)
+                    },
+                }));
+            AlterColumn("dbo.RiskEvidenceSynthesisIxRef", "ReferenceVersionId", c => c.String(maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: "True", newValue: null)
+                    },
+                }));
+            AlterColumn("dbo.RiskEvidenceSynthesisIxRef", "ReferenceFhirId", c => c.String(nullable: false, maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: "True", newValue: null)
+                    },
+                }));
+            AlterColumn("dbo.RiskEvidenceSynthesisRes", "VersionId", c => c.String(nullable: false, maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: "True", newValue: null)
+                    },
+                }));
+            AlterColumn("dbo.RiskEvidenceSynthesisRes", "FhirId", c => c.String(nullable: false, maxLength: 128,
                 annotations: new Dictionary<string, AnnotationValues>
                 {
                     { 
@@ -8117,6 +8344,86 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
                     },
                 }));
             AlterColumn("dbo.ResearchStudyRes", "FhirId", c => c.String(nullable: false, maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: "True", newValue: null)
+                    },
+                }));
+            AlterColumn("dbo.ResearchElementDefinitionIxTok", "Code", c => c.String(maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: "True", newValue: null)
+                    },
+                }));
+            AlterColumn("dbo.ResearchElementDefinitionIxRef", "ReferenceVersionId", c => c.String(maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: "True", newValue: null)
+                    },
+                }));
+            AlterColumn("dbo.ResearchElementDefinitionIxRef", "ReferenceFhirId", c => c.String(nullable: false, maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: "True", newValue: null)
+                    },
+                }));
+            AlterColumn("dbo.ResearchElementDefinitionRes", "VersionId", c => c.String(nullable: false, maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: "True", newValue: null)
+                    },
+                }));
+            AlterColumn("dbo.ResearchElementDefinitionRes", "FhirId", c => c.String(nullable: false, maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: "True", newValue: null)
+                    },
+                }));
+            AlterColumn("dbo.ResearchDefinitionIxTok", "Code", c => c.String(maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: "True", newValue: null)
+                    },
+                }));
+            AlterColumn("dbo.ResearchDefinitionIxRef", "ReferenceVersionId", c => c.String(maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: "True", newValue: null)
+                    },
+                }));
+            AlterColumn("dbo.ResearchDefinitionIxRef", "ReferenceFhirId", c => c.String(nullable: false, maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: "True", newValue: null)
+                    },
+                }));
+            AlterColumn("dbo.ResearchDefinitionRes", "VersionId", c => c.String(nullable: false, maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: "True", newValue: null)
+                    },
+                }));
+            AlterColumn("dbo.ResearchDefinitionRes", "FhirId", c => c.String(nullable: false, maxLength: 128,
                 annotations: new Dictionary<string, AnnotationValues>
                 {
                     { 
@@ -8317,86 +8624,6 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
                     },
                 }));
             AlterColumn("dbo.ProvenanceRes", "FhirId", c => c.String(nullable: false, maxLength: 128,
-                annotations: new Dictionary<string, AnnotationValues>
-                {
-                    { 
-                        "CaseSensitive",
-                        new AnnotationValues(oldValue: "True", newValue: null)
-                    },
-                }));
-            AlterColumn("dbo.ProcessResponseIxTok", "Code", c => c.String(maxLength: 128,
-                annotations: new Dictionary<string, AnnotationValues>
-                {
-                    { 
-                        "CaseSensitive",
-                        new AnnotationValues(oldValue: "True", newValue: null)
-                    },
-                }));
-            AlterColumn("dbo.ProcessResponseIxRef", "ReferenceVersionId", c => c.String(maxLength: 128,
-                annotations: new Dictionary<string, AnnotationValues>
-                {
-                    { 
-                        "CaseSensitive",
-                        new AnnotationValues(oldValue: "True", newValue: null)
-                    },
-                }));
-            AlterColumn("dbo.ProcessResponseIxRef", "ReferenceFhirId", c => c.String(nullable: false, maxLength: 128,
-                annotations: new Dictionary<string, AnnotationValues>
-                {
-                    { 
-                        "CaseSensitive",
-                        new AnnotationValues(oldValue: "True", newValue: null)
-                    },
-                }));
-            AlterColumn("dbo.ProcessResponseRes", "VersionId", c => c.String(nullable: false, maxLength: 128,
-                annotations: new Dictionary<string, AnnotationValues>
-                {
-                    { 
-                        "CaseSensitive",
-                        new AnnotationValues(oldValue: "True", newValue: null)
-                    },
-                }));
-            AlterColumn("dbo.ProcessResponseRes", "FhirId", c => c.String(nullable: false, maxLength: 128,
-                annotations: new Dictionary<string, AnnotationValues>
-                {
-                    { 
-                        "CaseSensitive",
-                        new AnnotationValues(oldValue: "True", newValue: null)
-                    },
-                }));
-            AlterColumn("dbo.ProcessRequestIxTok", "Code", c => c.String(maxLength: 128,
-                annotations: new Dictionary<string, AnnotationValues>
-                {
-                    { 
-                        "CaseSensitive",
-                        new AnnotationValues(oldValue: "True", newValue: null)
-                    },
-                }));
-            AlterColumn("dbo.ProcessRequestIxRef", "ReferenceVersionId", c => c.String(maxLength: 128,
-                annotations: new Dictionary<string, AnnotationValues>
-                {
-                    { 
-                        "CaseSensitive",
-                        new AnnotationValues(oldValue: "True", newValue: null)
-                    },
-                }));
-            AlterColumn("dbo.ProcessRequestIxRef", "ReferenceFhirId", c => c.String(nullable: false, maxLength: 128,
-                annotations: new Dictionary<string, AnnotationValues>
-                {
-                    { 
-                        "CaseSensitive",
-                        new AnnotationValues(oldValue: "True", newValue: null)
-                    },
-                }));
-            AlterColumn("dbo.ProcessRequestRes", "VersionId", c => c.String(nullable: false, maxLength: 128,
-                annotations: new Dictionary<string, AnnotationValues>
-                {
-                    { 
-                        "CaseSensitive",
-                        new AnnotationValues(oldValue: "True", newValue: null)
-                    },
-                }));
-            AlterColumn("dbo.ProcessRequestRes", "FhirId", c => c.String(nullable: false, maxLength: 128,
                 annotations: new Dictionary<string, AnnotationValues>
                 {
                     { 
@@ -9084,6 +9311,46 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
                         new AnnotationValues(oldValue: "True", newValue: null)
                     },
                 }));
+            AlterColumn("dbo.MolecularSequenceIxTok", "Code", c => c.String(maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: "True", newValue: null)
+                    },
+                }));
+            AlterColumn("dbo.MolecularSequenceIxRef", "ReferenceVersionId", c => c.String(maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: "True", newValue: null)
+                    },
+                }));
+            AlterColumn("dbo.MolecularSequenceIxRef", "ReferenceFhirId", c => c.String(nullable: false, maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: "True", newValue: null)
+                    },
+                }));
+            AlterColumn("dbo.MolecularSequenceRes", "VersionId", c => c.String(nullable: false, maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: "True", newValue: null)
+                    },
+                }));
+            AlterColumn("dbo.MolecularSequenceRes", "FhirId", c => c.String(nullable: false, maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: "True", newValue: null)
+                    },
+                }));
             AlterColumn("dbo.MessageHeaderIxTok", "Code", c => c.String(maxLength: 128,
                 annotations: new Dictionary<string, AnnotationValues>
                 {
@@ -9484,46 +9751,6 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
                         new AnnotationValues(oldValue: "True", newValue: null)
                     },
                 }));
-            AlterColumn("dbo.MedicinalProductDeviceSpecIxTok", "Code", c => c.String(maxLength: 128,
-                annotations: new Dictionary<string, AnnotationValues>
-                {
-                    { 
-                        "CaseSensitive",
-                        new AnnotationValues(oldValue: "True", newValue: null)
-                    },
-                }));
-            AlterColumn("dbo.MedicinalProductDeviceSpecIxRef", "ReferenceVersionId", c => c.String(maxLength: 128,
-                annotations: new Dictionary<string, AnnotationValues>
-                {
-                    { 
-                        "CaseSensitive",
-                        new AnnotationValues(oldValue: "True", newValue: null)
-                    },
-                }));
-            AlterColumn("dbo.MedicinalProductDeviceSpecIxRef", "ReferenceFhirId", c => c.String(nullable: false, maxLength: 128,
-                annotations: new Dictionary<string, AnnotationValues>
-                {
-                    { 
-                        "CaseSensitive",
-                        new AnnotationValues(oldValue: "True", newValue: null)
-                    },
-                }));
-            AlterColumn("dbo.MedicinalProductDeviceSpecRes", "VersionId", c => c.String(nullable: false, maxLength: 128,
-                annotations: new Dictionary<string, AnnotationValues>
-                {
-                    { 
-                        "CaseSensitive",
-                        new AnnotationValues(oldValue: "True", newValue: null)
-                    },
-                }));
-            AlterColumn("dbo.MedicinalProductDeviceSpecRes", "FhirId", c => c.String(nullable: false, maxLength: 128,
-                annotations: new Dictionary<string, AnnotationValues>
-                {
-                    { 
-                        "CaseSensitive",
-                        new AnnotationValues(oldValue: "True", newValue: null)
-                    },
-                }));
             AlterColumn("dbo.MedicinalProductContraindicationIxTok", "Code", c => c.String(maxLength: 128,
                 annotations: new Dictionary<string, AnnotationValues>
                 {
@@ -9557,46 +9784,6 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
                     },
                 }));
             AlterColumn("dbo.MedicinalProductContraindicationRes", "FhirId", c => c.String(nullable: false, maxLength: 128,
-                annotations: new Dictionary<string, AnnotationValues>
-                {
-                    { 
-                        "CaseSensitive",
-                        new AnnotationValues(oldValue: "True", newValue: null)
-                    },
-                }));
-            AlterColumn("dbo.MedicinalProductClinicalsIxTok", "Code", c => c.String(maxLength: 128,
-                annotations: new Dictionary<string, AnnotationValues>
-                {
-                    { 
-                        "CaseSensitive",
-                        new AnnotationValues(oldValue: "True", newValue: null)
-                    },
-                }));
-            AlterColumn("dbo.MedicinalProductClinicalsIxRef", "ReferenceVersionId", c => c.String(maxLength: 128,
-                annotations: new Dictionary<string, AnnotationValues>
-                {
-                    { 
-                        "CaseSensitive",
-                        new AnnotationValues(oldValue: "True", newValue: null)
-                    },
-                }));
-            AlterColumn("dbo.MedicinalProductClinicalsIxRef", "ReferenceFhirId", c => c.String(nullable: false, maxLength: 128,
-                annotations: new Dictionary<string, AnnotationValues>
-                {
-                    { 
-                        "CaseSensitive",
-                        new AnnotationValues(oldValue: "True", newValue: null)
-                    },
-                }));
-            AlterColumn("dbo.MedicinalProductClinicalsRes", "VersionId", c => c.String(nullable: false, maxLength: 128,
-                annotations: new Dictionary<string, AnnotationValues>
-                {
-                    { 
-                        "CaseSensitive",
-                        new AnnotationValues(oldValue: "True", newValue: null)
-                    },
-                }));
-            AlterColumn("dbo.MedicinalProductClinicalsRes", "FhirId", c => c.String(nullable: false, maxLength: 128,
                 annotations: new Dictionary<string, AnnotationValues>
                 {
                     { 
@@ -10157,46 +10344,6 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
                     },
                 }));
             AlterColumn("dbo.LibraryRes", "FhirId", c => c.String(nullable: false, maxLength: 128,
-                annotations: new Dictionary<string, AnnotationValues>
-                {
-                    { 
-                        "CaseSensitive",
-                        new AnnotationValues(oldValue: "True", newValue: null)
-                    },
-                }));
-            AlterColumn("dbo.ItemInstanceIxTok", "Code", c => c.String(maxLength: 128,
-                annotations: new Dictionary<string, AnnotationValues>
-                {
-                    { 
-                        "CaseSensitive",
-                        new AnnotationValues(oldValue: "True", newValue: null)
-                    },
-                }));
-            AlterColumn("dbo.ItemInstanceIxRef", "ReferenceVersionId", c => c.String(maxLength: 128,
-                annotations: new Dictionary<string, AnnotationValues>
-                {
-                    { 
-                        "CaseSensitive",
-                        new AnnotationValues(oldValue: "True", newValue: null)
-                    },
-                }));
-            AlterColumn("dbo.ItemInstanceIxRef", "ReferenceFhirId", c => c.String(nullable: false, maxLength: 128,
-                annotations: new Dictionary<string, AnnotationValues>
-                {
-                    { 
-                        "CaseSensitive",
-                        new AnnotationValues(oldValue: "True", newValue: null)
-                    },
-                }));
-            AlterColumn("dbo.ItemInstanceRes", "VersionId", c => c.String(nullable: false, maxLength: 128,
-                annotations: new Dictionary<string, AnnotationValues>
-                {
-                    { 
-                        "CaseSensitive",
-                        new AnnotationValues(oldValue: "True", newValue: null)
-                    },
-                }));
-            AlterColumn("dbo.ItemInstanceRes", "FhirId", c => c.String(nullable: false, maxLength: 128,
                 annotations: new Dictionary<string, AnnotationValues>
                 {
                     { 
@@ -10844,6 +10991,86 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
                         new AnnotationValues(oldValue: "True", newValue: null)
                     },
                 }));
+            AlterColumn("dbo.EvidenceVariableIxTok", "Code", c => c.String(maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: "True", newValue: null)
+                    },
+                }));
+            AlterColumn("dbo.EvidenceVariableIxRef", "ReferenceVersionId", c => c.String(maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: "True", newValue: null)
+                    },
+                }));
+            AlterColumn("dbo.EvidenceVariableIxRef", "ReferenceFhirId", c => c.String(nullable: false, maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: "True", newValue: null)
+                    },
+                }));
+            AlterColumn("dbo.EvidenceVariableRes", "VersionId", c => c.String(nullable: false, maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: "True", newValue: null)
+                    },
+                }));
+            AlterColumn("dbo.EvidenceVariableRes", "FhirId", c => c.String(nullable: false, maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: "True", newValue: null)
+                    },
+                }));
+            AlterColumn("dbo.EvidenceIxTok", "Code", c => c.String(maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: "True", newValue: null)
+                    },
+                }));
+            AlterColumn("dbo.EvidenceIxRef", "ReferenceVersionId", c => c.String(maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: "True", newValue: null)
+                    },
+                }));
+            AlterColumn("dbo.EvidenceIxRef", "ReferenceFhirId", c => c.String(nullable: false, maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: "True", newValue: null)
+                    },
+                }));
+            AlterColumn("dbo.EvidenceRes", "VersionId", c => c.String(nullable: false, maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: "True", newValue: null)
+                    },
+                }));
+            AlterColumn("dbo.EvidenceRes", "FhirId", c => c.String(nullable: false, maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: "True", newValue: null)
+                    },
+                }));
             AlterColumn("dbo.EventDefinitionIxTok", "Code", c => c.String(maxLength: 128,
                 annotations: new Dictionary<string, AnnotationValues>
                 {
@@ -10917,46 +11144,6 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
                     },
                 }));
             AlterColumn("dbo.EpisodeOfCareRes", "FhirId", c => c.String(nullable: false, maxLength: 128,
-                annotations: new Dictionary<string, AnnotationValues>
-                {
-                    { 
-                        "CaseSensitive",
-                        new AnnotationValues(oldValue: "True", newValue: null)
-                    },
-                }));
-            AlterColumn("dbo.EntryDefinitionIxTok", "Code", c => c.String(maxLength: 128,
-                annotations: new Dictionary<string, AnnotationValues>
-                {
-                    { 
-                        "CaseSensitive",
-                        new AnnotationValues(oldValue: "True", newValue: null)
-                    },
-                }));
-            AlterColumn("dbo.EntryDefinitionIxRef", "ReferenceVersionId", c => c.String(maxLength: 128,
-                annotations: new Dictionary<string, AnnotationValues>
-                {
-                    { 
-                        "CaseSensitive",
-                        new AnnotationValues(oldValue: "True", newValue: null)
-                    },
-                }));
-            AlterColumn("dbo.EntryDefinitionIxRef", "ReferenceFhirId", c => c.String(nullable: false, maxLength: 128,
-                annotations: new Dictionary<string, AnnotationValues>
-                {
-                    { 
-                        "CaseSensitive",
-                        new AnnotationValues(oldValue: "True", newValue: null)
-                    },
-                }));
-            AlterColumn("dbo.EntryDefinitionRes", "VersionId", c => c.String(nullable: false, maxLength: 128,
-                annotations: new Dictionary<string, AnnotationValues>
-                {
-                    { 
-                        "CaseSensitive",
-                        new AnnotationValues(oldValue: "True", newValue: null)
-                    },
-                }));
-            AlterColumn("dbo.EntryDefinitionRes", "FhirId", c => c.String(nullable: false, maxLength: 128,
                 annotations: new Dictionary<string, AnnotationValues>
                 {
                     { 
@@ -11117,6 +11304,46 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
                     },
                 }));
             AlterColumn("dbo.EncounterRes", "FhirId", c => c.String(nullable: false, maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: "True", newValue: null)
+                    },
+                }));
+            AlterColumn("dbo.EffectEvidenceSynthesisIxTok", "Code", c => c.String(maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: "True", newValue: null)
+                    },
+                }));
+            AlterColumn("dbo.EffectEvidenceSynthesisIxRef", "ReferenceVersionId", c => c.String(maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: "True", newValue: null)
+                    },
+                }));
+            AlterColumn("dbo.EffectEvidenceSynthesisIxRef", "ReferenceFhirId", c => c.String(nullable: false, maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: "True", newValue: null)
+                    },
+                }));
+            AlterColumn("dbo.EffectEvidenceSynthesisRes", "VersionId", c => c.String(nullable: false, maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: "True", newValue: null)
+                    },
+                }));
+            AlterColumn("dbo.EffectEvidenceSynthesisRes", "FhirId", c => c.String(nullable: false, maxLength: 128,
                 annotations: new Dictionary<string, AnnotationValues>
                 {
                     { 
@@ -12164,6 +12391,46 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
                         new AnnotationValues(oldValue: "True", newValue: null)
                     },
                 }));
+            AlterColumn("dbo.CatalogEntryIxTok", "Code", c => c.String(maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: "True", newValue: null)
+                    },
+                }));
+            AlterColumn("dbo.CatalogEntryIxRef", "ReferenceVersionId", c => c.String(maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: "True", newValue: null)
+                    },
+                }));
+            AlterColumn("dbo.CatalogEntryIxRef", "ReferenceFhirId", c => c.String(nullable: false, maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: "True", newValue: null)
+                    },
+                }));
+            AlterColumn("dbo.CatalogEntryRes", "VersionId", c => c.String(nullable: false, maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: "True", newValue: null)
+                    },
+                }));
+            AlterColumn("dbo.CatalogEntryRes", "FhirId", c => c.String(nullable: false, maxLength: 128,
+                annotations: new Dictionary<string, AnnotationValues>
+                {
+                    { 
+                        "CaseSensitive",
+                        new AnnotationValues(oldValue: "True", newValue: null)
+                    },
+                }));
             AlterColumn("dbo.CareTeamIxTok", "Code", c => c.String(maxLength: 128,
                 annotations: new Dictionary<string, AnnotationValues>
                 {
@@ -12751,9 +13018,6 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             CreateIndex("dbo.ValueSetIxTok", "Code", name: "ix_Code");
             CreateIndex("dbo.ValueSetIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
             CreateIndex("dbo.ValueSetRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
-            CreateIndex("dbo.UserSessionIxTok", "Code", name: "ix_Code");
-            CreateIndex("dbo.UserSessionIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
-            CreateIndex("dbo.UserSessionRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
             CreateIndex("dbo.TestScriptIxTok", "Code", name: "ix_Code");
             CreateIndex("dbo.TestScriptIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
             CreateIndex("dbo.TestScriptRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
@@ -12775,12 +13039,21 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             CreateIndex("dbo.SubstanceSpecificationIxTok", "Code", name: "ix_Code");
             CreateIndex("dbo.SubstanceSpecificationIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
             CreateIndex("dbo.SubstanceSpecificationRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
+            CreateIndex("dbo.SubstanceSourceMaterialIxTok", "Code", name: "ix_Code");
+            CreateIndex("dbo.SubstanceSourceMaterialIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
+            CreateIndex("dbo.SubstanceSourceMaterialRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
             CreateIndex("dbo.SubstanceReferenceInformationIxTok", "Code", name: "ix_Code");
             CreateIndex("dbo.SubstanceReferenceInformationIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
             CreateIndex("dbo.SubstanceReferenceInformationRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
+            CreateIndex("dbo.SubstanceProteinIxTok", "Code", name: "ix_Code");
+            CreateIndex("dbo.SubstanceProteinIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
+            CreateIndex("dbo.SubstanceProteinRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
             CreateIndex("dbo.SubstancePolymerIxTok", "Code", name: "ix_Code");
             CreateIndex("dbo.SubstancePolymerIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
             CreateIndex("dbo.SubstancePolymerRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
+            CreateIndex("dbo.SubstanceNucleicAcidIxTok", "Code", name: "ix_Code");
+            CreateIndex("dbo.SubstanceNucleicAcidIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
+            CreateIndex("dbo.SubstanceNucleicAcidRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
             CreateIndex("dbo.SubstanceIxTok", "Code", name: "ix_Code");
             CreateIndex("dbo.SubstanceIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
             CreateIndex("dbo.SubstanceRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
@@ -12805,15 +13078,15 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             CreateIndex("dbo.ServiceRequestIxTok", "Code", name: "ix_Code");
             CreateIndex("dbo.ServiceRequestIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
             CreateIndex("dbo.ServiceRequestRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
-            CreateIndex("dbo.SequenceIxTok", "Code", name: "ix_Code");
-            CreateIndex("dbo.SequenceIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
-            CreateIndex("dbo.SequenceRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
             CreateIndex("dbo.SearchParameterIxTok", "Code", name: "ix_Code");
             CreateIndex("dbo.SearchParameterIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
             CreateIndex("dbo.SearchParameterRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
             CreateIndex("dbo.ScheduleIxTok", "Code", name: "ix_Code");
             CreateIndex("dbo.ScheduleIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
             CreateIndex("dbo.ScheduleRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
+            CreateIndex("dbo.RiskEvidenceSynthesisIxTok", "Code", name: "ix_Code");
+            CreateIndex("dbo.RiskEvidenceSynthesisIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
+            CreateIndex("dbo.RiskEvidenceSynthesisRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
             CreateIndex("dbo.RiskAssessmentIxTok", "Code", name: "ix_Code");
             CreateIndex("dbo.RiskAssessmentIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
             CreateIndex("dbo.RiskAssessmentRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
@@ -12823,6 +13096,12 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             CreateIndex("dbo.ResearchStudyIxTok", "Code", name: "ix_Code");
             CreateIndex("dbo.ResearchStudyIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
             CreateIndex("dbo.ResearchStudyRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
+            CreateIndex("dbo.ResearchElementDefinitionIxTok", "Code", name: "ix_Code");
+            CreateIndex("dbo.ResearchElementDefinitionIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
+            CreateIndex("dbo.ResearchElementDefinitionRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
+            CreateIndex("dbo.ResearchDefinitionIxTok", "Code", name: "ix_Code");
+            CreateIndex("dbo.ResearchDefinitionIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
+            CreateIndex("dbo.ResearchDefinitionRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
             CreateIndex("dbo.RequestGroupIxTok", "Code", name: "ix_Code");
             CreateIndex("dbo.RequestGroupIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
             CreateIndex("dbo.RequestGroupRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
@@ -12838,12 +13117,6 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             CreateIndex("dbo.ProvenanceIxTok", "Code", name: "ix_Code");
             CreateIndex("dbo.ProvenanceIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
             CreateIndex("dbo.ProvenanceRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
-            CreateIndex("dbo.ProcessResponseIxTok", "Code", name: "ix_Code");
-            CreateIndex("dbo.ProcessResponseIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
-            CreateIndex("dbo.ProcessResponseRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
-            CreateIndex("dbo.ProcessRequestIxTok", "Code", name: "ix_Code");
-            CreateIndex("dbo.ProcessRequestIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
-            CreateIndex("dbo.ProcessRequestRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
             CreateIndex("dbo.ProcedureIxTok", "Code", name: "ix_Code");
             CreateIndex("dbo.ProcedureIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
             CreateIndex("dbo.ProcedureRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
@@ -12895,6 +13168,9 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             CreateIndex("dbo.NamingSystemIxTok", "Code", name: "ix_Code");
             CreateIndex("dbo.NamingSystemIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
             CreateIndex("dbo.NamingSystemRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
+            CreateIndex("dbo.MolecularSequenceIxTok", "Code", name: "ix_Code");
+            CreateIndex("dbo.MolecularSequenceIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
+            CreateIndex("dbo.MolecularSequenceRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
             CreateIndex("dbo.MessageHeaderIxTok", "Code", name: "ix_Code");
             CreateIndex("dbo.MessageHeaderIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
             CreateIndex("dbo.MessageHeaderRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
@@ -12925,15 +13201,9 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             CreateIndex("dbo.MedicinalProductIndicationIxTok", "Code", name: "ix_Code");
             CreateIndex("dbo.MedicinalProductIndicationIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
             CreateIndex("dbo.MedicinalProductIndicationRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
-            CreateIndex("dbo.MedicinalProductDeviceSpecIxTok", "Code", name: "ix_Code");
-            CreateIndex("dbo.MedicinalProductDeviceSpecIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
-            CreateIndex("dbo.MedicinalProductDeviceSpecRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
             CreateIndex("dbo.MedicinalProductContraindicationIxTok", "Code", name: "ix_Code");
             CreateIndex("dbo.MedicinalProductContraindicationIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
             CreateIndex("dbo.MedicinalProductContraindicationRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
-            CreateIndex("dbo.MedicinalProductClinicalsIxTok", "Code", name: "ix_Code");
-            CreateIndex("dbo.MedicinalProductClinicalsIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
-            CreateIndex("dbo.MedicinalProductClinicalsRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
             CreateIndex("dbo.MedicinalProductAuthorizationIxTok", "Code", name: "ix_Code");
             CreateIndex("dbo.MedicinalProductAuthorizationIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
             CreateIndex("dbo.MedicinalProductAuthorizationRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
@@ -12976,9 +13246,6 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             CreateIndex("dbo.LibraryIxTok", "Code", name: "ix_Code");
             CreateIndex("dbo.LibraryIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
             CreateIndex("dbo.LibraryRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
-            CreateIndex("dbo.ItemInstanceIxTok", "Code", name: "ix_Code");
-            CreateIndex("dbo.ItemInstanceIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
-            CreateIndex("dbo.ItemInstanceRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
             CreateIndex("dbo.InvoiceIxTok", "Code", name: "ix_Code");
             CreateIndex("dbo.InvoiceIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
             CreateIndex("dbo.InvoiceRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
@@ -13027,15 +13294,18 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             CreateIndex("dbo.ExampleScenarioIxTok", "Code", name: "ix_Code");
             CreateIndex("dbo.ExampleScenarioIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
             CreateIndex("dbo.ExampleScenarioRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
+            CreateIndex("dbo.EvidenceVariableIxTok", "Code", name: "ix_Code");
+            CreateIndex("dbo.EvidenceVariableIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
+            CreateIndex("dbo.EvidenceVariableRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
+            CreateIndex("dbo.EvidenceIxTok", "Code", name: "ix_Code");
+            CreateIndex("dbo.EvidenceIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
+            CreateIndex("dbo.EvidenceRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
             CreateIndex("dbo.EventDefinitionIxTok", "Code", name: "ix_Code");
             CreateIndex("dbo.EventDefinitionIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
             CreateIndex("dbo.EventDefinitionRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
             CreateIndex("dbo.EpisodeOfCareIxTok", "Code", name: "ix_Code");
             CreateIndex("dbo.EpisodeOfCareIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
             CreateIndex("dbo.EpisodeOfCareRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
-            CreateIndex("dbo.EntryDefinitionIxTok", "Code", name: "ix_Code");
-            CreateIndex("dbo.EntryDefinitionIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
-            CreateIndex("dbo.EntryDefinitionRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
             CreateIndex("dbo.EnrollmentResponseIxTok", "Code", name: "ix_Code");
             CreateIndex("dbo.EnrollmentResponseIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
             CreateIndex("dbo.EnrollmentResponseRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
@@ -13048,6 +13318,9 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             CreateIndex("dbo.EncounterIxTok", "Code", name: "ix_Code");
             CreateIndex("dbo.EncounterIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
             CreateIndex("dbo.EncounterRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
+            CreateIndex("dbo.EffectEvidenceSynthesisIxTok", "Code", name: "ix_Code");
+            CreateIndex("dbo.EffectEvidenceSynthesisIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
+            CreateIndex("dbo.EffectEvidenceSynthesisRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
             CreateIndex("dbo.DocumentReferenceIxTok", "Code", name: "ix_Code");
             CreateIndex("dbo.DocumentReferenceIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
             CreateIndex("dbo.DocumentReferenceRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
@@ -13126,6 +13399,9 @@ namespace Pyro.DataLayer.MigrationsMicrosoftSQLServer
             CreateIndex("dbo.ChargeItemDefinitionIxTok", "Code", name: "ix_Code");
             CreateIndex("dbo.ChargeItemDefinitionIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
             CreateIndex("dbo.ChargeItemDefinitionRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
+            CreateIndex("dbo.CatalogEntryIxTok", "Code", name: "ix_Code");
+            CreateIndex("dbo.CatalogEntryIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
+            CreateIndex("dbo.CatalogEntryRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");
             CreateIndex("dbo.CareTeamIxTok", "Code", name: "ix_Code");
             CreateIndex("dbo.CareTeamIxRef", "ReferenceFhirId", name: "ix_RefFhirId");
             CreateIndex("dbo.CareTeamRes", new[] { "FhirId", "VersionId" }, unique: true, name: "uq_FhirIdAndVersionId");

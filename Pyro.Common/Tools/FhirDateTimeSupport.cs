@@ -48,32 +48,59 @@ namespace Pyro.Common.Tools
       if (!Hl7.Fhir.Model.Primitives.PartialDateTime.TryParse(FhirDateTime, out Hl7.Fhir.Model.Primitives.PartialDateTime PartialDateTime))
         return false;
 
-
-      if (OrginalFhirDateTimeLength > 29 && OrginalFhirDateTimeLength < 34)
+      if (OrginalFhirDateTimeLength == 34)
       {
-        //"yyyy-MM-ddTHH:mm:ss.ffffzzz"
+        //2019-04-24T11:00:54.12345678+10:00
+        string Format = "yyyy-MM-ddTHH:mm:ss.ffffffffzzz";
+        ParseDateTimeToUniversalTime(FhirDateTime, DateTimePrecision.MilliSec, Format, true);
+        return true;
+      }
+      else if (OrginalFhirDateTimeLength == 33)
+      {
+        //2019-04-24T11:00:54.1234567+10:00
+        string Format = "yyyy-MM-ddTHH:mm:ss.fffffffzzz";
+        ParseDateTimeToUniversalTime(FhirDateTime, DateTimePrecision.MilliSec, Format, true);
+        return true;
+      }
+      else if (OrginalFhirDateTimeLength == 32)
+      {
+        //2019-04-24T11:00:54.123456+10:00
+        string Format = "yyyy-MM-ddTHH:mm:ss.ffffffzzz";
+        ParseDateTimeToUniversalTime(FhirDateTime, DateTimePrecision.MilliSec, Format, true);
+        return true;
+      }
+      else if (OrginalFhirDateTimeLength == 31)
+      {
+        //2019-04-24T11:00:54.12345+10:00
+        string Format = "yyyy-MM-ddTHH:mm:ss.fffffzzz";
+        ParseDateTimeToUniversalTime(FhirDateTime, DateTimePrecision.MilliSec, Format, true);
+        return true;
+      }
+      else if (OrginalFhirDateTimeLength == 30)
+      {
+        //2019-04-24T11:00:54.7699+10:00
         string Format = "yyyy-MM-ddTHH:mm:ss.ffffzzz";
-        ParseDateTimeToUniversalTime(FhirDateTime, DateTimePrecision.Tick, Format, true);
+        ParseDateTimeToUniversalTime(FhirDateTime, DateTimePrecision.MilliSec, Format, true);
         return true;
       }
       else if (OrginalFhirDateTimeLength == 29)
       {
         //"yyyy-MM-ddTHH:mm:ss.FFFzzz"
-        string Format = "yyyy-MM-ddTHH:mm:ss.FFFzzz";
+        string Format = "yyyy-MM-ddTHH:mm:ss.fffzzz";
         ParseDateTimeToUniversalTime(FhirDateTime, DateTimePrecision.MilliSec, Format, true);
         return true;
       }
       else if (OrginalFhirDateTimeLength == 28)
       {
         //"yyyy-MM-ddTHH:mm:ss.FFzzz"
-        string Format = "yyyy-MM-ddTHH:mm:ss.FFzzz";
+        string Format = "yyyy-MM-ddTHH:mm:ss.ffzzz";
         ParseDateTimeToUniversalTime(FhirDateTime, DateTimePrecision.MilliSec, Format, true);
         return true;
       }
       else if (OrginalFhirDateTimeLength == 27)
       {
         //"yyyy-MM-ddTHH:mm:ss.Fzzz"
-        string Format = "yyyy-MM-ddTHH:mm:ss.Fzzz";
+        string Format = "yyyy-MM-ddTHH:mm:ss.fzzz";
         ParseDateTimeToUniversalTime(FhirDateTime, DateTimePrecision.MilliSec, Format, true);
         return true;
       }
@@ -88,21 +115,21 @@ namespace Pyro.Common.Tools
       {
         //1974-12-25T14:35:45.123Z
         //"yyyy-MM-ddTHH:mm:ss.FFFK"
-        string Format = "yyyy-MM-ddTHH:mm:ss.FFFK";
+        string Format = "yyyy-MM-ddTHH:mm:ss.fffK";
         ParseDateTimeToUniversalTime(FhirDateTime, DateTimePrecision.Sec, Format, true);
         return true;
       }
       else if (OrginalFhirDateTimeLength == 23)
       {
         //"yyyy-MM-ddTHH:mm:ss.FFF"
-        string Format = "yyyy-MM-ddTHH:mm:ss.FFF";
+        string Format = "yyyy-MM-ddTHH:mm:ss.fff";
         ParseDateTimeToUniversalTime(FhirDateTime, DateTimePrecision.MilliSec, Format, false);
         return true;
       }
       else if (OrginalFhirDateTimeLength == 22 && OrginalFhirDateString.Substring(19, 1) == MilliSecDelimiter)
       {
         //"yyyy-MM-ddTHH:mm:ss.FF"
-        string Format = "yyyy-MM-ddTHH:mm:ss.FF";
+        string Format = "yyyy-MM-ddTHH:mm:ss.ff";
         ParseDateTimeToUniversalTime(FhirDateTime, DateTimePrecision.MilliSec, Format, false);
         return true;
       }
@@ -117,7 +144,7 @@ namespace Pyro.Common.Tools
       else if (OrginalFhirDateTimeLength == 21)
       {
         //"yyyy-MM-ddTHH:mm:ss.F"
-        string Format = "yyyy-MM-ddTHH:mm:ss.F";
+        string Format = "yyyy-MM-ddTHH:mm:ss.f";
         ParseDateTimeToUniversalTime(FhirDateTime, DateTimePrecision.MilliSec, Format, false);
         return true;
       }
@@ -334,5 +361,10 @@ namespace Pyro.Common.Tools
       return HighDateTime;
     }
 
+    public static string DateTimeOffSetToFhirStringFormat(DateTimeOffset datetime)
+    {
+      //2018-12-27T22:37:54+11:00
+      return datetime.ToString("yyyy-MM-ddTHH:mm:sszzz");
+    }
   }
 }

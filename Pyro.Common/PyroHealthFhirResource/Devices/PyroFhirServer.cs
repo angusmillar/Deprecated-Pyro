@@ -57,7 +57,8 @@ namespace Pyro.Common.PyroHealthFhirResource.Devices
         new FhirModel.Coding("http://snomed.info/sct", "129465004", "Medical record")
       };
       Resource.Manufacturer = "Pyro Health";
-      Resource.ManufactureDate = ManufactureDate.ToString();      
+
+      Resource.ManufactureDate = (new FhirModel.FhirDateTime(ManufactureDate)).Value;      
       Resource.Version = new List<FhirModel.Device.VersionComponent>()
       {
         new FhirModel.Device.VersionComponent()

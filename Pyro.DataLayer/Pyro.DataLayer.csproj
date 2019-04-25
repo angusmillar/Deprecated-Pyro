@@ -209,21 +209,13 @@
     <Compile Include="IndexSetter\DbTokenSetter.cs" />
     <Compile Include="IndexSetter\DbQuantitySetter.cs" />
     <Compile Include="IndexSetter\DbStringSetter.cs" />
-    <Compile Include="MigrationsMicrosoftSQLServer\201810041503597_First.cs" />
-    <Compile Include="MigrationsMicrosoftSQLServer\201810041503597_First.Designer.cs">
-      <DependentUpon>201810041503597_First.cs</DependentUpon>
+    <Compile Include="MigrationsMicrosoftSQLServer\201904230456148_First.cs" />
+    <Compile Include="MigrationsMicrosoftSQLServer\201904230456148_First.Designer.cs">
+      <DependentUpon>201904230456148_First.cs</DependentUpon>
     </Compile>
-    <Compile Include="MigrationsMicrosoftSQLServer\201810041523325_CaseSensitive.cs" />
-    <Compile Include="MigrationsMicrosoftSQLServer\201810041523325_CaseSensitive.Designer.cs">
-      <DependentUpon>201810041523325_CaseSensitive.cs</DependentUpon>
-    </Compile>
-    <Compile Include="MigrationsMicrosoftSQLServer\201810150238292_AddBackburnerConnectionTable.cs" />
-    <Compile Include="MigrationsMicrosoftSQLServer\201810150238292_AddBackburnerConnectionTable.Designer.cs">
-      <DependentUpon>201810150238292_AddBackburnerConnectionTable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="MigrationsMicrosoftSQLServer\201810251007355_AddFHIRTaskQueueAndWorkerTables.cs" />
-    <Compile Include="MigrationsMicrosoftSQLServer\201810251007355_AddFHIRTaskQueueAndWorkerTables.Designer.cs">
-      <DependentUpon>201810251007355_AddFHIRTaskQueueAndWorkerTables.cs</DependentUpon>
+    <Compile Include="MigrationsMicrosoftSQLServer\201904230511080_CaseSensitive.cs" />
+    <Compile Include="MigrationsMicrosoftSQLServer\201904230511080_CaseSensitive.Designer.cs">
+      <DependentUpon>201904230511080_CaseSensitive.cs</DependentUpon>
     </Compile>
     <Compile Include="MigrationsPostgre\201810040456161_First.cs" />
     <Compile Include="MigrationsPostgre\201810040456161_First.Designer.cs">
@@ -296,17 +288,11 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <EmbeddedResource Include="MigrationsMicrosoftSQLServer\201810041503597_First.resx">
-      <DependentUpon>201810041503597_First.cs</DependentUpon>
+    <EmbeddedResource Include="MigrationsMicrosoftSQLServer\201904230456148_First.resx">
+      <DependentUpon>201904230456148_First.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MigrationsMicrosoftSQLServer\201810041523325_CaseSensitive.resx">
-      <DependentUpon>201810041523325_CaseSensitive.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MigrationsMicrosoftSQLServer\201810150238292_AddBackburnerConnectionTable.resx">
-      <DependentUpon>201810150238292_AddBackburnerConnectionTable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MigrationsMicrosoftSQLServer\201810251007355_AddFHIRTaskQueueAndWorkerTables.resx">
-      <DependentUpon>201810251007355_AddFHIRTaskQueueAndWorkerTables.cs</DependentUpon>
+    <EmbeddedResource Include="MigrationsMicrosoftSQLServer\201904230511080_CaseSensitive.resx">
+      <DependentUpon>201904230511080_CaseSensitive.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MigrationsPostgre\201810040456161_First.resx">
       <DependentUpon>201810040456161_First.cs</DependentUpon>

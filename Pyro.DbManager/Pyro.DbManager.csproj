@@ -123,9 +123,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="SqlScripts\MsSQL\_201810041503597_First.sql" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Pyro.Common\Pyro.Common.csproj">
       <Project>{7458636f-b6a9-4f11-8921-1f70f717e1a9}</Project>
       <Name>Pyro.Common</Name>
@@ -135,9 +132,6 @@
     <Compile Include="Seeding\FhirSearchParamters.cs" />
     <Compile Include="Seeding\SParamResource.cs" />
     <Compile Include="Seeding\SearchParam.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="SqlScripts\MsSQL\_201810041600000_FhirReleaseSeed.sql" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="SqlScripts\PostgreSql\_20181004052000_FhirReleaseSeed.sql" />
@@ -170,25 +164,6 @@
     <EmbeddedResource Include="SqlScripts\PostgreSql\_20181004053000_SearchParameterIxUri.sql" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="SqlScripts\MsSQL\_201810041600100_PreSearchSeed.sql" />
-    <EmbeddedResource Include="SqlScripts\MsSQL\_201810041523325_CaseSensitive.sql" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="SqlScripts\MsSQL\_201810041601100_SearchParameterIxUri.sql" />
-    <EmbeddedResource Include="SqlScripts\MsSQL\_201810041601000_SearchParameterIxTox0.sql" />
-    <EmbeddedResource Include="SqlScripts\MsSQL\_201810041600900_SearchParameterIxStr0.sql" />
-    <EmbeddedResource Include="SqlScripts\MsSQL\_201810041600800_SearchParameterIxRef.sql" />
-    <EmbeddedResource Include="SqlScripts\MsSQL\_201810041600700_SearchParameterIxDT.sql" />
-    <EmbeddedResource Include="SqlScripts\MsSQL\_201810041600600_SearchParameterRes.sql" />
-    <EmbeddedResource Include="SqlScripts\MsSQL\_201810041600500_SCompositePivot.sql" />
-    <EmbeddedResource Include="SqlScripts\MsSQL\_201810041600400_SParamResource.sql" />
-    <EmbeddedResource Include="SqlScripts\MsSQL\_201810041600300_SearchParam.sql" />
-    <EmbeddedResource Include="SqlScripts\MsSQL\_201810041600200_Hl7OrgBaseUrl.sql" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="SqlScripts\MsSQL\_201810150238292_AddBackburnerConnectionTable.sql" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="SqlScripts\PostgreSql\_201810161101408_AddBackburnerConnectionTable.sql" />
   </ItemGroup>
   <ItemGroup>
@@ -198,7 +173,19 @@
     <EmbeddedResource Include="SqlScripts\PostgreSql\_201810211412127_AddFhirTaskWorkerTable.sql" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="SqlScripts\MsSQL\_201810251007355_AddFHIRTaskQueueAndWorkerTables.sql" />
+    <EmbeddedResource Include="SqlScripts\MsSQL\_201904230456148_First.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="SqlScripts\MsSQL\_201904230511080_CaseSensitive.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="SqlScripts\MsSQL\_201904230600000_FhirReleaseSeed.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="SqlScripts\MsSQL\_201904230600001_PreSearchSeed.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="SqlScripts\MsSQL\_201904230600002_Seed.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
