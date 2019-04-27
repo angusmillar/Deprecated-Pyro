@@ -2,9 +2,9 @@
 
 [logo]: https://github.com/angusmillar/PyroWeb/blob/master/src/Images/SiteIcon/NewPyroIconLong-200.png "Pyro Server Logo"
 
-This is a C# .NET Framework 4.6, MSSQL or PostgreSQL, FHIR server implementing FHIR R4, Version 3.5.0 
+This is a C# .NET Framework 4.6, MSSQL or PostgreSQL, FHIR server implementing FHIR R4, Version 4.0.0 
 
-See the official FHIR specification page here: [FHIR specification R4](http://hl7.org/fhir/2018Sep/index.html)
+See the official FHIR specification page here: [FHIR specification R4](http://hl7.org/fhir/)
 
 See the publicly accessible Pyro Server instance running here: [Pyrohealth.net](https://pyrohealth.net/)
 
