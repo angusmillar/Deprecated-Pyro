@@ -22,8 +22,8 @@ namespace Pyro.DbManager
       //string SQLP = test.GetMsSQLQuerySearchParameters();
       //string SQLTR = test.GetMSSQLQuerySearchParameterTargetResources();
 
-      ////string PSQLP = test.GetPostgreSQLQuerySearchParameters();
-      ////string PSQLTR = test.GetPostgreSQLQuerySearchParameterTargetResources();
+      //string PSQLP = test.GetPostgreSQLQuerySearchParameters();
+      //string PSQLTR = test.GetPostgreSQLQuerySearchParameterTargetResources();
 
 
       Dictionary<string, string> Arguments = ProcessArguments(args);

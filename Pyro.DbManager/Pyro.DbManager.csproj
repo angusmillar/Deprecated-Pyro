@@ -108,6 +108,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ResourceStore.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="SqlScripts\MsSQL\_201904230600003_SeedSearchParameterResources.sql" />
     <Compile Include="Tools\ScriptFileDrop.cs" />
     <Compile Include="Tools\StringSupport.cs" />
     <Compile Include="Tools\SynchToDbUp.cs" />
@@ -134,45 +135,6 @@
     <Compile Include="Seeding\SearchParam.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="SqlScripts\PostgreSql\_20181004052000_FhirReleaseSeed.sql" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="SqlScripts\PostgreSql\_201810040456161_First.sql" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="SqlScripts\PostgreSql\_201810040514351_CaseSensitive.sql" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="SqlScripts\PostgreSql\_20181004052000_PreSearchSeed.sql" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="SqlScripts\PostgreSql\_20181004052100_Hl7OrgBaseUrl.sql" />
-    <EmbeddedResource Include="SqlScripts\PostgreSql\_20181004052200_SearchParam.sql" />
-    <EmbeddedResource Include="SqlScripts\PostgreSql\_20181004052300_SParamResource.sql" />
-    <EmbeddedResource Include="SqlScripts\PostgreSql\_20181004052400_SCompositePivot.sql" />
-    <EmbeddedResource Include="SqlScripts\PostgreSql\_20181004052500_SearchParameterRes.sql" />
-    <EmbeddedResource Include="SqlScripts\PostgreSql\_20181004052600_SearchParameterIxDT.sql" />
-    <EmbeddedResource Include="SqlScripts\PostgreSql\_20181004052700_SearchParameterIxRef.sql" />
-    <EmbeddedResource Include="SqlScripts\PostgreSql\_20181004052800_SearchParameterIxStr0.sql" />
-    <EmbeddedResource Include="SqlScripts\PostgreSql\_20181004052801_SearchParameterIxStr1.sql" />
-    <EmbeddedResource Include="SqlScripts\PostgreSql\_20181004052802_SearchParameterIxStr2.sql" />
-    <EmbeddedResource Include="SqlScripts\PostgreSql\_20181004052803_SearchParameterIxStr3.sql" />
-    <EmbeddedResource Include="SqlScripts\PostgreSql\_20181004052804_SearchParameterIxStr4.sql" />
-    <EmbeddedResource Include="SqlScripts\PostgreSql\_20181004052900_SearchParameterIxTox0.sql" />
-    <EmbeddedResource Include="SqlScripts\PostgreSql\_20181004052901_SearchParameterIxTox1.sql" />
-    <EmbeddedResource Include="SqlScripts\PostgreSql\_20181004052902_SearchParameterIxTox2.sql" />
-    <EmbeddedResource Include="SqlScripts\PostgreSql\_20181004053000_SearchParameterIxUri.sql" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="SqlScripts\PostgreSql\_201810161101408_AddBackburnerConnectionTable.sql" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="SqlScripts\PostgreSql\_201810180757124_AddFhirTaskQueueTable.sql" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="SqlScripts\PostgreSql\_201810211412127_AddFhirTaskWorkerTable.sql" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="SqlScripts\MsSQL\_201904230456148_First.sql" />
   </ItemGroup>
   <ItemGroup>
@@ -186,6 +148,32 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="SqlScripts\MsSQL\_201904230600002_Seed.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="SqlScripts\PostgreSql\_201904250422540_CaseSensitive.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="SqlScripts\PostgreSql\_201904250412494_First.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="SqlScripts\PostgreSql\_201904250500000_FhirReleaseSeed.sql" />
+    <None Include="SqlScripts\PostgreSql\_201904250500001_PreSearchSeed.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="SqlScripts\PostgreSql\_201904250500002_BaseUrl.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="SqlScripts\PostgreSql\_201904250500003_SearchParam.sql" />
+    <EmbeddedResource Include="SqlScripts\PostgreSql\_201904250500006_SearchParameterIxTok.sql" />
+    <EmbeddedResource Include="SqlScripts\PostgreSql\_201904250500004_SParamResource.sql" />
+    <EmbeddedResource Include="SqlScripts\PostgreSql\_201904250500007_SearchParameterIxStr.sql" />
+    <EmbeddedResource Include="SqlScripts\PostgreSql\_201904250500008_SearchParameterIxRef.sql" />
+    <EmbeddedResource Include="SqlScripts\PostgreSql\_201904250500009_SearchParameterIxQty.sql" />
+    <EmbeddedResource Include="SqlScripts\PostgreSql\_201904250500010_SearchParameterIxDT.sql" />
+    <EmbeddedResource Include="SqlScripts\PostgreSql\_201904250500011_SeachParameterIxUri.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="SqlScripts\PostgreSql\_201904250500005_SearchParameterRes.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

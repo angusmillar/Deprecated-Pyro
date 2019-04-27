@@ -217,25 +217,13 @@
     <Compile Include="MigrationsMicrosoftSQLServer\201904230511080_CaseSensitive.Designer.cs">
       <DependentUpon>201904230511080_CaseSensitive.cs</DependentUpon>
     </Compile>
-    <Compile Include="MigrationsPostgre\201810040456161_First.cs" />
-    <Compile Include="MigrationsPostgre\201810040456161_First.Designer.cs">
-      <DependentUpon>201810040456161_First.cs</DependentUpon>
+    <Compile Include="MigrationsPostgre\201904250412494_First.cs" />
+    <Compile Include="MigrationsPostgre\201904250412494_First.Designer.cs">
+      <DependentUpon>201904250412494_First.cs</DependentUpon>
     </Compile>
-    <Compile Include="MigrationsPostgre\201810040514351_CaseSensitive.cs" />
-    <Compile Include="MigrationsPostgre\201810040514351_CaseSensitive.Designer.cs">
-      <DependentUpon>201810040514351_CaseSensitive.cs</DependentUpon>
-    </Compile>
-    <Compile Include="MigrationsPostgre\201810161101408_AddBackburnerConnectionTable.cs" />
-    <Compile Include="MigrationsPostgre\201810161101408_AddBackburnerConnectionTable.Designer.cs">
-      <DependentUpon>201810161101408_AddBackburnerConnectionTable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="MigrationsPostgre\201810180757124_AddFhirTaskQueueTable.cs" />
-    <Compile Include="MigrationsPostgre\201810180757124_AddFhirTaskQueueTable.Designer.cs">
-      <DependentUpon>201810180757124_AddFhirTaskQueueTable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="MigrationsPostgre\201810211412127_AddFhirTaskWorkerTable.cs" />
-    <Compile Include="MigrationsPostgre\201810211412127_AddFhirTaskWorkerTable.Designer.cs">
-      <DependentUpon>201810211412127_AddFhirTaskWorkerTable.cs</DependentUpon>
+    <Compile Include="MigrationsPostgre\201904250422540_CaseSensitive.cs" />
+    <Compile Include="MigrationsPostgre\201904250422540_CaseSensitive.Designer.cs">
+      <DependentUpon>201904250422540_CaseSensitive.cs</DependentUpon>
     </Compile>
     <Compile Include="MigrationsPostgre\ConfigurationPostgre.cs" />
     <Compile Include="MigrationsMicrosoftSQLServer\ConfigurationMsSql.cs" />
@@ -294,20 +282,11 @@
     <EmbeddedResource Include="MigrationsMicrosoftSQLServer\201904230511080_CaseSensitive.resx">
       <DependentUpon>201904230511080_CaseSensitive.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MigrationsPostgre\201810040456161_First.resx">
-      <DependentUpon>201810040456161_First.cs</DependentUpon>
+    <EmbeddedResource Include="MigrationsPostgre\201904250412494_First.resx">
+      <DependentUpon>201904250412494_First.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MigrationsPostgre\201810040514351_CaseSensitive.resx">
-      <DependentUpon>201810040514351_CaseSensitive.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MigrationsPostgre\201810161101408_AddBackburnerConnectionTable.resx">
-      <DependentUpon>201810161101408_AddBackburnerConnectionTable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MigrationsPostgre\201810180757124_AddFhirTaskQueueTable.resx">
-      <DependentUpon>201810180757124_AddFhirTaskQueueTable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MigrationsPostgre\201810211412127_AddFhirTaskWorkerTable.resx">
-      <DependentUpon>201810211412127_AddFhirTaskWorkerTable.cs</DependentUpon>
+    <EmbeddedResource Include="MigrationsPostgre\201904250422540_CaseSensitive.resx">
+      <DependentUpon>201904250422540_CaseSensitive.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

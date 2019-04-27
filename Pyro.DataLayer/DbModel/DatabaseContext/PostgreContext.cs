@@ -20,8 +20,10 @@ namespace Pyro.DataLayer.DbModel.DatabaseContext
       //5. Run the following command to create a new Migration class: 
       //     Add-Migration -Name [Migration Name] -ConfigurationTypeName ConfigurationPostgre   
       //6. Run the following command generate the SQL script based on the Migration class:      
-      //     Update-Database -TargetMigration [Migration Name] -Script -ConfigurationTypeName ConfigurationPostgre 
+      //     Update-Database -TargetMigration [Migration Name] -Script -ConfigurationTypeName ConfigurationPostgre  
       //7. Copy the generated SQL script into a new file in the project Pyro.DbManager under the folder 'SqlScripts\PostgreSql, 
+      //   use the same file name as that generated Migration class, only changing the extension from .cs to .sql'
+      //   add prefix the file name with an underscore e.g: '_[filename].sql'
       //   use the same file name as that generated Migration class, only changing the extension from .cs to .sql'
       //8. Set the Build Action of the new .sql file in the Pyro.DbManager project to 'Embedded Resource'
       //9. Set the 'GenerateMigration' boolean below back to False.
