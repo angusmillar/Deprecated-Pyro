@@ -90,7 +90,7 @@ namespace Pyro.Common.Search
         Description = "Profiles this resource claims to conform to",
         Expression = "Resource.meta.profile",
         Resource = FHIRAllTypes.Resource.GetLiteral(),
-        Type = SearchParamType.Uri,
+        Type = SearchParamType.Reference,
         Url = "http://hl7.org/fhir/SearchParameter/Resource-profile",
         XPath = "f:Resource/f:meta/f:profile",
         SearchParameterServiceType = SearchParameterService.SearchParameterServiceType.Resource
