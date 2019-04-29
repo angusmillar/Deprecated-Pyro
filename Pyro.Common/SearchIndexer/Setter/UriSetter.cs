@@ -26,6 +26,10 @@ namespace Pyro.Common.SearchIndexer.Setter
         {
           SetUri(FhirUri, ResourceIndexList);
         }
+        else if (FhirValueProvider.FhirValue is FhirUrl FhirUrl)
+        {
+          SetUrl(FhirUrl, ResourceIndexList);
+        }
         else if (FhirValueProvider.FhirValue is Oid Oid)
         {
           SetOid(Oid, ResourceIndexList);
@@ -61,5 +65,14 @@ namespace Pyro.Common.SearchIndexer.Setter
       }
     }
 
+    private void SetUrl(FhirUrl FhirUrl, IList<IUriIndex> ResourceIndexList)
+    {
+      if (!string.IsNullOrWhiteSpace(FhirUrl.Value))
+      {
+        var ResourceIndex = new UriIndex(_SearchParameter);
+        ResourceIndex.Uri = StringSupport.ToLowerFast(FhirUrl.Value.StripHttp());
+        ResourceIndexList.Add(ResourceIndex);
+      }
+    }
   }
 }
