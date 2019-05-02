@@ -15,6 +15,7 @@ namespace Pyro.Common.Tools.FhirSpecCorrections
     public void SearchParameterCorrections(SearchParamDefinition SearchParamDefinition)
     {
 
+      //################################################################################################
       //This expression was "StructureDefinition.context" which hit a backbone element and not the correct child
       //Added .type to get the correct code value
       if (SearchParamDefinition.Name == "ext-context" &&
@@ -22,6 +23,17 @@ namespace Pyro.Common.Tools.FhirSpecCorrections
         SearchParamDefinition.Resource == ResourceType.StructureDefinition.GetLiteral())
       {
         SearchParamDefinition.Expression = "StructureDefinition.context.type";
+      }
+
+      //################################################################################################
+      //This corrects the SearchParameter _profile which does not have any resource target which it should have as it is a 
+      //reference type parameter. It needs all resource types as its target. This changed in R4 from STU3, it was type Uri in STU3 
+      //and therefore needed no targets.
+      if (SearchParamDefinition.Name == "_profile" &&
+        SearchParamDefinition.Expression == "Resource.meta.profile" &&
+        (SearchParamDefinition.Target == null || SearchParamDefinition.Target.Count() == 0))
+      {
+        SearchParamDefinition.Target = new ResourceType[] { ResourceType.StructureDefinition };               
       }
 
     }
@@ -51,6 +63,16 @@ namespace Pyro.Common.Tools.FhirSpecCorrections
         BrokenComponet.Definition = CorrectCanonicalUrl;
       }
 
+      //################################################################################################
+      //This corrects the SearchParameter _profile which does not have any resource target which it should have as it is a 
+      //reference type parameter. It needs all resource types as its target. This changed in R4 from STU3, it was type Uri in STU3 
+      //and therefore needed no targets.
+      if (SearchParameter.Name == "_profile" &&
+        SearchParameter.Expression == "Resource.meta.profile" &&
+        (SearchParameter.Target == null || SearchParameter.Target.Count() == 0))
+      {        
+        SearchParameter.Target = new List<ResourceType?>() { ResourceType.StructureDefinition }; 
+      }
     }
   }
 }

@@ -262,126 +262,119 @@ namespace Pyro.Common.FhirOperation.ServerSearchParameter
      IPyroRequestUri RequestUri,
      ISearchParameterGeneric SearchParameterGeneric,
      Resource Resource, bool FirstTimeStartupBaseParameterOveride = false)
+    {
+      if (Resource == null)
+        throw new NullReferenceException("Resource cannot be null.");
+      if (RequestUri == null)
+        throw new NullReferenceException("RequestUri cannot be null.");
+      if (SearchParameterGeneric == null)
+        throw new NullReferenceException("SearchParameterGeneric cannot be null.");
+      if (IResourceServices == null)
+        throw new NullReferenceException("ResourceServicescannot be null.");
+
+      IResourceServiceOutcome ResourceServiceOutcome = IResourceServiceOutcomeFactory.CreateResourceServiceOutcome();
+
+      ISearchParameterService SearchServiceRequest = ISearchParameterServiceFactory.CreateSearchParameterService();
+      ISearchParametersServiceOutcome SearchParametersServiceOutcome = SearchServiceRequest.ProcessBaseSearchParameters(SearchParameterGeneric);
+      if (SearchParametersServiceOutcome.FhirOperationOutcome != null)
       {
-        if (Resource == null)
-          throw new NullReferenceException("Resource cannot be null.");
-        if (RequestUri == null)
-          throw new NullReferenceException("RequestUri cannot be null.");
-        if (SearchParameterGeneric == null)
-          throw new NullReferenceException("SearchParameterGeneric cannot be null.");
-        if (IResourceServices == null)
-          throw new NullReferenceException("ResourceServicescannot be null.");
-
-        IResourceServiceOutcome ResourceServiceOutcome = IResourceServiceOutcomeFactory.CreateResourceServiceOutcome();
-
-        ISearchParameterService SearchServiceRequest = ISearchParameterServiceFactory.CreateSearchParameterService();
-        ISearchParametersServiceOutcome SearchParametersServiceOutcome = SearchServiceRequest.ProcessBaseSearchParameters(SearchParameterGeneric);
-        if (SearchParametersServiceOutcome.FhirOperationOutcome != null)
-        {
-          ResourceServiceOutcome.ResourceResult = SearchParametersServiceOutcome.FhirOperationOutcome;
-          ResourceServiceOutcome.HttpStatusCode = SearchParametersServiceOutcome.HttpStatusCode;
-          ResourceServiceOutcome.FormatMimeType = SearchParametersServiceOutcome.SearchParameters.Format;
-          return ResourceServiceOutcome;
-        }
+        ResourceServiceOutcome.ResourceResult = SearchParametersServiceOutcome.FhirOperationOutcome;
+        ResourceServiceOutcome.HttpStatusCode = SearchParametersServiceOutcome.HttpStatusCode;
         ResourceServiceOutcome.FormatMimeType = SearchParametersServiceOutcome.SearchParameters.Format;
+        return ResourceServiceOutcome;
+      }
+      ResourceServiceOutcome.FormatMimeType = SearchParametersServiceOutcome.SearchParameters.Format;
 
-        if (Resource != null && Resource is Parameters Parameters)
+      if (Resource != null && Resource is Parameters Parameters)
+      {
+        if (Parameters.Parameter != null || Parameters.Parameter.Count() != 0)
         {
-          if (Parameters.Parameter != null || Parameters.Parameter.Count() != 0)
+          Parameters ReturnParametersResource = new Parameters();
+          ReturnParametersResource.Parameter = new List<Parameters.ParameterComponent>();
+
+          foreach (var Para in Parameters.Parameter)
           {
-            Parameters ReturnParametersResource = new Parameters();
-            ReturnParametersResource.Parameter = new List<Parameters.ParameterComponent>();
-
-            foreach (var Para in Parameters.Parameter)
+            if (Para.Value != null && Para.Value is ResourceReference Ref)
             {
-              if (Para.Value != null && Para.Value is ResourceReference Ref)
+              IPyroFhirUri FhirUri = IPyroFhirUriFactory.CreateFhirRequestUri();
+              if (FhirUri.Parse(Ref.Reference))
               {
-                IPyroFhirUri FhirUri = IPyroFhirUriFactory.CreateFhirRequestUri();
-                if (FhirUri.Parse(Ref.Reference))
+                if (FhirUri.IsRelativeToServer)
                 {
-                  if (FhirUri.IsRelativeToServer)
+                  if (!FhirUri.IsHistoryReferance)
                   {
-                    if (!FhirUri.IsHistoryReferance)
+                    if (!FhirUri.IsContained)
                     {
-                      if (!FhirUri.IsContained)
+                      if (!FhirUri.IsOperation)
                       {
-                        if (!FhirUri.IsOperation)
+                        if (FhirUri.ResourceType == ResourceType.SearchParameter)
                         {
-                          if (FhirUri.ResourceType == ResourceType.SearchParameter)
+                          IRequestMeta RequestMeta = IRequestMetaFactory.CreateRequestMeta().Set($"{ResourceType.SearchParameter.GetLiteral()}/{FhirUri.ResourceId}");
+                          IResourceServiceOutcome ResourceServiceOutcomeGetSearchParameterResource = IResourceServices.GetRead(FhirUri.ResourceId, RequestMeta);
+                          if (ResourceServiceOutcomeGetSearchParameterResource.HttpStatusCode == System.Net.HttpStatusCode.OK)
                           {
-                            IRequestMeta RequestMeta = IRequestMetaFactory.CreateRequestMeta().Set($"{ResourceType.SearchParameter.GetLiteral()}/{FhirUri.ResourceId}");
-                            IResourceServiceOutcome ResourceServiceOutcomeGetSearchParameterResource = IResourceServices.GetRead(FhirUri.ResourceId, RequestMeta);
-                            if (ResourceServiceOutcomeGetSearchParameterResource.HttpStatusCode == System.Net.HttpStatusCode.OK)
-                            {
-                              TargetSearchParameter = ResourceServiceOutcomeGetSearchParameterResource.ResourceResult as SearchParameter;
+                            TargetSearchParameter = ResourceServiceOutcomeGetSearchParameterResource.ResourceResult as SearchParameter;
 
-                              OperationOutcome OperationOutcomeValidation = ValidateSearchParameterResource(TargetSearchParameter);
-                              if (OperationOutcomeValidation == null)
+                            OperationOutcome OperationOutcomeValidation = ValidateSearchParameterResource(TargetSearchParameter);
+                            if (OperationOutcomeValidation == null)
+                            {
+                              List<DtoServiceSearchParameterHeavy> InboundList = GenerateDbSearchParameterList(TargetSearchParameter);
+                              foreach (var InboundItem in InboundList)
                               {
-                                List<DtoServiceSearchParameterHeavy> InboundList = GenerateDbSearchParameterList(TargetSearchParameter);
-                                foreach (var InboundItem in InboundList)
+                                _DbSearchParamListForResource = IServiceSearchParameterService.GetServiceSearchParametersHeavyForResource(InboundItem.Resource);
+                                if (InboundItem.Resource != ResourceType.Resource.GetLiteral())
                                 {
-                                  _DbSearchParamListForResource = IServiceSearchParameterService.GetServiceSearchParametersHeavyForResource(InboundItem.Resource);
-                                  if (InboundItem.Resource != ResourceType.Resource.GetLiteral())
+                                  _DbSearchParamListForResource.AddRange(IServiceSearchParameterService.GetServiceSearchParametersHeavyForResource(ResourceType.Resource.GetLiteral()));
+                                }
+                                if (InboundItem.Type == SearchParamType.Composite)
+                                {
+                                  EnhanceWithCompositeDetail(InboundItem, TargetSearchParameter);
+                                }
+                                DtoServiceSearchParameterHeavy CodeAlreadyIndexed = _DbSearchParamListForResource.SingleOrDefault(x => x.Name == TargetSearchParameter.Code);
+                                if (CodeAlreadyIndexed != null)
+                                {
+                                  InboundItem.CreatedDate = CodeAlreadyIndexed.CreatedDate;
+                                  InboundItem.CreatedUser = CodeAlreadyIndexed.CreatedUser;
+
+                                  bool AreTargetResourceListEqual = CompaireResourceTargetListsEquality(CodeAlreadyIndexed.TargetResourceTypeList, InboundItem.TargetResourceTypeList);                                  
+                                  if (CodeAlreadyIndexed.Expression == InboundItem.Expression &&
+                                  CodeAlreadyIndexed.IsIndexed && AreTargetResourceListEqual)
                                   {
-                                    _DbSearchParamListForResource.AddRange(IServiceSearchParameterService.GetServiceSearchParametersHeavyForResource(ResourceType.Resource.GetLiteral()));
-                                  }
-                                  if (InboundItem.Type == SearchParamType.Composite)
-                                  {
-                                    EnhanceWithCompositeDetail(InboundItem, TargetSearchParameter);
-                                  }
-                                  DtoServiceSearchParameterHeavy CodeAlreadyIndexed = _DbSearchParamListForResource.SingleOrDefault(x => x.Name == TargetSearchParameter.Code);
-                                  if (CodeAlreadyIndexed != null)
-                                  {
-                                    InboundItem.CreatedDate = CodeAlreadyIndexed.CreatedDate;
-                                    InboundItem.CreatedUser = CodeAlreadyIndexed.CreatedUser;
-                                    if (CodeAlreadyIndexed.Expression == InboundItem.Expression && CodeAlreadyIndexed.IsIndexed)
-                                    {
-                                      //If the Expressions are the same and it is already indexed then just update but no need to re-index
-                                      InboundItem.IsIndexed = true;
-                                      InboundItem.Id = CodeAlreadyIndexed.Id;
-                                      IServiceSearchParameterService.UpdateServiceSearchParametersHeavy(InboundItem);
-                                    }
-                                    else
-                                    {
-                                      //The Expression is different or it was not Indexed, either way set IsIndexed to False and update, as it will need re-indexing
-                                      InboundItem.IsIndexed = false;
-                                      InboundItem.Id = CodeAlreadyIndexed.Id;
-                                      IServiceSearchParameterService.UpdateServiceSearchParametersHeavy(InboundItem);
-                                    }
+                                    //If the Expressions are the same and it is already indexed then just update but no need to re-index
+                                    InboundItem.IsIndexed = true;
+                                    InboundItem.Id = CodeAlreadyIndexed.Id;
+                                    IServiceSearchParameterService.UpdateServiceSearchParametersHeavy(InboundItem);
                                   }
                                   else
                                   {
-                                    if (FirstTimeStartupBaseParameterOveride)
-                                    {
-                                      //FirstTimeStartupBaseParameterOveride is only when we are loading the SearchParameters for the first time on a clean
-                                      //install. In this case IsINdex can be True because no resource have been loaded or can be loaded due to the 
-                                      //ServerReadOnlyMode being turned on.
-                                      InboundItem.IsIndexed = true;
-                                    }
-                                    else
-                                    {
-                                      //This is normal operation where an new SearchParameters added must be indexed.
-                                      InboundItem.IsIndexed = false;
-                                    }
-                                    IServiceSearchParameterService.AddServiceSearchParametersHeavy(InboundItem);
+                                    //The Expression is different or it was not Indexed, either way set IsIndexed to False and update, as it will need re-indexing
+                                    InboundItem.IsIndexed = false;
+                                    InboundItem.Id = CodeAlreadyIndexed.Id;
+                                    IServiceSearchParameterService.UpdateServiceSearchParametersHeavy(InboundItem);
                                   }
                                 }
-                              }
-                              else
-                              {
-                                ResourceServiceOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;
-                                ResourceServiceOutcome.ResourceResult = OperationOutcomeValidation;
-                                ResourceServiceOutcome.OperationType = Enum.RestEnum.CrudOperationType.Update;
-                                ResourceServiceOutcome.SuccessfulTransaction = false;
-                                return ResourceServiceOutcome;
+                                else
+                                {
+                                  if (FirstTimeStartupBaseParameterOveride)
+                                  {
+                                    //FirstTimeStartupBaseParameterOveride is only when we are loading the SearchParameters for the first time on a clean
+                                    //install. In this case IsINdex can be True because no resource have been loaded or can be loaded due to the 
+                                    //ServerReadOnlyMode being turned on.
+                                    InboundItem.IsIndexed = true;
+                                  }
+                                  else
+                                  {
+                                    //This is normal operation where an new SearchParameters added must be indexed.
+                                    InboundItem.IsIndexed = false;
+                                  }
+                                  IServiceSearchParameterService.AddServiceSearchParametersHeavy(InboundItem);
+                                }
                               }
                             }
                             else
                             {
-                              var OpOutCome = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.NotSupported, $"No SearchParameter resource found in the server for the ResourceReference: {FhirUri.OriginalString}");
                               ResourceServiceOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;
-                              ResourceServiceOutcome.ResourceResult = OpOutCome;
+                              ResourceServiceOutcome.ResourceResult = OperationOutcomeValidation;
                               ResourceServiceOutcome.OperationType = Enum.RestEnum.CrudOperationType.Update;
                               ResourceServiceOutcome.SuccessfulTransaction = false;
                               return ResourceServiceOutcome;
@@ -389,7 +382,7 @@ namespace Pyro.Common.FhirOperation.ServerSearchParameter
                           }
                           else
                           {
-                            var OpOutCome = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.NotSupported, $"The Parameters resource's parameter element ResourceReference value must be a reference to a SearchParameter resource, found a reference to a {FhirUri.ResourseName} resource. Value was: {FhirUri.OriginalString}");
+                            var OpOutCome = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.NotSupported, $"No SearchParameter resource found in the server for the ResourceReference: {FhirUri.OriginalString}");
                             ResourceServiceOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;
                             ResourceServiceOutcome.ResourceResult = OpOutCome;
                             ResourceServiceOutcome.OperationType = Enum.RestEnum.CrudOperationType.Update;
@@ -399,7 +392,7 @@ namespace Pyro.Common.FhirOperation.ServerSearchParameter
                         }
                         else
                         {
-                          var OpOutCome = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.NotSupported, $"The Parameters resource's parameter element ResourceReference value must not be an $Operation reference, value was: {FhirUri.OriginalString}");
+                          var OpOutCome = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.NotSupported, $"The Parameters resource's parameter element ResourceReference value must be a reference to a SearchParameter resource, found a reference to a {FhirUri.ResourseName} resource. Value was: {FhirUri.OriginalString}");
                           ResourceServiceOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;
                           ResourceServiceOutcome.ResourceResult = OpOutCome;
                           ResourceServiceOutcome.OperationType = Enum.RestEnum.CrudOperationType.Update;
@@ -409,7 +402,7 @@ namespace Pyro.Common.FhirOperation.ServerSearchParameter
                       }
                       else
                       {
-                        var OpOutCome = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.NotSupported, $"The Parameters resource's parameter element ResourceReference value must not be a #Contained reference, value was: {FhirUri.OriginalString}");
+                        var OpOutCome = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.NotSupported, $"The Parameters resource's parameter element ResourceReference value must not be an $Operation reference, value was: {FhirUri.OriginalString}");
                         ResourceServiceOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;
                         ResourceServiceOutcome.ResourceResult = OpOutCome;
                         ResourceServiceOutcome.OperationType = Enum.RestEnum.CrudOperationType.Update;
@@ -419,7 +412,7 @@ namespace Pyro.Common.FhirOperation.ServerSearchParameter
                     }
                     else
                     {
-                      var OpOutCome = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.NotSupported, $"The Parameters resource's parameter element ResourceReference value must not be a Version specific reference, value was: {FhirUri.OriginalString}");
+                      var OpOutCome = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.NotSupported, $"The Parameters resource's parameter element ResourceReference value must not be a #Contained reference, value was: {FhirUri.OriginalString}");
                       ResourceServiceOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;
                       ResourceServiceOutcome.ResourceResult = OpOutCome;
                       ResourceServiceOutcome.OperationType = Enum.RestEnum.CrudOperationType.Update;
@@ -429,7 +422,7 @@ namespace Pyro.Common.FhirOperation.ServerSearchParameter
                   }
                   else
                   {
-                    var OpOutCome = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.NotSupported, $"The Parameters resource's parameter element ResourceReference value must be relative to the server, value was: {FhirUri.OriginalString}");
+                    var OpOutCome = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.NotSupported, $"The Parameters resource's parameter element ResourceReference value must not be a Version specific reference, value was: {FhirUri.OriginalString}");
                     ResourceServiceOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;
                     ResourceServiceOutcome.ResourceResult = OpOutCome;
                     ResourceServiceOutcome.OperationType = Enum.RestEnum.CrudOperationType.Update;
@@ -439,7 +432,7 @@ namespace Pyro.Common.FhirOperation.ServerSearchParameter
                 }
                 else
                 {
-                  var OpOutCome = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.NotSupported, $"The Parameters resource's parameter element ResourceReference value was not able to be parsed, Error message: {FhirUri.ParseErrorMessage}");
+                  var OpOutCome = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.NotSupported, $"The Parameters resource's parameter element ResourceReference value must be relative to the server, value was: {FhirUri.OriginalString}");
                   ResourceServiceOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;
                   ResourceServiceOutcome.ResourceResult = OpOutCome;
                   ResourceServiceOutcome.OperationType = Enum.RestEnum.CrudOperationType.Update;
@@ -449,7 +442,7 @@ namespace Pyro.Common.FhirOperation.ServerSearchParameter
               }
               else
               {
-                var OpOutCome = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.NotSupported, $"The Parameters resource's parameter element either had no value or the value was not a ResourceReference value type.");
+                var OpOutCome = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.NotSupported, $"The Parameters resource's parameter element ResourceReference value was not able to be parsed, Error message: {FhirUri.ParseErrorMessage}");
                 ResourceServiceOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;
                 ResourceServiceOutcome.ResourceResult = OpOutCome;
                 ResourceServiceOutcome.OperationType = Enum.RestEnum.CrudOperationType.Update;
@@ -457,32 +450,31 @@ namespace Pyro.Common.FhirOperation.ServerSearchParameter
                 return ResourceServiceOutcome;
               }
             }
-            var ReturnParameter = new Parameters.ParameterComponent();
-            ReturnParameter.Name = "SearchParameterRegisteredForIndexing";
-            ReturnParameter.Resource = TargetSearchParameter;
-            ReturnParametersResource.Parameter.Add(ReturnParameter);
+            else
+            {
+              var OpOutCome = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.NotSupported, $"The Parameters resource's parameter element either had no value or the value was not a ResourceReference value type.");
+              ResourceServiceOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;
+              ResourceServiceOutcome.ResourceResult = OpOutCome;
+              ResourceServiceOutcome.OperationType = Enum.RestEnum.CrudOperationType.Update;
+              ResourceServiceOutcome.SuccessfulTransaction = false;
+              return ResourceServiceOutcome;
+            }
+          }
+          var ReturnParameter = new Parameters.ParameterComponent();
+          ReturnParameter.Name = "SearchParameterRegisteredForIndexing";
+          ReturnParameter.Resource = TargetSearchParameter;
+          ReturnParametersResource.Parameter.Add(ReturnParameter);
 
-            //All good return ParametersResource with the SearchParameter Resource registered.
-            ResourceServiceOutcome.HttpStatusCode = System.Net.HttpStatusCode.OK;
-            ResourceServiceOutcome.ResourceResult = ReturnParametersResource;
-            ResourceServiceOutcome.OperationType = Enum.RestEnum.CrudOperationType.Update;
-            ResourceServiceOutcome.SuccessfulTransaction = true;
-            return ResourceServiceOutcome;
-          }
-          else
-          {
-            var OpOutCome = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.NotSupported, $"The Parameters resource contains no parameter elements.");
-            ResourceServiceOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;
-            ResourceServiceOutcome.ResourceResult = OpOutCome;
-            ResourceServiceOutcome.OperationType = Enum.RestEnum.CrudOperationType.Update;
-            ResourceServiceOutcome.SuccessfulTransaction = false;
-            return ResourceServiceOutcome;
-          }
+          //All good return ParametersResource with the SearchParameter Resource registered.
+          ResourceServiceOutcome.HttpStatusCode = System.Net.HttpStatusCode.OK;
+          ResourceServiceOutcome.ResourceResult = ReturnParametersResource;
+          ResourceServiceOutcome.OperationType = Enum.RestEnum.CrudOperationType.Update;
+          ResourceServiceOutcome.SuccessfulTransaction = true;
+          return ResourceServiceOutcome;
         }
         else
         {
-          //The Resource given was not a Parameters resource
-          var OpOutCome = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.NotSupported, $"The Resource given on this operation must be a SearchParameter type FHIR resource.");
+          var OpOutCome = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.NotSupported, $"The Parameters resource contains no parameter elements.");
           ResourceServiceOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;
           ResourceServiceOutcome.ResourceResult = OpOutCome;
           ResourceServiceOutcome.OperationType = Enum.RestEnum.CrudOperationType.Update;
@@ -490,6 +482,33 @@ namespace Pyro.Common.FhirOperation.ServerSearchParameter
           return ResourceServiceOutcome;
         }
       }
+      else
+      {
+        //The Resource given was not a Parameters resource
+        var OpOutCome = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.NotSupported, $"The Resource given on this operation must be a SearchParameter type FHIR resource.");
+        ResourceServiceOutcome.HttpStatusCode = System.Net.HttpStatusCode.BadRequest;
+        ResourceServiceOutcome.ResourceResult = OpOutCome;
+        ResourceServiceOutcome.OperationType = Enum.RestEnum.CrudOperationType.Update;
+        ResourceServiceOutcome.SuccessfulTransaction = false;
+        return ResourceServiceOutcome;
+      }
+    }
+
+    private bool CompaireResourceTargetListsEquality(List<IServiceSearchParameterTargetResource> ListOne, List<IServiceSearchParameterTargetResource> ListTwo)
+    {
+      if (ListOne != null && ListTwo != null)
+      {
+        return ListOne.SequenceEqual(ListTwo);
+      }
+      else if (ListOne == null && ListTwo == null)
+      {
+        return true;
+      }
+      else
+      {
+        return false;
+      }
+    }
 
     public IResourceServiceOutcome ProcessReport(
       IPyroRequestUri RequestUri,

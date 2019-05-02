@@ -25,6 +25,17 @@ namespace Pyro.Common.Tools
       }      
     }
 
+    public static List<ResourceType> GetUsableResourceTypeList()
+    {      
+      List<ResourceType> Result = new List<ResourceType>(); 
+      foreach(ResourceType Type in System.Enum.GetValues(typeof(ResourceType)))
+      {
+        if (ModelInfo.IsKnownResource(Type.GetLiteral()))
+          Result.Add(Type);
+      }
+      return Result;      
+    }
+
     public static FHIRAllTypes GetResourceFhirAllType(ResourceType ResourceType)
     {
       return ResourceNameResolutionSupport.GetResourceFhirAllType(ResourceType.GetLiteral());
