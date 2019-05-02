@@ -175,6 +175,12 @@
   <ItemGroup>
     <EmbeddedResource Include="SqlScripts\PostgreSql\_201904250500005_SearchParameterRes.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="SqlScripts\MsSQL\_201905030000000_SearchParameterProfileCorrection.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="SqlScripts\PostgreSql\_201905030000000_SearchParameterProfileCorrection.sql" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
