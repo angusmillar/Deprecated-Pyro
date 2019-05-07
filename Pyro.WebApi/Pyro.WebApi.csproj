@@ -65,6 +65,9 @@
     <Reference Include="EntityFramework6.Npgsql, Version=3.2.0.0, Culture=neutral, PublicKeyToken=5d8b90d52f46fda7, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework6.Npgsql.3.2.0\lib\net45\EntityFramework6.Npgsql.dll</HintPath>
     </Reference>
+    <Reference Include="HealthIdentifiers.Identifiers, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\HealthIdentifiers.Identifiers.1.0.4\lib\net46\HealthIdentifiers.Identifiers.dll</HintPath>
+    </Reference>
     <Reference Include="Hl7.Fhir.ElementModel, Version=1.2.1.0, Culture=neutral, PublicKeyToken=d706911480550fc3, processorArchitecture=MSIL">
       <HintPath>..\packages\Hl7.Fhir.ElementModel.1.2.1\lib\net45\Hl7.Fhir.ElementModel.dll</HintPath>
     </Reference>
@@ -321,10 +324,6 @@
     <ProjectReference Include="..\Pyro.Engine\Pyro.Engine.csproj">
       <Project>{7cdc3e7f-1823-497e-802d-1feb4d0d0caa}</Project>
       <Name>Pyro.Engine</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Pyro.Identifiers\Pyro.Identifiers.csproj">
-      <Project>{fa3f0878-ccc9-410b-8bda-6c4645eb60cb}</Project>
-      <Name>Pyro.Identifiers</Name>
     </ProjectReference>
     <ProjectReference Include="..\Pyro.Smart\Pyro.Smart.csproj">
       <Project>{afdcdf8c-9233-446d-88af-4f3374a1a309}</Project>

@@ -56,6 +56,9 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="HealthIdentifiers.Identifiers, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\HealthIdentifiers.Identifiers.1.0.4\lib\net46\HealthIdentifiers.Identifiers.dll</HintPath>
+    </Reference>
     <Reference Include="Hl7.Fhir.ElementModel, Version=1.2.1.0, Culture=neutral, PublicKeyToken=d706911480550fc3, processorArchitecture=MSIL">
       <HintPath>..\packages\Hl7.Fhir.ElementModel.1.2.1\lib\net45\Hl7.Fhir.ElementModel.dll</HintPath>
     </Reference>
@@ -566,10 +569,6 @@
     <ProjectReference Include="..\Pyro.ADHA\Pyro.ADHA.csproj">
       <Project>{e6f613e6-7245-4d83-9ed3-d316dc66d0de}</Project>
       <Name>Pyro.ADHA</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Pyro.Identifiers\Pyro.Identifiers.csproj">
-      <Project>{fa3f0878-ccc9-410b-8bda-6c4645eb60cb}</Project>
-      <Name>Pyro.Identifiers</Name>
     </ProjectReference>
     <ProjectReference Include="..\Pyro.Smart\Pyro.Smart.csproj">
       <Project>{AFDCDF8C-9233-446D-88AF-4F3374A1A309}</Project>

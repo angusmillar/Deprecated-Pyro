@@ -158,11 +158,11 @@ namespace Pyro.WebApi.App_Start
       container.Register<Pyro.Common.CompositionRoot.IServerSearchParameterServiceFactory, ServerSearchParameterServiceFactory>(Lifestyle.Singleton);
       container.Register<Common.CompositionRoot.IBackgroundTaskFactory, BackgroundTaskFactory>(Lifestyle.Singleton);
 
-      container.Register<Pyro.Identifiers.Australian.MedicareNumber.IMedicareNumberParser, Pyro.Identifiers.Australian.MedicareNumber.MedicareNumberParser>(Lifestyle.Singleton);
-      container.Register<Pyro.Identifiers.Australian.DepartmentVeteransAffairs.IDVANumberParser, Pyro.Identifiers.Australian.DepartmentVeteransAffairs.DVANumberParser>(Lifestyle.Singleton);
-      container.Register<Pyro.Identifiers.Australian.NationalHealthcareIdentifier.IIndividualHealthcareIdentifierParser, Pyro.Identifiers.Australian.NationalHealthcareIdentifier.IndividualHealthcareIdentifierParser>(Lifestyle.Singleton);
-      container.Register<Pyro.Identifiers.Support.StandardsInformation.Australian.INationalHealthcareIdentifierInfo, Pyro.Identifiers.Support.StandardsInformation.Australian.NationalHealthcareIdentifierInfo>(Lifestyle.Singleton);
-      container.Register<Pyro.Identifiers.Support.StandardsInformation.Australian.IMedicareNumberInfo, Pyro.Identifiers.Support.StandardsInformation.Australian.MedicareNumberInfo>(Lifestyle.Singleton);
+      container.Register<HealthIdentifiers.Identifiers.Australian.MedicareNumber.IMedicareNumberParser, HealthIdentifiers.Identifiers.Australian.MedicareNumber.MedicareNumberParser>(Lifestyle.Singleton);
+      container.Register<HealthIdentifiers.Identifiers.Australian.DepartmentVeteransAffairs.IDVANumberParser, HealthIdentifiers.Identifiers.Australian.DepartmentVeteransAffairs.DVANumberParser>(Lifestyle.Singleton);
+      container.Register<HealthIdentifiers.Identifiers.Australian.NationalHealthcareIdentifier.IIndividualHealthcareIdentifierParser, HealthIdentifiers.Identifiers.Australian.NationalHealthcareIdentifier.IndividualHealthcareIdentifierParser>(Lifestyle.Singleton);
+      container.Register<HealthIdentifiers.Identifiers.Support.StandardsInformation.Australian.INationalHealthcareIdentifierInfo, HealthIdentifiers.Identifiers.Support.StandardsInformation.Australian.NationalHealthcareIdentifierInfo>(Lifestyle.Singleton);
+      container.Register<HealthIdentifiers.Identifiers.Support.StandardsInformation.Australian.IMedicareNumberInfo, HealthIdentifiers.Identifiers.Support.StandardsInformation.Australian.MedicareNumberInfo>(Lifestyle.Singleton);
       container.Register<Pyro.Common.Tools.Paging.IPagingSupport, Pyro.Common.Tools.Paging.PagingSupport>(Lifestyle.Scoped);
 
 

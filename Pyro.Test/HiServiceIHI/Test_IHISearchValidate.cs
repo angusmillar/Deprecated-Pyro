@@ -13,10 +13,10 @@ using Hl7.Fhir.Model;
 using Hl7.Fhir.Utility;
 using Pyro.Common.Enum;
 using Pyro.Common.FhirOperation.IhiSearch;
-using Pyro.Identifiers.Australian.MedicareNumber;
-using Pyro.Identifiers.Australian.NationalHealthcareIdentifier;
-using Pyro.Identifiers.Australian.DepartmentVeteransAffairs;
-using Pyro.Identifiers.Support.StandardsInformation.Australian;
+using HealthIdentifiers.Identifiers.Australian.MedicareNumber;
+using HealthIdentifiers.Identifiers.Australian.NationalHealthcareIdentifier;
+using HealthIdentifiers.Identifiers.Australian.DepartmentVeteransAffairs;
+using HealthIdentifiers.Identifiers.Support.StandardsInformation.Australian;
 using Pyro.Common.RequestMetadata;
 
 namespace Pyro.Test.HiServiceIHI

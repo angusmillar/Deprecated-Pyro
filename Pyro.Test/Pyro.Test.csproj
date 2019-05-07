@@ -63,6 +63,9 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="HealthIdentifiers.Identifiers, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\HealthIdentifiers.Identifiers.1.0.4\lib\net46\HealthIdentifiers.Identifiers.dll</HintPath>
+    </Reference>
     <Reference Include="Hl7.Fhir.ElementModel, Version=1.2.1.0, Culture=neutral, PublicKeyToken=d706911480550fc3, processorArchitecture=MSIL">
       <HintPath>..\packages\Hl7.Fhir.ElementModel.1.2.1\lib\net45\Hl7.Fhir.ElementModel.dll</HintPath>
     </Reference>
@@ -196,10 +199,6 @@
     <ProjectReference Include="..\Pyro.Engine\Pyro.Engine.csproj">
       <Project>{7cdc3e7f-1823-497e-802d-1feb4d0d0caa}</Project>
       <Name>Pyro.Engine</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Pyro.Identifiers\Pyro.Identifiers.csproj">
-      <Project>{fa3f0878-ccc9-410b-8bda-6c4645eb60cb}</Project>
-      <Name>Pyro.Identifiers</Name>
     </ProjectReference>
     <ProjectReference Include="..\Pyro.WebApi\Pyro.WebApi.csproj">
       <Project>{77a13dad-7097-4a6c-ad52-613f8816cc82}</Project>
