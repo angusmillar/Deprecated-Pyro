@@ -18,11 +18,13 @@ namespace Pyro.Common.Tools.FhirResourceValidation
   {
     private readonly IResourceServices IResourceServices;        
     private readonly IRequestMetaFactory IRequestMetaFactory;
+    private readonly IPyroFhirUriFactory IPyroFhirUriFactory;
 
-    public InternalServerProfileResolver(IResourceServices IResourceServices, IRequestMetaFactory IRequestMetaFactory)
+    public InternalServerProfileResolver(IResourceServices IResourceServices, IRequestMetaFactory IRequestMetaFactory, IPyroFhirUriFactory IPyroFhirUriFactory)
     {
       this.IResourceServices = IResourceServices;                  
       this.IRequestMetaFactory = IRequestMetaFactory;
+      this.IPyroFhirUriFactory = IPyroFhirUriFactory;
     }
     public Resource ResolveByCanonicalUri(string uri)
     {
@@ -42,10 +44,30 @@ namespace Pyro.Common.Tools.FhirResourceValidation
       }
     }
     public Resource ResolveByUri(string uri)
-    {      
-      IRequestMeta RequestMeta = IRequestMetaFactory.CreateRequestMeta().Set($"{FHIRAllTypes.StructureDefinition.GetLiteral()}/{uri}");      
-      IResourceServiceOutcome ResourceServiceOutcome = IResourceServices.GetRead(RequestMeta.PyroRequestUri.FhirRequestUri.ResourceId, RequestMeta);
-      return ResourceServiceOutcome.ResourceResult;
+    {
+      IPyroFhirUri FhirUri = IPyroFhirUriFactory.CreateFhirRequestUri();
+      if (FhirUri.Parse(uri))
+      {
+        if (FhirUri.IsRelativeToServer)
+        {
+          IRequestMeta RequestMeta = IRequestMetaFactory.CreateRequestMeta().Set(FhirUri.ResourceType.Value, FhirUri.ResourceId);
+          IResourceServiceOutcome ResourceServiceOutcome = IResourceServices.GetRead(RequestMeta.PyroRequestUri.FhirRequestUri.ResourceId, RequestMeta);
+          return ResourceServiceOutcome.ResourceResult;
+        }
+        else
+        {
+
+          Hl7.Fhir.Rest.FhirClient clientFhir = new Hl7.Fhir.Rest.FhirClient(FhirUri.PrimaryServiceRootRemote);
+          clientFhir.Timeout = 1000 * 120; // 2 Min
+          return clientFhir.Get(FhirUri.OriginalString);          
+        }
+      }
+      else
+      {
+        string ErrorMessage = $"An invalid FHIR Uri was attempted to be resolved by the server's ServerProfileResolver. That Uri was: '{uri}'";
+        var OptOut = Common.Tools.FhirOperationOutcomeSupport.Create(OperationOutcome.IssueSeverity.Error, OperationOutcome.IssueType.NotFound, ErrorMessage);
+        throw new Common.Exceptions.PyroException(System.Net.HttpStatusCode.BadRequest, OptOut, ErrorMessage);
+      }    
     }
   }
 }
