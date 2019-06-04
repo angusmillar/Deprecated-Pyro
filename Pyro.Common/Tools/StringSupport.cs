@@ -148,5 +148,22 @@ namespace Pyro.Common.Tools
       return ((MemberExpression)propertyId.Body).Member.Name;
     }
     
+    public static string ReconstructSortSearchParameter(IList<Tuple<string, Hl7.Fhir.Rest.SortOrder>> SortList)
+    {
+      string Result = string.Empty;
+      for (int i = 0; i < SortList.Count; i++)
+      {
+        string Temp = string.Empty;
+        if (SortList[i].Item2 == Hl7.Fhir.Rest.SortOrder.Descending)
+        {
+          Temp = "-";
+        }
+        Temp = Temp + SortList[i].Item1;        
+        if (i < SortList.Count - 1)
+          Temp = Temp + ",";
+        Result = Result + Temp;
+      }
+      return "_sort=" + Result;
+    }
   }
 }

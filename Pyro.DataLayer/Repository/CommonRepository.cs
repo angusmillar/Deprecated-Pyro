@@ -223,8 +223,7 @@ namespace Pyro.DataLayer.Repository
       IPyroDbContext.Set<ResCurrentType>().Add(Entity);
       this.Save();
     }
-     
-
+    
     private static void IdSearchParameterPredicateProcessing(List<ISearchParameterBase> SearchParametersList, ResourceSearchExpressionTrees<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType> Search, ExpressionStarter<ResCurrentType> MainPredicate)
     {
       var IdSearchParamerterList = SearchParametersList.Where(x => x.Resource == FHIRAllTypes.Resource.GetLiteral() && x.Name == "_id");
@@ -250,6 +249,8 @@ namespace Pyro.DataLayer.Repository
         SearchParametersList.RemoveAll(x => x.Resource == FHIRAllTypes.Resource.GetLiteral() && x.Name == "_id");
       }
     }
+
+    
   }
 
 }

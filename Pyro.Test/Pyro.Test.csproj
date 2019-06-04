@@ -168,6 +168,7 @@
     <Compile Include="Tools\Test_FhirDateTimeSupport.cs" />
     <Compile Include="Tools\Test_FhirNarrativeSupport.cs" />
     <Compile Include="Tools\Test_HttpHeaderSupport.cs" />
+    <Compile Include="Tools\Test_StringSupport.cs" />
     <Compile Include="Tools\Test_PyroFhirUri.cs" />
     <Compile Include="Tools\Test_PagingSupport.cs" />
   </ItemGroup>

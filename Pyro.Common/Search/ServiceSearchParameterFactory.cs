@@ -10,6 +10,7 @@ using Hl7.Fhir.Utility;
 using Pyro.Common.Search;
 using Pyro.Common.Service.SearchParameters;
 using Pyro.Common.Search.SearchParameterEntity;
+using Pyro.Common.Enum;
 
 namespace Pyro.Common.Search
 {
@@ -62,7 +63,7 @@ namespace Pyro.Common.Search
 
       ServiceSearchParameterList.Add(new DtoServiceSearchParameter()
       {
-        Name = "_id",
+        Name = AllResourceSearchParameterType._id.GetPyroLiteral(),
         Description = "Logical id of this artifact",
         Expression = "Resource.id",
         Resource = FHIRAllTypes.Resource.GetLiteral(),
@@ -72,9 +73,10 @@ namespace Pyro.Common.Search
         SearchParameterServiceType = SearchParameterService.SearchParameterServiceType.Resource
       });
 
+      
       ServiceSearchParameterList.Add(new DtoServiceSearchParameter()
       {
-        Name = "_lastUpdated",
+        Name = AllResourceSearchParameterType._LastUpdate.GetPyroLiteral(),
         Description = "When the resource version last changed",
         Expression = "Resource.meta.lastUpdated",
         Resource = FHIRAllTypes.Resource.GetLiteral(),
@@ -86,7 +88,7 @@ namespace Pyro.Common.Search
 
       ServiceSearchParameterList.Add(new DtoServiceSearchParameter()
       {
-        Name = "_profile",
+        Name = AllResourceSearchParameterType._profile.GetPyroLiteral(),
         Description = "Profiles this resource claims to conform to",
         Expression = "Resource.meta.profile",
         Resource = FHIRAllTypes.Resource.GetLiteral(),
@@ -98,7 +100,7 @@ namespace Pyro.Common.Search
 
       ServiceSearchParameterList.Add(new DtoServiceSearchParameter()
       {
-        Name = "_security",
+        Name = AllResourceSearchParameterType._security.GetPyroLiteral(),
         Description = "Security Labels applied to this resource",
         Expression = "Resource.meta.security",
         Resource = FHIRAllTypes.Resource.GetLiteral(),
@@ -110,7 +112,7 @@ namespace Pyro.Common.Search
 
       ServiceSearchParameterList.Add(new DtoServiceSearchParameter()
       {
-        Name = "_tag",
+        Name = AllResourceSearchParameterType._tag.GetPyroLiteral(),
         Description = "Tags applied to this resource",
         Expression = "Resource.meta.tag",
         Resource = FHIRAllTypes.Resource.GetLiteral(),

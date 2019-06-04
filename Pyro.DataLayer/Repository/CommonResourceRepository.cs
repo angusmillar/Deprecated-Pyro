@@ -225,8 +225,9 @@ namespace Pyro.DataLayer.Repository
         CurrentResourceContext = Chaining(CurrentResourceContext, Chain);
 
       int TotalRecordCount = CurrentResourceContext.Count();
-
+      
       CurrentResourceContext = CurrentResourceContext.OrderBy(x => x.LastUpdated);
+      
       int ClaculatedPageRequired = IPagingSupport.CalculatePageRequired(DtoSearchParameters.RequiredPageNumber, DtoSearchParameters.CountOfRecordsRequested, TotalRecordCount);
       CurrentResourceContext = CurrentResourceContext.Paging(ClaculatedPageRequired, IPagingSupport.SetNumberOfRecordsPerPage(DtoSearchParameters.CountOfRecordsRequested));
 

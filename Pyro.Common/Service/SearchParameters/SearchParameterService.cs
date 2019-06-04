@@ -14,6 +14,7 @@ using Pyro.Common.Tools.UriSupport;
 using Pyro.Common.CompositionRoot;
 using Pyro.Common.ServiceSearchParameter;
 using Pyro.Common.Search.SearchParameterEntity;
+using Pyro.Common.Tools;
 
 namespace Pyro.Common.Service.SearchParameters
 {
@@ -133,12 +134,32 @@ namespace Pyro.Common.Service.SearchParameters
         foreach (var SortItem in SearchParameterGeneric.Sort)
         {
           string SearchParameterName = SortItem.Item1.Trim();
+          _DtoSupportedSearchParametersList = GetSupportedSearchParameters(_SearchParameterServiceType, _OperationClass, _ResourceType);
           DtoServiceSearchParameterLight oSupportedSearchParameter = _DtoSupportedSearchParametersList.SingleOrDefault(x => x.Name == SearchParameterName);
-          _SearchParametersServiceOutcome.SearchParameters.SortList.Add(new PyroSearchParameters.Sort() { Value = oSupportedSearchParameter, SortOrderType = SortItem.Item2 });
+          if (oSupportedSearchParameter != null && oSupportedSearchParameter.Name == AllResourceSearchParameterType._LastUpdate.GetPyroLiteral())
+          {
+            _SearchParametersServiceOutcome.SearchParameters.SortList.Add(new PyroSearchParameters.Sort() { Value = oSupportedSearchParameter, SortOrderType = SortItem.Item2 });
+          }
+          else
+          {
+            string SortValue = SortItem.Item1;
+            if (SortItem.Item2 == SortOrder.Descending)
+            {
+              SortValue = $"-{SortItem.Item1}";
+            }
+            var DtoUnspportedSearchParameter = new UnspportedSearchParameter();      
+            DtoUnspportedSearchParameter.RawParameter = StringSupport.ReconstructSortSearchParameter(SearchParameterGeneric.Sort);
+            string ResourceName = string.Empty;
+            if (_ResourceType.HasValue)
+              ResourceName = _ResourceType.Value.ToString();
+            DtoUnspportedSearchParameter.ReasonMessage = $"The _sort parameter value '{SortValue}' is not supported by this server for the resource type '{ResourceName}', the whole parameter was : 'DtoUnspportedSearchParameter.RawParameter'";
+            _SearchParametersServiceOutcome.SearchParameters.UnspportedSearchParameterList.Add(DtoUnspportedSearchParameter);
+          }
+          
         }
       }
 
-      return _SearchParametersServiceOutcome;
+     return _SearchParametersServiceOutcome;
     }
 
     private void ChainSearchProcessing(Tuple<string, string> Parameter)
