@@ -242,7 +242,6 @@
     <Compile Include="Repository\CommonRepository.cs" />
     <Compile Include="Repository\CommonResourceRepository.cs" />
     <Compile Include="Repository\ServiceSearchParameterRepository.cs" />
-    <Compile Include="Search\Predicate\LastUpdatedDatePredicateBuilder.cs" />
     <Compile Include="Search\Extentions\ResourceSearchExtensions.cs" />
     <Compile Include="Search\Predicate\DateTimePeriodPredicateBuilder.cs" />
     <Compile Include="Search\Predicate\NumberPredicateBuilder.cs" />

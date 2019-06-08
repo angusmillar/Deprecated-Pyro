@@ -178,10 +178,10 @@
     <Compile Include="DtoEntity\DtoModelBase.cs" />
     <Compile Include="DtoEntity\DtoResource.cs" />
     <Compile Include="DtoEntity\DtoTokenIndex.cs" />
-    <Compile Include="Enum\ControlSearchParameterType.cs" />
-    <Compile Include="Enum\AllResourceSearchParameterType.cs" />
     <Compile Include="Enum\BackgroundTaskEnum.cs" />
     <Compile Include="Enum\PyroProject.cs" />
+    <Compile Include="Enum\SearchParameterSearchResultParameterType.cs" />
+    <Compile Include="Enum\SearchParameterForAllResourcesType.cs" />
     <Compile Include="FhirOperation\BundleTransaction\IfNoneExsistMap.cs" />
     <Compile Include="Global\DatabaseConnection.cs" />
     <Compile Include="Global\DbGlobalProperties.cs" />
@@ -299,6 +299,7 @@
     <Compile Include="SearchIndexer\Setter\ReferenceSetter.cs" />
     <Compile Include="SearchIndexer\Setter\StringSetter.cs" />
     <Compile Include="SearchIndexer\Setter\TokenSetter.cs" />
+    <Compile Include="Search\CustomSearchParams.cs" />
     <Compile Include="Search\DtoServiceSearchParameterComposite.cs" />
     <Compile Include="Search\SearchParameterEntity\SearchParameterComposite.cs" />
     <Compile Include="Search\SearchParameterEntity\SearchParameterCompositeValue.cs" />

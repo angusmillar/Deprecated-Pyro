@@ -63,7 +63,7 @@ namespace Pyro.Common.Search
 
       ServiceSearchParameterList.Add(new DtoServiceSearchParameter()
       {
-        Name = AllResourceSearchParameterType._id.GetPyroLiteral(),
+        Name = SearchParameterForAllResourcesType._id.GetPyroLiteral(),
         Description = "Logical id of this artifact",
         Expression = "Resource.id",
         Resource = FHIRAllTypes.Resource.GetLiteral(),
@@ -76,7 +76,7 @@ namespace Pyro.Common.Search
       
       ServiceSearchParameterList.Add(new DtoServiceSearchParameter()
       {
-        Name = AllResourceSearchParameterType._LastUpdate.GetPyroLiteral(),
+        Name = SearchParameterForAllResourcesType._lastUpdated.GetPyroLiteral(),
         Description = "When the resource version last changed",
         Expression = "Resource.meta.lastUpdated",
         Resource = FHIRAllTypes.Resource.GetLiteral(),
@@ -88,7 +88,7 @@ namespace Pyro.Common.Search
 
       ServiceSearchParameterList.Add(new DtoServiceSearchParameter()
       {
-        Name = AllResourceSearchParameterType._profile.GetPyroLiteral(),
+        Name = SearchParameterForAllResourcesType._profile.GetPyroLiteral(),
         Description = "Profiles this resource claims to conform to",
         Expression = "Resource.meta.profile",
         Resource = FHIRAllTypes.Resource.GetLiteral(),
@@ -100,7 +100,7 @@ namespace Pyro.Common.Search
 
       ServiceSearchParameterList.Add(new DtoServiceSearchParameter()
       {
-        Name = AllResourceSearchParameterType._security.GetPyroLiteral(),
+        Name = SearchParameterForAllResourcesType._security.GetPyroLiteral(),
         Description = "Security Labels applied to this resource",
         Expression = "Resource.meta.security",
         Resource = FHIRAllTypes.Resource.GetLiteral(),
@@ -112,7 +112,7 @@ namespace Pyro.Common.Search
 
       ServiceSearchParameterList.Add(new DtoServiceSearchParameter()
       {
-        Name = AllResourceSearchParameterType._tag.GetPyroLiteral(),
+        Name = SearchParameterForAllResourcesType._tag.GetPyroLiteral(),
         Description = "Tags applied to this resource",
         Expression = "Resource.meta.tag",
         Resource = FHIRAllTypes.Resource.GetLiteral(),
@@ -160,7 +160,7 @@ namespace Pyro.Common.Search
       IList<DtoServiceSearchParameter> ServiceSearchParameterList = new List<DtoServiceSearchParameter>();
       ServiceSearchParameterList.Add(new DtoServiceSearchParameter()
       {
-        Name = "page",
+        Name = SearchParameterSearchResultParameterType.page.GetPyroLiteral(),
         Description = "Required for pagination, the page required",
         Expression = null,
         Resource = null,
@@ -172,7 +172,7 @@ namespace Pyro.Common.Search
 
       ServiceSearchParameterList.Add(new DtoServiceSearchParameter()
       {
-        Name = "_sort",
+        Name = SearchParameterSearchResultParameterType._sort.GetPyroLiteral(),
         Description = "Sort order requested",
         Expression = null,
         Resource = null,

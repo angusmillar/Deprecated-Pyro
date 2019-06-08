@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Pyro.Common.Search.SearchParameterEntity;
 using Pyro.Common.ServiceSearchParameter;
+using Pyro.Common.Enum;
 
 namespace Pyro.Common.Service.Include
 {
@@ -245,7 +246,7 @@ namespace Pyro.Common.Service.Include
         {
           //Here we need create a search parameter for _id={FhirId)
 
-          DtoServiceSearchParameterLight _IdSearchParamLight = IServiceSearchParameterCache.GetSearchParameterForResource(Hl7.Fhir.Model.ResourceType.Resource.GetLiteral()).SingleOrDefault(x => x.Name == "_id");          
+          DtoServiceSearchParameterLight _IdSearchParamLight = IServiceSearchParameterCache.GetSearchParameterForResource(Hl7.Fhir.Model.ResourceType.Resource.GetLiteral()).SingleOrDefault(x => x.Name == SearchParameterForAllResourcesType._id.GetPyroLiteral());          
           var IdParameterString = new Tuple<string, string>(_IdSearchParamLight.Name, FhirId);
           
           ISearchParameterBase SearchParam = ISearchParameterFactory.CreateSearchParameter(_IdSearchParamLight, IdParameterString);          

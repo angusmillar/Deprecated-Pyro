@@ -1,5 +1,6 @@
 ﻿using Hl7.Fhir.Model;
 using Hl7.Fhir.Utility;
+using Pyro.Common.Enum;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,7 +30,7 @@ namespace Pyro.Common.Tools.FhirSpecCorrections
       //This corrects the SearchParameter _profile which does not have any resource target which it should have as it is a 
       //reference type parameter. It needs all resource types as its target. This changed in R4 from STU3, it was type Uri in STU3 
       //and therefore needed no targets.
-      if (SearchParamDefinition.Name == "_profile" &&
+      if (SearchParamDefinition.Name == SearchParameterForAllResourcesType._profile.GetPyroLiteral() &&
         SearchParamDefinition.Expression == "Resource.meta.profile" &&
         (SearchParamDefinition.Target == null || SearchParamDefinition.Target.Count() == 0))
       {
@@ -67,7 +68,7 @@ namespace Pyro.Common.Tools.FhirSpecCorrections
       //This corrects the SearchParameter _profile which does not have any resource target which it should have as it is a 
       //reference type parameter. It needs all resource types as its target. This changed in R4 from STU3, it was type Uri in STU3 
       //and therefore needed no targets.
-      if (SearchParameter.Name == "_profile" &&
+      if (SearchParameter.Name == SearchParameterForAllResourcesType._profile.GetPyroLiteral() &&
         SearchParameter.Expression == "Resource.meta.profile" &&
         (SearchParameter.Target == null || SearchParameter.Target.Count() == 0))
       {        

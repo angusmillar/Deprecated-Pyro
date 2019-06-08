@@ -131,12 +131,14 @@ namespace Pyro.Common.Service.SearchParameters
       if (SearchParameterGeneric.Sort != null)
       {
         _SearchParametersServiceOutcome.SearchParameters.SortList = new List<PyroSearchParameters.Sort>();
-        foreach (var SortItem in SearchParameterGeneric.Sort)
+        foreach (Tuple<string, SortOrder> SortItem in SearchParameterGeneric.Sort)
         {
           string SearchParameterName = SortItem.Item1.Trim();
           _DtoSupportedSearchParametersList = GetSupportedSearchParameters(_SearchParameterServiceType, _OperationClass, _ResourceType);
           DtoServiceSearchParameterLight oSupportedSearchParameter = _DtoSupportedSearchParametersList.SingleOrDefault(x => x.Name == SearchParameterName);
-          if (oSupportedSearchParameter != null && oSupportedSearchParameter.Name == AllResourceSearchParameterType._LastUpdate.GetPyroLiteral())
+          //For now we only allow _sort=-_LastUpdated or _sort=_LastUpdated 
+          if (oSupportedSearchParameter != null && 
+            oSupportedSearchParameter.Name == SearchParameterForAllResourcesType._lastUpdated.GetPyroLiteral())
           {
             _SearchParametersServiceOutcome.SearchParameters.SortList.Add(new PyroSearchParameters.Sort() { Value = oSupportedSearchParameter, SortOrderType = SortItem.Item2 });
           }
@@ -152,10 +154,9 @@ namespace Pyro.Common.Service.SearchParameters
             string ResourceName = string.Empty;
             if (_ResourceType.HasValue)
               ResourceName = _ResourceType.Value.ToString();
-            DtoUnspportedSearchParameter.ReasonMessage = $"The _sort parameter value '{SortValue}' is not supported by this server for the resource type '{ResourceName}', the whole parameter was : 'DtoUnspportedSearchParameter.RawParameter'";
+            DtoUnspportedSearchParameter.ReasonMessage = $"The {SearchParameterSearchResultParameterType._sort.GetPyroLiteral()} parameter value '{SortValue}' is not supported by this server for the resource type '{ResourceName}', the whole parameter was : '{DtoUnspportedSearchParameter.RawParameter}'";
             _SearchParametersServiceOutcome.SearchParameters.UnspportedSearchParameterList.Add(DtoUnspportedSearchParameter);
-          }
-          
+          }          
         }
       }
 
@@ -667,7 +668,7 @@ namespace Pyro.Common.Service.SearchParameters
     }
     private bool IsSingularSearchParameter(ISearchParameterBase oSearchParameter, ISearchParametersServiceOutcome _SearchParametersServiceOutcome)
     {
-      if (oSearchParameter.Name == "page")
+      if (oSearchParameter.Name == SearchParameterSearchResultParameterType.page.GetPyroLiteral())
       {
         if (oSearchParameter is SearchParameterNumber)
         {

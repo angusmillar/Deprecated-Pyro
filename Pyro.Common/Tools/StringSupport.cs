@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Pyro.Common.Enum;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -163,7 +164,7 @@ namespace Pyro.Common.Tools
           Temp = Temp + ",";
         Result = Result + Temp;
       }
-      return "_sort=" + Result;
+      return SearchParameterSearchResultParameterType._sort.GetPyroLiteral() + "=" + Result;
     }
   }
 }

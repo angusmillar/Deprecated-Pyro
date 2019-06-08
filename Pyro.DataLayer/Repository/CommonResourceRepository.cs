@@ -5,6 +5,7 @@ using Hl7.Fhir.Utility;
 using Hl7.FhirPath;
 using Pyro.Common.CompositionRoot;
 using Pyro.Common.DtoEntity;
+using Pyro.Common.Enum;
 using Pyro.Common.Extentions;
 using Pyro.Common.FhirRelease;
 using Pyro.Common.Interfaces.Repositories;
@@ -225,9 +226,22 @@ namespace Pyro.DataLayer.Repository
         CurrentResourceContext = Chaining(CurrentResourceContext, Chain);
 
       int TotalRecordCount = CurrentResourceContext.Count();
-      
-      CurrentResourceContext = CurrentResourceContext.OrderBy(x => x.LastUpdated);
-      
+
+      //Work to do for dynamic Sort
+      CurrentResourceContext = CurrentResourceContext.Ordering<ResCurrentType>(DtoSearchParameters);
+
+      //if (DtoSearchParameters.SortList[0].SortOrderType == Hl7.Fhir.Rest.SortOrder.Descending)
+      //{
+      //  //_sort=-_LastUpdated
+      //  CurrentResourceContext = CurrentResourceContext.OrderByDescending(x => x.LastUpdated);
+      //}
+      //else
+      //{
+      //  //_sort=_LastUpdated
+      //  CurrentResourceContext = CurrentResourceContext.OrderBy(x => x.LastUpdated);
+      //}
+
+
       int ClaculatedPageRequired = IPagingSupport.CalculatePageRequired(DtoSearchParameters.RequiredPageNumber, DtoSearchParameters.CountOfRecordsRequested, TotalRecordCount);
       CurrentResourceContext = CurrentResourceContext.Paging(ClaculatedPageRequired, IPagingSupport.SetNumberOfRecordsPerPage(DtoSearchParameters.CountOfRecordsRequested));
 
@@ -840,7 +854,7 @@ namespace Pyro.DataLayer.Repository
 
           //We exclude the _id search parameter here because it is not indexed by the Token indexer but rather is on the Main resource table 
           //where the blob is stored. We must do this as all Token Codes are lower-cased and yet Resource Id is case sensitive.
-          if (SearchParameter.Resource == Resource_ResourceName && SearchParameter.Name == "_id")
+          if (SearchParameter.Resource == Resource_ResourceName && SearchParameter.Name == SearchParameterForAllResourcesType._id.GetPyroLiteral())
           {
             SetSearchParameterIndex = false;
           }

@@ -35,7 +35,8 @@ namespace Pyro.Common.Extentions
     {
       var parameters = request.TupledParameters();
       UriParamList actualParameters = new UriParamList(parameters);
-      var searchCommand = SearchParams.FromUriParamList(parameters);
+      SearchParams searchCommand =  Common.Search.CustomSearchParams.FromUriParamList(parameters);
+      
       return searchCommand;
     }
 

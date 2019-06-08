@@ -72,7 +72,15 @@ namespace Pyro.Common.Search
           this.ParameterList.Add(Para);
       }
 
-      this.Sort = SearchParams.Sort;
+      if (SearchParams is CustomSearchParams CustomSearchParams)
+      {
+        this.Sort = CustomSearchParams.Sort;
+      }
+      else
+      {
+        this.Sort = SearchParams.Sort;
+      }
+      
       this.Count = SearchParams.Count;
       this.SummaryType = SearchParams.Summary;
       return this;

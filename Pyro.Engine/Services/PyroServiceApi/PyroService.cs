@@ -235,8 +235,9 @@ namespace Pyro.Engine.Services.PyroServiceApi
       using (DbContextTransaction Transaction = IUnitOfWork.BeginTransaction())
       {
         try
-        {          
-          IRequestMeta RequestMeta = IRequestMetaFactory.CreateRequestMeta().Set(Request, SearchParams.FromUriParamList(FormParameterList));
+        {
+          IRequestMeta RequestMeta = IRequestMetaFactory.CreateRequestMeta().Set(Request, Common.Search.CustomSearchParams.FromUriParamList(FormParameterList));
+          //IRequestMeta RequestMeta = IRequestMetaFactory.CreateRequestMeta().Set(Request, SearchParams.FromUriParamList(FormParameterList));
           IResourceServiceOutcome ResourceServiceOutcome = IResourceApiServices.GetSearch(RequestMeta);
           ResourceServiceOutcome.SummaryType = RequestMeta.SearchParameterGeneric.SummaryType;
           Transaction.Commit();

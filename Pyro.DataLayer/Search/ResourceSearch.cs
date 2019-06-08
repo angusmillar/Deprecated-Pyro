@@ -21,6 +21,7 @@ using Pyro.Common.Global;
 using Pyro.Common.Search.SearchParameterEntity;
 using System.Data;
 using System.Data.Entity.Core.Objects;
+using Pyro.Common.Enum;
 
 namespace Pyro.DataLayer.Search
 {
@@ -84,7 +85,7 @@ namespace Pyro.DataLayer.Search
               var SearchTypeNumber = SearchItem as SearchParameterNumber;
               foreach (var SearchValue in SearchTypeNumber.ValueList)
               {
-                if (SearchTypeNumber.Name != "page")
+                if (SearchTypeNumber.Name != SearchParameterSearchResultParameterType.page.GetPyroLiteral())
                 {
                   //ToDo: more needed here
                 }

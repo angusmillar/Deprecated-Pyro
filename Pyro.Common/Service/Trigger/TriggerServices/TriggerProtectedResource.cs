@@ -106,7 +106,7 @@ namespace Pyro.Common.Service.Trigger.TriggerServices
     private DtoServiceSearchParameterLight GetTagSearchParameters(string ResourceName)
     {
       List<DtoServiceSearchParameterLight> SearchParamList = IServiceSearchParameterCache.GetSearchParameterForResource(ResourceName);
-      var Tag = SearchParamList.SingleOrDefault(x => x.Name == "_tag");           
+      var Tag = SearchParamList.SingleOrDefault(x => x.Name == SearchParameterForAllResourcesType._tag.GetPyroLiteral());           
       if (Tag != null)
       {
         return Tag;

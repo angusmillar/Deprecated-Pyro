@@ -14,6 +14,7 @@ using Hl7.Fhir.Utility;
 using Pyro.DataLayer.DbModel.DatabaseContext;
 using Pyro.Common.Search.SearchParameterEntity;
 using System.Data;
+using Pyro.Common.Enum;
 
 namespace Pyro.DataLayer.Repository
 {
@@ -226,7 +227,7 @@ namespace Pyro.DataLayer.Repository
     
     private static void IdSearchParameterPredicateProcessing(List<ISearchParameterBase> SearchParametersList, ResourceSearchExpressionTrees<ResCurrentType, ResIndexStringType, ResIndexTokenType, ResIndexUriType, ResIndexReferenceType, ResIndexQuantityType, ResIndexDateTimeType> Search, ExpressionStarter<ResCurrentType> MainPredicate)
     {
-      var IdSearchParamerterList = SearchParametersList.Where(x => x.Resource == FHIRAllTypes.Resource.GetLiteral() && x.Name == "_id");
+      var IdSearchParamerterList = SearchParametersList.Where(x => x.Resource == FHIRAllTypes.Resource.GetLiteral() && x.Name == SearchParameterForAllResourcesType._id.GetPyroLiteral());
       if (IdSearchParamerterList != null)
       {
         ExpressionStarter<ResCurrentType> NewIdPredicate = null;
@@ -246,7 +247,7 @@ namespace Pyro.DataLayer.Repository
           }
           MainPredicate.Extend<ResCurrentType>(NewIdPredicate, PredicateOperator.And);
         }
-        SearchParametersList.RemoveAll(x => x.Resource == FHIRAllTypes.Resource.GetLiteral() && x.Name == "_id");
+        SearchParametersList.RemoveAll(x => x.Resource == FHIRAllTypes.Resource.GetLiteral() && x.Name == SearchParameterForAllResourcesType._id.GetPyroLiteral());
       }
     }
 

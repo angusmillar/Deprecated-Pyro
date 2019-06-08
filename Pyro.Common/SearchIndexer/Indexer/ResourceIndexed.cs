@@ -12,6 +12,7 @@ using Pyro.Common.Search.SearchParameterEntity;
 using LinqKit;
 using Hl7.Fhir.FhirPath;
 using Pyro.Common.Tools.FhirPathSupport;
+using Pyro.Common.Enum;
 
 namespace Pyro.Common.SearchIndexer.Indexer
 {
@@ -70,7 +71,7 @@ namespace Pyro.Common.SearchIndexer.Indexer
           bool SetSearchParameterIndex = true;
          //We exclude the _id search parameter here because it is not indexed by the Token indexer but rather is on the Main resource table 
           //where the blob is stored. We must do this as all Token Codes are lower-cased and yet Resource Id is case sensitive.
-          if (SearchParameter.Resource == Resource_ResourceName && SearchParameter.Name == "_id")
+          if (SearchParameter.Resource == Resource_ResourceName && SearchParameter.Name == SearchParameterForAllResourcesType._id.GetPyroLiteral())
           {
             SetSearchParameterIndex = false;
           }

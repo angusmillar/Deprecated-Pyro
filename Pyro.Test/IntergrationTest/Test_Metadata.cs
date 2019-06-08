@@ -80,7 +80,7 @@ namespace Pyro.Test.IntergrationTest
         Assert.AreEqual(CapabilityStatement.ReferenceHandlingPolicy.Literal, ObsResourceElement.ReferencePolicy.ElementAt(0), "ReferencePolicy 1 should be True");
         Assert.AreEqual(CapabilityStatement.ReferenceHandlingPolicy.Local, ObsResourceElement.ReferencePolicy.ElementAt(1), "ReferencePolicy 2 should be True");
 
-        Assert.AreEqual(183, ObsResourceElement.SearchInclude.Count(),"Not exactly 180 SearchInclude elements in CapabilityStatement.");
+        Assert.AreEqual(184, ObsResourceElement.SearchInclude.Count(),"Not exactly 184 SearchInclude elements in CapabilityStatement.");
         Assert.AreEqual(ObsResourceElement.SearchRevInclude.Count(), 94, "Not exactly 67 SearchRevInclude elements in CapabilityStatement.");
         Assert.AreEqual(ObsResourceElement.SearchParam.Count(),44, "Not exactly 43 SearchParam elements in CapabilityStatement.");
         Assert.IsNotEmpty(ObsResourceElement.SearchParam[0].Name, "SearchParam Name element should not be empty in CapabilityStatement.");

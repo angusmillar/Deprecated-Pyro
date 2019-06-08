@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Pyro.Common.SearchIndexer.Indexer.Predicate;
 using Pyro.Common.ServiceRoot;
+using Pyro.Common.Enum;
 
 namespace Pyro.Common.SearchIndexer.Indexer
 {
@@ -129,7 +130,7 @@ namespace Pyro.Common.SearchIndexer.Indexer
               var SearchTypeNumber = SearchItem as SearchParameterNumber;
               foreach (var SearchValue in SearchTypeNumber.ValueList)
               {
-                if (SearchTypeNumber.Name != "page")
+                if (SearchTypeNumber.Name != SearchParameterSearchResultParameterType.page.GetPyroLiteral())
                 {
                   //ToDo: more needed here
                 }
