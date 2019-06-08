@@ -13,4 +13,4 @@
 //This  is the PyroServer version mark that is manually incremented.
 //The Major is to stay with the Major FHIR Spec version STU3 = 3, STU4 = 4
 //The rest is for our use and a Build increment means DB change
-[assembly: AssemblyFileVersion("4.0.0.7")]
+[assembly: AssemblyFileVersion("4.0.0.8")]
