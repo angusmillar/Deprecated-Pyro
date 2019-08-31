@@ -239,7 +239,8 @@ namespace Pyro.WebApi.Attributes
           }
           Audit.Text = new Narrative
           {
-            Div = Narative.Generate()
+            Div = Narative.Generate(),
+            Status = Narrative.NarrativeStatus.Generated
           };
 
           // Add custom PyroHealth event data

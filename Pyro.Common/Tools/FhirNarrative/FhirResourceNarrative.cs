@@ -73,6 +73,7 @@ namespace Pyro.Common.Tools.FhirNarrative
         }
         value.Text = new Narrative();
         value.Text.Div = IHtmlGenerationSupport.Generate();
+        value.Text.Status = Narrative.NarrativeStatus.Generated;
       }
     }
 
