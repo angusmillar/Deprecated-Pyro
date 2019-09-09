@@ -6,6 +6,7 @@ namespace Pyro.Common.PyroHealthFhirResource.CodeSystems
   {    
     string GetCode(PyroFhirServer.Codes Code);
     Coding GetCoding(PyroFhirServer.Codes Code);
+    bool HasCode(string Code);
     Identifier GetIdentifier(PyroFhirServer.Codes Code);
     void SetProtectedMetaTag(Resource Resource);
     

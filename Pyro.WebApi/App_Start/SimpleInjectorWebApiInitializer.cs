@@ -53,8 +53,9 @@ namespace Pyro.WebApi.App_Start
   using SimpleInjector;
   using SimpleInjector.Integration.WebApi;
   using System.Web.Http;
+    using Pyro.Common.FhirOperation.ProcessMessage;
 
-  public static class SimpleInjectorWebApiInitializer
+    public static class SimpleInjectorWebApiInitializer
   {
     private static PyroProject.PyroProjectType ProjectType = PyroProject.PyroProjectType.FhirApi;
 
@@ -266,6 +267,7 @@ namespace Pyro.WebApi.App_Start
       container.Register<IConnectathonAnswerOperation, ConnectathonAnswerOperation>(Lifestyle.Scoped);
       container.Register<IIHISearchOrValidateOperation, IHISearchOrValidateOperation>(Lifestyle.Scoped);
       container.Register<ICompartmentOperation, CompartmentOperation>(Lifestyle.Scoped);
+      container.Register<IProcessMessageOperation, ProcessMessageOperation>(Lifestyle.Scoped);      
 
       //Scoped: Cache
       container.Register<IPrimaryServiceRootCache, PrimaryServiceRootCache>(Lifestyle.Scoped);
@@ -332,6 +334,7 @@ namespace Pyro.WebApi.App_Start
       container.Register<Pyro.Common.PyroHealthFhirResource.CodeSystems.IPyroFhirServer, Pyro.Common.PyroHealthFhirResource.CodeSystems.PyroFhirServer>(Lifestyle.Scoped);
       container.Register<Pyro.Common.PyroHealthFhirResource.CodeSystems.IPyroTask, Pyro.Common.PyroHealthFhirResource.CodeSystems.PyroTask>(Lifestyle.Scoped);
       container.Register<Pyro.Common.PyroHealthFhirResource.CodeSystems.IPyroHealth, Pyro.Common.PyroHealthFhirResource.CodeSystems.PyroHealth>(Lifestyle.Scoped);
+      container.Register<Pyro.Common.PyroHealthFhirResource.CodeSystems.IPyroHL7V2MessageTypeEvent, Pyro.Common.PyroHealthFhirResource.CodeSystems.PyroHL7V2MessageTypeEvent>(Lifestyle.Scoped);
       //Pyro FHIR Resources: Organizations
       container.Register<Pyro.Common.PyroHealthFhirResource.Organizations.IPyroHealth, Pyro.Common.PyroHealthFhirResource.Organizations.PyroHealth>(Lifestyle.Scoped);
       //Pyro FHIR Resources: Tasks

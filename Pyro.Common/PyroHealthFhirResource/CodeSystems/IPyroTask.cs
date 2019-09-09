@@ -7,5 +7,7 @@ namespace Pyro.Common.PyroHealthFhirResource.CodeSystems
     string GetCode(PyroTask.Codes Code);    
     Coding GetCoding(PyroTask.Codes Code);
     Identifier GetIdentifier(PyroTask.Codes Code);
+    bool HasCode(string Code);    
+
   }
 }

@@ -6,6 +6,8 @@ namespace Pyro.Common.PyroHealthFhirResource.CodeSystems
   {
     string GetCode(PyroHealth.Codes Code);    
     Coding GetCoding(PyroHealth.Codes Code);
-    Identifier GetIdentifier(PyroHealth.Codes Code);    
+    Identifier GetIdentifier(PyroHealth.Codes Code);
+    bool HasCode(string Code);
+    
   }
 }

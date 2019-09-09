@@ -8,6 +8,7 @@ using Pyro.Common.FhirOperation.IhiSearch;
 using Pyro.Common.FhirOperation.ResourceReport;
 using Pyro.Common.FhirOperation.Compartment;
 using Pyro.Common.FhirOperation.ConnectathonAnswer;
+using Pyro.Common.FhirOperation.ProcessMessage;
 
 namespace Pyro.Common.CompositionRoot.Concrete
 {
@@ -53,6 +54,11 @@ namespace Pyro.Common.CompositionRoot.Concrete
     public ICompartmentOperation CreateCompartmentOperation()
     {
       return Container.GetInstance<ICompartmentOperation>();      
+    }
+
+    public IProcessMessageOperation CreateProcessMessageOperation()
+    {
+      return Container.GetInstance<IProcessMessageOperation>();
     }
   }
 }

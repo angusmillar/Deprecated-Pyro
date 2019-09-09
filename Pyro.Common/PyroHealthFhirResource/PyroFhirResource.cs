@@ -46,9 +46,9 @@ namespace Pyro.Common.PyroHealthFhirResource
       //CodeSystem
       ResourceList.Add(ICodeSystem.PyroFhirServerCodeSystem.GetResource());
       ResourceList.Add(ICodeSystem.PyroHealthCodeSystem.GetResource());
-
       ResourceList.Add(ICodeSystem.PyroTaskCodeSystem.GetResource());
-      
+      ResourceList.Add(ICodeSystem.PyroHL7V2MessageTypeEvent.GetResource());
+
       //Device
       ResourceList.Add(IDevice.PyroFhirServerDevice.GetResource());
 
@@ -59,7 +59,6 @@ namespace Pyro.Common.PyroHealthFhirResource
       //Below is only used in development to load the specification search parameters into the database
       //We then extract them out and make SQL seed scripts to load on database creation. 
       //ResourceList.Add(ITask.SetSearchParameterDefinitions.GetResource());
-
 
       //CompartmentDefinition
       ResourceList.Add(ICompartmentDefinition.PyroCompartmentDefinitionEncounter.GetResource());

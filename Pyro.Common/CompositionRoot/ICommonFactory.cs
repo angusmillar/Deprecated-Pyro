@@ -7,6 +7,7 @@ using Pyro.Common.FhirOperation.IhiSearch;
 using Pyro.Common.FhirOperation.ResourceReport;
 using Pyro.Common.FhirOperation.Compartment;
 using Pyro.Common.FhirOperation.ConnectathonAnswer;
+using Pyro.Common.FhirOperation.ProcessMessage;
 
 namespace Pyro.Common.CompositionRoot
 {
@@ -20,6 +21,7 @@ namespace Pyro.Common.CompositionRoot
     IIHISearchOrValidateOperation CreateIHISearchOrValidateOperation();    
     IList<IResourceResolver> CreateResourceResolverList();
     ICompartmentOperation CreateCompartmentOperation();
+    IProcessMessageOperation CreateProcessMessageOperation();
 
   }
 }

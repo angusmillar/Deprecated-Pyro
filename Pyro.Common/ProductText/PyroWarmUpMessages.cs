@@ -63,6 +63,7 @@ namespace Pyro.Common.ProductText
       MsgList.Add("Cerner feature request, progress unknown");
       MsgList.Add("Loading green screen rendering engine");
       MsgList.Add("Importing green screen rendering engine enhancment 'Orange'");
+      MsgList.Add("Checking patient's privacy settings with Telstra's Health Engine");
 
       return MsgList;
     }

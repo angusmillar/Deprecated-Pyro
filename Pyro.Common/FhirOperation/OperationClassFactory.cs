@@ -43,6 +43,9 @@ namespace Pyro.Common.FhirOperation
         //$xSetCompartmentInActive (Instance)
         List.Add(new OperationClass() { Type = FhirOperationEnum.OperationType.xSetCompartmentInActive, Scope = FhirOperationEnum.OperationScope.Instance });
 
+        //$process-message (Base)
+        List.Add(new OperationClass() { Type = FhirOperationEnum.OperationType.ProcessMessage, Scope = FhirOperationEnum.OperationScope.Base });
+
         return List;
       }
     }

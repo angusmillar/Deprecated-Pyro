@@ -14,6 +14,7 @@ using Pyro.Common.FhirOperation.ServerSearchParameter;
 using Pyro.Common.FhirOperation.ConnectathonAnswer;
 using Pyro.Common.FhirOperation.ResourceReport;
 using Pyro.Common.Service.SearchParameters;
+using Pyro.Common.FhirOperation.ProcessMessage;
 
 namespace Pyro.Engine.Operation
 {
@@ -32,8 +33,7 @@ namespace Pyro.Engine.Operation
       this.IServerSearchParameterServiceFactory = IServerSearchParameterServiceFactory;
     }
 
-    public IResourceServiceOutcome Process(
-      string OperationName, Resource Resource, IRequestMeta RequestMeta)
+    public IResourceServiceOutcome Process(string OperationName, Resource Resource, IRequestMeta RequestMeta)
     {
       if (string.IsNullOrWhiteSpace(OperationName))
         throw new NullReferenceException("OperationName cannot be null.");
@@ -107,6 +107,11 @@ namespace Pyro.Engine.Operation
           {
             IResourceReportOperation ServerResourceReportService = ICommonFactory.CreateResourceReportOperation();
             return ServerResourceReportService.Process(RequestMeta.SearchParameterGeneric);
+          }
+        case FhirOperationEnum.OperationType.ProcessMessage:
+          {
+            IProcessMessageOperation ProcessMessageOperation = ICommonFactory.CreateProcessMessageOperation();
+            return ProcessMessageOperation.Process(RequestMeta.PyroRequestUri, RequestMeta.SearchParameterGeneric, Resource);
           }
         default:
           throw new System.ComponentModel.InvalidEnumArgumentException(OperationClass.Type.GetPyroLiteral(), (int)OperationClass.Type, typeof(FhirOperationEnum.OperationType));

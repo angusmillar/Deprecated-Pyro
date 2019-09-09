@@ -1,6 +1,7 @@
 ﻿using Pyro.Common.Attributes;
 using Pyro.Common.Enum;
 using System;
+using NetSystem = System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -125,7 +126,15 @@ namespace Pyro.Common.PyroHealthFhirResource.CodeSystems
         throw new Exception($"Internal Server Error: Enum {Code.ToString()} is not registered in the _CodeDefinitionDictionary for PyroFhirServer CodeSystem");
       }
     }
-
+    public bool HasCode(string Code)
+    {
+      foreach (Codes Codes in NetSystem.Enum.GetValues(typeof(Codes)).Cast<Codes>())
+      {
+        if (Codes.GetPyroLiteral() == Code)
+          return true;
+      }
+      return false;
+    }
     public FhirModel.Identifier GetIdentifier(Codes Code)
     {
       if (_CodeDefinitionDictionary.ContainsKey(Code))

@@ -38,6 +38,8 @@ namespace Pyro.Common.Enum
       xSetCompartmentActive,
       [EnumLiteral("x-set-compartment-inactive")]
       xSetCompartmentInActive,
+      [EnumLiteral("process-message")]
+      ProcessMessage,
 
     }
 
@@ -54,6 +56,7 @@ namespace Pyro.Common.Enum
         {OperationType.xIHISearchOrValidate.GetPyroLiteral(), OperationType.xIHISearchOrValidate},
         {OperationType.xSetCompartmentActive.GetPyroLiteral(), OperationType.xSetCompartmentActive},
         {OperationType.xSetCompartmentInActive.GetPyroLiteral(), OperationType.xSetCompartmentInActive},
+        {OperationType.ProcessMessage.GetPyroLiteral(), OperationType.ProcessMessage},
       };
     }
     

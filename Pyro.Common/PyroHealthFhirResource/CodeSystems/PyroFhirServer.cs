@@ -1,6 +1,6 @@
 ﻿using Pyro.Common.Attributes;
 using Pyro.Common.Enum;
-using System;
+using NetSystem = System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -140,8 +140,18 @@ namespace Pyro.Common.PyroHealthFhirResource.CodeSystems
       }
       else
       {
-        throw new Exception($"Internal Server Error: Enum {Code.ToString()} is not registered in the CodeDefinitionDictionary for PyroFhirServer CodeSystem");
+        throw new NetSystem.Exception($"Internal Server Error: Enum {Code.ToString()} is not registered in the CodeDefinitionDictionary for PyroFhirServer CodeSystem");
       }
+    }
+
+    public bool HasCode(string Code)
+    {      
+      foreach (Codes Codes in NetSystem.Enum.GetValues(typeof(Codes)).Cast<Codes>())
+      {
+        if (Codes.GetPyroLiteral() == Code)
+          return true;
+      }
+      return false;
     }
 
     public FhirModel.Identifier GetIdentifier(Codes Code)
@@ -158,7 +168,7 @@ namespace Pyro.Common.PyroHealthFhirResource.CodeSystems
       }
       else
       {
-        throw new Exception($"Internal Server Error: Enum {Code.ToString()} is not registered in the CodeDefinitionDictionary for PyroFhirServer CodeSystem");
+        throw new NetSystem.Exception($"Internal Server Error: Enum {Code.ToString()} is not registered in the CodeDefinitionDictionary for PyroFhirServer CodeSystem");
       }
     }
 
@@ -187,7 +197,7 @@ namespace Pyro.Common.PyroHealthFhirResource.CodeSystems
       }      
     }
 
-    public DateTimeOffset MasterLastUpdated => new DateTimeOffset(2018, 07, 06, 10, 00, 00, new TimeSpan(8, 0, 0));
+    public NetSystem.DateTimeOffset MasterLastUpdated => new NetSystem.DateTimeOffset(2018, 07, 06, 10, 00, 00, new NetSystem.TimeSpan(8, 0, 0));
 
     public FhirModel.CodeSystem GetResource()
     {      
