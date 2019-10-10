@@ -21,6 +21,10 @@ namespace Pyro.Common.PyroHealthFhirResource.CodeSystems
     {
       [EnumLiteral("ADTA01")]
       ADTA01,
+      [EnumLiteral("ADTA08")]
+      ADTA08,
+      [EnumLiteral("ADTA03")]
+      ADTA03,
     }
     private Dictionary<Codes, FhirModel.CodeSystem.ConceptDefinitionComponent> _Dictionary;
     private Dictionary<Codes, FhirModel.CodeSystem.ConceptDefinitionComponent> _CodeDefinitionDictionary
@@ -48,6 +52,22 @@ namespace Pyro.Common.PyroHealthFhirResource.CodeSystems
             Code = Codes.ADTA01.GetPyroLiteral(),
             Display = "ADT^A01",
             Definition = "Admit / visit notification",
+          }
+        },
+        {
+          Codes.ADTA08,
+          new FhirModel.CodeSystem.ConceptDefinitionComponent(){
+            Code = Codes.ADTA08.GetPyroLiteral(),
+            Display = "ADT^A08",
+            Definition = "Update patient information",
+          }
+        },
+        {
+          Codes.ADTA03,
+          new FhirModel.CodeSystem.ConceptDefinitionComponent(){
+            Code = Codes.ADTA03.GetPyroLiteral(),
+            Display = "ADT^A03",
+            Definition = "Discharge/end visit",
           }
         },
       };
@@ -116,7 +136,7 @@ namespace Pyro.Common.PyroHealthFhirResource.CodeSystems
       }
     }
 
-    public DateTimeOffset MasterLastUpdated => new DateTimeOffset(2019, 09, 06, 17, 30, 00, new TimeSpan(10, 0, 0));
+    public DateTimeOffset MasterLastUpdated => new DateTimeOffset(2019, 10, 10, 18, 30, 00, new TimeSpan(10, 0, 0));
 
     public FhirModel.CodeSystem GetResource()
     {
