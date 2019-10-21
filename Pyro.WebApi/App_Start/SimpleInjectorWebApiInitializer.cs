@@ -15,6 +15,8 @@ namespace Pyro.WebApi.App_Start
   using Pyro.Common.FhirOperation.ResourceReport;
   using Pyro.Common.FhirOperation.ServerSearchParameter;
   using Pyro.Common.FhirOperation.Validate;
+  using Pyro.Common.FhirOperation.ProcessMessage;
+  using Pyro.Common.FhirOperation.MergePatient;
   using Pyro.Common.Global;
   using Pyro.Common.Interfaces.Operation;
   using Pyro.Common.Interfaces.Repositories;
@@ -53,7 +55,7 @@ namespace Pyro.WebApi.App_Start
   using SimpleInjector;
   using SimpleInjector.Integration.WebApi;
   using System.Web.Http;
-    using Pyro.Common.FhirOperation.ProcessMessage;
+    
 
     public static class SimpleInjectorWebApiInitializer
   {
@@ -267,7 +269,10 @@ namespace Pyro.WebApi.App_Start
       container.Register<IConnectathonAnswerOperation, ConnectathonAnswerOperation>(Lifestyle.Scoped);
       container.Register<IIHISearchOrValidateOperation, IHISearchOrValidateOperation>(Lifestyle.Scoped);
       container.Register<ICompartmentOperation, CompartmentOperation>(Lifestyle.Scoped);
-      container.Register<IProcessMessageOperation, ProcessMessageOperation>(Lifestyle.Scoped);      
+      container.Register<IProcessMessageOperation, ProcessMessageOperation>(Lifestyle.Scoped);
+      container.Register<IMergePatientOperation, MergePatientOperation>(Lifestyle.Scoped);
+
+      
 
       //Scoped: Cache
       container.Register<IPrimaryServiceRootCache, PrimaryServiceRootCache>(Lifestyle.Scoped);

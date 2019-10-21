@@ -19,7 +19,6 @@ namespace Pyro.Common.Enum
 
     public enum OperationType
     {
-
       [EnumLiteral("server-indexes-set")]
       ServerIndexesSet,
       [EnumLiteral("server-indexes-index")]
@@ -40,7 +39,8 @@ namespace Pyro.Common.Enum
       xSetCompartmentInActive,
       [EnumLiteral("process-message")]
       ProcessMessage,
-
+      [EnumLiteral("x-merge-patient")]
+      xMergePatient,
     }
 
     public static Dictionary<string, OperationType> GetOperationTypeByString()
@@ -57,6 +57,7 @@ namespace Pyro.Common.Enum
         {OperationType.xSetCompartmentActive.GetPyroLiteral(), OperationType.xSetCompartmentActive},
         {OperationType.xSetCompartmentInActive.GetPyroLiteral(), OperationType.xSetCompartmentInActive},
         {OperationType.ProcessMessage.GetPyroLiteral(), OperationType.ProcessMessage},
+        {OperationType.xMergePatient.GetPyroLiteral(), OperationType.xMergePatient},
       };
     }
     

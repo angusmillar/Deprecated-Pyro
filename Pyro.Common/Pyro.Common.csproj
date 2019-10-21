@@ -183,7 +183,9 @@
     <Compile Include="Enum\SearchParameterSearchResultParameterType.cs" />
     <Compile Include="Enum\SearchParameterForAllResourcesType.cs" />
     <Compile Include="FhirOperation\BundleTransaction\IfNoneExsistMap.cs" />
-    <Compile Include="FhirOperation\ProcessMessage\AdtA01Payload.cs" />
+    <Compile Include="FhirOperation\MergePatient\IMergePatientOperation.cs" />
+    <Compile Include="FhirOperation\MergePatient\MergePatientOperation.cs" />
+    <Compile Include="FhirOperation\ProcessMessage\ADTUpdatePayload.cs" />
     <Compile Include="FhirOperation\ProcessMessage\IProcessMessageOperation.cs" />
     <Compile Include="FhirOperation\ProcessMessage\ProcessMessageOperation.cs" />
     <Compile Include="Global\DatabaseConnection.cs" />

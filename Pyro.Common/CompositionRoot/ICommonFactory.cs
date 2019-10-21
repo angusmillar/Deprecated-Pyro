@@ -8,6 +8,7 @@ using Pyro.Common.FhirOperation.ResourceReport;
 using Pyro.Common.FhirOperation.Compartment;
 using Pyro.Common.FhirOperation.ConnectathonAnswer;
 using Pyro.Common.FhirOperation.ProcessMessage;
+using Pyro.Common.FhirOperation.MergePatient;
 
 namespace Pyro.Common.CompositionRoot
 {
@@ -22,6 +23,7 @@ namespace Pyro.Common.CompositionRoot
     IList<IResourceResolver> CreateResourceResolverList();
     ICompartmentOperation CreateCompartmentOperation();
     IProcessMessageOperation CreateProcessMessageOperation();
+    IMergePatientOperation CreateMergePatientOperation();
 
   }
 }

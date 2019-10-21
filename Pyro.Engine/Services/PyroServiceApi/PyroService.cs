@@ -345,6 +345,9 @@ namespace Pyro.Engine.Services.PyroServiceApi
       }
     }
 
+    /// <summary>
+    /// Operation POST to [base]
+    /// </summary>   
     public IResourceServiceOutcome OperationPostBaseWithParameters(string BaseRequestUri, HttpRequestMessage Request, string operation, Resource Resource)
     {
       using (DbContextTransaction Transaction = IUnitOfWork.BeginTransaction())
@@ -373,6 +376,9 @@ namespace Pyro.Engine.Services.PyroServiceApi
       }
     }
 
+    /// <summary>
+    /// Operation GET to [base]
+    /// </summary>   
     public IResourceServiceOutcome OperationGetBaseWithParameters(string BaseRequestUri, HttpRequestMessage Request, string OperationName)
     {
       using (DbContextTransaction Transaction = IUnitOfWork.BeginTransaction())
@@ -401,6 +407,9 @@ namespace Pyro.Engine.Services.PyroServiceApi
       }
     }
 
+    /// <summary>
+    /// Operation POST to [base]/Patient
+    /// </summary>
     public IResourceServiceOutcome OperationPostResourceWithParameters(string BaseRequestUri, HttpRequestMessage Request, string ResourceName, string operation, Resource Resource)
     {
       using (DbContextTransaction Transaction = IUnitOfWork.BeginTransaction())
@@ -429,6 +438,9 @@ namespace Pyro.Engine.Services.PyroServiceApi
       }
     }
 
+    /// <summary>
+    /// Operation POST to [base]/Patient/1234
+    /// </summary>   
     public IResourceServiceOutcome OperationPostResourceInstanceWithParameters(string BaseRequestUri, HttpRequestMessage Request, string ResourceName, string operation, string FhirId, Resource Resource = null)
     {
       using (DbContextTransaction Transaction = IUnitOfWork.BeginTransaction())
@@ -457,6 +469,9 @@ namespace Pyro.Engine.Services.PyroServiceApi
       }
     }
 
+    /// <summary>
+    /// Operation GET to [base]/Patient/1234
+    /// </summary>    
     public IResourceServiceOutcome OperationGetResourceInstanceWithParameters(string BaseRequestUri, HttpRequestMessage Request, string ResourceName, string operation, string FhirId)
     {
       using (DbContextTransaction Transaction = IUnitOfWork.BeginTransaction())

@@ -15,6 +15,7 @@ using Pyro.Common.FhirOperation.ConnectathonAnswer;
 using Pyro.Common.FhirOperation.ResourceReport;
 using Pyro.Common.Service.SearchParameters;
 using Pyro.Common.FhirOperation.ProcessMessage;
+using Pyro.Common.FhirOperation.MergePatient;
 
 namespace Pyro.Engine.Operation
 {
@@ -112,6 +113,11 @@ namespace Pyro.Engine.Operation
           {
             IProcessMessageOperation ProcessMessageOperation = ICommonFactory.CreateProcessMessageOperation();
             return ProcessMessageOperation.Process(RequestMeta.PyroRequestUri, RequestMeta.SearchParameterGeneric, Resource);
+          }
+        case FhirOperationEnum.OperationType.xMergePatient:
+          {
+            IMergePatientOperation MergePatientOperation = ICommonFactory.CreateMergePatientOperation();
+            return MergePatientOperation.Process(RequestMeta.PyroRequestUri, RequestMeta.SearchParameterGeneric, Resource);            
           }
         default:
           throw new System.ComponentModel.InvalidEnumArgumentException(OperationClass.Type.GetPyroLiteral(), (int)OperationClass.Type, typeof(FhirOperationEnum.OperationType));

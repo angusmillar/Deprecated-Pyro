@@ -9,6 +9,7 @@ using Pyro.Common.FhirOperation.ResourceReport;
 using Pyro.Common.FhirOperation.Compartment;
 using Pyro.Common.FhirOperation.ConnectathonAnswer;
 using Pyro.Common.FhirOperation.ProcessMessage;
+using Pyro.Common.FhirOperation.MergePatient;
 
 namespace Pyro.Common.CompositionRoot.Concrete
 {
@@ -55,10 +56,13 @@ namespace Pyro.Common.CompositionRoot.Concrete
     {
       return Container.GetInstance<ICompartmentOperation>();      
     }
-
     public IProcessMessageOperation CreateProcessMessageOperation()
     {
       return Container.GetInstance<IProcessMessageOperation>();
+    }
+    public IMergePatientOperation CreateMergePatientOperation()
+    {
+      return Container.GetInstance<IMergePatientOperation>();
     }
   }
 }
