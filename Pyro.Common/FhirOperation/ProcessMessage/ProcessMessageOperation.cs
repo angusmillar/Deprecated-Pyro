@@ -109,10 +109,6 @@ namespace Pyro.Common.FhirOperation.ProcessMessage
           {
             return ProcessADTUpdate(InputBundle);
           }
-          //else if (eventCoding.Code.ToUpper() == "ADTA40")
-          //{
-
-          //}
           else
           {
             string CodeList = string.Empty;

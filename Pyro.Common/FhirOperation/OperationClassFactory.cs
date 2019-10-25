@@ -46,6 +46,9 @@ namespace Pyro.Common.FhirOperation
         //$process-message (Base)
         List.Add(new OperationClass() { Type = FhirOperationEnum.OperationType.ProcessMessage, Scope = FhirOperationEnum.OperationScope.Base });
 
+        //$x-merge-patient (Base)
+        List.Add(new OperationClass() { Type = FhirOperationEnum.OperationType.xMergePatient, Scope = FhirOperationEnum.OperationScope.Base });
+
         return List;
       }
     }

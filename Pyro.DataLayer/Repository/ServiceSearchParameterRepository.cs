@@ -18,6 +18,29 @@ namespace Pyro.DataLayer.Repository
       : base(IPyroDbContext) { }
 
     // SearchParameterLight Methods =================================================================
+    public DtoServiceSearchParameterLight GetServiceSearchParametersLightForMerge(string ResourceType, string ParameterName)
+    {
+      DtoServiceSearchParameterLight Light = null;
+
+      _ServiceSearchParameter Param = IPyroDbContext.ServiceSearchParameter
+        .SingleOrDefault(x => x.Resource == ResourceType &
+                         x.Name == ParameterName &
+                         x.IsIndexed == true &
+                        (x.Status == PublicationStatus.Active || x.Status == PublicationStatus.Draft));
+        
+      if (Param != null)
+      {
+          Light = new DtoServiceSearchParameterLight();
+          Light.Id = 0;
+          Light.Name = Param.Name;
+          Light.Expression = Param.Expression;
+          Light.Type = Param.Type;
+          Light.Resource = Param.Resource;
+          Light.TargetResourceTypeList = null;
+          Light.CompositeList = null;                 
+      }
+      return Light;
+    }
     public List<DtoServiceSearchParameterLight> GetServiceSearchParametersLightForResource(string ResourceType)
     {
       var ReturnList = new List<DtoServiceSearchParameterLight>();

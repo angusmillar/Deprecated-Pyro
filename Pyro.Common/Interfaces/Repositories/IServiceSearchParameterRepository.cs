@@ -12,6 +12,7 @@ namespace Pyro.Common.Interfaces.Repositories
     DtoServiceSearchParameterHeavy GetServiceSearchParametersHeavyById(int Id);
     List<DtoServiceSearchParameterHeavy> GetServiceSearchParametersHeavyForResource(string ResourceType);
     List<DtoServiceSearchParameterLight> GetServiceSearchParametersLightForResource(string ResourceType);
+    DtoServiceSearchParameterLight GetServiceSearchParametersLightForMerge(string ResourceType, string ParameterName);
     DtoServiceSearchParameterHeavy UpdateServiceSearchParametersHeavy(DtoServiceSearchParameterHeavy ServiceSearchParameterHeavy);
   }
 }
