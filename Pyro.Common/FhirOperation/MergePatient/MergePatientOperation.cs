@@ -136,13 +136,13 @@ namespace Pyro.Common.FhirOperation.MergePatient
             $"However it appears the '{_CompartmentCode}' compartment has not been loaded and set as an active compartment in this server. You may need to use the ${FhirOperationEnum.OperationType.xSetCompartmentActive} and ${FhirOperationEnum.OperationType.xSetCompartmentInActive} base operations to resolve this issue.";
           return SimpleErrorInvalidResponse(Message);
         }
-        foreach (var SupportedResourceName in Hl7.Fhir.Model.ModelInfo.SupportedResources)
-        {
+        foreach (var SupportedResourceName in ModelInfo.SupportedResources)
+        {          
           var PatientServiceCompartment = IServiceCompartmentCache.GetServiceCompartmentResourceForCompartmentCodeAndResource(_CompartmentCode, SupportedResourceName);
           if (PatientServiceCompartment != null) //Not every resource is in a compartment, so check for null.
           {
             foreach (var SearchParameter in PatientServiceCompartment.ParamList)
-            {
+            {              
               //star '*' means that all resources of this type are in the compartmenmt even though there is not 
               //reference connteing them. For instance Practitioner does not reference Patient yet it is considered to be in the 
               //patient compartment. So for us here their is no reference to update so '*' can be skiped.
@@ -151,8 +151,14 @@ namespace Pyro.Common.FhirOperation.MergePatient
                 DtoServiceSearchParameterLight DtoServiceSearchParameterLight = IServiceSearchParameterRepository.GetServiceSearchParametersLightForMerge(SupportedResourceName, SearchParameter.Param);
                 if (DtoServiceSearchParameterLight != null)
                 {
-                  //now search for all resources of this Resource type that have this search parameter reference to the non-serviving patient
-                  if (!MoveResourcesToSurvivingPatient(out ResourceServiceOutcome, SupportedResourceName, DtoServiceSearchParameterLight))
+                  
+                  string NonSurvivingPatientReference = $"{ResourceType.Patient.GetLiteral()}/{_NonServivingPatientResource.Id}";
+                  string SearchQuery = $"?{DtoServiceSearchParameterLight.Name}={NonSurvivingPatientReference}";
+                  ResourceType CurrentResourceType = ResourceNameResolutionSupport.GetResourceType(SupportedResourceName);
+
+                  //Now we search for all resources of this CurrentResourceType that have this search parameter reference to the non-serviving patient
+                  //and we update thoses references to point to the new Patient. This method is called recersivly untill all done. 
+                  if (!MoveResourcesToSurvivingPatient(out ResourceServiceOutcome, CurrentResourceType, SearchQuery, DtoServiceSearchParameterLight.Expression))
                   {
                     return ResourceServiceOutcome;
                   }
@@ -184,16 +190,13 @@ namespace Pyro.Common.FhirOperation.MergePatient
       }
     }
 
-    private bool MoveResourcesToSurvivingPatient(out IResourceServiceOutcome ResourceServiceOutcome, string CurrentResourceTypeToMove, DtoServiceSearchParameterLight DtoServiceSearchParameterLight)
+    
+    private bool MoveResourcesToSurvivingPatient(out IResourceServiceOutcome ResourceServiceOutcome, ResourceType CurrentResourceTypeToMove, string QueryString, string FhirPathExpression)
     {
-      string SurvivingPatientReference = $"{ResourceType.Patient.GetLiteral()}/{_ServivingPatientResource.Id}";
-      string NonSurvivingPatientReference = $"{ResourceType.Patient.GetLiteral()}/{_NonServivingPatientResource.Id}";
-
-      string SearchQuery = $"?{DtoServiceSearchParameterLight.Name}={NonSurvivingPatientReference}";
-
-      ResourceType CurrentResourceType = ResourceNameResolutionSupport.GetResourceType(CurrentResourceTypeToMove);
-      var RequestMetaFindResource = IRequestMetaFactory.CreateRequestMeta().Set(CurrentResourceType, SearchQuery);
+      string SurvivingPatientReference = $"{ResourceType.Patient.GetLiteral()}/{_ServivingPatientResource.Id}";      
+      var RequestMetaFindResource = IRequestMetaFactory.CreateRequestMeta().Set(CurrentResourceTypeToMove, QueryString);
       IResourceServiceOutcome SearchOutcome = IResourceServices.GetSearch(RequestMetaFindResource);
+      
       if (SearchOutcome.HttpStatusCode == System.Net.HttpStatusCode.OK)
       {
         if (SearchOutcome.ResourceResult is Bundle ResultBundle)
@@ -206,7 +209,7 @@ namespace Pyro.Common.FhirOperation.MergePatient
             //The resolve() function then also needs to be provided an external resolver delegate that performs the resolve
             //that delegate can be set as below. Here I am providing my own implementation 'IPyroFhirPathResolve.Resolver' 
             oFhirEvaluationContext.ElementResolver = IPyroFhirPathResolve.Resolver;
-            IEnumerable<ITypedElement> ResultList = TypedElement.Select(DtoServiceSearchParameterLight.Expression, oFhirEvaluationContext);
+            IEnumerable<ITypedElement> ResultList = TypedElement.Select(FhirPathExpression, oFhirEvaluationContext);
             foreach (ITypedElement oElement in ResultList)
             {
               if (oElement is IFhirValueProvider FhirValueProvider && FhirValueProvider.FhirValue != null)
@@ -223,12 +226,17 @@ namespace Pyro.Common.FhirOperation.MergePatient
                 }
               }
             }
-            if (!UpdateResource(out ResourceServiceOutcome, CurrentResourceType, Entry.Resource))
+            if (!UpdateResource(out ResourceServiceOutcome, CurrentResourceTypeToMove, Entry.Resource))
             {
               return false;
             }
-            //todo: More to do here, if we have a next link then repeat above recursive I feel
-            var NextLink = ResultBundle.Link.SingleOrDefault(x => x.Relation.Equals("next"));
+            //todo: More to do here, if we have a next link then repeat above recursive 
+            Bundle.LinkComponent NextLink = ResultBundle.Link.SingleOrDefault(x => x.Relation.Equals("next"));
+            if (NextLink != null)
+            {
+              string NextQueryString = $"?{NextLink.Url.Split('?')[1]}";
+              MoveResourcesToSurvivingPatient(out ResourceServiceOutcome, CurrentResourceTypeToMove, NextQueryString, FhirPathExpression);
+            }            
           }
           ResourceServiceOutcome = IResourceServiceOutcomeFactory.CreateResourceServiceOutcome();
           return true;
@@ -242,7 +250,7 @@ namespace Pyro.Common.FhirOperation.MergePatient
       {
         if (SearchOutcome.ResourceResult is OperationOutcome ReturnOpOut)
         {
-          var Message = $"The ${FhirOperationEnum.OperationType.ProcessMessage.GetPyroLiteral()} operation was not able to perfomed a Search for the {CurrentResourceType.GetLiteral()} resource " +
+          var Message = $"The ${FhirOperationEnum.OperationType.ProcessMessage.GetPyroLiteral()} operation was not able to perfomed a Search for the {CurrentResourceTypeToMove.GetLiteral()} resource " +
             $"in the server. Please read the full list of {ResourceType.OperationOutcome.GetLiteral()} resources for more info.";
           ResourceServiceOutcome = CombineOperationOutComeInvalidResponse(Message, ReturnOpOut);
           return false;
@@ -493,8 +501,8 @@ namespace Pyro.Common.FhirOperation.MergePatient
             return true;
           }
           else
-          {
-            string Msg = $"If providing a {ResourceType.Patient.GetLiteral()} resource for the {ParameterName} parameter then it must have a single Identifier with a Type code of 'MR' and Use equal to {Identifier.IdentifierUse.Official.GetLiteral()}";
+          {            
+            string Msg = $"The {ResourceType.Patient.GetLiteral()} resource for the {ParameterName} parameter must have a single Identifier with a Type code of 'MR' and Use property equal to {Identifier.IdentifierUse.Official.GetLiteral()}";
             ResourceServiceOutcome = SimpleErrorInvalidResponse(Msg);
             return false;
           }
@@ -548,7 +556,8 @@ namespace Pyro.Common.FhirOperation.MergePatient
             Id.Type.Coding != null &&
             Id.Type.Coding.SingleOrDefault(c => c.Code == "MR") != null &&
             Id.Use != null &&
-            Id.Use == Identifier.IdentifierUse.Official)
+            Id.Use == Identifier.IdentifierUse.Official &&
+            !string.IsNullOrWhiteSpace(Id.Value))
       {
         return true;
       }

@@ -96,16 +96,15 @@ namespace Pyro.Common.FhirOperation.ProcessMessage
             return ResourceServiceOutcome;
           }
           _MessageHeader = MessageHeader;
+          
           HashSet<string> SupportedEventCodes = new HashSet<string>();
-          SupportedEventCodes.Add(PyroHL7V2MessageTypeEvent.Codes.ADTA01.GetPyroLiteral());
-
-          HashSet<string> UpdateEventCodes = new HashSet<string>();
-          UpdateEventCodes.Add(PyroHL7V2MessageTypeEvent.Codes.ADTA01.GetPyroLiteral());
-          UpdateEventCodes.Add(PyroHL7V2MessageTypeEvent.Codes.ADTA08.GetPyroLiteral());
-          UpdateEventCodes.Add(PyroHL7V2MessageTypeEvent.Codes.ADTA03.GetPyroLiteral());
-
+          SupportedEventCodes.Add(PyroHL7V2MessageTypeEvent.Codes.ADTA01.GetPyroLiteral());          
+          SupportedEventCodes.Add(PyroHL7V2MessageTypeEvent.Codes.ADTA02.GetPyroLiteral());
+          SupportedEventCodes.Add(PyroHL7V2MessageTypeEvent.Codes.ADTA03.GetPyroLiteral());
+          SupportedEventCodes.Add(PyroHL7V2MessageTypeEvent.Codes.ADTA08.GetPyroLiteral());
+          
           Coding eventCoding = (_MessageHeader.Event as Coding);
-          if (UpdateEventCodes.Contains(eventCoding.Code.ToUpper()))
+          if (SupportedEventCodes.Contains(eventCoding.Code.ToUpper()))
           {
             return ProcessADTUpdate(InputBundle);
           }
@@ -203,7 +202,6 @@ namespace Pyro.Common.FhirOperation.ProcessMessage
         }
       }
     }
-
     private bool CommitAllergyIntoleranceResourceList(out IResourceServiceOutcome ResourceServiceOutcome, List<AllergyIntolerance> AllergyIntoleranceList, string PatientResourceId, string EncounterResourceId)
     {
       //More than one should not have happened, clean up by deleting all and and the new one as a new resource.
@@ -461,6 +459,35 @@ namespace Pyro.Common.FhirOperation.ProcessMessage
         }
       }
     }
+    private bool IsPrimaryPatientIdentifier(Identifier Id)
+    {
+      if (Id.Type != null &&
+            Id.Type.Coding != null &&
+            Id.Type.Coding.SingleOrDefault(c => c.Code == "MR") != null &&
+            Id.Use != null &&
+            Id.Use == Identifier.IdentifierUse.Official &&
+            !string.IsNullOrWhiteSpace(Id.Value))
+      {
+        return true;
+      }
+      else
+      {
+        return false;
+      }
+    }
+    private bool IsPrimaryEncounterIdentifier(Identifier Id)
+    {
+      if ( Id.Use != null &&
+            Id.Use == Identifier.IdentifierUse.Official &&
+            !string.IsNullOrWhiteSpace(Id.Value))
+      {
+        return true;
+      }
+      else
+      {
+        return false;
+      }
+    }
     private bool GetPrimaryIdentifer(List<Identifier> SourceIdentifierList, ResourceType ResourceType, out Identifier OutIdentifier, out IResourceServiceOutcome ResourceServiceOutcome)
     {
       StringBuilder ErrorMessageBuilder = new StringBuilder();
@@ -475,68 +502,27 @@ namespace Pyro.Common.FhirOperation.ProcessMessage
       if (SourceIdentifierList == null)
       {
         OutIdentifier = null;
-        ErrorMessageBuilder.Append($"The server found no identifers when processing this request.");
+        ErrorMessageBuilder.Append($"The server found no {ResourceType.GetLiteral()} identifers when processing this request.");
         ResourceServiceOutcome = SimpleErrorInvalidResponse(ErrorMessageBuilder.ToString());
         return false;
       }
 
-      try
+      if (ResourceType == ResourceType.Patient)
       {
-        bool HaveFoundId = false;
-        Identifier ResultIdentifier = null;
-        foreach (Identifier Id in SourceIdentifierList.Where(x => x.Use == Identifier.IdentifierUse.Official))
-        {
-          if (ResourceType == ResourceType.Patient)
-          {
-            if (Id.Type != null && Id.Type.Coding != null && Id.Type.Coding.SingleOrDefault(c => c.Code == "MR") != null)
-            {
-              if (!HaveFoundId)
-              {
-                HaveFoundId = true;
-                ResultIdentifier = Id;
-              }
-              else
-              {
-                OutIdentifier = null;
-                ErrorMessageBuilder.Append($"The server found more then one of these identifers when processing this request.");
-                ResourceServiceOutcome = SimpleErrorInvalidResponse(ErrorMessageBuilder.ToString());
-                return false;
-              }
-            }
-          }
-          else
-          {
-            if (!HaveFoundId)
-            {
-              HaveFoundId = true;
-              ResultIdentifier = Id;
-            }
-            else
-            {
-              OutIdentifier = null;
-              ErrorMessageBuilder.Append($"The server found more then one of these identifers when processing this request.");
-              ResourceServiceOutcome = SimpleErrorInvalidResponse(ErrorMessageBuilder.ToString());
-              return false;
-            }
-          }
-        }
-        if (HaveFoundId)
-        {
-          OutIdentifier = ResultIdentifier;
-          return true;
-        }
-        else
-        {
-          OutIdentifier = null;
-          ErrorMessageBuilder.Append($"The server found no identifer of this type when processing this request.");
-          ResourceServiceOutcome = SimpleErrorInvalidResponse(ErrorMessageBuilder.ToString());
-          return false;
-        }
+        OutIdentifier = SourceIdentifierList.SingleOrDefault(x => IsPrimaryPatientIdentifier(x));
       }
-      catch
+      else
       {
-        OutIdentifier = null;
-        ErrorMessageBuilder.Append($"The server encountered an error trying to find the identifer of this type when processing this request.");
+        OutIdentifier = SourceIdentifierList.SingleOrDefault(x => IsPrimaryEncounterIdentifier(x));
+      }
+
+      if (OutIdentifier != null)
+      {
+        return true;
+      }
+      else
+      {
+        ErrorMessageBuilder.Append($"The server found either no {ResourceType.GetLiteral()} identifers or more than a single identifier that matched.");
         ResourceServiceOutcome = SimpleErrorInvalidResponse(ErrorMessageBuilder.ToString());
         return false;
       }
@@ -791,7 +777,7 @@ namespace Pyro.Common.FhirOperation.ProcessMessage
       }
 
       return true;
-    }   
+    }
     private bool IsMessageHeaderProcessable(MessageHeader MessageHeader, out IResourceServiceOutcome ResourceServiceOutcome)
     {
       ResourceServiceOutcome = IResourceServiceOutcomeFactory.CreateResourceServiceOutcome();
@@ -951,7 +937,6 @@ namespace Pyro.Common.FhirOperation.ProcessMessage
       ResourceServiceOutcome.SuccessfulTransaction = true;
       return ResourceServiceOutcome;
     }
-
 
   }
 }
